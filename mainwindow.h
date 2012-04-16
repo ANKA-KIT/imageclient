@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include <tango.h>
 #include <QtGui>
+#include <QList>
 #include <pthread.h>
 #include <semaphore.h>
 #include <QThread>
@@ -40,7 +41,9 @@ public:
     void closeEvent ( QCloseEvent * closeEvent);
     void focusInEvent ( QFocusEvent *e);
 
+
 public:
+    SubWindow *nextSubWin;
     bool isSnapshot;
     int numOfWin;
     bool work;
@@ -94,7 +97,11 @@ public:
     int countImg;
     QMdiArea* area;
     SubWindow *subWin;
-    SubWindow *subWinSnap;
+
+//    SubWindow *subWinSnap;
+//    SubWindow *subWinSnapTail;
+    SubWindow *subWinSnapPointer;
+    QList<SubWindow *> listSnap;
     mythread *thr;
 
 
@@ -114,6 +121,11 @@ public slots:
     void delSubWin();
     void mousePressEvent ( QMouseEvent * e);
     void resizeEvent( QResizeEvent *e);
+    void closeEvent ( QCloseEvent * closeEvent);
+    QImage scaleImage(QImage image);
+
+    void insertSnapShot();
+
 };
 
 

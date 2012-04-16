@@ -9,24 +9,11 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    const int Count = 10;
+    subWin = new SubWindow();
 
-    subWin = new SubWindow[Count]();
-    subWinSnap = new SubWindow[Count]();
-
-    mutex = new pthread_mutex_t();
-    sem_init(&threadCount, 0, 0);
-//    thr = new pthread_t[4]();
-    thr = new mythread[Count]();
-
-    int i;
-    for (i =0; i<Count; i++){
-        QObject::connect(&subWin[i],SIGNAL(windowStateChanged(Qt::WindowStates,Qt::WindowStates )),&subWin[i],
-        SLOT(handleWindowStateChanged(Qt::WindowStates,Qt::WindowStates )));
-        QObject::connect(&subWinSnap[i],SIGNAL(windowStateChanged(Qt::WindowStates,Qt::WindowStates )),&subWinSnap[i],
-        SLOT(handleWindowStateChanged(Qt::WindowStates,Qt::WindowStates )));
-    }
-    *mutex = PTHREAD_MUTEX_INITIALIZER;
+    subWinSnapPointer = new SubWindow();
+    QObject::connect(subWin,SIGNAL(windowStateChanged(Qt::WindowStates,Qt::WindowStates )),subWin,
+    SLOT(handleWindowStateChanged(Qt::WindowStates,Qt::WindowStates )));
 }
 
 MainWindow::~MainWindow()
@@ -35,6 +22,9 @@ MainWindow::~MainWindow()
 
     delete area;
     delete subWin;
+
+    delete subWinSnapPointer;
+
 
 }
 
@@ -50,7 +40,20 @@ SubWindow::~SubWindow(){
     //delete snapshot;
 }
 
+void MainWindow::insertSnapShot(){
+//    SubWindow *pointer = new SubWindow();
+//    pointer->nextSubWin = NULL;
+//    subWinSnapTail->nextSubWin = pointer;
+//    subWinSnapPointer = pointer;
 
+
+   // subWinSnapTail = pointer;
+
+  //  while (pointer != subWinSnapTail){
+  //      pointer = pointer->nextSubWin;
+  //  }
+
+}
 
 SubWindow::SubWindow(QWidget *parent, Qt::WindowFlags flags)
 {
@@ -69,6 +72,8 @@ SubWindow::SubWindow(QWidget *parent, Qt::WindowFlags flags)
     wgt->setAutoFillBackground(true);
     wgt->setMouseTracking(true);
 
+    QObject::connect(this,SIGNAL(windowStateChanged(Qt::WindowStates,Qt::WindowStates )),this,
+    SLOT(handleWindowStateChanged(Qt::WindowStates,Qt::WindowStates )));
 }
 
 
@@ -94,6 +99,7 @@ void MainWindow::startTesting(void* threadArg){
     //int *midle = new int[count];
     //int midVal = 0;
     srand(3);
+   // QImage tempImg;
     time.start();
     fprintf(stderr, "==Starting Test%d==\n", my_data->threadNum);
     int local = my_data->threadNum;
@@ -103,7 +109,8 @@ void MainWindow::startTesting(void* threadArg){
         *parent->subWin[local].attr = parent->subWin[local].device->read_attribute(parent->subWin[local].attrName.toAscii()); //numOfWin
         fprintf(stderr,"----- readingData=%d\n", timeReadData.restart());
         *parent->subWin[local].attr>>val;
-        *parent->subWin[local].img = QImage(&val[0], parent->subWin[local].attr->get_dim_x()/4, parent->subWin[local].attr->get_dim_y(), parent->subWin[local].attr->get_dim_x(), QImage::Format_RGB32);
+        *parent->subWin[local].img = parent->scaleImage(QImage(&val[0], parent->subWin[local].attr->get_dim_x()/4, parent->subWin[local].attr->get_dim_y(), parent->subWin[local].attr->get_dim_x(), QImage::Format_RGB32));
+        //*parent->subWin[local].img = QImage(&val[0], parent->subWin[local].attr->get_dim_x()/4, parent->subWin[local].attr->get_dim_y(), parent->subWin[local].attr->get_dim_x(), QImage::Format_RGB32);
         pal.setBrush(parent->subWin[local].wgt->backgroundRole(), QBrush(*parent->subWin[local].img));
         parent->subWin[local].wgt->setPalette(pal);
         parent->subWin[local].wgt->resize(parent->subWin[local].attr->get_dim_x()/4, parent->subWin[local].attr->get_dim_y());
@@ -117,13 +124,17 @@ void MainWindow::startTesting(void* threadArg){
    // fprintf(stderr,"Midle time is %f\n",(float)midVal/(float)count);
 }
 
+QImage MainWindow::scaleImage(QImage image){
+    return image.scaled(image.width()+100, image.height()+100);
+}
+
 void MainWindow::scaleImage(){
     QPalette pal;
-    *subWinSnap[curImg].img = subWinSnap[curImg].img->scaled(subWinSnap[curImg].img->width()+100, subWinSnap[curImg].img->height()+100);
+    *subWinSnapPointer->img = subWinSnapPointer->img->scaled(subWinSnapPointer->img->width()+100, subWinSnapPointer->img->height()+100);
     //img->scaledToHeight(img->width()+100, Qt::FastTransformation);
-    pal.setBrush(subWinSnap[curImg].wgt->backgroundRole(), QBrush(*subWinSnap[curImg].img));
-    subWinSnap[curImg].wgt->resize(subWinSnap[curImg].wgt->width()+100, subWinSnap[curImg].wgt->height()+100);
-    subWinSnap[curImg].wgt->setPalette(pal);
+    pal.setBrush(subWinSnapPointer->wgt->backgroundRole(), QBrush(*subWinSnapPointer->img));
+    subWinSnapPointer->wgt->resize(subWinSnapPointer->wgt->width()+100, subWinSnapPointer->wgt->height()+100);
+    subWinSnapPointer->wgt->setPalette(pal);
 }
 
 void SubWindow::focusInEvent ( QFocusEvent * e){
@@ -155,12 +166,15 @@ void SubWindow::handleWindowStateChanged(Qt::WindowStates oldState, Qt::WindowSt
         }
 
         if (!found){
-            for (i = 0; i<winsSnap; i++){
-                if(this == &parent->subWinSnap[i]){
+            //SubWindow *pointer = parent->subWinSnap;
+            for (i = 0; i<parent->listSnap.size(); i++){
+                 if(this == parent->listSnap.at(i)){
                     parent->curImg = i;
                     parent->ui->lbCurWin->setText(QString("CurSnap_") + QString(i+49));
+                    parent->subWinSnapPointer = this;//pointer;
                     break;
                 }
+                 //pointer = pointer->nextSubWin;
             }
 
         }
@@ -251,19 +265,10 @@ void MainWindow::changeDevice(){
 //    addNewSubWin();
     subWin[countDev].scrollArea->setWidget(subWin[countDev].wgt);
     fprintf(stderr,"!_111_!");
-    //fprintf(stderr,"!_22222_!");
-/*//    QPalette pal;
-//    vector <unsigned char> val;
- //   attr[countDev] = device[countDev].read_attribute("testImage");
- //   attr[countDev]>>val;
- //   img[countDev] = QImage(&val[0], attr[countDev].get_dim_x()/4, attr[countDev].get_dim_y(), attr[countDev].get_dim_x(), QImage::Format_RGB32);
- //   pal.setBrush(wgt[countDev].backgroundRole(), QBrush(img[countDev]));
- //   wgt[countDev].setPalette(pal);
- //   wgt[countDev].resize(attr[countDev].get_dim_x()/4, attr[countDev].get_dim_y());
- */
     subWin[countDev].scrollArea->move(100,100);
-    subWin[countDev].scrollArea->resize(100, 100);
+    subWin[countDev].scrollArea->resize(400, 300);
     subWin[countDev].scrollArea->show();
+    subWin[countDev].resize(400, 300);
     subWin[countDev].numOfWin = countDev; /*need in Remaning*/
     subWin[countDev].isSnapshot = false;
     subWin[countDev].setWidget(subWin[countDev].scrollArea);
@@ -272,28 +277,21 @@ void MainWindow::changeDevice(){
     fprintf(stderr,"!!!!");
 ///////    subWin[countDev].setAttribute(Qt::WA_DeleteOnClose);///////////////
     area->hide();
-    area->addSubWindow(&subWin[countDev]);//subWin[countDev].activateWindow();
+    area->addSubWindow(&subWin[countDev]);
+
+    subWin[countDev].scrollArea->move(0,30);
+    subWin[countDev].scrollArea->resize(subWin[countDev].width()-2, subWin[countDev].height()-33);
+    subWin[countDev].show();
+//    subWin[countDev].activateWindow();
+  //  subWin[countDev].resize(subWin[countDev].width(), subWin[countDev].height());
     area->show();
     fprintf(stderr,"!_44444444_!");
 
-//    pthread_mutex_lock(mutex);
-  //  sem_post(&threadCount);
     thread_data data;
     data.parent = this;
-  //  data.threadNum = new int;
     data.threadNum = subWin[countDev].numOfWin;
-    countDev++;
- //   pthread_mutex_unlock(mutex);
-
- //   sem_wait(&threadCount);//&parent->threadCount);
-    fprintf(stderr, "\n=----%p----=%d\n", data.parent, subWin[countDev-1].numOfWin);
-  //  pthread_create(&thr[countDev-1], NULL, startTesting, (void*) &data);
-
-    /*
-    QObject::connect(&thr[countDev-1], SIGNAL(signal(void*)), this, SLOT(startTesting(void*)), Qt::QueuedConnection);
-    thr[countDev-1].data = data;
-    thr[countDev-1].start();
-    */
+    fprintf(stderr, "\n=----%p----=%d\n", data.parent, subWin[countDev].numOfWin);
+  //  countDev++;   //if not 1 dev per 1 window
     ui->lbCurWorkiningDev->setText(QString("Cur Dev: ") + s + QString(" ") + ui->tlAttr->text());
     startTesting((void*) &data);
 }
@@ -329,7 +327,8 @@ void ImageWidget::paintEvent( QPaintEvent * e){
 
 void SubWindow::closeEvent ( QCloseEvent * closeEvent ){
     fprintf(stderr, "Del subWin");
-    work = false;
+    if (!isSnapshot)
+        work = false;  //stop reading tango device
 }
 
 /*void SubWindow::delSubWin(QCloseEvent * closeEvent ){
@@ -370,19 +369,16 @@ void mythread::run(){
 }
 
 void MainWindow::mkSnapshot(){
-
+    //insertSnapShot();
     QPalette pal;
     vector <unsigned char> val;
-    subWinSnap[countImg].setParent(this);
+ /*   subWinSnap[countImg].setParent(this);
     *subWinSnap[countImg].device = *subWin[curDev].device;
     subWinSnap[countImg].isSnapshot = true;
     *subWinSnap[countImg].img = *subWin[curDev].img;
     subWinSnap[countImg].scrollArea->setWidget(subWinSnap[countImg].wgt);
     *subWinSnap[countImg].attr = *subWin[curDev].attr;
- /*     pal.setBrush(subWinSnap[countImg].wgt->backgroundRole(), QBrush( *subWinSnap[countImg].img));
-    subWinSnap[countImg].wgt->setPalette(pal);
-    subWinSnap[countImg].wgt->resize(subWinSnap[countImg].attr->get_dim_x()/4, subWinSnap[countImg].attr->get_dim_y());
-*/
+    subWinSnap[countImg].numOfWin = 1+countImg;
     *subWinSnap[countImg].attr>>val;
     *subWinSnap[countImg].img = QImage(&val[0], subWinSnap[countImg].attr->get_dim_x()/4, subWinSnap[countImg].attr->get_dim_y(), subWinSnap[countImg].attr->get_dim_x(), QImage::Format_RGB32);
     pal.setBrush(subWinSnap[countImg].wgt->backgroundRole(), QBrush( *subWinSnap[countImg].img));
@@ -392,15 +388,39 @@ void MainWindow::mkSnapshot(){
     subWinSnap[countImg].scrollArea->move(100,100);
     subWinSnap[countImg].scrollArea->resize(100, 100);
     subWinSnap[countImg].scrollArea->show();
-    subWinSnap[countImg].numOfWin = countImg; /*need in Remaning*/
+    subWinSnap[countImg].numOfWin = countImg;
     subWinSnap[countImg].setWidget(subWinSnap[countImg].scrollArea);
-    subWinSnap[countImg].setWindowTitle((QString)"Snapshot of " + subWin[curDev].windowTitle());//QString::fromStdString(device[countDev].name()));
+    subWinSnap[countImg].setWindowTitle((QString)"Snapshot of " + subWin[curDev].windowTitle());
+    */
+    subWinSnapPointer = new SubWindow();
+    QObject::connect(subWinSnapPointer,SIGNAL(windowStateChanged(Qt::WindowStates,Qt::WindowStates )),subWinSnapPointer,
+    SLOT(handleWindowStateChanged(Qt::WindowStates,Qt::WindowStates )));
+    subWinSnapPointer->setParent(this);
+    *subWinSnapPointer->device = *subWin[curDev].device;
+      subWinSnapPointer->isSnapshot = true;
+        *subWinSnapPointer->img = *subWin[curDev].img;
+        subWinSnapPointer->scrollArea->setWidget(subWinSnapPointer->wgt);
+        *subWinSnapPointer->attr = *subWin[curDev].attr;
+        subWinSnapPointer->numOfWin = 1+countImg;
+        *subWinSnapPointer->attr>>val;
+        *subWinSnapPointer->img = QImage(&val[0], subWinSnapPointer->attr->get_dim_x()/4, subWinSnapPointer->attr->get_dim_y(), subWinSnapPointer->attr->get_dim_x(), QImage::Format_RGB32);
+        pal.setBrush(subWinSnapPointer->wgt->backgroundRole(), QBrush( *subWinSnapPointer->img));
+        subWinSnapPointer->wgt->setPalette(pal);
+        subWinSnapPointer->wgt->resize(subWinSnapPointer->attr->get_dim_x()/4, subWinSnapPointer->attr->get_dim_y());
+
+        subWinSnapPointer->scrollArea->move(100,100);
+        subWinSnapPointer->scrollArea->resize(100, 100);
+        subWinSnapPointer->scrollArea->show();
+        subWinSnapPointer->numOfWin = countImg;
+        subWinSnapPointer->setWidget(subWinSnapPointer->scrollArea);
+        subWinSnapPointer->setWindowTitle((QString)"Snapshot of " + subWin[curDev].windowTitle());
     fprintf(stderr,"!!SNAPSHOT!!");
     area->hide();
-    area->addSubWindow(&subWinSnap[countImg]);
+    area->addSubWindow(subWinSnapPointer);
     area->show();
+   // subWinSnapTail = subWinSnapPointer;
+    listSnap<<subWinSnapPointer;
     countImg++;
-
 }
 
 
@@ -410,4 +430,8 @@ void MainWindow::openDevInNewProc(){
     s += this->ui->tlDevice->text() + (QString)" " + this->ui->tlAttr->text() + (QString)" &";
     system(QString(QString("./TestApp ") + s).toAscii());
    // system("pwd");
+}
+
+void MainWindow::closeEvent ( QCloseEvent * closeEvent){
+    emit subWin[0].closeEvent(closeEvent);
 }
