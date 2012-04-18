@@ -5,9 +5,7 @@
 #include <tango.h>
 #include <QtGui>
 #include <QList>
-#include <pthread.h>
-#include <semaphore.h>
-#include <QThread>
+
 
 namespace Ui {
 class MainWindow;
@@ -40,10 +38,7 @@ public:
     void setParent(MainWindow *);
     void closeEvent ( QCloseEvent * closeEvent);
     void focusInEvent ( QFocusEvent *e);
-
-
 public:
-    SubWindow *nextSubWin;
     bool isSnapshot;
     int numOfWin;
     bool work;
@@ -51,7 +46,10 @@ public:
     Tango::DeviceProxy *device;
     ImageWidget *wgt;
     QScrollArea *scrollArea;
-    Tango::DeviceAttribute *attr;
+    //Tango::DeviceAttribute *attr;
+    int dimX;
+    int dimY;
+    vector <unsigned char> val;
     QImage *img;
 
     ~SubWindow();
@@ -61,48 +59,22 @@ public slots:
 
 };
 
-
-class mythread : public QThread{
-    Q_OBJECT
-public:
-    thread_data data;
-    mythread();
-    mythread(MainWindow *w, int n);
-
-protected:
-    void run();
-
-signals:
-    void done(const QString &results);
-    void* signal(void*);
-private slots:
-    void doTheWork();
-    void stop();
-};
-
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
 
 public:
     explicit MainWindow(QWidget *parent = 0);
-
-    pthread_mutex_t *mutex;
-    sem_t threadCount;
-
-//    QString attrName;
     int countDev;
     int curDev;
     int curImg;
     int countImg;
     QMdiArea* area;
     SubWindow *subWin;
+    bool firstTime;
 
-//    SubWindow *subWinSnap;
-//    SubWindow *subWinSnapTail;
     SubWindow *subWinSnapPointer;
     QList<SubWindow *> listSnap;
-    mythread *thr;
 
 
     ~MainWindow();

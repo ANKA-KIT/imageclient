@@ -19,12 +19,12 @@
      <rect>
       <x>0</x>
       <y>0</y>
-      <width>75</width>
+      <width>91</width>
       <height>24</height>
      </rect>
     </property>
     <property name="text">
-     <string>Repaint</string>
+     <string>Start new Dev</string>
     </property>
    </widget>
    <widget class="QLineEdit" name="tlServer">
@@ -82,14 +82,14 @@
    <widget class="QPushButton" name="btChangeDevice">
     <property name="geometry">
      <rect>
-      <x>840</x>
+      <x>850</x>
       <y>10</y>
-      <width>91</width>
+      <width>111</width>
       <height>24</height>
      </rect>
     </property>
     <property name="text">
-     <string>AddDevice</string>
+     <string>Change cur Device</string>
     </property>
    </widget>
    <widget class="QLabel" name="lbDevice_2">
@@ -116,22 +116,6 @@
     </property>
     <property name="text">
      <string>sys/tg_test/mytest</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="lbState">
-    <property name="geometry">
-     <rect>
-      <x>940</x>
-      <y>20</y>
-      <width>52</width>
-      <height>14</height>
-     </rect>
-    </property>
-    <property name="autoFillBackground">
-     <bool>true</bool>
-    </property>
-    <property name="text">
-     <string>it's work</string>
     </property>
    </widget>
    <widget class="QPushButton" name="btScale">
