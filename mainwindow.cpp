@@ -1,31 +1,88 @@
+/*
+    Author: Georgii Vasilev
+    Project: Image client
+    Aprel 2012
+*/
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include <QTime>
 #include <QPainter>
 
+//Constructor of main window
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    countDev = 0;   //const  1 realtime SubWin
+    curDev = 0;     //const  1 realtime SubWin
+    countImg = 0;
+    curImg = 0;
+
+    createActions();
+    createMenu();
+
+    ui->cmbBox->addItems(QStringList()
+                         << "TIFF"
+                         << "BMP"
+                         << "PNG"
+                         << "JPEG"
+                         << "JPG"
+                         << "XBM"
+                         << "XPM"
+                         << "PPM");
 
     subWin = new SubWindow();
     firstTime = true;
     ui->btScale->setEnabled(false);
     ui->btMkSnapshot->setEnabled(false);
+    ui->btWriteImg->setEnabled(false);
 
     QObject::connect(subWin,SIGNAL(windowStateChanged(Qt::WindowStates,Qt::WindowStates )),
                      subWin,SLOT(handleWindowStateChanged(Qt::WindowStates,Qt::WindowStates )));
 }
 
+//Destructor of mainwindow
 MainWindow::~MainWindow()
 {
     delete subWin;
-
     delete area;
     delete ui;
 }
 
+void MainWindow::createMenu(){
+   // server = new QMenu();
+   // snapshot = new QMenu();
+
+    //server->addMenu(QString("&Server"));
+//    server->addAction(setDevice);
+    //server->addSeparator();
+   // server->addAction(exitAct);
+    snapshot = menuBar()->addMenu(tr("&Snapshot"));
+    snapshot->addAction(makeSnapshot);
+//    server->addSeparator();
+
+//    ui->menuBar->addMenu(server);
+//    ui->menuBar->addMenu(snapshot);
+}
+
+void MainWindow::createActions(){
+    makeSnapshot = new QAction(tr("&makeSnapshot"), this);
+    makeSnapshot->setShortcuts(QKeySequence::New);
+    makeSnapshot->setStatusTip(tr("Create a snapshot"));
+    connect(makeSnapshot, SIGNAL(triggered()), this, SLOT(mkSnapshot()));
+}
+
+void MainWindow::contextMenuEvent(QContextMenuEvent *event)
+{
+    QMenu menu(this);
+    menu.addAction(makeSnapshot);
+//    menu.addAction(copyAct);
+//    menu.addAction(pasteAct);
+    menu.exec(event->globalPos());
+}
+
+//Destructor of subwindow
 SubWindow::~SubWindow(){
 //    delete attr;
     delete device;
@@ -35,10 +92,7 @@ SubWindow::~SubWindow(){
     fprintf(stderr,"\n!_Delete SubWin in   destructor_!");
 }
 
-void MainWindow::insertSnapShot(){
-
-}
-
+//Constructor of subwindow  //overloaded
 SubWindow::SubWindow(QWidget *parent, Qt::WindowFlags flags)
 {
  //   attr = new Tango::DeviceAttribute();
@@ -55,17 +109,20 @@ SubWindow::SubWindow(QWidget *parent, Qt::WindowFlags flags)
     scrollArea->move(50, 100);
     wgt->setAutoFillBackground(true);
     wgt->setMouseTracking(true);
+    this->setAutoFillBackground(true);
 
     QObject::connect(this,SIGNAL(windowStateChanged(Qt::WindowStates,Qt::WindowStates )),this,
     SLOT(handleWindowStateChanged(Qt::WindowStates,Qt::WindowStates )));
 }
 
+//Readin and displaying realtime data from the Tango server
+//#threadArg - struct thread_data object, through it is send Mainwindon object (and more over in next version)
 void MainWindow::startTesting(void* threadArg){
     struct thread_data *my_data;
     my_data = (struct thread_data *) threadArg;
     MainWindow *parent;
     parent = my_data->parent;
-    int iter = 0;
+    int iter = 0;                       //current iteration of reading data from Tango Server //not used
     QTime time;
     QTime timeReadData;
     //vector <unsigned char> val;
@@ -78,21 +135,23 @@ void MainWindow::startTesting(void* threadArg){
     int local = my_data->threadNum;
     while(parent->subWin[local].work){
         timeReadData.start();
-        fprintf(stderr, "\n==%d=----%p----=\n", local, parent);
         try{
         attr = parent->subWin[local].device->read_attribute(parent->subWin[local].attrName.toAscii()); //numOfWin
         }
         catch(Tango::ConnectionFailed){
-              fprintf(stderr, "ConnectionFailed while reading attribute");
+              fprintf(stderr, "ConnectionFailed while reading attribute\n");
+              exit(1);
               break;
         }
         catch(Tango::WrongData){
-              fprintf(stderr, "Wrong Data while reading attribute");
+              fprintf(stderr, "Wrong Data while reading attribute\n");
+              exit(1);
               break;
         }
-        fprintf(stderr,"----- readingData=%d\n", timeReadData.restart());
+        fprintf(stderr,"--Time of--- readingData=%d\n", timeReadData.restart());
         try{
             attr>>parent->subWin[local].val;
+            //*parent->subWin[local].img = QImage(&parent->subWin[local].val[0], attr.get_dim_x()/4, attr.get_dim_y(), attr.get_dim_x(), QImage::Format_RGB32);
             *parent->subWin[local].img = parent->scaleImage(QImage(&parent->subWin[local].val[0],
                                                                     attr.get_dim_x()/4,
                                                                     attr.get_dim_y(),
@@ -100,7 +159,7 @@ void MainWindow::startTesting(void* threadArg){
                                                                    QImage::Format_RGB32));
             parent->subWin[local].dimX = attr.get_dim_x();
             parent->subWin[local].dimY = attr.get_dim_y();
-            //*parent->subWin[local].img = QImage(&val[0], parent->subWin[local].attr->get_dim_x()/4, parent->subWin[local].attr->get_dim_y(), parent->subWin[local].attr->get_dim_x(), QImage::Format_RGB32);
+
             pal.setBrush(parent->subWin[local].wgt->backgroundRole(), QBrush(*parent->subWin[local].img));
             parent->subWin[local].wgt->setPalette(pal);
             parent->subWin[local].wgt->resize(attr.get_dim_x()/4, attr.get_dim_y());
@@ -108,41 +167,39 @@ void MainWindow::startTesting(void* threadArg){
             parent->subWin[local].repaint();
         }
         catch(Tango::DevFailed){
-             fprintf(stderr, "Dev Failed while reading attribute");
+             fprintf(stderr, "Dev Failed while reading attribute\n");
+             exit(1);
              break;
         }
-
-
-//        iter++;
-        QCoreApplication::processEvents(QEventLoop::AllEvents);
+        QCoreApplication::processEvents(QEventLoop::AllEvents);    //Do System process
     }
 }
 
+//Scale realtime data
+//#image - realtime subwin image for scaling
 QImage MainWindow::scaleImage(QImage image){
     return image.scaled(image.width()+100, image.height()+100);
 }
 
+//Scale snapshot
 void MainWindow::scaleImage(){
     QPalette pal;
+    subWinSnapPointer->wgt->hide();
     *subWinSnapPointer->img = subWinSnapPointer->img->scaled(subWinSnapPointer->img->width()+100, subWinSnapPointer->img->height()+100);
     pal.setBrush(subWinSnapPointer->wgt->backgroundRole(), QBrush(*subWinSnapPointer->img));
-    subWinSnapPointer->wgt->resize(subWinSnapPointer->wgt->width()+100, subWinSnapPointer->wgt->height()+100);
     subWinSnapPointer->wgt->setPalette(pal);
+    subWinSnapPointer->wgt->resize(subWinSnapPointer->wgt->width()+100, subWinSnapPointer->wgt->height()+100);
+    subWinSnapPointer->wgt->show();
+    fprintf(stderr,"---------------------Scaling-----------%d-----------------\n", subWinSnapPointer->numOfWin);
 }
 
-void SubWindow::focusInEvent ( QFocusEvent * e){
-
-}
-
+//On Subwindow state changing
 void SubWindow::handleWindowStateChanged(Qt::WindowStates oldState, Qt::WindowStates newState){
-
-    fprintf(stderr,"uu00000000uu");
     if(newState == Qt::WindowActive){
         int i;
         int wins = parent->countDev+1;
-        int winsSnap = parent->countImg+1;
         bool found = false;
-        fprintf(stderr,"1111!!!!!!111");
+        fprintf(stderr,"SubWindow>>   newState == Qt::WindowActive\n");
         for (i = 0; i<wins; i++){
 
             if (this == &parent->subWin[i]){
@@ -160,34 +217,35 @@ void SubWindow::handleWindowStateChanged(Qt::WindowStates oldState, Qt::WindowSt
                     parent->ui->lbCurWin->setText(QString("CurSnap_") + QString(i+49));
                     parent->subWinSnapPointer = this;
                     parent->ui->btScale->setEnabled(true);
-                    fprintf(stderr,"77777777777777777777777777777777777777777777777777");
+                    parent->ui->btWriteImg->setEnabled(true);
                     break;
                 }
             }
         }
     }
     if(newState == Qt::WindowMinimized){
-        fprintf(stderr,"-----------------------------------");   ////////////
+        fprintf(stderr,"Subwindow is minimaized\n");
         this->resize(50, 15);
     }
 }
 
+//Set parent widget for subwindow
 void SubWindow::setParent(MainWindow *p){
     parent = p;
 }
 
+//set tango device
 void MainWindow::addDevice(QString s){
-        fprintf(stderr,"!!!!+++%s", s.toAscii().constData());
+        fprintf(stderr,"Set Tango device %s\n", s.toAscii().constData());
     try{
-            *subWin[countDev].device = Tango::DeviceProxy(s.toAscii().constData());
-            fprintf(stderr,"!!%d\n", countDev);
+        *subWin[countDev].device = Tango::DeviceProxy(s.toAscii().constData());
     }
     catch(Tango::WrongNameSyntax e){
-        fprintf(stderr,"Wrong Name Syntax of Tango Server");
+        fprintf(stderr,"Wrong Name Syntax of Tango Server\n");
         exit(1);
     }
     catch(Tango::ConnectionFailed e){
-        fprintf(stderr,"Connection Failed with Tango Server");
+        fprintf(stderr,"Connection Failed with Tango Server\n");
         exit(1);
     }
     catch(Tango::DevFailed e){
@@ -197,16 +255,7 @@ void MainWindow::addDevice(QString s){
 
 }
 
-void MainWindow::addNewSubWin(){
-
-}
-
-void MainWindow::delSubWin(){
-
-}
-
-void MainWindow::test(){}
-
+//start Tango device in real time
 void MainWindow::changeDevice(){
     subWin[countDev].setParent(this);
     subWin[countDev].work = true;
@@ -214,9 +263,8 @@ void MainWindow::changeDevice(){
     QString s;
     s = (QString)"\/\/" + this->ui->tlServer->text() + (QString)"\/";
     s += this->ui->tlDevice->text();
-    fprintf(stderr,"!_%s_!", s.toAscii().constData());
+    fprintf(stderr,"!_%s_!\n", s.toAscii().constData());
     addDevice(s);
-//    addNewSubWin();
     subWin[countDev].scrollArea->setWidget(subWin[countDev].wgt);
     fprintf(stderr,"!_111_!");
     subWin[countDev].scrollArea->move(100,100);
@@ -250,53 +298,57 @@ void MainWindow::changeDevice(){
     startTesting((void*) &data);
 }
 
-
+//on change size of main window
 void MainWindow::resizeEvent( QResizeEvent *e ){
     area->resize(e->size());
 }
 
-void MainWindow::mousePressEvent ( QMouseEvent * e){
-    fprintf(stderr, "rerwer");
+//on mouse press event at picture widget
+void ImageWidget::mousePressEvent ( QMouseEvent * e){
+    fprintf(stderr, "ImageWidget::mousePressEvent\n");
 }
 
-void ImageWidget::mousePressEvent ( QMouseEvent * e){
-    fprintf(stderr, "wwwww");
-}
+////on mouse move event at picture widget
 void ImageWidget::mouseMoveEvent ( QMouseEvent * e){
     mouseX = e->x();
     mouseY = e->y();
 
     repaint();
 
-    fprintf(stderr, "moooooo");
+    fprintf(stderr, "ImageWidget::mouseMoveEvent\n");
 }
 
+// name
+// usage
+// parameters
+
+//on paint event
 void ImageWidget::paintEvent( QPaintEvent * e){
     QPainter p(this);
     p.setPen(QPen(Qt::yellow, 2));
     p.drawLine(0, mouseY, this->width(), mouseY);
     p.drawLine(mouseX, 0, mouseX, this->height());
-    fprintf(stderr, "aaaaaaaaa___");
+    fprintf(stderr, "ImageWidget::paintEvent\n");
 }
 
 void SubWindow::closeEvent ( QCloseEvent * closeEvent ){
-    fprintf(stderr, "Del subWin");
+    fprintf(stderr, "Del subWin\n");
     if (!isSnapshot){
         work = false;  //stop reading tango device
         parent->ui->btChangeDevice->setEnabled(true);
         parent->ui->btMkSnapshot->setEnabled(false);
     }
     else{
-        //int i;
         QList<SubWindow*>::iterator iter;
         for (iter = parent->listSnap.begin(); iter < parent->listSnap.end(); ++iter){
 
              if(this == *iter){
                 parent->subWinSnapPointer = NULL;
-                fprintf(stderr,"!_5555555555555555555555555555555555555555_!");
+                fprintf(stderr,"!Delete a Snapshot!\n");
                 qDeleteAll(iter, iter);     ////current point??>>>>>
                 parent->listSnap.erase(iter);
                 parent->ui->btScale->setEnabled(false);
+                parent->ui->btWriteImg->setEnabled(false);
                 break;
             }
         }
@@ -307,8 +359,9 @@ void SubWindow::closeEvent ( QCloseEvent * closeEvent ){
 
 void MainWindow::mkSnapshot(){
     ui->btScale->setEnabled(true);
+    ui->btWriteImg->setEnabled(true);
     QPalette pal;
-    vector <unsigned char> val(subWin[curDev].val.size()); //= new vector<unsigned char>(subWin[curDev].val.size());
+    vector <unsigned char> val(subWin[curDev].val.size()); //image data
     SubWindow *tempSubWinSnapPointer = new SubWindow();
     tempSubWinSnapPointer->setAttribute(Qt::WA_DeleteOnClose);
     QObject::connect(tempSubWinSnapPointer,SIGNAL(windowStateChanged(Qt::WindowStates,Qt::WindowStates )),
@@ -319,21 +372,6 @@ void MainWindow::mkSnapshot(){
     *tempSubWinSnapPointer->img = *subWin[curDev].img;
     tempSubWinSnapPointer->scrollArea->setWidget(tempSubWinSnapPointer->wgt);
     tempSubWinSnapPointer->numOfWin = 1+countImg;
-    copy(subWin[curDev].val.begin(), subWin[curDev].val.end(), val.begin());
-    fprintf(stderr,"!!copy SNAPSHOT %d - %d!!", val.begin()[100], subWin[curDev].val[100]);
-    /*  tempSubWinSnapPointer->attr = new Tango::DeviceAttribute(*subWin->attr);
-        try{
-        *tempSubWinSnapPointer->attr>>val;
-        }
-        catch(Tango::WrongData){
-            fprintf(stderr,"MYEROR here------------");
-        }
-    */
-    *tempSubWinSnapPointer->img = QImage(&val[0],  //&subWin[curDev].val[0],
-                                         subWin[curDev].dimX/4,
-                                         subWin[curDev].dimY,
-                                         subWin[curDev].dimX,
-                                         QImage::Format_RGB32);
     pal.setBrush(tempSubWinSnapPointer->wgt->backgroundRole(), QBrush( *tempSubWinSnapPointer->img));
     tempSubWinSnapPointer->wgt->setPalette(pal);
     tempSubWinSnapPointer->wgt->resize(subWin[curDev].dimX/4, subWin[curDev].dimY);
@@ -341,19 +379,33 @@ void MainWindow::mkSnapshot(){
     tempSubWinSnapPointer->scrollArea->move(100,100);
     tempSubWinSnapPointer->scrollArea->resize(100, 100);
     tempSubWinSnapPointer->scrollArea->show();
-    tempSubWinSnapPointer->numOfWin = countImg;
     tempSubWinSnapPointer->setWidget(tempSubWinSnapPointer->scrollArea);
     tempSubWinSnapPointer->setWindowTitle((QString)"Snapshot of " + subWin[curDev].windowTitle());
-    fprintf(stderr,"!!SNAPSHOT!!");
+    tempSubWinSnapPointer->setAttribute(Qt::WA_OpaquePaintEvent);
+    fprintf(stderr,"!!SNAPSHOT!!\n");
+
+    listSnap<<tempSubWinSnapPointer;            //add subwin to list
     area->hide();
-    listSnap<<tempSubWinSnapPointer;
     area->addSubWindow(tempSubWinSnapPointer);
     area->show();
 
+    QObject::connect(ui->btWriteImg,SIGNAL(clicked()), tempSubWinSnapPointer,SLOT(saveImg()));
     val.erase(val.begin(), val.end());
     countImg++;
 }
 
+void SubWindow::saveImg(){
+
+    if (parent->subWinSnapPointer && parent->ui->tlSaveImg->text() != ""){
+      fprintf(stderr, "Save an Image\n");
+      parent->subWinSnapPointer->img->save(parent->ui->tlSaveImg->text() + QString(".") + parent->ui->cmbBox->currentText().toLower().toAscii().constData(), parent->ui->cmbBox->currentText().toAscii().constData());
+    //do some exception when file is opened at another app
+    }
+    else{
+        fprintf(stderr, "Write the name of file for saving an Image\n");
+        exit(1);
+    }
+}
 
 void MainWindow::openDevInNewProc(){
     QProcess::startDetached("./TestApp",

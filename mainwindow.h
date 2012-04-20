@@ -1,3 +1,9 @@
+/*
+    Author: Georgii Vasilev
+    Project: Image client
+    Aprel 2012
+*/
+
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
@@ -12,92 +18,97 @@ class MainWindow;
 }
 class MainWindow;
 
+/*used in version with multi threading (data which transfered to MainWindow::startTesting)*/
 struct thread_data{
-   MainWindow *parent;
-   int threadNum;
+   MainWindow *parent;                      //Main window
+   int threadNum;                           //current Realtime subwin   //(not used)
 };
 
+/*display Images*/
 class ImageWidget : public QWidget{
     Q_OBJECT
 public:
-    QPainter *paint;
-    int mouseX;
-    int mouseY;
+    int mouseX;                             //Mouse position
+    int mouseY;                             //Mouse position
 public slots:
     void mousePressEvent ( QMouseEvent * e);
     void mouseMoveEvent ( QMouseEvent * e);
     void paintEvent( QPaintEvent * event);
 };
 
-
+/*Subwindows of MainWindow*/
 class SubWindow : public QMdiSubWindow{
     Q_OBJECT
 public:
     MainWindow *parent;
     SubWindow(QWidget *parent = 0, Qt::WindowFlags flags = 0);
-    void setParent(MainWindow *);
+    void setParent(MainWindow *);                   // overloaded
     void closeEvent ( QCloseEvent * closeEvent);
-    void focusInEvent ( QFocusEvent *e);
 public:
     bool isSnapshot;
     int numOfWin;
-    bool work;
+    bool work;                      // on/off thread of reading data from Tango Server
     QString attrName;
     Tango::DeviceProxy *device;
     ImageWidget *wgt;
     QScrollArea *scrollArea;
     //Tango::DeviceAttribute *attr;
-    int dimX;
-    int dimY;
-    vector <unsigned char> val;
-    QImage *img;
+    int dimX;                       //image size
+    int dimY;                       //image size
+    vector <unsigned char> val;     //keep image data (used in making snapshot)
+    QImage *img;                    //Image
 
     ~SubWindow();
 public slots:
-    //void delSubWin(QCloseEvent * closeEvent);
     void handleWindowStateChanged(Qt::WindowStates, Qt::WindowStates);
-
+    void saveImg();
 };
 
+
+/*MainWindow*/
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
 
 public:
     explicit MainWindow(QWidget *parent = 0);
-    int countDev;
-    int curDev;
-    int curImg;
-    int countImg;
+    int countDev;                       //const //count of realtime subwindows
+    int curDev;                         //const //current realtime subwindow
+    int curImg;                         //current snapshot subwindow
+    int countImg;                       //count of snapshot subwindows
     QMdiArea* area;
-    SubWindow *subWin;
-    bool firstTime;
+    SubWindow *subWin;                  //realtime subwindow
+    bool firstTime;                     //is it first time showed realtime subwindow
 
-    SubWindow *subWinSnapPointer;
-    QList<SubWindow *> listSnap;
-
-
+    SubWindow *subWinSnapPointer;       //Pointer to current snapshot
+    QList<SubWindow *> listSnap;        //List snapshot subwindows
+    void createMenu();
+    void createActions();
     ~MainWindow();
 
+    QMenu *server;
+    QMenu *snapshot;
+
+    QAction *setDevice;
+    QAction *exitAct;
+
+    QAction *makeSnapshot;
+    QAction *saveSnapshot;
+    QAction *scaleSnapshot;
 public:
     Ui::MainWindow *ui;
-    void addDevice(QString s);
-    void test();
+    void addDevice(QString s);          //Set Tango device
 public slots:
-    void openDevInNewProc();
-    void scaleImage();
-    void startTesting(void*);
-    void mkSnapshot();
-    void changeDevice();
-    void addNewSubWin();
-    void delSubWin();
-    void mousePressEvent ( QMouseEvent * e);
-    void resizeEvent( QResizeEvent *e);
+    void openDevInNewProc();            //Start Tango device in new process
+    void scaleImage();                  //scale snapshot
+    QImage scaleImage(QImage image);    //scale realtime subwindow
+    void startTesting(void*);           //reading data from Tango server
+    void mkSnapshot();                  //Make snapshot
+    void changeDevice();                //Starting realtime subwindow where will be showed data from Tango server
     void closeEvent ( QCloseEvent * closeEvent);
-    QImage scaleImage(QImage image);
+    void resizeEvent( QResizeEvent *e );
 
-    void insertSnapShot();
-
+    void contextMenuEvent(QContextMenuEvent *event);
 };
 
 

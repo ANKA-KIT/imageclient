@@ -1,3 +1,8 @@
+/*
+    Author: Georgii Vasilev
+    Project: Image client
+    Aprel 2012
+*/
 #include <QtGui/QApplication>
 #include <QTime>
 #include "mainwindow.h"
@@ -11,16 +16,11 @@ using namespace Tango;
 
 int main(int argc, char *argv[])
 {
+    enum StartParam{ReadFromFile = 2, LoadOneDevice = 4};
     QApplication a(argc, argv);
-    fprintf(stderr,"NotMultiProc---%d\n", argc);
     MainWindow w;
     w.move(0,0);
-    ///////////
     //w.device[0] = DeviceProxy("//anka-tango3.ka.fzk.de:10000/sys/tg_test/mytest"); //anka-tango3 //iss-vasilev
-    w.countDev = 0;   // 1-in start
-    w.countImg = 0;
-    w.curImg = 0;
-    w.curDev = 0;
     vector <unsigned char> valRead;
     char *proxy;
     char device[256];
@@ -42,7 +42,7 @@ int main(int argc, char *argv[])
     w.show();
 
     switch(argc){
-        case (2):{
+        case ReadFromFile:{ // which casew?
             QFile *file = new QFile(argv[1]);
             if(!file->open(QIODevice::ReadOnly | QIODevice::Text)){
                fprintf(stderr,"Cannot open file\n");
@@ -50,23 +50,17 @@ int main(int argc, char *argv[])
             QTextStream in(file);
             QString *line = new QString();
                 *line = in.readLine();
-        //while (!line.isNull()) {
-        //    process_line(line);
-    //    proxy = //strdup((char *)(*line));
-    //    *line = in.readLine();
-
         }
             break;
-        case 4:{
-        w.ui->tlServer->setText(QString(argv[1])); //serverName
-        w.ui->tlDevice->setText(QString(argv[2]));
-        w.ui->tlAttr->setText(argv[3]);
-        fprintf(stderr,"STARTING\n");
-        w.changeDevice();
-//        QObject::connect(&w, SIGNAL(activated(int )), &w, SLOT(changeDevice()));
-        break;
+        case LoadOneDevice:{
+            w.ui->tlServer->setText(QString(argv[1])); //serverName
+            w.ui->tlDevice->setText(QString(argv[2]));
+            w.ui->tlAttr->setText(argv[3]);
+            fprintf(stderr,"STARTING\n");
+            w.changeDevice();
+            break;
         }
-    default: break;
+    default: break; // help function
     }
 
     return a.exec();
