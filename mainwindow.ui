@@ -14,123 +14,6 @@
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralWidget">
-   <widget class="QPushButton" name="btNewDev">
-    <property name="geometry">
-     <rect>
-      <x>0</x>
-      <y>0</y>
-      <width>91</width>
-      <height>24</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Start new Dev</string>
-    </property>
-   </widget>
-   <widget class="QLineEdit" name="tlServer">
-    <property name="geometry">
-     <rect>
-      <x>200</x>
-      <y>0</y>
-      <width>171</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>anka-tango3.ka.fzk.de:10000</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="lbServer">
-    <property name="geometry">
-     <rect>
-      <x>110</x>
-      <y>0</y>
-      <width>71</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Server name</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="lbDevice">
-    <property name="geometry">
-     <rect>
-      <x>640</x>
-      <y>0</y>
-      <width>52</width>
-      <height>14</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Attribute</string>
-    </property>
-   </widget>
-   <widget class="QLineEdit" name="tlAttr">
-    <property name="geometry">
-     <rect>
-      <x>710</x>
-      <y>0</y>
-      <width>113</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>testImage</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="btChangeDevice">
-    <property name="geometry">
-     <rect>
-      <x>850</x>
-      <y>10</y>
-      <width>111</width>
-      <height>24</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Change cur Device</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="lbDevice_2">
-    <property name="geometry">
-     <rect>
-      <x>400</x>
-      <y>0</y>
-      <width>71</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Device name</string>
-    </property>
-   </widget>
-   <widget class="QLineEdit" name="tlDevice">
-    <property name="geometry">
-     <rect>
-      <x>490</x>
-      <y>0</y>
-      <width>113</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>sys/tg_test/mytest</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="btScale">
-    <property name="geometry">
-     <rect>
-      <x>990</x>
-      <y>10</y>
-      <width>75</width>
-      <height>24</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Scale image</string>
-    </property>
-   </widget>
    <widget class="QLabel" name="lbCurWin">
     <property name="geometry">
      <rect>
@@ -144,25 +27,12 @@
      <string>CurWin_0</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="btMkSnapshot">
-    <property name="geometry">
-     <rect>
-      <x>1080</x>
-      <y>10</y>
-      <width>91</width>
-      <height>24</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Make snapshot</string>
-    </property>
-   </widget>
    <widget class="QLabel" name="lbCurWorkiningDev">
     <property name="geometry">
      <rect>
-      <x>140</x>
+      <x>80</x>
       <y>30</y>
-      <width>571</width>
+      <width>421</width>
       <height>16</height>
      </rect>
     </property>
@@ -170,46 +40,135 @@
      <string>Cur Dev: </string>
     </property>
    </widget>
-   <widget class="QPushButton" name="btWriteImg">
+   <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
-      <x>1190</x>
-      <y>10</y>
+      <x>0</x>
+      <y>0</y>
+      <width>510</width>
+      <height>26</height>
+     </rect>
+    </property>
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <widget class="QPushButton" name="btMkSnapshot">
+       <property name="text">
+        <string>Make snapshot</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="btWriteImg">
+       <property name="text">
+        <string>Save Snapshot</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="btScale">
+       <property name="text">
+        <string>Scale image</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="btNewDev">
+       <property name="text">
+        <string>Start new Dev</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="btChangeDevice">
+       <property name="text">
+        <string>Change cur Device</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+   <widget class="QLabel" name="lbLastMouse">
+    <property name="geometry">
+     <rect>
+      <x>520</x>
+      <y>0</y>
+      <width>181</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Last Mouse Pos: </string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="lbCurMouse">
+    <property name="geometry">
+     <rect>
+      <x>520</x>
+      <y>20</y>
+      <width>181</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Current Mouse Pos: </string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="tlScaleRealTime">
+    <property name="geometry">
+     <rect>
+      <x>710</x>
+      <y>0</y>
+      <width>51</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>100</string>
+    </property>
+    <property name="maxLength">
+     <number>4</number>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="btScaleRealTime">
+    <property name="geometry">
+     <rect>
+      <x>780</x>
+      <y>0</y>
       <width>91</width>
       <height>24</height>
      </rect>
     </property>
     <property name="text">
-     <string>Save Snapshot</string>
+     <string>ScaleRealTime</string>
     </property>
    </widget>
-   <widget class="QComboBox" name="cmbBox">
+   <widget class="QPushButton" name="btScaleSnapshot">
     <property name="geometry">
      <rect>
-      <x>1190</x>
-      <y>40</y>
-      <width>65</width>
-      <height>22</height>
+      <x>780</x>
+      <y>30</y>
+      <width>91</width>
+      <height>24</height>
      </rect>
     </property>
-    <property name="toolTip">
-     <string/>
-    </property>
-    <property name="styleSheet">
-     <string notr="true"/>
+    <property name="text">
+     <string>ScaleSnapshot</string>
     </property>
    </widget>
-   <widget class="QLineEdit" name="tlSaveImg">
+   <widget class="QLineEdit" name="tlScaleSnapshot">
     <property name="geometry">
      <rect>
-      <x>1060</x>
-      <y>40</y>
-      <width>113</width>
+      <x>710</x>
+      <y>30</y>
+      <width>51</width>
       <height>20</height>
      </rect>
     </property>
     <property name="text">
-     <string>imageName</string>
+     <string>100</string>
+    </property>
+    <property name="maxLength">
+     <number>4</number>
     </property>
    </widget>
   </widget>
@@ -222,18 +181,6 @@
      <height>24</height>
     </rect>
    </property>
-  </widget>
-  <widget class="QToolBar" name="toolBar">
-   <property name="windowTitle">
-    <string>toolBar</string>
-   </property>
-   <attribute name="toolBarArea">
-    <enum>TopToolBarArea</enum>
-   </attribute>
-   <attribute name="toolBarBreak">
-    <bool>true</bool>
-   </attribute>
-   <addaction name="separator"/>
   </widget>
  </widget>
  <layoutdefault spacing="6" margin="11"/>

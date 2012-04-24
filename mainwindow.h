@@ -24,12 +24,37 @@ struct thread_data{
    int threadNum;                           //current Realtime subwin   //(not used)
 };
 
+/*Tango settings*/
+class TangoProperties : public QWidget{
+    Q_OBJECT
+public:
+    TangoProperties(MainWindow *main, TangoProperties *MainWindow);
+    ~TangoProperties();
+    MainWindow *parent;
+    QWidget *centralWidget;
+    QLineEdit *tlAttr;
+    QLineEdit *tlDevice;
+    QLineEdit *tlServer;
+    QLabel *lbServer;
+    QLabel *lbDevice;
+    QLabel *lbAttr;
+
+    QPushButton *btCancel;
+    QPushButton *btNewDev;
+    QPushButton *btChangeDevice;
+};
+
+
 /*display Images*/
 class ImageWidget : public QWidget{
     Q_OBJECT
 public:
+    MainWindow *parent;
     int mouseX;                             //Mouse position
     int mouseY;                             //Mouse position
+    int lastMouseX;                         //Mouse position when clicked last time
+    int lastMouseY;                         //Mouse position when clicked last time
+    void setParent(MainWindow *);
 public slots:
     void mousePressEvent ( QMouseEvent * e);
     void mouseMoveEvent ( QMouseEvent * e);
@@ -52,11 +77,11 @@ public:
     Tango::DeviceProxy *device;
     ImageWidget *wgt;
     QScrollArea *scrollArea;
-    //Tango::DeviceAttribute *attr;
     int dimX;                       //image size
     int dimY;                       //image size
     vector <unsigned char> val;     //keep image data (used in making snapshot)
     QImage *img;                    //Image
+    double scale;
 
     ~SubWindow();
 public slots:
@@ -76,25 +101,30 @@ public:
     int curDev;                         //const //current realtime subwindow
     int curImg;                         //current snapshot subwindow
     int countImg;                       //count of snapshot subwindows
-    QMdiArea* area;
+    QMdiArea* area;                     //area for displaying subwindows
     SubWindow *subWin;                  //realtime subwindow
     bool firstTime;                     //is it first time showed realtime subwindow
+    TangoProperties *tangoDev;          //Window for seting tango properties
 
     SubWindow *subWinSnapPointer;       //Pointer to current snapshot
     QList<SubWindow *> listSnap;        //List snapshot subwindows
-    void createMenu();
-    void createActions();
+    void createMenu();                  //init Menu
+    void createActions();               //init Actions
     ~MainWindow();
 
-    QMenu *server;
-    QMenu *snapshot;
+    QMenu *server;                      //Server menu
+    QMenu *snapshot;                    //Snapshot menu
 
-    QAction *setDevice;
-    QAction *exitAct;
+    QAction *setDevice;                 //set for current app tango device
+    QAction *addNewDevice;              //set tango device in new app
+    QAction *pushCommand;
+    QAction *exitAct;                   //Stop app
 
-    QAction *makeSnapshot;
-    QAction *saveSnapshot;
-    QAction *scaleSnapshot;
+    QAction *makeSnapshot;              //Make snapshot
+    QAction *saveSnapshot;              //Save current snapshot
+    QAction *scaleSnapshot;             //scale current snapshot  //not used
+
+    QStringList tangoCommands;
 public:
     Ui::MainWindow *ui;
     void addDevice(QString s);          //Set Tango device
@@ -109,6 +139,9 @@ public slots:
     void resizeEvent( QResizeEvent *e );
 
     void contextMenuEvent(QContextMenuEvent *event);
+    void setTangoDevice();
+    void setRealtimeScale();
+    void setSnapshotScale();
 };
 
 
