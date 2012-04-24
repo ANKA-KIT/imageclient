@@ -24,6 +24,19 @@ struct thread_data{
    int threadNum;                           //current Realtime subwin   //(not used)
 };
 
+/*Send command*/
+class CommandLine : public QWidget{
+    Q_OBJECT
+public:
+    MainWindow *parent;
+    QWidget *centralWidget;
+    CommandLine(MainWindow *main, CommandLine *MainWindow);
+    QLabel *lbCommand;
+    QLineEdit *tlCommand;
+    QPushButton *btSend;
+    QPushButton *btCancel;
+};
+
 /*Tango settings*/
 class TangoProperties : public QWidget{
     Q_OBJECT
@@ -105,6 +118,7 @@ public:
     SubWindow *subWin;                  //realtime subwindow
     bool firstTime;                     //is it first time showed realtime subwindow
     TangoProperties *tangoDev;          //Window for seting tango properties
+    CommandLine *cmdTangoLine;          //Window for sending command to current tango device
 
     SubWindow *subWinSnapPointer;       //Pointer to current snapshot
     QList<SubWindow *> listSnap;        //List snapshot subwindows
@@ -140,8 +154,9 @@ public slots:
 
     void contextMenuEvent(QContextMenuEvent *event);
     void setTangoDevice();
-    void setRealtimeScale();
-    void setSnapshotScale();
+    void setRealtimeScale();            //set Realtime Scale
+    void setSnapshotScale();            //set Snapshot Scale
+    void sendTangoCommand();            //Send a command to current tango device
 };
 
 

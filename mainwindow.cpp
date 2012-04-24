@@ -29,7 +29,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->btScaleSnapshot->setEnabled(false);
 
     QObject::connect(subWin,SIGNAL(windowStateChanged(Qt::WindowStates,Qt::WindowStates )),
-                     subWin,SLOT(handleWindowStateChanged(Qt::WindowStates,Qt::WindowStates )));
+                     subWin,SLOT(handleWindowStateChanged(Qt::WindowStates,Qt::WindowStates)));
 
 }
 
@@ -40,6 +40,23 @@ MainWindow::~MainWindow()
     delete area;
     delete ui;
    // exit(0);
+}
+
+//Constructor of CommandLine
+CommandLine::CommandLine(MainWindow *main, CommandLine *MainWindow = NULL){
+    MainWindow = this;
+    parent = main;
+    centralWidget = new QWidget(MainWindow);
+    centralWidget->setObjectName(QString::fromUtf8("centralWidget"));
+    this->setFixedSize(100, 50);
+    this->move(100,100);
+}
+
+
+void MainWindow::sendTangoCommand(){
+    cmdTangoLine = new CommandLine(this);
+    cmdTangoLine->setWindowModality(Qt::ApplicationModal);
+    cmdTangoLine->show();
 }
 
 //Constructor of TangoProperties
@@ -119,7 +136,7 @@ void MainWindow::createMenu(){
     server = menuBar()->addMenu(QString("&Server"));
     server->addAction(addNewDevice);
     server->addAction(setDevice);
-   // server->addAction(pushCommand);
+    server->addAction(pushCommand);
     server->addSeparator();
     server->addAction(exitAct);
     snapshot = menuBar()->addMenu(tr("&Snapshot"));
@@ -291,8 +308,10 @@ void MainWindow::startTesting(void* threadArg){    ///need in remaning!!!!!!
 
 void MainWindow::setSnapshotScale(){
     //try{
+    fprintf(stderr, "Snapshot scaling\n");
         subWinSnapPointer->scale = ui->tlScaleSnapshot->text().toDouble()/100.0;
-        subWinSnapPointer->setWindowTitle( subWinSnapPointer->windowTitle().split("scale")[0] + QString("scale ") + ui->tlScaleSnapshot->text());//QString().setNum(subWinSnapPointer->scale * 100);
+        scaleImage();
+        subWinSnapPointer->setWindowTitle(subWinSnapPointer->windowTitle().split("scale").first() + QString("scale ") + ui->tlScaleSnapshot->text());//QString().setNum(subWinSnapPointer->scale * 100);
     //}
     //catch(){
 
@@ -301,7 +320,7 @@ void MainWindow::setSnapshotScale(){
 
 void MainWindow::setRealtimeScale(){
     subWin[countDev].scale = ui->tlScaleRealTime->text().toDouble()/100.0;
-    subWin[countDev].setWindowTitle( subWin[countDev].windowTitle().split("scale")[0] + QString("scale ") + ui->tlScaleRealTime->text());//QString().setNum(subWin[countDev].scale * 100);
+    subWin[countDev].setWindowTitle( subWin[countDev].windowTitle().split("scale").first() + QString("scale ") + ui->tlScaleRealTime->text());//QString().setNum(subWin[countDev].scale * 100);
 }
 
 
@@ -315,10 +334,11 @@ QImage MainWindow::scaleImage(QImage image){
 void MainWindow::scaleImage(){
     QPalette pal;
     subWinSnapPointer->wgt->hide();
-    *subWinSnapPointer->img = subWinSnapPointer->img->scaled(subWinSnapPointer->img->width() * subWinSnapPointer->scale, subWinSnapPointer->img->height()* subWinSnapPointer->scale);
-    pal.setBrush(subWinSnapPointer->wgt->backgroundRole(), QBrush(*subWinSnapPointer->img));
+    QImage tempImg; //*subWinSnapPointer->img
+    tempImg = subWinSnapPointer->img->scaled(subWinSnapPointer->img->width() * subWinSnapPointer->scale, subWinSnapPointer->img->height()* subWinSnapPointer->scale);
+    pal.setBrush(subWinSnapPointer->wgt->backgroundRole(), QBrush(tempImg));
     subWinSnapPointer->wgt->setPalette(pal);
-    subWinSnapPointer->wgt->resize(subWinSnapPointer->wgt->width()* subWinSnapPointer->scale, subWinSnapPointer->wgt->height()* subWinSnapPointer->scale);
+    subWinSnapPointer->wgt->resize(tempImg.width()* subWinSnapPointer->scale, tempImg,height()* subWinSnapPointer->scale);
     subWinSnapPointer->wgt->show();
     fprintf(stderr,"---------------------Scaling-----------%d-----------------\n", subWinSnapPointer->numOfWin);
 }
@@ -367,7 +387,7 @@ void SubWindow::setParent(MainWindow *p){
     parent = p;
 }
 void ImageWidget::setParent(MainWindow *p){
-     parent = p;
+    parent = p;
 }
 
 //set tango device
