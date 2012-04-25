@@ -413,7 +413,7 @@ void MainWindow::scaleImage(){
     tempImg = subWinSnapPointer->img->scaled(subWinSnapPointer->img->width() * subWinSnapPointer->scale, subWinSnapPointer->img->height()* subWinSnapPointer->scale);
     pal.setBrush(subWinSnapPointer->wgt->backgroundRole(), QBrush(tempImg));
     subWinSnapPointer->wgt->setPalette(pal);
-    subWinSnapPointer->wgt->resize(tempImg.width()* subWinSnapPointer->scale, temspImg.height()* subWinSnapPointer->scale);
+    subWinSnapPointer->wgt->resize(tempImg.width()* subWinSnapPointer->scale, tempImg.height()* subWinSnapPointer->scale);
     subWinSnapPointer->wgt->show();
     fprintf(stderr,"---------------------Scaling-----------%d-----------------\n", subWinSnapPointer->numOfWin);
 }
