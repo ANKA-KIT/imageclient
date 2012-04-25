@@ -37,12 +37,13 @@ int main(int argc, char *argv[])
     //w.device[0] = DeviceProxy("//anka-tango3.ka.fzk.de:10000/sys/tg_test/mytest"); //anka-tango3 //iss-vasilev
 
     QObject::connect(w.ui->btMkSnapshot, SIGNAL(clicked()), &w,SLOT(mkSnapshot()));
-    QObject::connect(w.ui->btNewDev, SIGNAL(clicked()), &w,SLOT(setTangoDevice()));
+    QObject::connect(w.ui->btNewDev, SIGNAL(clicked()), &w,SLOT(setNewTangoDevice()));
     QObject::connect(w.ui->btScale, SIGNAL(clicked()), &w,SLOT(scaleImage()));
     QObject::connect(w.ui->btChangeDevice, SIGNAL(clicked()), &w,SLOT(setTangoDevice()));
 
     QObject::connect(w.ui->btScaleRealTime, SIGNAL(clicked()), &w,SLOT(setRealtimeScale()));
     QObject::connect(w.ui->btScaleSnapshot, SIGNAL(clicked()), &w,SLOT(setSnapshotScale()));
+    QObject::connect(w.ui->btWriteImg,SIGNAL(clicked()), &w,SLOT(saveImg()));
 
 
     w.area = new QMdiArea(&w);

@@ -104,7 +104,7 @@ public:
     ~SubWindow();
 public slots:
     void handleWindowStateChanged(Qt::WindowStates, Qt::WindowStates);
-    void saveImg();
+//    void saveImg();
 };
 
 
@@ -147,22 +147,25 @@ public:
 public:
     Ui::MainWindow *ui;
     void addDevice(QString s);          //Set Tango device
+    void tangoDeviceWin();
 public slots:
     void openDevInNewProc();            //Start Tango device in new process
     void scaleImage();                  //scale snapshot
     QImage scaleImage(QImage image);    //scale realtime subwindow
-    void startTesting(void*);           //reading data from Tango server
+    void startTesting();           //reading data from Tango server
     void mkSnapshot();                  //Make snapshot
     void changeDevice();                //Starting realtime subwindow where will be showed data from Tango server
     void closeEvent ( QCloseEvent * closeEvent);
     void resizeEvent( QResizeEvent *e );
 
     void contextMenuEvent(QContextMenuEvent *event);
-    void setTangoDevice();
     void setRealtimeScale();            //set Realtime Scale
     void setSnapshotScale();            //set Snapshot Scale
     void sendTangoCommand();            //Send a tango command to current tango device
     void setTangoCommand();             //Set a tango command to current tango device
+    void saveImg();
+    void setTangoDevice();
+    void setNewTangoDevice();
 };
 
 

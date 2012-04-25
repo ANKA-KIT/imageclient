@@ -14,13 +14,23 @@ LIBS += -L/usr/lib -ltango -llog4tango -lomniORB4 -llog4tango -lomniDynamic4 -lC
 
 SOURCES += main.cpp\
         mainwindow.cpp \
-    createSubwin.cpp
+    realTimeSubwin.cpp \
+    snapshotSubwin.cpp \
+    menu.cpp \
+    setTangoDevWin.cpp \
+    setTangoDevCommandWin.cpp
 
 HEADERS  += mainwindow.h
 
 FORMS    += mainwindow.ui
 
 CONFIG += debug
+
+
+
+
+
+
 
 
 
