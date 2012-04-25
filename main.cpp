@@ -193,7 +193,18 @@ int main(int argc, char *argv[])
                 next_option = -1;
         }
         if(!fromFile){
+            int i;
+            if (w.tangoDev->tlServer->text() != "" && w.tangoDev->tlDevice->text() != "" && w.tangoDev->tlAttr->text() != ""){
+            for(i=0; i<w.tangoCommands.count(); i++){
+                fprintf(stderr, "Command: %s\n", w.tangoCommands.at(i).toAscii().constData());
+
+           }
             w.changeDevice();   //exec tango device
+            }
+            else{
+                fprintf(stderr, "Put server, device, attribute info about tango device\n");
+                exit(1);
+            }
         }
     }
     /////////////////////--------///////////////////////////////////

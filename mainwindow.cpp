@@ -8,6 +8,89 @@
 #include <QTime>
 #include <QPainter>
 
+//
+void MainWindow::contextMenuEvent(QContextMenuEvent *event)
+{
+
+}
+
+//Destructor of mainwindow
+MainWindow::~MainWindow()
+{
+    delete subWin;
+    delete area;
+    delete ui;
+}
+
+void CommandLine::cancel(){
+    this->close();
+}
+
+void TangoProperties::cancel(){
+    this->close();
+}
+
+CommandLine::~CommandLine(){
+    delete lbCommand;
+    delete tlCommand;
+    delete btSend;
+    delete btCancel;
+}
+
+//Destructor of subwindow
+SubWindow::~SubWindow(){
+//    delete attr;
+    delete device;
+    delete img;
+    delete wgt;
+    delete scrollArea;
+    fprintf(stderr,"\n!_Delete SubWin in   destructor_!");
+}
+
+//Destructor of TangoProperties
+TangoProperties::~TangoProperties(){
+    delete tlAttr;
+    delete tlDevice;
+    delete tlServer;
+    delete lbServer;
+    delete lbDevice;
+    delete lbAttr;
+    delete centralWidget;
+}
+
+//on close mainwindow
+void MainWindow::closeEvent ( QCloseEvent * closeEvent){
+    if  (subWin[0].isActiveWindow())
+      subWin[0].close();
+}
+
+
+void MainWindow::setTangoCommand(){
+    cmdTangoLine = new CommandLine(this);
+    cmdTangoLine->setWindowModality(Qt::ApplicationModal);
+    QObject::connect(cmdTangoLine->btCancel, SIGNAL(clicked()), cmdTangoLine, SLOT(cancel()));
+    QObject::connect(cmdTangoLine->btSend, SIGNAL(clicked()), this, SLOT(sendTangoCommand()));
+    cmdTangoLine->show();
+}
+
+//start window Tango device property
+void MainWindow::setTangoDevice(){ ///use one more slot!!!!!!
+    tangoDev = new TangoProperties(this);
+    tangoDev->setWindowModality(Qt::ApplicationModal);
+    QObject::connect(tangoDev->btCancel, SIGNAL(clicked()), tangoDev, SLOT(cancel()));
+    QObject::connect(tangoDev->btNewDev, SIGNAL(clicked()), this, SLOT(openDevInNewProc()));
+    QObject::connect(tangoDev->btChangeDevice, SIGNAL(clicked()), this, SLOT(changeDevice()));
+    tangoDev->show();
+}
+
+//Set parent widget for subwindow
+void SubWindow::setParent(MainWindow *p){
+    parent = p;
+}
+void ImageWidget::setParent(MainWindow *p){
+    parent = p;
+}
+
 //Constructor of main window
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -30,40 +113,66 @@ MainWindow::MainWindow(QWidget *parent) :
 
     QObject::connect(subWin,SIGNAL(windowStateChanged(Qt::WindowStates,Qt::WindowStates )),
                      subWin,SLOT(handleWindowStateChanged(Qt::WindowStates,Qt::WindowStates)));
-
 }
 
-//Destructor of mainwindow
-MainWindow::~MainWindow()
+//Constructor of subwindow  //overloaded
+SubWindow::SubWindow(QWidget *parent, Qt::WindowFlags flags)
 {
-    delete subWin;
-    delete area;
-    delete ui;
-   // exit(0);
+ //   attr = new Tango::DeviceAttribute();
+
+    device = new  Tango::DeviceProxy();
+    wgt = new ImageWidget();
+    scrollArea = new QScrollArea();
+    img = new QImage();
+
+    scrollArea->hide();
+    scrollArea->setWindowModality(Qt::WindowModal);
+    scrollArea->resize(800, 500);
+    scrollArea->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
+    scrollArea->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
+    scrollArea->move(50, 100);
+    wgt->setAutoFillBackground(true);
+    wgt->setMouseTracking(true);
+    this->setAutoFillBackground(true);
+
+    QObject::connect(this,SIGNAL(windowStateChanged(Qt::WindowStates,Qt::WindowStates )),this,
+    SLOT(handleWindowStateChanged(Qt::WindowStates,Qt::WindowStates )));
 }
 
 //Constructor of CommandLine
-CommandLine::CommandLine(MainWindow *main, CommandLine *MainWindow = NULL){
-    MainWindow = this;
+CommandLine::CommandLine(MainWindow *main){
+    CommandLine *MainWind = this;
     parent = main;
-    centralWidget = new QWidget(MainWindow);
+    centralWidget = new QWidget(MainWind);
     centralWidget->setObjectName(QString::fromUtf8("centralWidget"));
-    this->setFixedSize(100, 50);
+    this->setFixedSize(300, 50);
     this->move(100,100);
-}
+    this->setWindowTitle("Send command");
 
+    btCancel = new QPushButton(centralWidget);
+    btCancel->setObjectName(QString::fromUtf8("btCancel"));
+    btCancel->setGeometry(QRect(100, 20, 91, 24));
+    btSend = new QPushButton(centralWidget);
+    btSend->setObjectName(QString::fromUtf8("btSend"));
+    btSend->setGeometry(QRect(5, 20, 91, 24));
+    lbCommand = new QLabel(centralWidget);
+    lbCommand->setObjectName(QString::fromUtf8("lbCommand"));
+    lbCommand->setGeometry(QRect(5, 0, 71, 16));
+    tlCommand = new QLineEdit(centralWidget);
+    tlCommand->setObjectName(QString::fromUtf8("tlCommand"));
+    tlCommand->setGeometry(QRect(90, 0, 180, 20));
 
-void MainWindow::sendTangoCommand(){
-    cmdTangoLine = new CommandLine(this);
-    cmdTangoLine->setWindowModality(Qt::ApplicationModal);
-    cmdTangoLine->show();
+    btCancel->setText("Cancel");
+    btSend->setText("Send");
+    lbCommand->setText("Command:");
+    tlCommand->setText("GeneratingRandomDataImage");
 }
 
 //Constructor of TangoProperties
-TangoProperties::TangoProperties(MainWindow *main, TangoProperties *MainWindow = NULL){
-    MainWindow = this;
+TangoProperties::TangoProperties(MainWindow *main){
+    TangoProperties *MainWind = this;
     parent = main;
-    centralWidget = new QWidget(MainWindow);
+    centralWidget = new QWidget(MainWind);
     centralWidget->setObjectName(QString::fromUtf8("centralWidget"));
     this->setFixedSize(660, 50);
     this->move(100,100);
@@ -113,22 +222,6 @@ TangoProperties::TangoProperties(MainWindow *main, TangoProperties *MainWindow =
     btNewDev->setText("Start new Dev");
     btChangeDevice->setText("Set Dev");
     btCancel->setText("Cancel");
-
-    QObject::connect(btNewDev, SIGNAL(clicked()), parent, SLOT(openDevInNewProc()));
-    QObject::connect(btChangeDevice, SIGNAL(clicked()), parent, SLOT(changeDevice()));
-    QObject::connect(btCancel, SIGNAL(clicked()), SLOT(close()));
-
-}
-
-//Destructor of TangoProperties
-TangoProperties::~TangoProperties(){
-    delete tlAttr;
-    delete tlDevice;
-    delete tlServer;
-    delete lbServer;
-    delete lbDevice;
-    delete lbAttr;
-    delete centralWidget;
 }
 
 //Creating Menu
@@ -145,6 +238,7 @@ void MainWindow::createMenu(){
 
     snapshot->setEnabled(false);
     saveSnapshot->setEnabled(false);
+    pushCommand->setEnabled(false);
 }
 
 //Init Actions
@@ -155,7 +249,7 @@ void MainWindow::createActions(){
 
     pushCommand = new QAction(tr("&Send a command"), this);
     pushCommand->setStatusTip(tr("Send a command"));
-    //connect();
+    connect(pushCommand, SIGNAL(triggered()), this, SLOT(setTangoCommand()));
 
     exitAct = new QAction(tr("&Exit"), this);
     exitAct->setStatusTip(tr("Finish working"));
@@ -173,44 +267,24 @@ void MainWindow::createActions(){
     saveSnapshot->setStatusTip(tr("Save a snapshot"));
 }
 
-//
-void MainWindow::contextMenuEvent(QContextMenuEvent *event)
-{
 
-}
-
-//Destructor of subwindow
-SubWindow::~SubWindow(){
-//    delete attr;
-    delete device;
-    delete img;
-    delete wgt;
-    delete scrollArea;
-    fprintf(stderr,"\n!_Delete SubWin in   destructor_!");
-}
-
-//Constructor of subwindow  //overloaded
-SubWindow::SubWindow(QWidget *parent, Qt::WindowFlags flags)
-{
- //   attr = new Tango::DeviceAttribute();
-
-    device = new  Tango::DeviceProxy();
-    wgt = new ImageWidget();
-    scrollArea = new QScrollArea();
-    img = new QImage();
-
-    scrollArea->hide();
-    scrollArea->setWindowModality(Qt::WindowModal);
-    scrollArea->resize(800, 500);
-    scrollArea->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
-    scrollArea->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
-    scrollArea->move(50, 100);
-    wgt->setAutoFillBackground(true);
-    wgt->setMouseTracking(true);
-    this->setAutoFillBackground(true);
-
-    QObject::connect(this,SIGNAL(windowStateChanged(Qt::WindowStates,Qt::WindowStates )),this,
-    SLOT(handleWindowStateChanged(Qt::WindowStates,Qt::WindowStates )));
+void MainWindow::sendTangoCommand(){
+    try{
+    subWin[curDev].device->command_inout(cmdTangoLine->tlCommand->text().toAscii().constData());
+    }
+    catch(Tango::ConnectionFailed){
+          fprintf(stderr, "ConnectionFailed while send tango command to %s\n", subWin[curDev].device->name().c_str());
+          exit(1);
+    }
+    catch(Tango::WrongData){
+          fprintf(stderr, "Wrong Data while send tango command to %s\n", subWin[curDev].device->name().c_str());
+          exit(1);
+    }
+    catch(Tango::DevFailed){
+         fprintf(stderr, "DevFailed while send tango command to %s", subWin[curDev].device->name().c_str());
+         exit(1);
+    }
+    cmdTangoLine->close();
 }
 
 //Readin and displaying realtime data from the Tango server
@@ -308,12 +382,13 @@ void MainWindow::startTesting(void* threadArg){    ///need in remaning!!!!!!
 
 void MainWindow::setSnapshotScale(){
     //try{
+    bool ok =true;
     fprintf(stderr, "Snapshot scaling\n");
-        subWinSnapPointer->scale = ui->tlScaleSnapshot->text().toDouble()/100.0;
+        subWinSnapPointer->scale = ui->tlScaleSnapshot->text().toDouble(&ok)/100.0; //Ok??????
         scaleImage();
         subWinSnapPointer->setWindowTitle(subWinSnapPointer->windowTitle().split("scale").first() + QString("scale ") + ui->tlScaleSnapshot->text());//QString().setNum(subWinSnapPointer->scale * 100);
     //}
-    //catch(){
+    ///catch(){
 
     //}
 }
@@ -338,7 +413,7 @@ void MainWindow::scaleImage(){
     tempImg = subWinSnapPointer->img->scaled(subWinSnapPointer->img->width() * subWinSnapPointer->scale, subWinSnapPointer->img->height()* subWinSnapPointer->scale);
     pal.setBrush(subWinSnapPointer->wgt->backgroundRole(), QBrush(tempImg));
     subWinSnapPointer->wgt->setPalette(pal);
-    subWinSnapPointer->wgt->resize(tempImg.width()* subWinSnapPointer->scale, tempImg,height()* subWinSnapPointer->scale);
+    subWinSnapPointer->wgt->resize(tempImg.width()* subWinSnapPointer->scale, temspImg.height()* subWinSnapPointer->scale);
     subWinSnapPointer->wgt->show();
     fprintf(stderr,"---------------------Scaling-----------%d-----------------\n", subWinSnapPointer->numOfWin);
 }
@@ -382,14 +457,6 @@ void SubWindow::handleWindowStateChanged(Qt::WindowStates oldState, Qt::WindowSt
     }
 }
 
-//Set parent widget for subwindow
-void SubWindow::setParent(MainWindow *p){
-    parent = p;
-}
-void ImageWidget::setParent(MainWindow *p){
-    parent = p;
-}
-
 //set tango device
 void MainWindow::addDevice(QString s){
         fprintf(stderr,"Set Tango device %s\n", s.toAscii().constData());
@@ -410,62 +477,7 @@ void MainWindow::addDevice(QString s){
     }
 }
 
-//start window Tango device property
-void MainWindow::setTangoDevice(){
-    tangoDev = new TangoProperties(this);
-    tangoDev->setWindowModality(Qt::ApplicationModal);
-    tangoDev->show();
-}
 
-//Init realtime reading data subwindow
-void MainWindow::changeDevice(){
-    subWin[countDev].setParent(this);
-    subWin[countDev].wgt->setParent(this);
-
-    snapshot->setEnabled(true);
-    ui->btScaleRealTime->setEnabled(true);
-    subWin[countDev].work = true;
-    subWin[countDev].attrName = this->tangoDev->tlAttr->text();
-    QString s;
-    s = (QString)"\/\/" + this->tangoDev->tlServer->text() + (QString)"\/";
-    s += this->tangoDev->tlDevice->text();
-    fprintf(stderr,"!_%s_!\n", s.toAscii().constData());
-    addDevice(s);
-    subWin[countDev].scrollArea->setWidget(subWin[countDev].wgt);
-    fprintf(stderr,"!_111_!");
-    subWin[countDev].scrollArea->move(100,100);
-    subWin[countDev].scrollArea->resize(400, 300);
-    subWin[countDev].scrollArea->show();
-    subWin[countDev].resize(400, 300);
-    subWin[countDev].numOfWin = countDev; /*need in Remaning*/
-    subWin[countDev].isSnapshot = false;
-    subWin[countDev].scale = ui->tlScaleRealTime->text().toDouble()/100;
-    subWin[countDev].setWindowTitle(this->tangoDev->tlDevice->text() +
-                                    QString(" scale ") + ui->tlScaleRealTime->text());
-    area->hide();
-    if (firstTime){
-        QObject::connect(makeSnapshot, SIGNAL(triggered()), this, SLOT(mkSnapshot()));
-        subWin[countDev].setWidget(subWin[countDev].scrollArea);
-        area->addSubWindow(&subWin[countDev]);
-    }
-    subWin[countDev].scrollArea->resize(subWin[countDev].width()-2, subWin[countDev].height()-33);
-    subWin[countDev].show();
-    area->show();
-    firstTime = false;
-    thread_data data;
-    data.parent = this;
-    data.threadNum = subWin[countDev].numOfWin;
-    fprintf(stderr, "\n=----%p----=%d\n", data.parent, subWin[countDev].numOfWin);
-    ui->lbCurWorkiningDev->setText(QString("Cur Dev: ") + s + QString(" ") + tangoDev->tlAttr->text());
-
-    ui->btChangeDevice->setEnabled(false);
-    ui->btMkSnapshot->setEnabled(true);
-    makeSnapshot->setEnabled(true);
-    setDevice->setEnabled(false);
-
-    tangoDev->close();
-    startTesting((void*) &data);
-}
 
 //on change size of main window
 void MainWindow::resizeEvent( QResizeEvent *e ){
@@ -512,7 +524,7 @@ void SubWindow::closeEvent ( QCloseEvent * closeEvent ){
         parent->makeSnapshot->setEnabled(false);
         parent->ui->btScaleRealTime->setEnabled(false);
         parent->setDevice->setEnabled(true);
-      //  parent->snapshot->setEnabled(false);
+        parent->pushCommand->setEnabled(false);
     }
     else{
         QList<SubWindow*>::iterator iter;
@@ -607,10 +619,4 @@ void MainWindow::openDevInNewProc(){
                                 << this->tangoDev->tlDevice->text()
                                 << this->tangoDev->tlAttr->text(), "./");
     tangoDev->close();
-}
-
-//on close mainwindow
-void MainWindow::closeEvent ( QCloseEvent * closeEvent){
-    if  (subWin[0].isActiveWindow())
-      subWin[0].close();
 }

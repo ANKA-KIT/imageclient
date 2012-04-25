@@ -13,13 +13,15 @@ INCLUDEPATH += -I /usr/include/tango -I .
 LIBS += -L/usr/lib -ltango -llog4tango -lomniORB4 -llog4tango -lomniDynamic4 -lCOS4 -lomnithread -lpthread -lyat
 
 SOURCES += main.cpp\
-        mainwindow.cpp
+        mainwindow.cpp \
+    createSubwin.cpp
 
 HEADERS  += mainwindow.h
 
 FORMS    += mainwindow.ui
 
 CONFIG += debug
+
 
 
 

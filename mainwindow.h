@@ -30,18 +30,21 @@ class CommandLine : public QWidget{
 public:
     MainWindow *parent;
     QWidget *centralWidget;
-    CommandLine(MainWindow *main, CommandLine *MainWindow);
+    CommandLine(MainWindow *main);
     QLabel *lbCommand;
     QLineEdit *tlCommand;
     QPushButton *btSend;
     QPushButton *btCancel;
+    ~CommandLine();
+public slots:
+    void cancel();
 };
 
 /*Tango settings*/
 class TangoProperties : public QWidget{
     Q_OBJECT
 public:
-    TangoProperties(MainWindow *main, TangoProperties *MainWindow);
+    TangoProperties(MainWindow *main);
     ~TangoProperties();
     MainWindow *parent;
     QWidget *centralWidget;
@@ -55,6 +58,8 @@ public:
     QPushButton *btCancel;
     QPushButton *btNewDev;
     QPushButton *btChangeDevice;
+public slots:
+    void cancel();
 };
 
 
@@ -131,7 +136,7 @@ public:
 
     QAction *setDevice;                 //set for current app tango device
     QAction *addNewDevice;              //set tango device in new app
-    QAction *pushCommand;
+    QAction *pushCommand;               //set tango command
     QAction *exitAct;                   //Stop app
 
     QAction *makeSnapshot;              //Make snapshot
@@ -156,7 +161,8 @@ public slots:
     void setTangoDevice();
     void setRealtimeScale();            //set Realtime Scale
     void setSnapshotScale();            //set Snapshot Scale
-    void sendTangoCommand();            //Send a command to current tango device
+    void sendTangoCommand();            //Send a tango command to current tango device
+    void setTangoCommand();             //Set a tango command to current tango device
 };
 
 
