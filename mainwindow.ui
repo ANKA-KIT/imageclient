@@ -171,6 +171,16 @@
      <number>4</number>
     </property>
    </widget>
+   <widget class="QComboBox" name="cmbColorFormat">
+    <property name="geometry">
+     <rect>
+      <x>900</x>
+      <y>0</y>
+      <width>211</width>
+      <height>22</height>
+     </rect>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">

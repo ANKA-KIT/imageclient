@@ -20,11 +20,11 @@ void print_usage(FILE * stream, int exitCode){
     fprintf(stream, "Usage: TestApp options \n");
     fprintf(stream,
             "-h  --help         Display Help \n"
-            "-t  --tango_host   Set tango HOST"
-            "-d  --device       Set tango device"
-            "-a  --attr         Set image attribute"
-            "-f  --file         Read deviceinfo from a XML file"
-            "-c  --command      Exec tango command before reading tango image data");
+            "-t  --tango_host   Set tango HOST\n"
+            "-d  --device       Set tango device\n"
+            "-a  --attr         Set image attribute\n"
+            "-f  --file         Read deviceinfo from a XML file\n"
+            "-c  --command      Exec tango command before reading tango image data\n");
     exit(exitCode);
 }
 
@@ -77,7 +77,7 @@ int main(int argc, char *argv[])
             fprintf(stderr, "Opening File\n");
             QDomDocument *doc = new QDomDocument();
             QFile *file = new QFile();
-            fprintf(stderr, "%s\n", argv[1]);
+            fprintf(stderr, "FileName is %s\n", argv[1]);
             file->setFileName(QString(argv[1]));
             if (!file->open(QIODevice::ReadOnly)){
                 fprintf(stderr, "FILE wasnot open\n");
@@ -97,10 +97,10 @@ int main(int argc, char *argv[])
                int iDx;
                w.setTangoDevice();
                for(iDx = 0;iDx < nodeList.count(); iDx++){
-                   fprintf(stderr, "%d\n", iDx);
-                   fprintf(stderr, "%s\n", nodeList.at(iDx).attributes().namedItem("server").nodeValue().toAscii().constData());
-                   fprintf(stderr, "%s\n", nodeList.at(iDx).attributes().namedItem("device").nodeValue().toAscii().constData());
-                   fprintf(stderr, "%s\n", nodeList.at(iDx).attributes().namedItem("attribute").nodeValue().toAscii().constData());
+                   fprintf(stderr, "index num %d\n", iDx);
+                   fprintf(stderr, "server = %s\n", nodeList.at(iDx).attributes().namedItem("server").nodeValue().toAscii().constData());
+                   fprintf(stderr, "device = %s\n", nodeList.at(iDx).attributes().namedItem("device").nodeValue().toAscii().constData());
+                   fprintf(stderr, "attribute = %s\n", nodeList.at(iDx).attributes().namedItem("attribute").nodeValue().toAscii().constData());
                    w.tangoDev->tlServer->setText(QString(nodeList.at(iDx).attributes().namedItem("server").nodeValue()));
                    w.tangoDev->tlDevice->setText(QString(nodeList.at(iDx).attributes().namedItem("device").nodeValue()));
                    w.tangoDev->tlAttr->setText(QString(nodeList.at(iDx).attributes().namedItem("attribute").nodeValue()));
@@ -123,8 +123,9 @@ int main(int argc, char *argv[])
         }
     }
     else {   // with options
-        bool fromFile = false;
+        bool fromFile = false;          //is Info from a xml file
         w.setTangoDevice();             //init rows for tango properties
+        QStringList tangoCommands;
         while (next_option != -1){      //if no options
             switch(next_option){
             case 'h':{      //help
@@ -149,7 +150,7 @@ int main(int argc, char *argv[])
                 fprintf(stderr, "Opening File\n");
                 QDomDocument *doc = new QDomDocument();
                 QFile *file = new QFile();
-                fprintf(stderr, "%s\n", optarg);
+                fprintf(stderr, "FileName is %s\n", optarg);
                 file->setFileName(QString(optarg));
                 if (!file->open(QIODevice::ReadOnly)){
                     fprintf(stderr, "FILE wasnot open\n");
@@ -168,10 +169,10 @@ int main(int argc, char *argv[])
                 {
                    int iDx;
                    for(iDx = 0;iDx < nodeList.count(); iDx++){
-                       fprintf(stderr, "%d\n", iDx);
-                       fprintf(stderr, "%s\n", nodeList.at(iDx).attributes().namedItem("server").nodeValue().toAscii().constData());
-                       fprintf(stderr, "%s\n", nodeList.at(iDx).attributes().namedItem("device").nodeValue().toAscii().constData());
-                       fprintf(stderr, "%s\n", nodeList.at(iDx).attributes().namedItem("attribute").nodeValue().toAscii().constData());
+                       fprintf(stderr, "---%d\n", iDx);
+                       fprintf(stderr, "server = %s\n", nodeList.at(iDx).attributes().namedItem("server").nodeValue().toAscii().constData());
+                       fprintf(stderr, "device = %s\n", nodeList.at(iDx).attributes().namedItem("device").nodeValue().toAscii().constData());
+                       fprintf(stderr, "attribute = %s\n", nodeList.at(iDx).attributes().namedItem("attribute").nodeValue().toAscii().constData());
                        w.tangoDev->tlServer->setText(QString(nodeList.at(iDx).attributes().namedItem("server").nodeValue()));
                        w.tangoDev->tlDevice->setText(QString(nodeList.at(iDx).attributes().namedItem("device").nodeValue()));
                        w.tangoDev->tlAttr->setText(QString(nodeList.at(iDx).attributes().namedItem("attribute").nodeValue()));
@@ -181,7 +182,7 @@ int main(int argc, char *argv[])
                 }
             }break;
             case 'c':{
-                w.tangoCommands<<QString(optarg);
+                tangoCommands<<QString(optarg);
             }break;
             case '?':{  //unknown symbol
                 print_usage(stderr, 1);}
@@ -196,11 +197,17 @@ int main(int argc, char *argv[])
         if(!fromFile){
             int i;
             if (w.tangoDev->tlServer->text() != "" && w.tangoDev->tlDevice->text() != "" && w.tangoDev->tlAttr->text() != ""){
-            for(i=0; i<w.tangoCommands.count(); i++){
-                fprintf(stderr, "Command: %s\n", w.tangoCommands.at(i).toAscii().constData());
-
-           }
-            w.changeDevice();   //exec tango device
+                QString s;
+                s =     (QString)"\/\/" + w.tangoDev->tlServer->text() +
+                        (QString)"\/" + w.tangoDev->tlDevice->text();
+                Tango::DeviceProxy *dev = new Tango::DeviceProxy();
+                *dev = w.addDevice(s);
+                for(i=0; i<tangoCommands.count(); i++){
+                    fprintf(stderr, "Command: %s\n", tangoCommands.at(i).toAscii().constData());
+                    w.sendTangoCommand(dev, tangoCommands.at(i));
+                }
+                delete dev;
+                w.changeDevice();   //exec tango device
             }
             else{
                 fprintf(stderr, "Put server, device, attribute info about tango device\n");

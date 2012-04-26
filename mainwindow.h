@@ -31,6 +31,7 @@ public:
     MainWindow *parent;
     QWidget *centralWidget;
     CommandLine(MainWindow *main);
+    CommandLine();
     QLabel *lbCommand;
     QLineEdit *tlCommand;
     QPushButton *btSend;
@@ -45,6 +46,7 @@ class TangoProperties : public QWidget{
     Q_OBJECT
 public:
     TangoProperties(MainWindow *main);
+    TangoProperties();
     ~TangoProperties();
     MainWindow *parent;
     QWidget *centralWidget;
@@ -119,6 +121,11 @@ public:
     int curDev;                         //const //current realtime subwindow
     int curImg;                         //current snapshot subwindow
     int countImg;                       //count of snapshot subwindows
+
+    double delim;                       //need in choosing different color format
+    QString colorFormat;
+    int intColorFormat;
+
     QMdiArea* area;                     //area for displaying subwindows
     SubWindow *subWin;                  //realtime subwindow
     bool firstTime;                     //is it first time showed realtime subwindow
@@ -143,10 +150,10 @@ public:
     QAction *saveSnapshot;              //Save current snapshot
     QAction *scaleSnapshot;             //scale current snapshot  //not used
 
-    QStringList tangoCommands;
+
 public:
     Ui::MainWindow *ui;
-    void addDevice(QString s);          //Set Tango device
+    Tango::DeviceProxy addDevice(QString s);          //Set Tango device
     void tangoDeviceWin();
 public slots:
     void openDevInNewProc();            //Start Tango device in new process
@@ -161,11 +168,13 @@ public slots:
     void contextMenuEvent(QContextMenuEvent *event);
     void setRealtimeScale();            //set Realtime Scale
     void setSnapshotScale();            //set Snapshot Scale
-    void sendTangoCommand();            //Send a tango command to current tango device
+    void sendTangoCommand(Tango::DeviceProxy *, QString);            //Send a tango command to current tango device
+    void sendTangoCommandSLOT();
     void setTangoCommand();             //Set a tango command to current tango device
     void saveImg();
     void setTangoDevice();
     void setNewTangoDevice();
+    void changeColorFormat(int);
 };
 
 

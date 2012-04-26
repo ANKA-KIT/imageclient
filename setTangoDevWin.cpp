@@ -59,6 +59,7 @@ TangoProperties::TangoProperties(MainWindow *main){
 
 //Destructor of TangoProperties
 TangoProperties::~TangoProperties(){
+    fprintf(stderr, "in TangoProperties destructor");
     delete tlAttr;
     delete tlDevice;
     delete tlServer;
@@ -70,4 +71,5 @@ TangoProperties::~TangoProperties(){
 
 void TangoProperties::cancel(){
     this->close();
+    delete this;
 }

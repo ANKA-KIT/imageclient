@@ -31,10 +31,13 @@ Tango::DeviceAttribute setTangoAttr(Tango::DeviceProxy &device, QString attrName
 }
 
 //set tango device
-void MainWindow::addDevice(QString s){
+Tango::DeviceProxy MainWindow::addDevice(QString s){
     fprintf(stderr,"Set Tango device %s\n", s.toAscii().constData());
     try{
-        *subWin[countDev].device = Tango::DeviceProxy(s.toAscii().constData());
+        Tango::DeviceProxy dev;
+        //*subWin[countDev].device
+        dev = Tango::DeviceProxy(s.toAscii().constData());
+        return dev;
     }
     catch(Tango::WrongNameSyntax e){
         fprintf(stderr,"Wrong Name Syntax of Tango Server\n");
@@ -91,7 +94,7 @@ void MainWindow::startTesting(){    ///need in remaning!!!!!!
 
     subWin[local].dimX = attr.get_dim_x();
     subWin[local].dimY = attr.get_dim_y();
-    subWin[countDev].resize(subWin[local].dimX/4, subWin[local].dimY);
+    subWin[countDev].resize(subWin[local].dimX/delim, subWin[local].dimY);
     //////////////////////////////////////////////////////
 
     while(subWin[local].work){
@@ -102,19 +105,19 @@ void MainWindow::startTesting(){    ///need in remaning!!!!!!
         setUCharVal(attr, subWin[local].val);
         if (subWin[local].scale == 1.0){       //need in scaling???
                 *subWin[local].img = QImage(&subWin[local].val[0],
-                                                    attr.get_dim_x()/4,
+                                                    attr.get_dim_x()/delim,
                                                     attr.get_dim_y(),
                                                     attr.get_dim_x(),
-                                                    QImage::Format_RGB32);
-                subWin[local].wgt->resize(attr.get_dim_x()/4, attr.get_dim_y());
+                                                    (QImage::Format )intColorFormat);
+                subWin[local].wgt->resize(attr.get_dim_x()/delim, attr.get_dim_y());
             }
         else{
                 *subWin[local].img = scaleImage(QImage(&subWin[local].val[0],
-                                                                    attr.get_dim_x()/4,
+                                                                    attr.get_dim_x()/delim,
                                                                     attr.get_dim_y(),
                                                                     attr.get_dim_x(),
-                                                                   QImage::Format_RGB32));
-                subWin[local].wgt->resize((attr.get_dim_x()/4) * subWin[local].scale,
+                                                                    (QImage::Format)intColorFormat));
+                subWin[local].wgt->resize((attr.get_dim_x()/delim) * subWin[local].scale,
                                                   attr.get_dim_y() * subWin[local].scale);
             }
         pal.setBrush(subWin[local].wgt->backgroundRole(), QBrush(*subWin[local].img));
@@ -139,7 +142,7 @@ void MainWindow::changeDevice(){
     s =     (QString)"\/\/" + this->tangoDev->tlServer->text() +
             (QString)"\/" + tangoDev->tlDevice->text();
     fprintf(stderr,"!_%s_!\n", s.toAscii().constData());
-    addDevice(s);
+    *subWin[countDev].device = addDevice(s);
     subWin[countDev].scrollArea->setWidget(subWin[countDev].wgt);
     subWin[countDev].scrollArea->move(100,100);
     subWin[countDev].scrollArea->resize(400, 300);

@@ -33,9 +33,11 @@ CommandLine::CommandLine(MainWindow *main){
 
 void CommandLine::cancel(){
     this->close();
+    delete this;
 }
 
 CommandLine::~CommandLine(){
+    fprintf(stderr, "in CommandLine destructor");
     delete lbCommand;
     delete tlCommand;
     delete btSend;

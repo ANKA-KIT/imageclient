@@ -44,9 +44,8 @@ void MainWindow::saveImg(){
     if(filename != ""){
         QString f = QString("./") + filename.split("\/").last() +
                 QString(".") + selectedFilter.split("(").takeFirst().toLower();
-        fprintf(stderr, "%s\n",  selectedFilter.split("(").takeFirst().toLower().toAscii().constData());
-        subWinSnapPointer->img->save(f,
-                                          selectedFilter.split("(").takeFirst().toAscii().constData());
+        fprintf(stderr, "save Format %s\n",  selectedFilter.split("(").takeFirst().toLower().toAscii().constData());
+        subWinSnapPointer->img->save(f, selectedFilter.split("(").takeFirst().toAscii().constData());
         fprintf(stderr, "Save an Image\n");
     }
     else
@@ -61,7 +60,6 @@ void MainWindow::mkSnapshot(){
     ui->btScaleSnapshot->setEnabled(true);
 
     QPalette pal;
-    vector <unsigned char> val(subWin[curDev].val.size()); //image data
     SubWindow *tempSubWinSnapPointer = new SubWindow();
     tempSubWinSnapPointer->setAttribute(Qt::WA_DeleteOnClose);
     QObject::connect(tempSubWinSnapPointer,SIGNAL(windowStateChanged(Qt::WindowStates,Qt::WindowStates )),
@@ -76,7 +74,7 @@ void MainWindow::mkSnapshot(){
     tempSubWinSnapPointer->numOfWin = 1+countImg;
     pal.setBrush(tempSubWinSnapPointer->wgt->backgroundRole(), QBrush( *tempSubWinSnapPointer->img));
     tempSubWinSnapPointer->wgt->setPalette(pal);
-    tempSubWinSnapPointer->wgt->resize(subWin[curDev].dimX/4, subWin[curDev].dimY);
+    tempSubWinSnapPointer->wgt->resize(subWin[curDev].dimX/delim, subWin[curDev].dimY);
 
     tempSubWinSnapPointer->scrollArea->move(100,100);
     tempSubWinSnapPointer->scrollArea->resize(100, 100);
@@ -93,6 +91,5 @@ void MainWindow::mkSnapshot(){
     area->addSubWindow(tempSubWinSnapPointer);
     area->show();
 
-    val.erase(val.begin(), val.end());
     countImg++;
 }

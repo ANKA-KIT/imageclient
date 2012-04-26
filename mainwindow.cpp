@@ -17,34 +17,67 @@ void MainWindow::contextMenuEvent(QContextMenuEvent *event)
 //Destructor of mainwindow
 MainWindow::~MainWindow()
 {
-    delete subWin;
+    fprintf(stderr,"---!_in mainwinDestructor\n");
+//    delete subWin;
+fprintf(stderr,"---!\n");
+       delete setDevice;                 //set for current app tango device
+        delete addNewDevice;              //set tango device in new app
+        delete pushCommand;               //set tango command
+        delete exitAct;                   //Stop app
+
+        delete makeSnapshot;              //Make snapshot
+        delete saveSnapshot;              //Save current snapshot
+ //      delete scaleSnapshot;
+
+    delete snapshot;
+    delete server;
+
     delete area;
+    fprintf(stderr,"---!\n");
+ //   delete cmdTangoLine;
+ //   delete tangoDev;
     delete ui;
+    fprintf(stderr,"---!_Delete Mainwin in   destructor_!\n");
 }
 
 //Destructor of subwindow
 SubWindow::~SubWindow(){
-//    delete attr;
     delete device;
     delete img;
     delete wgt;
     delete scrollArea;
-    fprintf(stderr,"\n!_Delete SubWin in   destructor_!");
+    fprintf(stderr,"---!_Delete SubWin in   destructor_!\n");
+
 }
+
+CommandLine::CommandLine(){}
+TangoProperties::TangoProperties(){}
 
 //on close mainwindow
 void MainWindow::closeEvent ( QCloseEvent * closeEvent){
-    if  (subWin[0].isActiveWindow())
+    subWin->setAttribute(Qt::WA_DeleteOnClose);
+    if  (subWin[0].work){//subWin[0].isActiveWindow()){// isActiveWindow())//isHidden()
       subWin[0].close();
+    }
+    fprintf(stderr,"is_SubWin_ActiveWindow: %d\n", subWin[0].isActiveWindow());
+    this->~MainWindow();        ///????????????????????????
+    exit(0); /////////why app don't stop without this command?????????
 }
 
 
 void MainWindow::setTangoCommand(){
+   // delete cmdTangoLine;
     cmdTangoLine = new CommandLine(this);
     cmdTangoLine->setWindowModality(Qt::ApplicationModal);
     QObject::connect(cmdTangoLine->btCancel, SIGNAL(clicked()), cmdTangoLine, SLOT(cancel()));
-    QObject::connect(cmdTangoLine->btSend, SIGNAL(clicked()), this, SLOT(sendTangoCommand()));
+    QObject::connect(cmdTangoLine->btSend, SIGNAL(clicked()), this, SLOT(sendTangoCommandSLOT()));
     cmdTangoLine->show();
+}
+
+void MainWindow::sendTangoCommandSLOT(){
+    sendTangoCommand(subWin[curDev].device, cmdTangoLine->tlCommand->text());
+    cmdTangoLine->close();
+    delete cmdTangoLine;
 }
 
 //start window Tango device property
@@ -56,6 +89,7 @@ void MainWindow::setTangoDevice(){ ///use one more slot!!!!!!
 }
 
 void MainWindow::tangoDeviceWin(){
+   // delete tangoDev;
     tangoDev = new TangoProperties(this);
     tangoDev->setWindowModality(Qt::ApplicationModal);
     QObject::connect(tangoDev->btCancel, SIGNAL(clicked()), tangoDev, SLOT(cancel()));
@@ -98,13 +132,34 @@ MainWindow::MainWindow(QWidget *parent) :
 
     QObject::connect(subWin,SIGNAL(windowStateChanged(Qt::WindowStates,Qt::WindowStates )),
                      subWin,SLOT(handleWindowStateChanged(Qt::WindowStates,Qt::WindowStates)));
+
+    QStringList ls;
+    ls  <<"QImage::Format_Indexed8"
+        <<"QImage::Format_RGB32"
+        <<"QImage::Format_ARGB32"
+        <<"QImage::Format_ARGB32_Premultiplied"
+        <<"QImage::Format_RGB16"
+        <<"QImage::Format_ARGB8565_Premultiplied"
+        <<"QImage::Format_RGB666"
+        <<"QImage::Format_ARGB6666_Premultiplied"
+        <<"QImage::Format_RGB555"
+        <<"QImage::Format_ARGB8555_Premultiplied"
+        <<"QImage::Format_RGB888"
+        <<"QImage::Format_RGB444"
+        <<"QImage::Format_ARGB4444_Premultiplied";
+    colorFormat = "QImage::Format_RGB32";
+    intColorFormat = QImage::Format_RGB32;//4;
+    delim = 4;
+    ui->cmbColorFormat->addItems(ls);
+    ui->cmbColorFormat->setCurrentIndex(1); //value QImage::Format_RGB32
+    QObject::connect(ui->cmbColorFormat, SIGNAL(currentIndexChanged(int)), this, SLOT(changeColorFormat(int)));
+    tangoDev = new TangoProperties(this);
+    cmdTangoLine = new CommandLine(this);
 }
 
 //Constructor of subwindow  //overloaded
 SubWindow::SubWindow(QWidget *parent, Qt::WindowFlags flags)
 {
- //   attr = new Tango::DeviceAttribute();
-
     device = new  Tango::DeviceProxy();
     wgt = new ImageWidget();
     scrollArea = new QScrollArea();
@@ -124,9 +179,9 @@ SubWindow::SubWindow(QWidget *parent, Qt::WindowFlags flags)
     SLOT(handleWindowStateChanged(Qt::WindowStates,Qt::WindowStates )));
 }
 
-void MainWindow::sendTangoCommand(){
+void MainWindow::sendTangoCommand(Tango::DeviceProxy *device, QString command){
     try{
-    subWin[curDev].device->command_inout(cmdTangoLine->tlCommand->text().toAscii().constData());
+            device->command_inout(command.toAscii().constData());
     }
     catch(Tango::ConnectionFailed){
           fprintf(stderr, "ConnectionFailed while send tango command to %s\n", subWin[curDev].device->name().c_str());
@@ -140,7 +195,6 @@ void MainWindow::sendTangoCommand(){
          fprintf(stderr, "DevFailed while send tango command to %s", subWin[curDev].device->name().c_str());
          exit(1);
     }
-    cmdTangoLine->close();
 }
 
 //On Subwindow state changing
@@ -226,6 +280,7 @@ void SubWindow::closeEvent ( QCloseEvent * closeEvent ){
     fprintf(stderr, "Del subWin\n");
     if (!isSnapshot){
         work = false;  //stop reading tango device       //it is not delete realtime subwindow!!!!!!OK!!!!!!!
+        fprintf(stderr, "Work is %d\n", isSnapshot);
         parent->ui->btChangeDevice->setEnabled(true);
         parent->ui->btMkSnapshot->setEnabled(false);
 
@@ -233,6 +288,7 @@ void SubWindow::closeEvent ( QCloseEvent * closeEvent ){
         parent->ui->btScaleRealTime->setEnabled(false);
         parent->setDevice->setEnabled(true);
         parent->pushCommand->setEnabled(false);
+
     }
     else{
         QList<SubWindow*>::iterator iter;
@@ -254,6 +310,29 @@ void SubWindow::closeEvent ( QCloseEvent * closeEvent ){
     }
 }
 
+void MainWindow::changeColorFormat(int format){
+    intColorFormat = format+3;
+    switch(intColorFormat){
+    case QImage::Format_RGB32:
+    case QImage::Format_ARGB32:
+    case QImage::Format_ARGB32_Premultiplied:
+        delim = 4; break;
+    case QImage::Format_RGB666:
+    case QImage::Format_ARGB6666_Premultiplied:
+    case QImage::Format_ARGB8555_Premultiplied:
+    case QImage::Format_RGB888:
+    case QImage::Format_ARGB8565_Premultiplied:
+        delim = 3; break;
+    case QImage::Format_RGB16:
+    case QImage::Format_RGB555:
+    case QImage::Format_RGB444:
+    case QImage::Format_ARGB4444_Premultiplied:
+        delim = 2; break;
+    case QImage::Format_Indexed8:
+        delim = 1; break;
+    }
+}
+
 //open new device
 void MainWindow::openDevInNewProc(){
     QProcess::startDetached("./TestApp",
@@ -261,4 +340,5 @@ void MainWindow::openDevInNewProc(){
                                 << this->tangoDev->tlDevice->text()
                                 << this->tangoDev->tlAttr->text(), "./");
     tangoDev->close();
+    delete tangoDev;
 }
