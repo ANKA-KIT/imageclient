@@ -8,6 +8,130 @@
 #include <QTime>
 #include <QPainter>
 
+//#include "changeBrightness.h"
+
+#include <QImage>
+#include "math.h"
+
+///////////http://www.qtforum.org/article/26907/contrast-transparency-brightness.html////////////////////////
+template<class T>
+inline const T& kClamp( const T& x, const T& low, const T& high )
+{
+    if ( x < low )       return low;
+    else if ( high < x ) return high;
+    else                 return x;
+}
+
+inline
+int changeBrightness( int value, int brightness )
+    {
+    return kClamp( value + brightness * 255 / 100, 0, 255 );
+    }
+
+inline
+int changeContrast( int value, int contrast )
+    {
+    return kClamp((( value - 127 ) * contrast / 100 ) + 127, 0, 255 );
+    }
+
+inline
+int changeGamma( int value, int gamma )
+    {
+    return kClamp( int( pow( value / 255.0, 100.0 / gamma ) * 255 ), 0, 255 );
+    }
+
+inline
+int changeUsingTable( int value, const int table[] )
+    {
+    return table[ value ];
+    }
+
+template< int operation( int, int ) >
+static
+QImage changeImage( const QImage& image, int value )
+    {
+    QImage im = image;
+    im.detach();
+    if( im.numColors() == 0 ) /* truecolor */
+        {
+        if( im.format() != QImage::Format_RGB32 ) /* just in case */
+            im = im.convertToFormat( QImage::Format_RGB32 );
+        int table[ 256 ];
+        for( int i = 0;
+             i < 256;
+             ++i )
+            table[ i ] = operation( i, value );
+        if( im.hasAlphaChannel() )
+            {
+            for( int y = 0;
+                 y < im.height();
+                 ++y )
+                {
+                QRgb* line = reinterpret_cast< QRgb* >( im.scanLine( y ));
+                for( int x = 0;
+                     x < im.width();
+                     ++x )
+                    line[ x ] = qRgba( changeUsingTable( qRed( line[ x ] ), table ),
+                        changeUsingTable( qGreen( line[ x ] ), table ),
+                        changeUsingTable( qBlue( line[ x ] ), table ),
+                        changeUsingTable( qAlpha( line[ x ] ), table ));
+                }
+            }
+        else
+            {
+            for( int y = 0;
+                 y < im.height();
+                 ++y )
+                {
+                QRgb* line = reinterpret_cast< QRgb* >( im.scanLine( y ));
+                for( int x = 0;
+                     x < im.width();
+                     ++x )
+                    line[ x ] = qRgb( changeUsingTable( qRed( line[ x ] ), table ),
+                        changeUsingTable( qGreen( line[ x ] ), table ),
+                        changeUsingTable( qBlue( line[ x ] ), table ));
+                }
+            }
+        }
+    else
+        {
+        QVector<QRgb> colors = im.colorTable();
+        for( int i = 0;
+             i < im.numColors();
+             ++i )
+            colors[ i ] = qRgb( operation( qRed( colors[ i ] ), value ),
+                operation( qGreen( colors[ i ] ), value ),
+                operation( qBlue( colors[ i ] ), value ));
+        }
+    return im;
+    }
+
+// brightness is multiplied by 100 in order to avoid floating point numbers
+QImage changeBrightness( const QImage& image, int brightness )
+    {
+    if( brightness == 0 ) // no change
+        return image;
+    return changeImage< changeBrightness >( image, brightness );
+    }
+
+
+// contrast is multiplied by 100 in order to avoid floating point numbers
+QImage changeContrast( const QImage& image, int contrast )
+    {
+    if( contrast == 100 ) // no change
+        return image;
+    return changeImage< changeContrast >( image, contrast );
+    }
+
+// gamma is multiplied by 100 in order to avoid floating point numbers
+QImage changeGamma( const QImage& image, int gamma )
+    {
+    if( gamma == 100 ) // no change
+        return image;
+    return changeImage< changeGamma >( image, gamma );
+    }
+
+
 //
 void MainWindow::contextMenuEvent(QContextMenuEvent *event)
 {
@@ -121,12 +245,37 @@ void ImageWidget::setParent(MainWindow *p){
     parent = p;
 }
 
+int MainWindow::isWork(int status){
+    enum statusOfWork{DevNotSet = 1, Work = 0, Error = 2};
+//    QPalette pal;
+    switch(status){
+        case Work:{
+           // pal.setColor(this->ui->lbWork->backgroundRole(), QColor().green());
+            ui->lbWork->setText("Work");
+            return (int)QColor().green();//pal;
+        }break;
+        case DevNotSet:{
+            //pal.setColor(this->ui->lbWork->backgroundRole(), QColor().red());
+            ui->lbWork->setText("NOT WORK");
+            fprintf(stderr, "set LbWork %d\n", Qt::red);
+            return Qt::red;//pal;
+        }break;
+        case Error:{
+           // pal.setColor(this->ui->lbWork->backgroundRole(), QColor().red());
+            ui->lbWork->setText("NOT WORK");
+            return QColor().red();//pal;
+        }break;
+    default: return Qt::red;//{pal.setColor(this->ui->lbWork->backgroundRole(), QColor().blue()); return pal;}
+    }
+}
+
 //Constructor of main window
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+
     countDev = 0;   //const  1 realtime SubWin
     curDev = 0;     //const  1 realtime SubWin
     countImg = 0;
@@ -141,6 +290,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->btWriteImg->setEnabled(false);
     ui->btScaleRealTime->setEnabled(false);
     ui->btScaleSnapshot->setEnabled(false);
+    ui->btChangeBrightness->setEnabled(false);
 
     QObject::connect(subWin,SIGNAL(windowStateChanged(Qt::WindowStates,Qt::WindowStates )),
                      subWin,SLOT(handleWindowStateChanged(Qt::WindowStates,Qt::WindowStates)));
@@ -159,14 +309,33 @@ MainWindow::MainWindow(QWidget *parent) :
         <<"QImage::Format_RGB888"
         <<"QImage::Format_RGB444"
         <<"QImage::Format_ARGB4444_Premultiplied";
+    QStringList lsGrad;
+    lsGrad << "0"<<"90"<<"180"<<"270"
+           <<"-90"<<"-180"<<"-270";
     colorFormat = "QImage::Format_RGB32";
     intColorFormat = QImage::Format_RGB32;//4;
     delim = 4;
     ui->cmbColorFormat->addItems(ls);
+    ui->cmbRotate->addItems(lsGrad);
+    ui->cmbRotate->setCurrentIndex(0);      //0
     ui->cmbColorFormat->setCurrentIndex(1); //value QImage::Format_RGB32
     QObject::connect(ui->cmbColorFormat, SIGNAL(currentIndexChanged(int)), this, SLOT(changeColorFormat(int)));
-//    tangoDev = new TangoProperties(this);
-//    cmdTangoLine = new CommandLine(this);
+    ui->cmbRotate->setVisible(false);
+    QObject::connect(ui->cmbRotate, SIGNAL(currentIndexChanged(int)), this, SLOT(rotateImg(int)));
+
+    ui->lbWork->setAutoFillBackground(true);
+  //  ui->lbWork->setPalette(isWork(1));
+//    QPalette pal;
+//    pal.setColor(this->ui->lbWork->backgroundRole(), QColor().green());
+//    int temp = isWork(1);
+//    fprintf(stderr, "set LbWork %d\n", temp);
+    ui->lbWork->setPalette(QPalette(Qt::red));//Qt::red
+
+    /*Tango::DeviceProxy *dev = new Tango::DeviceProxy();
+    *dev = w.addDevice(s);
+    Tango::DeviceAttribute attrib;
+    delete dev;
+    */
 }
 
 //Constructor of subwindow  //overloaded
@@ -188,7 +357,7 @@ SubWindow::SubWindow(QWidget *parent, Qt::WindowFlags flags)
     this->setAutoFillBackground(true);
 
     QObject::connect(this,SIGNAL(windowStateChanged(Qt::WindowStates,Qt::WindowStates )),this,
-    SLOT(handleWindowStateChanged(Qt::WindowStates,Qt::WindowStates )));
+                    SLOT(handleWindowStateChanged(Qt::WindowStates,Qt::WindowStates )));
 }
 
 void MainWindow::sendTangoCommand(Tango::DeviceProxy *device, QString command){
@@ -236,6 +405,8 @@ void SubWindow::handleWindowStateChanged(Qt::WindowStates oldState, Qt::WindowSt
                     parent->ui->btWriteImg->setEnabled(true);
                     parent->saveSnapshot->setEnabled(true);
                     parent->ui->btScaleSnapshot->setEnabled(true);
+                    parent->ui->btChangeBrightness->setEnabled(true);
+
                     parent->snapshot->setEnabled(true);
 
                    // QObject::connect(parent->saveSnapshot, SIGNAL(triggered()), this, SLOT(saveImg()));
@@ -316,6 +487,8 @@ void SubWindow::closeEvent ( QCloseEvent * closeEvent ){
                 parent->saveSnapshot->setEnabled(false);
 
                 parent->ui->btScaleSnapshot->setEnabled(false);
+                parent->ui->btChangeBrightness->setEnabled(false);
+
                 break;
             }
         }
@@ -353,4 +526,40 @@ void MainWindow::openDevInNewProc(){
                                 << this->tangoDev->tlAttr->text(), "./");
     tangoDev->close();
     delete tangoDev;
+}
+
+
+void MainWindow::changeBrightnessSnapshot(){
+    bool ok = true;
+    int temp;
+    temp = ui->tlBrightness->text().toInt(&ok); //Ok??????
+    if (ok){
+        subWinSnapPointer->wgt->hide();
+        QImage tempImg;
+        QPalette pal;
+        tempImg = changeBrightness(*subWinSnapPointer->img, temp);
+        pal.setBrush(subWinSnapPointer->wgt->backgroundRole(), QBrush(tempImg));
+        subWinSnapPointer->wgt->setPalette(pal);
+        subWinSnapPointer->wgt->resize(subWinSnapPointer->img->width(), subWinSnapPointer->img->height());
+        subWinSnapPointer->wgt->show();
+    }
+    else{
+        fprintf(stderr, "Check brightness value!! \n");
+        exit(1);
+    }
+}
+
+void MainWindow::rotateImg(int deg){
+    //QPainter p( this );
+    QMatrix mat = QMatrix().scale(-0.5, 0.5);//rotate( deg );
+    subWinSnapPointer->wgt->hide();
+    QImage tempImg;
+    QPalette pal;
+    tempImg = subWinSnapPointer->img->transformed(mat);
+    pal.setBrush(subWinSnapPointer->wgt->backgroundRole(), QBrush(tempImg));
+    subWinSnapPointer->wgt->setPalette(pal);
+    subWinSnapPointer->wgt->resize(subWinSnapPointer->img->width(), subWinSnapPointer->img->height());
+    subWinSnapPointer->wgt->show();
+  //  p.setMatrix( mat );
+    //p.drawImage( im.rect(), im, im.rect() );
 }

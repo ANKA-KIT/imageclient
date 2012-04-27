@@ -8,9 +8,23 @@ void setUCharVal(Tango::DeviceAttribute attr, vector <unsigned char>& val){
     }
     catch(Tango::DevFailed){
          fprintf(stderr, "Dev Failed while reading attribute\n");
+         //ui->lbWork->setPalette(isWork(2));
          exit(1);
     }
 }
+
+void setBoolVal(Tango::DeviceAttribute attr, bool& val){
+    try{
+        attr>>val;
+        fprintf(stderr, "Bool Val = %d\n", val);
+    }
+    catch(Tango::DevFailed){
+         fprintf(stderr, "Dev Failed while reading attribute\n");
+         //ui->lbWork->setPalette(isWork(2));
+         exit(1);
+    }
+}
+
 
 //Set Tango attr
 Tango::DeviceAttribute setTangoAttr(Tango::DeviceProxy &device, QString attrName){
@@ -21,10 +35,12 @@ Tango::DeviceAttribute setTangoAttr(Tango::DeviceProxy &device, QString attrName
     }
     catch(Tango::ConnectionFailed){
           fprintf(stderr, "ConnectionFailed while reading attribute\n");
+        //  ui->lbWork->setPalette(isWork(2));
           exit(1);
     }
     catch(Tango::WrongData){
           fprintf(stderr, "Wrong Data while reading attribute\n");
+         // ui->lbWork->setPalette(isWork(2));
           exit(1);
     }
 
@@ -41,14 +57,23 @@ Tango::DeviceProxy MainWindow::addDevice(QString s){
     }
     catch(Tango::WrongNameSyntax e){
         fprintf(stderr,"Wrong Name Syntax of Tango Server\n");
+     //   ui->lbWork->setPalette(QPalette( isWork(2)));
+        ui->lbWork->setText("NOT WORK");
+        ui->lbWork->setPalette(QPalette(Qt::darkRed));
         exit(1);
     }
     catch(Tango::ConnectionFailed e){
         fprintf(stderr,"Connection Failed with Tango Server\n");
+        //ui->lbWork->setPalette(QPalette( isWork(2)));
+        ui->lbWork->setText("NOT WORK");
+        ui->lbWork->setPalette(QPalette(Qt::darkRed));
         exit(1);
     }
     catch(Tango::DevFailed e){
             fprintf(stderr,"Is Failed Connection with Tango Server \n Check the name of TangoServer \n");
+            //ui->lbWork->setPalette(QPalette( isWork(2)));
+            ui->lbWork->setText("NOT WORK");
+            ui->lbWork->setPalette(QPalette(Qt::darkRed));
             exit(1);
     }
 }
@@ -64,6 +89,9 @@ void MainWindow::setRealtimeScale(){
     }
     else{
         fprintf(stderr, "Put correct number to the RealTime scale line");
+        ui->lbWork->setText("NOT WORK");
+        ui->lbWork->setPalette(QPalette(Qt::darkRed));
+        //ui->lbWork->setPalette(QPalette( isWork(2)));
         exit(1);
     }
 }
@@ -98,6 +126,9 @@ void MainWindow::startTesting(){    ///need in remaning!!!!!!
     //////////////////////////////////////////////////////
 
     while(subWin[local].work){
+        ui->lbWork->setText("WORK");
+        ui->lbWork->setPalette(QPalette(Qt::green));
+        //ui->lbWork->setPalette(QPalette( isWork(0)));
         timeReadData.start();
         attr = setTangoAttr(*subWin[local].device, subWin[local].attrName);
         fprintf(stderr,"--Time of--- readingData=%d\n", timeReadData.restart());
@@ -127,6 +158,9 @@ void MainWindow::startTesting(){    ///need in remaning!!!!!!
         subWin[local].repaint();
         QCoreApplication::processEvents(QEventLoop::AllEvents);    //Do System process
     }
+    //ui->lbWork->setPalette(QPalette( isWork(1)));
+    ui->lbWork->setText("NOT WORK");
+    ui->lbWork->setPalette(QPalette(Qt::red));
 }
 
 //Init realtime reading data subwindow
@@ -170,6 +204,17 @@ void MainWindow::changeDevice(){
     makeSnapshot->setEnabled(true);
     setDevice->setEnabled(false);
     pushCommand->setEnabled(true);
+
+/*  Reading FLIP value
+    bool flipHorizontal = true;
+    bool flipVertical = true;
+    setBoolVal(setTangoAttr(*subWin[countDev].device, (QString)"FlipHorizontal"), flipHorizontal);
+    QVariant varValue(flipHorizontal);
+    ui->lbFlipHorizontal->setText("FlipHorizontal " +  varValue.toString());//QString::number(flipHorizontal));
+    setBoolVal(setTangoAttr(*subWin[countDev].device, (QString)"FlipVertical"), flipVertical);
+    QVariant varValueV(flipVertical);
+    ui->lbFlipVertical->setText("FlipVertical " + varValueV.toString());//QString::number(flipVertical));
+*/
 
     tangoDev->close();
     delete tangoDev;

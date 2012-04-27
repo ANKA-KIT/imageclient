@@ -12,7 +12,6 @@
 #include <QtGui>
 #include <QList>
 
-
 namespace Ui {
 class MainWindow;
 }
@@ -152,7 +151,7 @@ public:
     QAction *saveSnapshot;              //Save current snapshot
     QAction *scaleSnapshot;             //scale current snapshot  //not used
 
-
+    int isWork(int);
 public:
     Ui::MainWindow *ui;
     Tango::DeviceProxy addDevice(QString s);          //Set Tango device
@@ -177,6 +176,8 @@ public slots:
     void setTangoDevice();
     void setNewTangoDevice();
     void changeColorFormat(int);
+    void changeBrightnessSnapshot();
+    void rotateImg(int);
 };
 
 

@@ -1,6 +1,10 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
+//#include "changeBrightness.h"
+
+
+
 //set Snapshot Scale value
 void MainWindow::setSnapshotScale(){
     bool ok = true;
@@ -8,6 +12,7 @@ void MainWindow::setSnapshotScale(){
     fprintf(stderr, "Snapshot scaling\n");
         temp = ui->tlScaleSnapshot->text().toDouble(&ok); //Ok??????
         if (ok){
+ //           *subWinSnapPointer->img = changeBrightness(*subWinSnapPointer->img, 10);
             subWinSnapPointer->scale = temp/100.0;
             scaleImage();
             subWinSnapPointer->setWindowTitle(subWinSnapPointer->windowTitle().split("scale").first() + QString("scale ") + ui->tlScaleSnapshot->text());
@@ -58,6 +63,7 @@ void MainWindow::mkSnapshot(){
     ui->btWriteImg->setEnabled(true);
     saveSnapshot->setEnabled(true);
     ui->btScaleSnapshot->setEnabled(true);
+    ui->btChangeBrightness->setEnabled(true);
 
     QPalette pal;
     SubWindow *tempSubWinSnapPointer = new SubWindow();

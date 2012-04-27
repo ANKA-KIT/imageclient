@@ -45,6 +45,7 @@ int main(int argc, char *argv[])
     QObject::connect(w.ui->btScaleRealTime, SIGNAL(clicked()), &w,SLOT(setRealtimeScale()));
     QObject::connect(w.ui->btScaleSnapshot, SIGNAL(clicked()), &w,SLOT(setSnapshotScale()));
     QObject::connect(w.ui->btWriteImg,SIGNAL(clicked()), &w,SLOT(saveImg()));
+    QObject::connect(w.ui->btChangeBrightness,SIGNAL(clicked()), &w,SLOT(changeBrightnessSnapshot()));
 
 
     w.area = new QMdiArea(&w);

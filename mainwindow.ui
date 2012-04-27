@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1254</width>
+    <width>1287</width>
     <height>400</height>
    </rect>
   </property>
@@ -181,13 +181,110 @@
      </rect>
     </property>
    </widget>
+   <widget class="QLabel" name="lbWork">
+    <property name="geometry">
+     <rect>
+      <x>520</x>
+      <y>40</y>
+      <width>71</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="sizePolicy">
+     <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+      <horstretch>0</horstretch>
+      <verstretch>0</verstretch>
+     </sizepolicy>
+    </property>
+    <property name="text">
+     <string>NOT WORK</string>
+    </property>
+    <property name="textFormat">
+     <enum>Qt::PlainText</enum>
+    </property>
+   </widget>
+   <widget class="QLabel" name="lbFlipHorizontal">
+    <property name="geometry">
+     <rect>
+      <x>1130</x>
+      <y>0</y>
+      <width>131</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>FlipHorizontal</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="lbFlipVertical">
+    <property name="geometry">
+     <rect>
+      <x>1130</x>
+      <y>20</y>
+      <width>131</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>FlipVertical</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="lbRotate">
+    <property name="geometry">
+     <rect>
+      <x>900</x>
+      <y>30</y>
+      <width>52</width>
+      <height>14</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Rotate</string>
+    </property>
+   </widget>
+   <widget class="QComboBox" name="cmbRotate">
+    <property name="geometry">
+     <rect>
+      <x>990</x>
+      <y>30</y>
+      <width>81</width>
+      <height>22</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="btChangeBrightness">
+    <property name="geometry">
+     <rect>
+      <x>1120</x>
+      <y>40</y>
+      <width>75</width>
+      <height>24</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Brightness</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="tlBrightness">
+    <property name="geometry">
+     <rect>
+      <x>1200</x>
+      <y>40</y>
+      <width>31</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>-5</string>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1254</width>
+     <width>1287</width>
      <height>24</height>
     </rect>
    </property>
