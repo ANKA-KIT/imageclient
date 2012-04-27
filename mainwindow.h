@@ -39,6 +39,7 @@ public:
     ~CommandLine();
 public slots:
     void cancel();
+    void closeEvent ( QCloseEvent * closeEvent);
 };
 
 /*Tango settings*/
@@ -62,6 +63,7 @@ public:
     QPushButton *btChangeDevice;
 public slots:
     void cancel();
+    void closeEvent ( QCloseEvent * closeEvent);
 };
 
 

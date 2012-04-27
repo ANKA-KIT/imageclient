@@ -33,6 +33,7 @@ int main(int argc, char *argv[])
     enum StartParam {ReadFromFile = 2, LoadOneDevice = 4};
     QApplication a(argc, argv);
     MainWindow w;
+//    w.setAttribute(Qt::WA_DeleteOnClose);
     w.move(0,0);
     //w.device[0] = DeviceProxy("//anka-tango3.ka.fzk.de:10000/sys/tg_test/mytest"); //anka-tango3 //iss-vasilev
 

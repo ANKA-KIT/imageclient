@@ -55,11 +55,12 @@ TangoProperties::TangoProperties(MainWindow *main){
     btNewDev->setText("Start new Dev");
     btChangeDevice->setText("Set Dev");
     btCancel->setText("Cancel");
+    fprintf(stderr, "in TangoProperties constructor\n");
 }
 
 //Destructor of TangoProperties
 TangoProperties::~TangoProperties(){
-    fprintf(stderr, "in TangoProperties destructor");
+    fprintf(stderr, "in TangoProperties destructor\n");
     delete tlAttr;
     delete tlDevice;
     delete tlServer;

@@ -29,6 +29,7 @@ CommandLine::CommandLine(MainWindow *main){
     btSend->setText("Send");
     lbCommand->setText("Command:");
     tlCommand->setText("GeneratingRandomDataImage");
+    fprintf(stderr, "in CommandLine constructor\n");
 }
 
 void CommandLine::cancel(){
@@ -37,7 +38,7 @@ void CommandLine::cancel(){
 }
 
 CommandLine::~CommandLine(){
-    fprintf(stderr, "in CommandLine destructor");
+    fprintf(stderr, "in CommandLine destructor\n");
     delete lbCommand;
     delete tlCommand;
     delete btSend;

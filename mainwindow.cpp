@@ -14,6 +14,14 @@ void MainWindow::contextMenuEvent(QContextMenuEvent *event)
 
 }
 
+void CommandLine::closeEvent ( QCloseEvent * closeEvent){
+    //delete this
+}
+
+void TangoProperties::closeEvent ( QCloseEvent * closeEvent){
+
+}
+
 //Destructor of mainwindow
 MainWindow::~MainWindow()
 {
@@ -46,7 +54,7 @@ SubWindow::~SubWindow(){
     delete img;
     delete wgt;
     delete scrollArea;
-    fprintf(stderr,"---!_Delete SubWin in   destructor_!\n");
+    fprintf(stderr,"---!_Delete SubWin in _ destructor_!\n");
 
 }
 
@@ -57,6 +65,7 @@ TangoProperties::TangoProperties(){}
 void MainWindow::closeEvent ( QCloseEvent * closeEvent){
     subWin->setAttribute(Qt::WA_DeleteOnClose);
     if  (subWin[0].work){//subWin[0].isActiveWindow()){// isActiveWindow())//isHidden()
+
       subWin[0].close();
     }
     fprintf(stderr,"is_SubWin_ActiveWindow: %d\n", subWin[0].isActiveWindow());
@@ -69,6 +78,7 @@ void MainWindow::setTangoCommand(){
    // delete cmdTangoLine;
     cmdTangoLine = new CommandLine(this);
     cmdTangoLine->setWindowModality(Qt::ApplicationModal);
+    cmdTangoLine->setAttribute(Qt::WA_DeleteOnClose);
     QObject::connect(cmdTangoLine->btCancel, SIGNAL(clicked()), cmdTangoLine, SLOT(cancel()));
     QObject::connect(cmdTangoLine->btSend, SIGNAL(clicked()), this, SLOT(sendTangoCommandSLOT()));
     cmdTangoLine->show();
@@ -91,7 +101,8 @@ void MainWindow::setTangoDevice(){ ///use one more slot!!!!!!
 void MainWindow::tangoDeviceWin(){
    // delete tangoDev;
     tangoDev = new TangoProperties(this);
-    tangoDev->setWindowModality(Qt::ApplicationModal);
+    tangoDev->setWindowModality(Qt::ApplicationModal); //WA_DeleteOnClose
+    tangoDev->setAttribute(Qt::WA_DeleteOnClose);
     QObject::connect(tangoDev->btCancel, SIGNAL(clicked()), tangoDev, SLOT(cancel()));
     tangoDev->show();
 }
@@ -123,6 +134,7 @@ MainWindow::MainWindow(QWidget *parent) :
     createActions();
     createMenu();
     subWin = new SubWindow();
+    subWin->work = false;
     firstTime = true;
     ui->btScale->setEnabled(false);
     ui->btMkSnapshot->setEnabled(false);
@@ -153,8 +165,8 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->cmbColorFormat->addItems(ls);
     ui->cmbColorFormat->setCurrentIndex(1); //value QImage::Format_RGB32
     QObject::connect(ui->cmbColorFormat, SIGNAL(currentIndexChanged(int)), this, SLOT(changeColorFormat(int)));
-    tangoDev = new TangoProperties(this);
-    cmdTangoLine = new CommandLine(this);
+//    tangoDev = new TangoProperties(this);
+//    cmdTangoLine = new CommandLine(this);
 }
 
 //Constructor of subwindow  //overloaded

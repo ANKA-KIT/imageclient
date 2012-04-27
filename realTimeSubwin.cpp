@@ -172,6 +172,7 @@ void MainWindow::changeDevice(){
     pushCommand->setEnabled(true);
 
     tangoDev->close();
+    delete tangoDev;
     startTesting();
 }
 
