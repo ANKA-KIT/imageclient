@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1287</width>
+    <width>1390</width>
     <height>400</height>
    </rect>
   </property>
@@ -278,13 +278,33 @@
      <string>-5</string>
     </property>
    </widget>
+   <widget class="QComboBox" name="cmbFlipHor">
+    <property name="geometry">
+     <rect>
+      <x>1320</x>
+      <y>0</y>
+      <width>65</width>
+      <height>22</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QComboBox" name="cmbFlipVer">
+    <property name="geometry">
+     <rect>
+      <x>1320</x>
+      <y>40</y>
+      <width>65</width>
+      <height>22</height>
+     </rect>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1287</width>
+     <width>1390</width>
      <height>24</height>
     </rect>
    </property>

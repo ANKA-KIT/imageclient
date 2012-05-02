@@ -178,6 +178,8 @@ public slots:
     void changeColorFormat(int);
     void changeBrightnessSnapshot();
     void rotateImg(int);
+    void setFlipHor(int);
+    void setFlipVer(int);
 };
 
 

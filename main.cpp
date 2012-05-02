@@ -55,7 +55,7 @@ int main(int argc, char *argv[])
     w.area->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Expanding);
 
 
-    w.resize(1300, 600);
+    w.resize(1500, 600);
     w.show();
 
     /////////////*deal with input options*//////////////

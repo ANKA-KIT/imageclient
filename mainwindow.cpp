@@ -317,12 +317,19 @@ MainWindow::MainWindow(QWidget *parent) :
     delim = 4;
     ui->cmbColorFormat->addItems(ls);
     ui->cmbRotate->addItems(lsGrad);
+    ui->cmbFlipHor->addItems(QStringList()<<"False"<<"True");
+    ui->cmbFlipVer->addItems(QStringList()<<"False"<<"True");
     ui->cmbRotate->setCurrentIndex(0);      //0
-    ui->cmbColorFormat->setCurrentIndex(1); //value QImage::Format_RGB32
+    ui->cmbColorFormat->setCurrentIndex(1); ////value QImage::Format_RGB32
     QObject::connect(ui->cmbColorFormat, SIGNAL(currentIndexChanged(int)), this, SLOT(changeColorFormat(int)));
-    ui->cmbRotate->setVisible(false);
+ /////   ui->cmbRotate->setVisible(false);
     QObject::connect(ui->cmbRotate, SIGNAL(currentIndexChanged(int)), this, SLOT(rotateImg(int)));
+    QObject::connect(ui->cmbFlipHor, SIGNAL(currentIndexChanged(int)), this, SLOT(setFlipHor(int)));
+    QObject::connect(ui->cmbFlipVer, SIGNAL(currentIndexChanged(int)), this, SLOT(setFlipVer(int)));
 
+    ui->cmbRotate->setEnabled(false);
+    ui->cmbFlipHor->setEnabled(false);
+    ui->cmbFlipVer->setEnabled(false);
     ui->lbWork->setAutoFillBackground(true);
   //  ui->lbWork->setPalette(isWork(1));
 //    QPalette pal;
@@ -331,11 +338,6 @@ MainWindow::MainWindow(QWidget *parent) :
 //    fprintf(stderr, "set LbWork %d\n", temp);
     ui->lbWork->setPalette(QPalette(Qt::red));//Qt::red
 
-    /*Tango::DeviceProxy *dev = new Tango::DeviceProxy();
-    *dev = w.addDevice(s);
-    Tango::DeviceAttribute attrib;
-    delete dev;
-    */
 }
 
 //Constructor of subwindow  //overloaded
@@ -358,6 +360,40 @@ SubWindow::SubWindow(QWidget *parent, Qt::WindowFlags flags)
 
     QObject::connect(this,SIGNAL(windowStateChanged(Qt::WindowStates,Qt::WindowStates )),this,
                     SLOT(handleWindowStateChanged(Qt::WindowStates,Qt::WindowStates )));
+}
+
+void MainWindow::setFlipVer(int val){
+    QImage tempImg;
+    QPalette pal;
+    subWinSnapPointer->wgt->hide();
+    if (val){
+        QMatrix mat = QMatrix().scale(-1, 1); // make a horisontal flip
+        tempImg = subWinSnapPointer->img->transformed(mat);
+    }
+    else{
+        tempImg = *subWinSnapPointer->img;
+    }
+    pal.setBrush(subWinSnapPointer->wgt->backgroundRole(), QBrush(tempImg));
+    subWinSnapPointer->wgt->setPalette(pal);
+    subWinSnapPointer->wgt->resize(subWinSnapPointer->img->width(), subWinSnapPointer->img->height());
+    subWinSnapPointer->wgt->show();
+}
+
+void MainWindow::setFlipHor(int val){
+    QImage tempImg;
+    QPalette pal;
+    subWinSnapPointer->wgt->hide();
+    if (val){
+        QMatrix mat = QMatrix().scale(1, -1); // make a vertical flip
+        tempImg = subWinSnapPointer->img->transformed(mat);
+    }
+    else{
+        tempImg = *subWinSnapPointer->img;
+    }
+    pal.setBrush(subWinSnapPointer->wgt->backgroundRole(), QBrush(tempImg));
+    subWinSnapPointer->wgt->setPalette(pal);
+    subWinSnapPointer->wgt->resize(subWinSnapPointer->img->width(), subWinSnapPointer->img->height());
+    subWinSnapPointer->wgt->show();
 }
 
 void MainWindow::sendTangoCommand(Tango::DeviceProxy *device, QString command){
@@ -406,10 +442,12 @@ void SubWindow::handleWindowStateChanged(Qt::WindowStates oldState, Qt::WindowSt
                     parent->saveSnapshot->setEnabled(true);
                     parent->ui->btScaleSnapshot->setEnabled(true);
                     parent->ui->btChangeBrightness->setEnabled(true);
+                    parent->ui->cmbRotate->setEnabled(true);
+                    parent->ui->cmbFlipHor->setEnabled(true);
+                    parent->ui->cmbFlipVer->setEnabled(true);
 
                     parent->snapshot->setEnabled(true);
 
-                   // QObject::connect(parent->saveSnapshot, SIGNAL(triggered()), this, SLOT(saveImg()));
                     break;
                 }
             }
@@ -488,6 +526,9 @@ void SubWindow::closeEvent ( QCloseEvent * closeEvent ){
 
                 parent->ui->btScaleSnapshot->setEnabled(false);
                 parent->ui->btChangeBrightness->setEnabled(false);
+                parent->ui->cmbRotate->setEnabled(false);
+                parent->ui->cmbFlipHor->setEnabled(false);
+                parent->ui->cmbFlipVer->setEnabled(false);
 
                 break;
             }
@@ -550,16 +591,15 @@ void MainWindow::changeBrightnessSnapshot(){
 }
 
 void MainWindow::rotateImg(int deg){
-    //QPainter p( this );
-    QMatrix mat = QMatrix().scale(-0.5, 0.5);//rotate( deg );
+    QTransform mat;
+    mat.rotate(ui->cmbRotate->itemText(deg).toInt());
     subWinSnapPointer->wgt->hide();
     QImage tempImg;
     QPalette pal;
+
     tempImg = subWinSnapPointer->img->transformed(mat);
     pal.setBrush(subWinSnapPointer->wgt->backgroundRole(), QBrush(tempImg));
     subWinSnapPointer->wgt->setPalette(pal);
-    subWinSnapPointer->wgt->resize(subWinSnapPointer->img->width(), subWinSnapPointer->img->height());
+    subWinSnapPointer->wgt->resize(tempImg.width(), tempImg.height());
     subWinSnapPointer->wgt->show();
-  //  p.setMatrix( mat );
-    //p.drawImage( im.rect(), im, im.rect() );
 }

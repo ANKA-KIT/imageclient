@@ -64,6 +64,9 @@ void MainWindow::mkSnapshot(){
     saveSnapshot->setEnabled(true);
     ui->btScaleSnapshot->setEnabled(true);
     ui->btChangeBrightness->setEnabled(true);
+    ui->cmbRotate->setEnabled(true);
+    ui->cmbFlipHor->setEnabled(true);
+    ui->cmbFlipVer->setEnabled(true);
 
     QPalette pal;
     SubWindow *tempSubWinSnapPointer = new SubWindow();

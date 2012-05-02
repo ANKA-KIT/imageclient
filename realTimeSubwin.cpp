@@ -153,7 +153,7 @@ void MainWindow::startTesting(){    ///need in remaning!!!!!!
             }
         pal.setBrush(subWin[local].wgt->backgroundRole(), QBrush(*subWin[local].img));
         subWin[local].wgt->setPalette(pal);
-
+        fprintf(stderr,"x=%d y=%d\n",subWin[local].img->width(), subWin[local].img->height());
         fprintf(stderr,"iter=%d   -----devNum=%d ----- wholeTime=%d\n",iter, local, time.restart());
         subWin[local].repaint();
         QCoreApplication::processEvents(QEventLoop::AllEvents);    //Do System process
