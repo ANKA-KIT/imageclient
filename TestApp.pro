@@ -20,11 +20,13 @@ SOURCES += main.cpp\
     setTangoDevWin.cpp \
     setTangoDevCommandWin.cpp
 
-HEADERS  += mainwindow.h
+HEADERS  += mainwindow.h \
+    enum.h
 
 FORMS    += mainwindow.ui
 
 CONFIG += debug
+
 
 
 

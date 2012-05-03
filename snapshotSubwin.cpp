@@ -1,9 +1,10 @@
+/*
+    Author: Georgii Vasilev
+    Project: Image client
+    Aprel 2012
+*/
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-
-//#include "changeBrightness.h"
-
-
 
 //set Snapshot Scale value
 void MainWindow::setSnapshotScale(){
@@ -12,7 +13,6 @@ void MainWindow::setSnapshotScale(){
     fprintf(stderr, "Snapshot scaling\n");
         temp = ui->tlScaleSnapshot->text().toDouble(&ok); //Ok??????
         if (ok){
- //           *subWinSnapPointer->img = changeBrightness(*subWinSnapPointer->img, 10);
             subWinSnapPointer->scale = temp/100.0;
             scaleImage();
             subWinSnapPointer->setWindowTitle(subWinSnapPointer->windowTitle().split("scale").first() + QString("scale ") + ui->tlScaleSnapshot->text());
@@ -59,14 +59,7 @@ void MainWindow::saveImg(){
 
 //make a snapshot
 void MainWindow::mkSnapshot(){
-    ui->btScale->setEnabled(true);
-    ui->btWriteImg->setEnabled(true);
-    saveSnapshot->setEnabled(true);
-    ui->btScaleSnapshot->setEnabled(true);
-    ui->btChangeBrightness->setEnabled(true);
-    ui->cmbRotate->setEnabled(true);
-    ui->cmbFlipHor->setEnabled(true);
-    ui->cmbFlipVer->setEnabled(true);
+    setEnabledSnapshot(true);
 
     QPalette pal;
     SubWindow *tempSubWinSnapPointer = new SubWindow();
@@ -75,21 +68,21 @@ void MainWindow::mkSnapshot(){
                      tempSubWinSnapPointer,SLOT(handleWindowStateChanged(Qt::WindowStates,Qt::WindowStates )));
     tempSubWinSnapPointer->setParent(this);
     tempSubWinSnapPointer->wgt->setParent(this);
-    *tempSubWinSnapPointer->device = *subWin[curDev].device;
+    *tempSubWinSnapPointer->device = *subWin->device;
     tempSubWinSnapPointer->isSnapshot = true;
-    tempSubWinSnapPointer->scale = subWin[curDev].scale;
-    *tempSubWinSnapPointer->img = *subWin[curDev].img;
+    tempSubWinSnapPointer->scale = subWin->scale;
+    *tempSubWinSnapPointer->img = *subWin->img;
     tempSubWinSnapPointer->scrollArea->setWidget(tempSubWinSnapPointer->wgt);
     tempSubWinSnapPointer->numOfWin = 1+countImg;
     pal.setBrush(tempSubWinSnapPointer->wgt->backgroundRole(), QBrush( *tempSubWinSnapPointer->img));
     tempSubWinSnapPointer->wgt->setPalette(pal);
-    tempSubWinSnapPointer->wgt->resize(subWin[curDev].dimX/delim, subWin[curDev].dimY);
+    tempSubWinSnapPointer->wgt->resize(subWin->dimX/delim, subWin->dimY);
 
     tempSubWinSnapPointer->scrollArea->move(100,100);
     tempSubWinSnapPointer->scrollArea->resize(100, 100);
     tempSubWinSnapPointer->scrollArea->show();
     tempSubWinSnapPointer->setWidget(tempSubWinSnapPointer->scrollArea);
-    tempSubWinSnapPointer->setWindowTitle((QString)"Snapshot of " + subWin[curDev].windowTitle() +
+    tempSubWinSnapPointer->setWindowTitle((QString)"Snapshot of " + subWin->windowTitle() +
                                           (QString)" at " + QTime().currentTime().toString() +
                                           QString(" scale ") + QString().setNum(100));
     tempSubWinSnapPointer->setAttribute(Qt::WA_OpaquePaintEvent);

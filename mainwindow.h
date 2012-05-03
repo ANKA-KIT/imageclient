@@ -11,6 +11,7 @@
 #include <tango.h>
 #include <QtGui>
 #include <QList>
+#include <enum.h>
 
 namespace Ui {
 class MainWindow;
@@ -30,14 +31,16 @@ public:
     MainWindow *parent;
     QWidget *centralWidget;
     CommandLine(MainWindow *main);
-    CommandLine();
     QLabel *lbCommand;
     QLineEdit *tlCommand;
     QPushButton *btSend;
     QPushButton *btCancel;
+    void initButtons();
+    void initText();
+    void initTextLine();
     ~CommandLine();
 public slots:
-    void cancel();
+
     void closeEvent ( QCloseEvent * closeEvent);
 };
 
@@ -46,7 +49,6 @@ class TangoProperties : public QWidget{
     Q_OBJECT
 public:
     TangoProperties(MainWindow *main);
-    TangoProperties();
     ~TangoProperties();
     MainWindow *parent;
     QWidget *centralWidget;
@@ -60,8 +62,11 @@ public:
     QPushButton *btCancel;
     QPushButton *btNewDev;
     QPushButton *btChangeDevice;
+    void initButtons();
+    void initText();
+    void initTextLine();
 public slots:
-    void cancel();
+
     void closeEvent ( QCloseEvent * closeEvent);
 };
 
@@ -107,7 +112,6 @@ public:
     ~SubWindow();
 public slots:
     void handleWindowStateChanged(Qt::WindowStates, Qt::WindowStates);
-//    void saveImg();
 };
 
 
@@ -118,8 +122,6 @@ class MainWindow : public QMainWindow
 
 public:
     explicit MainWindow(QWidget *parent = 0);
-    int countDev;                       //const //count of realtime subwindows
-    int curDev;                         //const //current realtime subwindow
     int curImg;                         //current snapshot subwindow
     int countImg;                       //count of snapshot subwindows
 
@@ -145,16 +147,29 @@ public:
     QAction *setDevice;                 //set for current app tango device
     QAction *addNewDevice;              //set tango device in new app
     QAction *pushCommand;               //set tango command
+    QAction *scaleRealtime;
+    QAction *setBrightnessRealtime;
+    QAction *setContrastRealtime;
+    QAction *setGammaRealtime;
+    QAction *setRotationRealtime;
     QAction *exitAct;                   //Stop app
 
     QAction *makeSnapshot;              //Make snapshot
     QAction *saveSnapshot;              //Save current snapshot
     QAction *scaleSnapshot;             //scale current snapshot  //not used
+    QAction *horFlipSnapshot;
+    QAction *verFlipSnapshot;
+    QAction *setBrightnessSnapshot;
+    QAction *setContrastSnapshot;
+    QAction *setGammaSnapshot;
+    QAction *setRotationSnapshot;
 
-    int isWork(int);
+    int isWork(int);                    //!!!!!!need in remaning!!!!!!!!!
 public:
     Ui::MainWindow *ui;
     Tango::DeviceProxy addDevice(QString s);          //Set Tango device
+    Tango::DeviceAttribute setTangoAttr(Tango::DeviceProxy &device, QString attrName);
+    void setImage(Tango::DeviceAttribute &attr);
     void tangoDeviceWin();
 public slots:
     void openDevInNewProc();            //Start Tango device in new process
@@ -180,6 +195,10 @@ public slots:
     void rotateImg(int);
     void setFlipHor(int);
     void setFlipVer(int);
+
+    void cancelTangoProperties();
+    void cancelCommandLine();
+    void setEnabledSnapshot(bool);
 };
 
 

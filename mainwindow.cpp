@@ -131,7 +131,7 @@ QImage changeGamma( const QImage& image, int gamma )
     return changeImage< changeGamma >( image, gamma );
     }
 
-
+////////////////////////////////////////////////////////////////////////////////////////
 //
 void MainWindow::contextMenuEvent(QContextMenuEvent *event)
 {
@@ -147,29 +147,24 @@ void TangoProperties::closeEvent ( QCloseEvent * closeEvent){
 }
 
 //Destructor of mainwindow
-MainWindow::~MainWindow()
-{
-    fprintf(stderr,"---!_in mainwinDestructor\n");
-//    delete subWin;
-fprintf(stderr,"---!\n");
-       delete setDevice;                 //set for current app tango device
+MainWindow::~MainWindow(){
+        fprintf(stderr,"---!_in mainwinDestructor\n");
+        fprintf(stderr,"---!\n");
+        delete setDevice;                 //set for current app tango device
         delete addNewDevice;              //set tango device in new app
         delete pushCommand;               //set tango command
         delete exitAct;                   //Stop app
 
         delete makeSnapshot;              //Make snapshot
         delete saveSnapshot;              //Save current snapshot
- //      delete scaleSnapshot;
 
-    delete snapshot;
-    delete server;
+        delete snapshot;
+        delete server;
 
-    delete area;
-    fprintf(stderr,"---!\n");
- //   delete cmdTangoLine;
- //   delete tangoDev;
-    delete ui;
-    fprintf(stderr,"---!_Delete Mainwin in   destructor_!\n");
+        delete area;
+        fprintf(stderr,"---!\n");
+        delete ui;
+        fprintf(stderr,"---!_Delete Mainwin in   destructor_!\n");
 }
 
 //Destructor of subwindow
@@ -178,12 +173,9 @@ SubWindow::~SubWindow(){
     delete img;
     delete wgt;
     delete scrollArea;
-    fprintf(stderr,"---!_Delete SubWin in _ destructor_!\n");
+    fprintf(stderr,"---!_Delete SubWinexport TANGO_HOST=anka-tango3.ka.fzk.de:10000 in _ destructor_!\n");
 
 }
-
-CommandLine::CommandLine(){}
-TangoProperties::TangoProperties(){}
 
 //on close mainwindow
 void MainWindow::closeEvent ( QCloseEvent * closeEvent){
@@ -197,21 +189,28 @@ void MainWindow::closeEvent ( QCloseEvent * closeEvent){
     exit(0); /////////why app don't stop without this command?????????
 }
 
-
+//inital window for setting command for sending it to tango device
 void MainWindow::setTangoCommand(){
-   // delete cmdTangoLine;
-    cmdTangoLine = new CommandLine(this);
-    cmdTangoLine->setWindowModality(Qt::ApplicationModal);
-    cmdTangoLine->setAttribute(Qt::WA_DeleteOnClose);
-    QObject::connect(cmdTangoLine->btCancel, SIGNAL(clicked()), cmdTangoLine, SLOT(cancel()));
-    QObject::connect(cmdTangoLine->btSend, SIGNAL(clicked()), this, SLOT(sendTangoCommandSLOT()));
-    cmdTangoLine->show();
+    if (cmdTangoLine == NULL){
+        cmdTangoLine = new CommandLine(this);
+        cmdTangoLine->setWindowModality(Qt::ApplicationModal);
+        cmdTangoLine->setAttribute(Qt::WA_DeleteOnClose);
+        QObject::connect(cmdTangoLine->btCancel, SIGNAL(clicked()), this, SLOT(cancelCommandLine()));
+        QObject::connect(cmdTangoLine->btSend, SIGNAL(clicked()), this, SLOT(sendTangoCommandSLOT()));
+        cmdTangoLine->show();
+    }
+    else{
+        fprintf(stderr, "cmdTangoLine is inited\n");
+        exit(1);
+    }
 }
 
+//exec sending tango command
 void MainWindow::sendTangoCommandSLOT(){
-    sendTangoCommand(subWin[curDev].device, cmdTangoLine->tlCommand->text());
+    sendTangoCommand(subWin->device, cmdTangoLine->tlCommand->text());
     cmdTangoLine->close();
     delete cmdTangoLine;
+    cmdTangoLine = NULL;
 }
 
 //start window Tango device property
@@ -222,14 +221,29 @@ void MainWindow::setTangoDevice(){ ///use one more slot!!!!!!
     tangoDev->btChangeDevice->setEnabled(true);
 }
 
+//inital window for setting attributes for starting tango device
 void MainWindow::tangoDeviceWin(){
-   // delete tangoDev;
+    if (tangoDev != NULL){
+        fprintf(stderr, "!!!!!!!was!!!Qt::WA_DeleteOnClose !!!but !!!!!!!!!'tangoDev != NULL'!!!!!!!!!!!!!!\n");
+        //delete tangoDev;
+        tangoDev = NULL;
+
+    }
+    if (tangoDev == NULL){
     tangoDev = new TangoProperties(this);
-    tangoDev->setWindowModality(Qt::ApplicationModal); //WA_DeleteOnClose
+    tangoDev->setWindowModality(Qt::ApplicationModal);
     tangoDev->setAttribute(Qt::WA_DeleteOnClose);
-    QObject::connect(tangoDev->btCancel, SIGNAL(clicked()), tangoDev, SLOT(cancel()));
+    QObject::connect(tangoDev->btCancel, SIGNAL(clicked()), this, SLOT(cancelTangoProperties()));
     tangoDev->show();
+
+    }
+    else{
+        fprintf(stderr, "tangoDev is inited\n");
+        exit(1);
+    }
 }
+
+//inital window for setting attributes for starting tango device in new window
 void MainWindow::setNewTangoDevice(){
     tangoDeviceWin();
     QObject::connect(tangoDev->btNewDev, SIGNAL(clicked()), this, SLOT(openDevInNewProc()));
@@ -245,9 +259,8 @@ void ImageWidget::setParent(MainWindow *p){
     parent = p;
 }
 
+//seting the color of label "is device work"
 int MainWindow::isWork(int status){
-    enum statusOfWork{DevNotSet = 1, Work = 0, Error = 2};
-//    QPalette pal;
     switch(status){
         case Work:{
            // pal.setColor(this->ui->lbWork->backgroundRole(), QColor().green());
@@ -269,32 +282,7 @@ int MainWindow::isWork(int status){
     }
 }
 
-//Constructor of main window
-MainWindow::MainWindow(QWidget *parent) :
-    QMainWindow(parent),
-    ui(new Ui::MainWindow)
-{
-    ui->setupUi(this);
-
-    countDev = 0;   //const  1 realtime SubWin
-    curDev = 0;     //const  1 realtime SubWin
-    countImg = 0;
-    curImg = 0;
-    createActions();
-    createMenu();
-    subWin = new SubWindow();
-    subWin->work = false;
-    firstTime = true;
-    ui->btScale->setEnabled(false);
-    ui->btMkSnapshot->setEnabled(false);
-    ui->btWriteImg->setEnabled(false);
-    ui->btScaleRealTime->setEnabled(false);
-    ui->btScaleSnapshot->setEnabled(false);
-    ui->btChangeBrightness->setEnabled(false);
-
-    QObject::connect(subWin,SIGNAL(windowStateChanged(Qt::WindowStates,Qt::WindowStates )),
-                     subWin,SLOT(handleWindowStateChanged(Qt::WindowStates,Qt::WindowStates)));
-
+int initcmbColorFormat(MainWindow &w){
     QStringList ls;
     ls  <<"QImage::Format_Indexed8"
         <<"QImage::Format_RGB32"
@@ -309,40 +297,88 @@ MainWindow::MainWindow(QWidget *parent) :
         <<"QImage::Format_RGB888"
         <<"QImage::Format_RGB444"
         <<"QImage::Format_ARGB4444_Premultiplied";
+    w.ui->cmbColorFormat->addItems(ls);
+    w.intColorFormat = QImage::Format_RGB32; //value int 4;
+    w.ui->cmbColorFormat->setCurrentIndex(1); ////value QImage::Format_RGB32
+    w.colorFormat = "QImage::Format_RGB32";
+    w.delim = 4;
+    QObject::connect(w.ui->cmbColorFormat, SIGNAL(currentIndexChanged(int)), &w, SLOT(changeColorFormat(int)));
+}
+
+
+int initcmbRotate(MainWindow &w){
     QStringList lsGrad;
     lsGrad << "0"<<"90"<<"180"<<"270"
            <<"-90"<<"-180"<<"-270";
-    colorFormat = "QImage::Format_RGB32";
-    intColorFormat = QImage::Format_RGB32;//4;
-    delim = 4;
-    ui->cmbColorFormat->addItems(ls);
-    ui->cmbRotate->addItems(lsGrad);
+
+    w.ui->cmbRotate->addItems(lsGrad);
+    w.ui->cmbRotate->setCurrentIndex(0);      //val 0 degree
+    QObject::connect(w.ui->cmbRotate, SIGNAL(currentIndexChanged(int)), &w, SLOT(rotateImg(int)));
+}
+
+void MainWindow::setEnabledSnapshot(bool isEnable){
+    if(isEnable){
+        ui->btWriteImg->setEnabled(true);
+        saveSnapshot->setEnabled(true);
+        ui->btScaleSnapshot->setEnabled(true);
+        ui->btChangeBrightness->setEnabled(true);
+        ui->cmbRotate->setEnabled(true);
+        ui->cmbFlipHor->setEnabled(true);
+        ui->cmbFlipVer->setEnabled(true);
+        ui->btScale->setEnabled(true);
+    }
+    else{
+         ui->btScale->setEnabled(false);
+         ui->btScaleSnapshot->setEnabled(false);
+         ui->cmbRotate->setEnabled(false);
+         ui->cmbFlipHor->setEnabled(false);
+         ui->cmbFlipVer->setEnabled(false);
+         ui->btWriteImg->setEnabled(false);
+         ui->btChangeBrightness->setEnabled(false);
+         saveSnapshot->setEnabled(false);
+    }
+}
+
+//Constructor of main window
+MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow){
+    ui->setupUi(this);
+    countImg = 0;
+    curImg = 0;
+    createActions();
+    createMenu();
+    subWin = new SubWindow();
+    if (!subWin){
+        fprintf(stderr, "Error in MainWin constructor: init subWin \n");
+        exit(1);
+    }
+    subWin->work = false;
+    firstTime = true;
+
+    ui->btMkSnapshot->setEnabled(false);
+    ui->btScaleRealTime->setEnabled(false);
+
+    QObject::connect(subWin,SIGNAL(windowStateChanged(Qt::WindowStates,Qt::WindowStates )),
+                     subWin,SLOT(handleWindowStateChanged(Qt::WindowStates,Qt::WindowStates)));
+
+    initcmbColorFormat(*this);
+    initcmbRotate(*this);
     ui->cmbFlipHor->addItems(QStringList()<<"False"<<"True");
     ui->cmbFlipVer->addItems(QStringList()<<"False"<<"True");
-    ui->cmbRotate->setCurrentIndex(0);      //0
-    ui->cmbColorFormat->setCurrentIndex(1); ////value QImage::Format_RGB32
-    QObject::connect(ui->cmbColorFormat, SIGNAL(currentIndexChanged(int)), this, SLOT(changeColorFormat(int)));
- /////   ui->cmbRotate->setVisible(false);
-    QObject::connect(ui->cmbRotate, SIGNAL(currentIndexChanged(int)), this, SLOT(rotateImg(int)));
+
     QObject::connect(ui->cmbFlipHor, SIGNAL(currentIndexChanged(int)), this, SLOT(setFlipHor(int)));
     QObject::connect(ui->cmbFlipVer, SIGNAL(currentIndexChanged(int)), this, SLOT(setFlipVer(int)));
 
-    ui->cmbRotate->setEnabled(false);
-    ui->cmbFlipHor->setEnabled(false);
-    ui->cmbFlipVer->setEnabled(false);
-    ui->lbWork->setAutoFillBackground(true);
-  //  ui->lbWork->setPalette(isWork(1));
-//    QPalette pal;
-//    pal.setColor(this->ui->lbWork->backgroundRole(), QColor().green());
-//    int temp = isWork(1);
-//    fprintf(stderr, "set LbWork %d\n", temp);
-    ui->lbWork->setPalette(QPalette(Qt::red));//Qt::red
 
+    ui->lbWork->setAutoFillBackground(true);
+    ui->lbWork->setPalette(QPalette(Qt::red));
+
+    tangoDev = NULL;
+    cmdTangoLine = NULL;
+    setEnabledSnapshot(false);
 }
 
 //Constructor of subwindow  //overloaded
-SubWindow::SubWindow(QWidget *parent, Qt::WindowFlags flags)
-{
+SubWindow::SubWindow(QWidget *parent, Qt::WindowFlags flags){
     device = new  Tango::DeviceProxy();
     wgt = new ImageWidget();
     scrollArea = new QScrollArea();
@@ -362,12 +398,14 @@ SubWindow::SubWindow(QWidget *parent, Qt::WindowFlags flags)
                     SLOT(handleWindowStateChanged(Qt::WindowStates,Qt::WindowStates )));
 }
 
+//set Vertical Flip
 void MainWindow::setFlipVer(int val){
     QImage tempImg;
     QPalette pal;
     subWinSnapPointer->wgt->hide();
     if (val){
-        QMatrix mat = QMatrix().scale(-1, 1); // make a horisontal flip
+        QMatrix mat;
+        mat = QMatrix().scale(1, -1); // make a horisontal flip
         tempImg = subWinSnapPointer->img->transformed(mat);
     }
     else{
@@ -379,12 +417,14 @@ void MainWindow::setFlipVer(int val){
     subWinSnapPointer->wgt->show();
 }
 
+//set Horizontal Flip
 void MainWindow::setFlipHor(int val){
     QImage tempImg;
     QPalette pal;
     subWinSnapPointer->wgt->hide();
     if (val){
-        QMatrix mat = QMatrix().scale(1, -1); // make a vertical flip
+        QMatrix mat;
+        mat = QMatrix().scale(-1, 1); // make a vertical flip
         tempImg = subWinSnapPointer->img->transformed(mat);
     }
     else{
@@ -396,20 +436,21 @@ void MainWindow::setFlipHor(int val){
     subWinSnapPointer->wgt->show();
 }
 
+//sending a command to current tango device without callback
 void MainWindow::sendTangoCommand(Tango::DeviceProxy *device, QString command){
     try{
             device->command_inout(command.toAscii().constData());
     }
     catch(Tango::ConnectionFailed){
-          fprintf(stderr, "ConnectionFailed while send tango command to %s\n", subWin[curDev].device->name().c_str());
+          fprintf(stderr, "ConnectionFailed while send tango command to %s\n", subWin->device->name().c_str());
           exit(1);
     }
     catch(Tango::WrongData){
-          fprintf(stderr, "Wrong Data while send tango command to %s\n", subWin[curDev].device->name().c_str());
+          fprintf(stderr, "Wrong Data while send tango command to %s\n", subWin->device->name().c_str());
           exit(1);
     }
     catch(Tango::DevFailed){
-         fprintf(stderr, "DevFailed while send tango command to %s", subWin[curDev].device->name().c_str());
+         fprintf(stderr, "DevFailed while send tango command to %s", subWin->device->name().c_str());
          exit(1);
     }
 }
@@ -418,53 +459,32 @@ void MainWindow::sendTangoCommand(Tango::DeviceProxy *device, QString command){
 void SubWindow::handleWindowStateChanged(Qt::WindowStates oldState, Qt::WindowStates newState){
     if(newState == Qt::WindowActive){
         int i;
-        int wins = parent->countDev+1;
-        bool found = false;
         fprintf(stderr,"SubWindow>>   newState == Qt::WindowActive\n");
-        for (i = 0; i<wins; i++){
-
-            if (this == &parent->subWin[i]){
-                    parent->curDev = i;
-                    parent->ui->lbCurWin->setText(QString("CurWin_") + QString(i+49));
-                    found = true;
-                    break;
-            }
-        }
-
-        if (!found){
             for (i = 0; i<parent->listSnap.size(); i++){
                  if(this == parent->listSnap.at(i)){
                     parent->curImg = i;
                     parent->ui->lbCurWin->setText(QString("CurSnap_") + QString(i+49));
                     parent->subWinSnapPointer = this;
-                    parent->ui->btScale->setEnabled(true);
-                    parent->ui->btWriteImg->setEnabled(true);
-                    parent->saveSnapshot->setEnabled(true);
-                    parent->ui->btScaleSnapshot->setEnabled(true);
-                    parent->ui->btChangeBrightness->setEnabled(true);
-                    parent->ui->cmbRotate->setEnabled(true);
-                    parent->ui->cmbFlipHor->setEnabled(true);
-                    parent->ui->cmbFlipVer->setEnabled(true);
-
+                    parent->setEnabledSnapshot(true);
                     parent->snapshot->setEnabled(true);
-
                     break;
                 }
-            }
-        }
+           }
     }
     if(newState == Qt::WindowMinimized){
         fprintf(stderr,"Subwindow is minimaized\n");
         this->resize(50, 15);
     }
     if(oldState == Qt::WindowActive && isSnapshot){
-        //this->disconnect(parent->saveSnapshot);
+
     }
 }
 
 //on change size of main window
 void MainWindow::resizeEvent( QResizeEvent *e ){
-    area->resize(e->size());
+    QSize s = e->size();
+    area->resize(s.width(), s.height()-120);
+    ui->statusBar->showMessage(tr("Ready"), 0);
 }
 
 //on mouse press event at picture widget
@@ -514,28 +534,19 @@ void SubWindow::closeEvent ( QCloseEvent * closeEvent ){
     else{
         QList<SubWindow*>::iterator iter;
         for (iter = parent->listSnap.begin(); iter < parent->listSnap.end(); ++iter){
-
              if(this == *iter){
                 parent->subWinSnapPointer = NULL;
                 fprintf(stderr,"!Delete a Snapshot!\n");
                 qDeleteAll(iter, iter);                      ////current point??>>>>>
                 parent->listSnap.erase(iter);
-                parent->ui->btScale->setEnabled(false);
-                parent->ui->btWriteImg->setEnabled(false);
-                parent->saveSnapshot->setEnabled(false);
-
-                parent->ui->btScaleSnapshot->setEnabled(false);
-                parent->ui->btChangeBrightness->setEnabled(false);
-                parent->ui->cmbRotate->setEnabled(false);
-                parent->ui->cmbFlipHor->setEnabled(false);
-                parent->ui->cmbFlipVer->setEnabled(false);
-
+                parent->setEnabledSnapshot(false);
                 break;
             }
         }
     }
 }
 
+//Change colorFormat for realtime subwin
 void MainWindow::changeColorFormat(int format){
     intColorFormat = format+3;
     switch(intColorFormat){
@@ -567,9 +578,10 @@ void MainWindow::openDevInNewProc(){
                                 << this->tangoDev->tlAttr->text(), "./");
     tangoDev->close();
     delete tangoDev;
+    tangoDev = NULL;
 }
 
-
+//set Brightness for snapshot
 void MainWindow::changeBrightnessSnapshot(){
     bool ok = true;
     int temp;
@@ -590,16 +602,26 @@ void MainWindow::changeBrightnessSnapshot(){
     }
 }
 
+//set rotation for snapshot
 void MainWindow::rotateImg(int deg){
     QTransform mat;
-    mat.rotate(ui->cmbRotate->itemText(deg).toInt());
-    subWinSnapPointer->wgt->hide();
-    QImage tempImg;
-    QPalette pal;
+    bool ok = true;
+    int temp;
+    temp = ui->cmbRotate->itemText(deg).toInt(&ok);
+    if(ok){
+        mat.rotate(temp);
+        subWinSnapPointer->wgt->hide();
+        QImage tempImg;
+        QPalette pal;
 
-    tempImg = subWinSnapPointer->img->transformed(mat);
-    pal.setBrush(subWinSnapPointer->wgt->backgroundRole(), QBrush(tempImg));
-    subWinSnapPointer->wgt->setPalette(pal);
-    subWinSnapPointer->wgt->resize(tempImg.width(), tempImg.height());
-    subWinSnapPointer->wgt->show();
+        tempImg = subWinSnapPointer->img->transformed(mat);
+        pal.setBrush(subWinSnapPointer->wgt->backgroundRole(), QBrush(tempImg));
+        subWinSnapPointer->wgt->setPalette(pal);
+        subWinSnapPointer->wgt->resize(tempImg.width(), tempImg.height());
+        subWinSnapPointer->wgt->show();
+    }
+    else{
+        fprintf(stderr, "Error degree rotation value !! \n");
+        exit(1);
+    }
 }

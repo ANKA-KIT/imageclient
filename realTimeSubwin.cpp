@@ -1,3 +1,8 @@
+/*
+    Author: Georgii Vasilev
+    Project: Image client
+    Aprel 2012
+*/
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
@@ -13,6 +18,7 @@ void setUCharVal(Tango::DeviceAttribute attr, vector <unsigned char>& val){
     }
 }
 
+//read bool value from tango devce
 void setBoolVal(Tango::DeviceAttribute attr, bool& val){
     try{
         attr>>val;
@@ -27,7 +33,7 @@ void setBoolVal(Tango::DeviceAttribute attr, bool& val){
 
 
 //Set Tango attr
-Tango::DeviceAttribute setTangoAttr(Tango::DeviceProxy &device, QString attrName){
+Tango::DeviceAttribute MainWindow::setTangoAttr(Tango::DeviceProxy &device, QString attrName){
     Tango::DeviceAttribute attr;
     try{
         attr = device.read_attribute(attrName.toAscii());
@@ -51,7 +57,6 @@ Tango::DeviceProxy MainWindow::addDevice(QString s){
     fprintf(stderr,"Set Tango device %s\n", s.toAscii().constData());
     try{
         Tango::DeviceProxy dev;
-        //*subWin[countDev].device
         dev = Tango::DeviceProxy(s.toAscii().constData());
         return dev;
     }
@@ -84,8 +89,8 @@ void MainWindow::setRealtimeScale(){
     double temp;
     temp = ui->tlScaleRealTime->text().toDouble(&ok);
     if (ok){
-        subWin[countDev].scale = temp/100.0;
-        subWin[countDev].setWindowTitle( subWin[countDev].windowTitle().split("scale").first() + QString("scale ") + ui->tlScaleRealTime->text());
+        subWin->scale = temp/100.0;
+        subWin->setWindowTitle( subWin->windowTitle().split("scale").first() + QString("scale ") + ui->tlScaleRealTime->text());
     }
     else{
         fprintf(stderr, "Put correct number to the RealTime scale line");
@@ -99,63 +104,66 @@ void MainWindow::setRealtimeScale(){
 //Scale realtime data
 //#image - realtime subwin image for scaling
 QImage MainWindow::scaleImage(QImage image){
-    return image.scaled(image.width()*subWin[curDev].scale, image.height()*subWin[curDev].scale);
+    return image.scaled(image.width()*subWin->scale, image.height()*subWin->scale);
 }
 
+void MainWindow::setImage(Tango::DeviceAttribute &attr){
+    QPalette pal;
+    if (subWin->scale == 1.0){       //need in scaling???
+            *subWin->img = QImage(&subWin->val[0],
+                                                attr.get_dim_x()/delim,
+                                                attr.get_dim_y(),
+                                                attr.get_dim_x(),
+                                                (QImage::Format )intColorFormat);
+            subWin->wgt->resize(attr.get_dim_x()/delim, attr.get_dim_y());
+        }
+    else{
+            *subWin->img = scaleImage(QImage(&subWin->val[0],
+                                                                attr.get_dim_x()/delim,
+                                                                attr.get_dim_y(),
+                                                                attr.get_dim_x(),
+                                                                (QImage::Format)intColorFormat));
+            subWin->wgt->resize((attr.get_dim_x()/delim) * subWin->scale,
+                                              attr.get_dim_y() * subWin->scale);
+    }
+    pal.setBrush(subWin->wgt->backgroundRole(), QBrush(*subWin->img));
+    subWin->wgt->setPalette(pal);
+}
+
+
 //Readin and displaying realtime data from the Tango server
-//#threadArg - struct thread_data object, through it is send Mainwindon object (and more over in next version)
-void MainWindow::startTesting(){    ///need in remaning!!!!!!
+void MainWindow::startTesting(){
     int iter = 0;                       //current iteration of reading data from Tango Server //not used
     QTime time;
     QTime timeReadData;
-    QPalette pal;
     time.start();
     fprintf(stderr, "==Starting Test==\n");
     Tango::DeviceAttribute attr;
-    int local = 0;
 
     ////seting size of realtime display widget//////////
-    attr = setTangoAttr(*subWin[local].device, subWin[local].attrName);
+    attr = setTangoAttr(*subWin->device, subWin->attrName);
     fprintf(stderr,"--Time of--- readingData=%d\n", timeReadData.restart());
 
-    setUCharVal(attr, subWin[local].val);
+    setUCharVal(attr, subWin->val);
 
-    subWin[local].dimX = attr.get_dim_x();
-    subWin[local].dimY = attr.get_dim_y();
-    subWin[countDev].resize(subWin[local].dimX/delim, subWin[local].dimY);
+    subWin->dimX = attr.get_dim_x();
+    subWin->dimY = attr.get_dim_y();
+    subWin->resize(subWin->dimX/delim, subWin->dimY);
     //////////////////////////////////////////////////////
 
-    while(subWin[local].work){
+    while(subWin->work){
         ui->lbWork->setText("WORK");
         ui->lbWork->setPalette(QPalette(Qt::green));
         //ui->lbWork->setPalette(QPalette( isWork(0)));
         timeReadData.start();
-        attr = setTangoAttr(*subWin[local].device, subWin[local].attrName);
+        attr = setTangoAttr(*subWin->device, subWin->attrName);
         fprintf(stderr,"--Time of--- readingData=%d\n", timeReadData.restart());
 
-        setUCharVal(attr, subWin[local].val);
-        if (subWin[local].scale == 1.0){       //need in scaling???
-                *subWin[local].img = QImage(&subWin[local].val[0],
-                                                    attr.get_dim_x()/delim,
-                                                    attr.get_dim_y(),
-                                                    attr.get_dim_x(),
-                                                    (QImage::Format )intColorFormat);
-                subWin[local].wgt->resize(attr.get_dim_x()/delim, attr.get_dim_y());
-            }
-        else{
-                *subWin[local].img = scaleImage(QImage(&subWin[local].val[0],
-                                                                    attr.get_dim_x()/delim,
-                                                                    attr.get_dim_y(),
-                                                                    attr.get_dim_x(),
-                                                                    (QImage::Format)intColorFormat));
-                subWin[local].wgt->resize((attr.get_dim_x()/delim) * subWin[local].scale,
-                                                  attr.get_dim_y() * subWin[local].scale);
-            }
-        pal.setBrush(subWin[local].wgt->backgroundRole(), QBrush(*subWin[local].img));
-        subWin[local].wgt->setPalette(pal);
-        fprintf(stderr,"x=%d y=%d\n",subWin[local].img->width(), subWin[local].img->height());
-        fprintf(stderr,"iter=%d   -----devNum=%d ----- wholeTime=%d\n",iter, local, time.restart());
-        subWin[local].repaint();
+        setUCharVal(attr, subWin->val);
+        setImage(attr);
+        fprintf(stderr,"x=%d y=%d\n",subWin->img->width(), subWin->img->height());
+        fprintf(stderr,"iter=%d   ---- ----- wholeTime=%d\n",iter,  time.restart());
+        subWin->repaint();
         QCoreApplication::processEvents(QEventLoop::AllEvents);    //Do System process
     }
     //ui->lbWork->setPalette(QPalette( isWork(1)));
@@ -165,36 +173,36 @@ void MainWindow::startTesting(){    ///need in remaning!!!!!!
 
 //Init realtime reading data subwindow
 void MainWindow::changeDevice(){
-    subWin[countDev].setParent(this);
-    subWin[countDev].wgt->setParent(this);
+    subWin->setParent(this);
+    subWin->wgt->setParent(this);
 
     snapshot->setEnabled(true);
     ui->btScaleRealTime->setEnabled(true);
-    subWin[countDev].work = true;
-    subWin[countDev].attrName = this->tangoDev->tlAttr->text();
+    subWin->work = true;
+    subWin->attrName = this->tangoDev->tlAttr->text();
     QString s;
     s =     (QString)"\/\/" + this->tangoDev->tlServer->text() +
             (QString)"\/" + tangoDev->tlDevice->text();
     fprintf(stderr,"!_%s_!\n", s.toAscii().constData());
-    *subWin[countDev].device = addDevice(s);
-    subWin[countDev].scrollArea->setWidget(subWin[countDev].wgt);
-    subWin[countDev].scrollArea->move(100,100);
-    subWin[countDev].scrollArea->resize(400, 300);
-    subWin[countDev].scrollArea->show();
-    subWin[countDev].resize(400, 300);
-    subWin[countDev].numOfWin = countDev; /*need in Remaning*/
-    subWin[countDev].isSnapshot = false;
-    subWin[countDev].scale = ui->tlScaleRealTime->text().toDouble()/100;
-    subWin[countDev].setWindowTitle(this->tangoDev->tlDevice->text() +
+    *subWin->device = addDevice(s);
+    subWin->scrollArea->setWidget(subWin->wgt);
+    subWin->scrollArea->move(100,100);
+    subWin->scrollArea->resize(400, 300);
+    subWin->scrollArea->show();
+    subWin->resize(400, 300);
+    subWin->numOfWin = 0;//countDev; /*need in Remaning*/
+    subWin->isSnapshot = false;
+    subWin->scale = ui->tlScaleRealTime->text().toDouble()/100;
+    subWin->setWindowTitle(this->tangoDev->tlDevice->text() +
                                     QString(" scale ") + ui->tlScaleRealTime->text());
     area->hide();
     if (firstTime){
         QObject::connect(makeSnapshot, SIGNAL(triggered()), this, SLOT(mkSnapshot()));
-        subWin[countDev].setWidget(subWin[countDev].scrollArea);
-        area->addSubWindow(&subWin[countDev]);
+        subWin->setWidget(subWin->scrollArea);
+        area->addSubWindow(subWin);
     }
-    subWin[countDev].scrollArea->resize(subWin[countDev].width()-2, subWin[countDev].height()-33);
-    subWin[countDev].show();
+    subWin->scrollArea->resize(subWin->width()-2, subWin->height()-33);
+    subWin->show();
     area->show();
     firstTime = false;
     ui->lbCurWorkiningDev->setText(QString("Cur Dev: ") + s + QString(" ") + tangoDev->tlAttr->text());
@@ -205,19 +213,20 @@ void MainWindow::changeDevice(){
     setDevice->setEnabled(false);
     pushCommand->setEnabled(true);
 
-/*  Reading FLIP value
+/*//Reading FLIP value
     bool flipHorizontal = true;
     bool flipVertical = true;
-    setBoolVal(setTangoAttr(*subWin[countDev].device, (QString)"FlipHorizontal"), flipHorizontal);
+    setBoolVal(setTangoAttr(*subWin->device, (QString)"FlipHorizontal"), flipHorizontal);
     QVariant varValue(flipHorizontal);
     ui->lbFlipHorizontal->setText("FlipHorizontal " +  varValue.toString());//QString::number(flipHorizontal));
-    setBoolVal(setTangoAttr(*subWin[countDev].device, (QString)"FlipVertical"), flipVertical);
+    setBoolVal(setTangoAttr(*subWin->device, (QString)"FlipVertical"), flipVertical);
     QVariant varValueV(flipVertical);
     ui->lbFlipVertical->setText("FlipVertical " + varValueV.toString());//QString::number(flipVertical));
 */
 
     tangoDev->close();
     delete tangoDev;
+    tangoDev = NULL;
     startTesting();
 }
 

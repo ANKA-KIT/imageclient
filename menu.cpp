@@ -1,3 +1,8 @@
+/*
+    Author: Georgii Vasilev
+    Project: Image client
+    Aprel 2012
+*/
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 

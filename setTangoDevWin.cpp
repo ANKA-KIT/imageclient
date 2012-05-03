@@ -1,16 +1,13 @@
+/*
+    Author: Georgii Vasilev
+    Project: Image client
+    Aprel 2012
+*/
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
-//Constructor of TangoProperties
-TangoProperties::TangoProperties(MainWindow *main){
-    TangoProperties *MainWind = this;
-    parent = main;
-    centralWidget = new QWidget(MainWind);
-    centralWidget->setObjectName(QString::fromUtf8("centralWidget"));
-    this->setFixedSize(660, 50);
-    this->move(100,100);
-
-    /*init buttons*/
+/*init buttons*/
+void TangoProperties::initButtons(){
     btCancel = new QPushButton(centralWidget);
     btCancel->setObjectName(QString::fromUtf8("btCancel"));
     btCancel->setGeometry(QRect(560, 20, 91, 24));
@@ -22,8 +19,24 @@ TangoProperties::TangoProperties(MainWindow *main){
     btChangeDevice = new QPushButton(centralWidget);
     btChangeDevice->setObjectName(QString::fromUtf8("btChangeDevice"));
     btChangeDevice->setGeometry(QRect(360, 20, 91, 24));
+}
 
-    /*init labels and text lines*/
+/*init start text*/
+void TangoProperties::initText(){
+    tlServer->setText("anka-tango3.ka.fzk.de:10000");
+    lbServer->setText("Server name");
+    lbAttr->setText("Attribute");
+    tlAttr->setText("testImage");
+    lbDevice->setText("Device name");
+    tlDevice->setText("sys/tg_test/mytest");
+    btNewDev->setText("Start new Dev");
+    btChangeDevice->setText("Set Dev");
+    btCancel->setText("Cancel");
+    fprintf(stderr, "in TangoProperties constructor\n");
+}
+
+/*init labels and text lines*/
+void TangoProperties::initTextLine(){
     tlServer = new QLineEdit(centralWidget);
     tlServer->setObjectName(QString::fromUtf8("tlServer"));
     tlServer->setGeometry(QRect(80, 0, 171, 20));
@@ -44,18 +57,22 @@ TangoProperties::TangoProperties(MainWindow *main){
     tlAttr = new QLineEdit(centralWidget);
     tlAttr->setObjectName(QString::fromUtf8("tlAttr"));
     tlAttr->setGeometry(QRect(520, 0, 113, 20));
+}
 
-    /*init start text*/
-    tlServer->setText("anka-tango3.ka.fzk.de:10000");
-    lbServer->setText("Server name");
-    lbAttr->setText("Attribute");
-    tlAttr->setText("testImage");
-    lbDevice->setText("Device name");
-    tlDevice->setText("sys/tg_test/mytest");
-    btNewDev->setText("Start new Dev");
-    btChangeDevice->setText("Set Dev");
-    btCancel->setText("Cancel");
-    fprintf(stderr, "in TangoProperties constructor\n");
+//Constructor of TangoProperties
+TangoProperties::TangoProperties(MainWindow *main){
+    TangoProperties *MainWind = this;
+    parent = main;
+    centralWidget = new QWidget(MainWind);
+    centralWidget->setObjectName(QString::fromUtf8("centralWidget"));
+    this->setFixedSize(660, 50);
+    this->move(100,100);
+    this->setWindowTitle("Set TANGO properties");
+
+    initButtons();
+    initTextLine();
+    initText();
+
 }
 
 //Destructor of TangoProperties
@@ -70,7 +87,9 @@ TangoProperties::~TangoProperties(){
     delete centralWidget;
 }
 
-void TangoProperties::cancel(){
-    this->close();
-    delete this;
+//on Cancel click
+void MainWindow::cancelTangoProperties(){
+    tangoDev->close();
+    delete tangoDev;
+    tangoDev = NULL;
 }
