@@ -18,7 +18,8 @@ SOURCES += main.cpp\
     snapshotSubwin.cpp \
     menu.cpp \
     setTangoDevWin.cpp \
-    setTangoDevCommandWin.cpp
+    setTangoDevCommandWin.cpp \
+    tangoDeviceVideoSettingsWin.cpp
 
 HEADERS  += mainwindow.h \
     enum.h
@@ -26,6 +27,11 @@ HEADERS  += mainwindow.h \
 FORMS    += mainwindow.ui
 
 CONFIG += debug
+
+RESOURCES     = application.qrc
+
+
+
 
 
 

@@ -83,14 +83,67 @@ Tango::DeviceProxy MainWindow::addDevice(QString s){
     }
 }
 
-//set Realtime Scale value
-void MainWindow::setRealtimeScale(){
+
+
+void  MainWindow::changeContrastRealtime(){
     bool ok = true;
     double temp;
-    temp = ui->tlScaleRealTime->text().toDouble(&ok);
+    temp = vSetting->tl->text().toDouble(&ok);
     if (ok){
-        subWin->scale = temp/100.0;
-        subWin->setWindowTitle( subWin->windowTitle().split("scale").first() + QString("scale ") + ui->tlScaleRealTime->text());
+        setContrastRealtimeValue(temp);
+    }
+    else{
+        fprintf(stderr, "Put correct number to the RealTime scale line");
+        exit(1);
+    }
+    delVSetting();
+}
+
+void  MainWindow::changeGammaRealtime(){
+    bool ok = true;
+    double temp;
+    temp = vSetting->tl->text().toDouble(&ok);
+    if (ok){
+        setGammaRealtimeValue(temp);
+    }
+    else{
+        fprintf(stderr, "Put correct number to the RealTime scale line");
+        exit(1);
+    }
+    delVSetting();
+}
+void  MainWindow::setGammaRealtimeValue(int val){
+    subWin->gamma = val;
+}
+
+void  MainWindow::setContrastRealtimeValue(int val){
+    subWin->contrast = val;
+}
+
+void MainWindow::setBrightnessRealtimeValue(int val){
+    subWin->brightness = val;
+}
+
+void MainWindow::changeBrightnessRealtime(){
+    bool ok = true;
+    double temp;
+    temp = vSetting->tl->text().toDouble(&ok);
+    if (ok){
+        setBrightnessRealtimeValue(temp);
+    }
+    else{
+        fprintf(stderr, "Put correct number to the RealTime scale line");
+        exit(1);
+    }
+    delVSetting();
+}
+
+void MainWindow::changeScaleRealtime(){
+    bool ok = true;
+    double temp;
+    temp = vSetting->tl->text().toDouble(&ok);
+    if (ok){
+        setScaleRealtimeValue(temp);
     }
     else{
         fprintf(stderr, "Put correct number to the RealTime scale line");
@@ -99,6 +152,25 @@ void MainWindow::setRealtimeScale(){
         //ui->lbWork->setPalette(QPalette( isWork(2)));
         exit(1);
     }
+    delVSetting();
+}
+
+//set Realtime Scale value
+void MainWindow::setRealtimeScale(){
+    bool ok = true;
+    double temp;
+    temp = ui->tlScaleRealTime->text().toDouble(&ok);
+    if (ok){
+        setScaleRealtimeValue(temp);
+    }
+    else{
+        fprintf(stderr, "Put correct number to the RealTime scale line");
+        ui->lbWork->setText("NOT WORK");
+        ui->lbWork->setPalette(QPalette(Qt::darkRed));
+        //ui->lbWork->setPalette(QPalette( isWork(2)));
+        exit(1);
+    }
+    delVSetting();
 }
 
 //Scale realtime data
@@ -161,6 +233,40 @@ void MainWindow::startTesting(){
 
         setUCharVal(attr, subWin->val);
         setImage(attr);
+        QImage tempImg;
+        QPalette pal;
+        tempImg = *subWin->img;
+        subWin->wgt->hide();
+        if (subWin->contrast !=100){
+           // setContrastValue(subWin->contrast, *subWin);
+            tempImg = chContrast(tempImg, subWin->contrast);
+        }
+        if (subWin->brightness != 0){
+            //setBrightnessValue(subWin->brightness, *subWin);
+            tempImg = chBrightness(tempImg, subWin->brightness);
+        }
+        if (subWin->gamma != 100){
+            //setGammaValue(subWin->gamma, *subWin);
+            tempImg = chGamma(tempImg, subWin->brightness);
+        }
+
+        if (subWin->rotation != 0){
+            //setRotateImgValue(subWin->rotation, *subWin);
+            QTransform mat;
+            //fprintf(stderr, "____%d____\n", subWin->rotation);
+            mat.rotate(subWin->rotation);
+            tempImg = tempImg.transformed(mat);
+        }
+        if (subWin->horFlip){
+            tempImg = setFlipHorRealtime(tempImg);
+        }
+        if (subWin->verFlip){
+            tempImg = setFlipVerRealtime(tempImg);
+        }
+        pal.setBrush(subWin->wgt->backgroundRole(), QBrush(tempImg));
+        subWin->wgt->setPalette(pal);
+        subWin->wgt->resize(tempImg.width(), tempImg.height());
+        subWin->wgt->show();
         fprintf(stderr,"x=%d y=%d\n",subWin->img->width(), subWin->img->height());
         fprintf(stderr,"iter=%d   ---- ----- wholeTime=%d\n",iter,  time.restart());
         subWin->repaint();
@@ -211,6 +317,7 @@ void MainWindow::changeDevice(){
     ui->btMkSnapshot->setEnabled(true);
     makeSnapshot->setEnabled(true);
     setDevice->setEnabled(false);
+    realtime->setEnabled(true);
     pushCommand->setEnabled(true);
 
 /*//Reading FLIP value
@@ -222,6 +329,17 @@ void MainWindow::changeDevice(){
     setBoolVal(setTangoAttr(*subWin->device, (QString)"FlipVertical"), flipVertical);
     QVariant varValueV(flipVertical);
     ui->lbFlipVertical->setText("FlipVertical " + varValueV.toString());//QString::number(flipVertical));
+
+    if (flipVertical)
+        verFlipRealtime->setIcon(QIcon(":/icons/true.png"));
+    else{
+        verFlipRealtime->setIcon(QIcon(":/icons/false.png"));
+    }
+    if (flipHorizontal)
+        horFlipRealtime->setIcon(QIcon(":/icons/true.png"));
+    else{
+        horFlipRealtime->setIcon(QIcon(":/icons/false.png"));
+    }
 */
 
     tangoDev->close();
@@ -230,3 +348,92 @@ void MainWindow::changeDevice(){
     startTesting();
 }
 
+void MainWindow::setScaleRealtimeValue(double val){
+    subWin->scale = val/100.0;
+    subWin->setWindowTitle( subWin->windowTitle().split("scale").first() + QString("scale ") + QString::number(val));
+}
+
+QImage MainWindow::setFlipHorRealtime(QImage& img){
+    QImage tempImg;
+    QMatrix mat;
+    mat = QMatrix().scale(-1, 1); // make a vertical flip      !!!!!!!!!!!!!!!!!!!!!!!!1
+    tempImg = img.transformed(mat);
+    return tempImg;
+}
+
+QImage MainWindow::setFlipVerRealtime(QImage& img){
+    QImage tempImg;
+    QMatrix mat;
+    mat = QMatrix().scale(1, -1); // make a vertical flip      !!!!!!!!!!!!!!!!!!!!!!!!1
+    tempImg = img.transformed(mat);
+    return tempImg;
+}
+
+void MainWindow::changeFlipHorRealtime(){
+
+    if (subWin->horFlip){
+        subWin->horFlip = false;
+        horFlipRealtime->setIcon(QIcon(":/icons/false.png"));
+     //   tempImg = *subWin->img;
+    }
+    else{
+        subWin->horFlip = true;
+        horFlipRealtime->setIcon(QIcon(":/icons/true.png"));
+      //  QMatrix mat;
+      //  mat = QMatrix().scale(1, -1); // make a vertical flip      !!!!!!!!!!!!!!!!!!!!!!!!1
+      //  tempImg = subWin->img->transformed(mat);
+    }
+
+   // *subWin->img = tempImg;
+}
+
+void MainWindow::changeFlipVerRealtime(){
+ //   QImage tempImg;
+    if (subWin->verFlip){
+        subWin->verFlip = false;
+        verFlipRealtime->setIcon(QIcon(":/icons/false.png"));
+     //   tempImg = *subWin->img;
+    }
+    else{
+        subWin->verFlip = true;
+        verFlipRealtime->setIcon(QIcon(":/icons/true.png"));
+     //   QMatrix mat;
+     //   mat = QMatrix().scale(-1, 1); // make a vertical flip      !!!!!!!!!!!!!!!!!!!!!!!!1
+     //   tempImg = subWin->img->transformed(mat);
+    }
+ //   QMatrix mat;
+ //   mat = QMatrix().scale(-1, 1); // make a vertical flip      !!!!!!!!!!!!!!!!!!!!!!!!1
+ //   tempImg = subWin->img->transformed(mat);
+ //   *subWin->img = tempImg;
+}
+
+//set Realtime Scale value
+void MainWindow::changeRotationRealtime(){
+    bool ok = true;
+    double temp;
+    temp = vSetting->tl->text().toDouble(&ok);
+    if (ok){
+        setRotateImgRealtimeValue(temp);
+    }
+    else{
+        fprintf(stderr, "Put correct number to the RealTime scale line");
+        exit(1);
+    }
+    delVSetting();
+}
+
+void MainWindow::setRotateImgRealtimeValue(double val){
+    fprintf(stderr, "\n\n\n\n %d \n\n\n", val);
+    subWin->rotation = val;
+}
+
+void MainWindow::setResetImgRealtime(){
+    subWin->verFlip = false;
+    subWin->horFlip = false;
+    verFlipSnapshot->setIcon(QIcon(":/icons/false.png"));
+    horFlipSnapshot->setIcon(QIcon(":/icons/false.png"));
+    subWin->contrast = 100;
+    subWin->brightness = 0;
+    subWin->gamma = 100;
+    subWin->rotation = 0;
+}

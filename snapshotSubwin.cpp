@@ -13,15 +13,37 @@ void MainWindow::setSnapshotScale(){
     fprintf(stderr, "Snapshot scaling\n");
         temp = ui->tlScaleSnapshot->text().toDouble(&ok); //Ok??????
         if (ok){
-            subWinSnapPointer->scale = temp/100.0;
-            scaleImage();
-            subWinSnapPointer->setWindowTitle(subWinSnapPointer->windowTitle().split("scale").first() + QString("scale ") + ui->tlScaleSnapshot->text());
+            setScaleSnapshotValue(temp);
         }
         else{
             fprintf(stderr, "Put correct number to the Snapshot scale line");
             exit(1);
         }
 }
+
+void MainWindow::setScaleSnapshotValue(double val){
+            subWinSnapPointer->scale = val/100.0;
+            scaleImage();
+            subWinSnapPointer->setWindowTitle(subWinSnapPointer->windowTitle().split("scale").first() + QString("scale ") + QString::number(val));
+
+}
+
+//set Snapshot Scale value
+void MainWindow::changeScaleSnapshot(){
+    bool ok = true;
+    double temp;
+    fprintf(stderr, "Snapshot scaling\n");
+        temp = vSetting->tl->text().toDouble(&ok);
+        if (ok){
+            setScaleSnapshotValue(temp);
+        }
+        else{
+            fprintf(stderr, "Put correct number to the Snapshot scale line");
+            exit(1);
+        }
+    delVSetting();
+}
+
 
 //Scale snapshot
 void MainWindow::scaleImage(){
@@ -72,6 +94,7 @@ void MainWindow::mkSnapshot(){
     tempSubWinSnapPointer->isSnapshot = true;
     tempSubWinSnapPointer->scale = subWin->scale;
     *tempSubWinSnapPointer->img = *subWin->img;
+    *tempSubWinSnapPointer->imgOrigin = *tempSubWinSnapPointer->img;/////////////
     tempSubWinSnapPointer->scrollArea->setWidget(tempSubWinSnapPointer->wgt);
     tempSubWinSnapPointer->numOfWin = 1+countImg;
     pal.setBrush(tempSubWinSnapPointer->wgt->backgroundRole(), QBrush( *tempSubWinSnapPointer->img));
@@ -94,4 +117,8 @@ void MainWindow::mkSnapshot(){
     area->show();
 
     countImg++;
+}
+
+void MainWindow::setResetImgSnapshot(){
+    *subWinSnapPointer->img = *subWinSnapPointer->imgOrigin;
 }

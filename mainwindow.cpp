@@ -132,6 +132,17 @@ QImage changeGamma( const QImage& image, int gamma )
     }
 
 ////////////////////////////////////////////////////////////////////////////////////////
+QImage MainWindow::chBrightness(QImage& image, int brightness ){
+    return changeBrightness(image, brightness );
+}
+QImage MainWindow::chContrast(QImage& image, int brightness ){
+    return changeContrast(image, brightness );
+}
+QImage MainWindow::chGamma(QImage& image, int brightness ){
+    return changeGamma(image, brightness );
+}
+
+
 //
 void MainWindow::contextMenuEvent(QContextMenuEvent *event)
 {
@@ -149,7 +160,7 @@ void TangoProperties::closeEvent ( QCloseEvent * closeEvent){
 //Destructor of mainwindow
 MainWindow::~MainWindow(){
         fprintf(stderr,"---!_in mainwinDestructor\n");
-        fprintf(stderr,"---!\n");
+
         delete setDevice;                 //set for current app tango device
         delete addNewDevice;              //set tango device in new app
         delete pushCommand;               //set tango command
@@ -160,6 +171,39 @@ MainWindow::~MainWindow(){
 
         delete snapshot;
         delete server;
+        delete realtime;
+
+        delete scaleRealtime;
+        delete setBrightnessRealtime;
+        delete setContrastRealtime;
+        delete setGammaRealtime;
+        delete setRotationRealtime;
+        delete verFlipRealtime;
+        delete horFlipRealtime;
+        delete resetImgRealtime;
+fprintf(stderr,"---!\n");
+        delete setImageFormatIndex8;
+        delete setImageFormatRGB32;
+        delete setImageFormatARGB32;
+        delete setImageFormatARGB32Pre;
+        delete setImageFormatRGB16;
+        delete setImageFormatARGB8565Pre;
+        delete setImageFormatRGB666;
+        delete setImageFormatARGB6666Pre;
+        delete setImageFormatRGB555;
+        delete setImageFormatARGB8555Pre;
+        delete setImageFormatRGB888;
+        delete setImageFormatRGB444;
+        delete setImageFormatARGB4444Pre;
+
+        delete scaleSnapshot;             //scale current snapshot  //not used
+        delete horFlipSnapshot;
+        delete verFlipSnapshot;
+        delete setBrightnessSnapshot;
+        delete setContrastSnapshot;
+        delete setGammaSnapshot;
+        delete setRotationSnapshot;
+//        delete resetImgSnapshot;
 
         delete area;
         fprintf(stderr,"---!\n");
@@ -171,6 +215,7 @@ MainWindow::~MainWindow(){
 SubWindow::~SubWindow(){
     delete device;
     delete img;
+    delete imgOrigin;
     delete wgt;
     delete scrollArea;
     fprintf(stderr,"---!_Delete SubWinexport TANGO_HOST=anka-tango3.ka.fzk.de:10000 in _ destructor_!\n");
@@ -184,6 +229,15 @@ void MainWindow::closeEvent ( QCloseEvent * closeEvent){
 
       subWin[0].close();
     }
+    if(tangoDev != NULL){
+        delete tangoDev;
+    }
+    if(cmdTangoLine != NULL){
+        delete cmdTangoLine;
+    }
+    if(vSetting != NULL){
+        delete vSetting;
+    }
     fprintf(stderr,"is_SubWin_ActiveWindow: %d\n", subWin[0].isActiveWindow());
     this->~MainWindow();        ///????????????????????????
     exit(0); /////////why app don't stop without this command?????????
@@ -191,10 +245,16 @@ void MainWindow::closeEvent ( QCloseEvent * closeEvent){
 
 //inital window for setting command for sending it to tango device
 void MainWindow::setTangoCommand(){
+    if (cmdTangoLine != NULL){
+        fprintf(stderr, "!!!!!!!was!!!Qt::WA_DeleteOnClose !!!but !!!!!!!!!'tangoDev != NULL'!!!!!!!!!!!!!!\n");
+        delete cmdTangoLine;
+        cmdTangoLine = NULL;
+
+    }
     if (cmdTangoLine == NULL){
         cmdTangoLine = new CommandLine(this);
         cmdTangoLine->setWindowModality(Qt::ApplicationModal);
-        cmdTangoLine->setAttribute(Qt::WA_DeleteOnClose);
+       // cmdTangoLine->setAttribute(Qt::WA_DeleteOnClose);     //!!!!!!!!! use upper IF to delete object !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         QObject::connect(cmdTangoLine->btCancel, SIGNAL(clicked()), this, SLOT(cancelCommandLine()));
         QObject::connect(cmdTangoLine->btSend, SIGNAL(clicked()), this, SLOT(sendTangoCommandSLOT()));
         cmdTangoLine->show();
@@ -225,16 +285,16 @@ void MainWindow::setTangoDevice(){ ///use one more slot!!!!!!
 void MainWindow::tangoDeviceWin(){
     if (tangoDev != NULL){
         fprintf(stderr, "!!!!!!!was!!!Qt::WA_DeleteOnClose !!!but !!!!!!!!!'tangoDev != NULL'!!!!!!!!!!!!!!\n");
-        //delete tangoDev;
+        delete tangoDev;
         tangoDev = NULL;
 
     }
     if (tangoDev == NULL){
-    tangoDev = new TangoProperties(this);
-    tangoDev->setWindowModality(Qt::ApplicationModal);
-    tangoDev->setAttribute(Qt::WA_DeleteOnClose);
-    QObject::connect(tangoDev->btCancel, SIGNAL(clicked()), this, SLOT(cancelTangoProperties()));
-    tangoDev->show();
+        tangoDev = new TangoProperties(this);
+        tangoDev->setWindowModality(Qt::ApplicationModal);
+        //tangoDev->setAttribute(Qt::WA_DeleteOnClose);  //!!!!!!!!! use upper IF to delete object!!!!!!!!!!!!!!!!!!!!!!!!!
+        QObject::connect(tangoDev->btCancel, SIGNAL(clicked()), this, SLOT(cancelTangoProperties()));
+        tangoDev->show();
 
     }
     else{
@@ -321,21 +381,35 @@ void MainWindow::setEnabledSnapshot(bool isEnable){
         ui->btWriteImg->setEnabled(true);
         saveSnapshot->setEnabled(true);
         ui->btScaleSnapshot->setEnabled(true);
-        ui->btChangeBrightness->setEnabled(true);
+        //ui->btChangeBrightness->setEnabled(true);
         ui->cmbRotate->setEnabled(true);
-        ui->cmbFlipHor->setEnabled(true);
-        ui->cmbFlipVer->setEnabled(true);
-        ui->btScale->setEnabled(true);
+        //ui->cmbFlipHor->setEnabled(true);
+       // ui->cmbFlipVer->setEnabled(true);
+        horFlipSnapshot->setEnabled(true);
+        verFlipSnapshot->setEnabled(true);
+        //ui->btScale->setEnabled(true);
+        setBrightnessSnapshot->setEnabled(true);
+        setContrastSnapshot->setEnabled(true);
+        setGammaSnapshot->setEnabled(true);
+        scaleSnapshot->setEnabled(true);
+        setRotationSnapshot->setEnabled(true);
     }
     else{
-         ui->btScale->setEnabled(false);
+         //ui->btScale->setEnabled(false);
          ui->btScaleSnapshot->setEnabled(false);
          ui->cmbRotate->setEnabled(false);
-         ui->cmbFlipHor->setEnabled(false);
-         ui->cmbFlipVer->setEnabled(false);
+        // ui->cmbFlipHor->setEnabled(false);
+        // ui->cmbFlipVer->setEnabled(false);
+         horFlipSnapshot->setEnabled(false);
+         verFlipSnapshot->setEnabled(false);
          ui->btWriteImg->setEnabled(false);
-         ui->btChangeBrightness->setEnabled(false);
+         //ui->btChangeBrightness->setEnabled(false);
          saveSnapshot->setEnabled(false);
+         setBrightnessSnapshot->setEnabled(false);
+         setContrastSnapshot->setEnabled(false);
+         setGammaSnapshot->setEnabled(false);
+         scaleSnapshot->setEnabled(false);
+         setRotationSnapshot->setEnabled(false);
     }
 }
 
@@ -362,11 +436,11 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 
     initcmbColorFormat(*this);
     initcmbRotate(*this);
-    ui->cmbFlipHor->addItems(QStringList()<<"False"<<"True");
-    ui->cmbFlipVer->addItems(QStringList()<<"False"<<"True");
+    //ui->cmbFlipHor->addItems(QStringList()<<"False"<<"True");
+    //ui->cmbFlipVer->addItems(QStringList()<<"False"<<"True");
 
-    QObject::connect(ui->cmbFlipHor, SIGNAL(currentIndexChanged(int)), this, SLOT(setFlipHor(int)));
-    QObject::connect(ui->cmbFlipVer, SIGNAL(currentIndexChanged(int)), this, SLOT(setFlipVer(int)));
+    //QObject::connect(ui->cmbFlipHor, SIGNAL(currentIndexChanged(int)), this, SLOT(setFlipHor(int)));
+    //QObject::connect(ui->cmbFlipVer, SIGNAL(currentIndexChanged(int)), this, SLOT(setFlipVer(int)));
 
 
     ui->lbWork->setAutoFillBackground(true);
@@ -375,6 +449,8 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     tangoDev = NULL;
     cmdTangoLine = NULL;
     setEnabledSnapshot(false);
+    realtime->setEnabled(false);
+    vSetting = NULL;
 }
 
 //Constructor of subwindow  //overloaded
@@ -383,7 +459,13 @@ SubWindow::SubWindow(QWidget *parent, Qt::WindowFlags flags){
     wgt = new ImageWidget();
     scrollArea = new QScrollArea();
     img = new QImage();
-
+    imgOrigin = new QImage();
+    verFlip = false;
+    horFlip = false;
+    contrast = 100;
+    brightness = 0;
+    gamma = 100;
+    rotation = 0;
     scrollArea->hide();
     scrollArea->setWindowModality(Qt::WindowModal);
     scrollArea->resize(800, 500);
@@ -399,38 +481,53 @@ SubWindow::SubWindow(QWidget *parent, Qt::WindowFlags flags){
 }
 
 //set Vertical Flip
-void MainWindow::setFlipVer(int val){
+void MainWindow::setFlipVer(){
     QImage tempImg;
     QPalette pal;
     subWinSnapPointer->wgt->hide();
-    if (val){
-        QMatrix mat;
-        mat = QMatrix().scale(1, -1); // make a horisontal flip
-        tempImg = subWinSnapPointer->img->transformed(mat);
+    if (subWinSnapPointer->horFlip){
+        subWinSnapPointer->horFlip = false;
+        verFlipSnapshot->setIcon(QIcon(":/icons/false.png"));
+        //tempImg = *subWinSnapPointer->img;
+    //    QMatrix mat;
+    //    mat = QMatrix().scale(1, -1); // make a vertical flip      !!!!!!!!!!!!!!!!!!!!!!!!1
+    //    tempImg = subWinSnapPointer->img->transformed(mat);
     }
     else{
-        tempImg = *subWinSnapPointer->img;
+        subWinSnapPointer->horFlip = true;
+        verFlipSnapshot->setIcon(QIcon(":/icons/true.png"));
+
     }
+    QMatrix mat;
+    mat = QMatrix().scale(1, -1); // make a vertical flip      !!!!!!!!!!!!!!!!!!!!!!!!1
+    tempImg = subWinSnapPointer->img->transformed(mat);
     pal.setBrush(subWinSnapPointer->wgt->backgroundRole(), QBrush(tempImg));
+    *subWinSnapPointer->img = tempImg;                                                                        /////
     subWinSnapPointer->wgt->setPalette(pal);
     subWinSnapPointer->wgt->resize(subWinSnapPointer->img->width(), subWinSnapPointer->img->height());
     subWinSnapPointer->wgt->show();
 }
 
 //set Horizontal Flip
-void MainWindow::setFlipHor(int val){
+void MainWindow::setFlipHor(){
     QImage tempImg;
     QPalette pal;
     subWinSnapPointer->wgt->hide();
-    if (val){
-        QMatrix mat;
-        mat = QMatrix().scale(-1, 1); // make a vertical flip
-        tempImg = subWinSnapPointer->img->transformed(mat);
+    if (subWinSnapPointer->horFlip){
+        subWinSnapPointer->horFlip = false;
+        horFlipSnapshot->setIcon(QIcon(":/icons/false.png"));
+   //     tempImg = *subWinSnapPointer->img;
     }
     else{
-        tempImg = *subWinSnapPointer->img;
+        subWinSnapPointer->horFlip = true;
+        horFlipSnapshot->setIcon(QIcon(":/icons/true.png"));
+
     }
+    QMatrix mat;
+    mat = QMatrix().scale(-1, 1); // make a vertical flip      !!!!!!!!!!!!!!!!!!!!!!!!1
+    tempImg = subWinSnapPointer->img->transformed(mat);
     pal.setBrush(subWinSnapPointer->wgt->backgroundRole(), QBrush(tempImg));
+    *subWinSnapPointer->img = tempImg;                                                                        /////
     subWinSnapPointer->wgt->setPalette(pal);
     subWinSnapPointer->wgt->resize(subWinSnapPointer->img->width(), subWinSnapPointer->img->height());
     subWinSnapPointer->wgt->show();
@@ -463,10 +560,16 @@ void SubWindow::handleWindowStateChanged(Qt::WindowStates oldState, Qt::WindowSt
             for (i = 0; i<parent->listSnap.size(); i++){
                  if(this == parent->listSnap.at(i)){
                     parent->curImg = i;
-                    parent->ui->lbCurWin->setText(QString("CurSnap_") + QString(i+49));
+                    //parent->ui->lbCurWin->setText(QString("CurSnap_") + QString(i+49));
                     parent->subWinSnapPointer = this;
                     parent->setEnabledSnapshot(true);
                     parent->snapshot->setEnabled(true);
+                    if (this->horFlip){
+                        parent->horFlipSnapshot->setIcon(QIcon(":/icons/true.png"));
+                    }
+                    else{
+                        parent->horFlipSnapshot->setIcon(QIcon(":/icons/false.png"));
+                    }
                     break;
                 }
            }
@@ -483,7 +586,9 @@ void SubWindow::handleWindowStateChanged(Qt::WindowStates oldState, Qt::WindowSt
 //on change size of main window
 void MainWindow::resizeEvent( QResizeEvent *e ){
     QSize s = e->size();
-    area->resize(s.width(), s.height()-120);
+    area->resize(s.width(), s.height()-150);   //-120 to statusTip
+    ui->lbWork->move(5, s.height()-80);
+    ui->lbCurWorkiningDev->move(75, s.height()-80);
     ui->statusBar->showMessage(tr("Ready"), 0);
 }
 
@@ -528,6 +633,7 @@ void SubWindow::closeEvent ( QCloseEvent * closeEvent ){
         parent->makeSnapshot->setEnabled(false);
         parent->ui->btScaleRealTime->setEnabled(false);
         parent->setDevice->setEnabled(true);
+        parent->realtime->setEnabled(false);
         parent->pushCommand->setEnabled(false);
 
     }
@@ -544,6 +650,49 @@ void SubWindow::closeEvent ( QCloseEvent * closeEvent ){
             }
         }
     }
+}
+
+void MainWindow::setIndex8(){
+    changeColorFormat(0);
+}
+
+void MainWindow::setRGB32(){
+    changeColorFormat(1);
+}
+
+void MainWindow::setARGB32(){
+    changeColorFormat(2);
+}
+
+void MainWindow::setARGB32Pre(){
+    changeColorFormat(3);
+}
+void MainWindow::setRGB16(){
+    changeColorFormat(4);
+}
+void MainWindow::setARGB8565Pre(){
+    changeColorFormat(5);
+}
+void MainWindow::setRGB666(){
+    changeColorFormat(6);
+}
+void MainWindow::setARGB6666Pre(){
+    changeColorFormat(7);
+}
+void MainWindow::setRGB555(){
+    changeColorFormat(8);
+}
+void MainWindow::setARGB8555Pre(){
+    changeColorFormat(9);
+}
+void MainWindow::setRGB888(){
+    changeColorFormat(10);
+}
+void MainWindow::setRGB444(){
+    changeColorFormat(11);
+}
+void MainWindow::setARGB4444Pre(){
+    changeColorFormat(12);
 }
 
 //Change colorFormat for realtime subwin
@@ -570,6 +719,60 @@ void MainWindow::changeColorFormat(int format){
     }
 }
 
+
+void MainWindow::settingBrightnessSnapshot(){
+    vSettingWin(BRIGHTNESS_SNAPSHOT);
+}
+void MainWindow::settingContrastSnapshot(){
+    vSettingWin(CONTRAST_SNAPSHOT);
+}
+void MainWindow::settingGammaSnapshot(){
+    vSettingWin(GAMMA_SNAPSHOT);
+}
+void MainWindow::settingRotationSnapshot(){
+    vSettingWin(ROTATION_SNAPSHOT);
+}
+void MainWindow::settingScaleSnapshot(){
+    vSettingWin(SCALE_SNAPSHOT);
+}
+
+
+void MainWindow::settingBrightnessRealtime(){
+    vSettingWin(BRIGHTNESS_REALTIME);
+}
+void MainWindow::settingGammaRealtime(){
+    vSettingWin(GAMMA_REALTIME);
+}
+void MainWindow::settingContrastRealtime(){
+    vSettingWin(CONTRAST_REALTIME);
+}
+void MainWindow::settingScaleRealtime(){
+    vSettingWin(SCALE_REALTIME);
+}
+void MainWindow::settingRotationRealtime(){
+    vSettingWin(ROTATION_REALTIME);
+}
+
+
+
+void MainWindow::vSettingWin(int param){
+    if (vSetting != NULL){
+        fprintf(stderr, "!!!!!!!was!!!Qt::WA_DeleteOnClose !!!but !!!!!!!!!'vSetting != NULL'!!!!!!!!!!!!!!\n");
+        delete vSetting;
+        vSetting = NULL;
+
+    }
+    if (vSetting == NULL){
+        vSetting = new VideoSettingsWin(this, param);
+        vSetting->setWindowModality(Qt::ApplicationModal);
+        vSetting->show();
+    }
+    else{
+         fprintf(stderr, "!!ERROR vSetting != NULL'!!!!!!!!!!!!!!\n");
+         exit(1);
+    }
+}
+
 //open new device
 void MainWindow::openDevInNewProc(){
     QProcess::startDetached("./TestApp",
@@ -581,25 +784,89 @@ void MainWindow::openDevInNewProc(){
     tangoDev = NULL;
 }
 
+void MainWindow::delVSetting(){
+    delete vSetting;    ////////////////////////!!!!!!!!!!!!!!!!!!
+    vSetting = NULL;
+}
+
+void MainWindow::setBrightnessValue(int val, SubWindow &subwinPointer){
+        subwinPointer.wgt->hide();
+        QImage tempImg;
+        QPalette pal;
+        tempImg = changeBrightness(*subwinPointer.img, val);
+        pal.setBrush(subwinPointer.wgt->backgroundRole(), QBrush(tempImg));
+        subwinPointer.wgt->setPalette(pal);
+        subwinPointer.wgt->resize(subwinPointer.img->width(), subwinPointer.img->height());
+        subwinPointer.wgt->show();
+}
+
 //set Brightness for snapshot
 void MainWindow::changeBrightnessSnapshot(){
     bool ok = true;
     int temp;
-    temp = ui->tlBrightness->text().toInt(&ok); //Ok??????
+    temp = vSetting->tl->text().toInt(&ok);
     if (ok){
-        subWinSnapPointer->wgt->hide();
-        QImage tempImg;
-        QPalette pal;
-        tempImg = changeBrightness(*subWinSnapPointer->img, temp);
-        pal.setBrush(subWinSnapPointer->wgt->backgroundRole(), QBrush(tempImg));
-        subWinSnapPointer->wgt->setPalette(pal);
-        subWinSnapPointer->wgt->resize(subWinSnapPointer->img->width(), subWinSnapPointer->img->height());
-        subWinSnapPointer->wgt->show();
+        setBrightnessValue(temp, *subWinSnapPointer);
     }
     else{
         fprintf(stderr, "Check brightness value!! \n");
         exit(1);
     }
+    delVSetting();
+}
+
+void MainWindow::setContrastValue(int val, SubWindow &subwinPointer){
+        subwinPointer.wgt->hide();
+        QImage tempImg;
+        QPalette pal;
+        tempImg = changeContrast(*subwinPointer.img, val);
+        pal.setBrush(subwinPointer.wgt->backgroundRole(), QBrush(tempImg));
+        *subwinPointer.img = tempImg;                                           /////
+        subwinPointer.wgt->setPalette(pal);
+        subwinPointer.wgt->resize(subwinPointer.img->width(), subwinPointer.img->height());
+        subwinPointer.wgt->show();
+}
+
+//set Contrast for snapshot
+void MainWindow::changeContrastSnapshot(){
+    bool ok = true;
+    int temp;
+    temp = vSetting->tl->text().toInt(&ok);
+    if (ok){
+        setContrastValue(temp, *subWinSnapPointer);
+    }
+    else{
+        fprintf(stderr, "Check brightness value!! \n");
+        exit(1);
+    }
+    delVSetting();
+}
+
+void MainWindow::setGammaValue(int val, SubWindow &subwinPointer){
+        subwinPointer.wgt->hide();
+        QImage tempImg;
+        QPalette pal;
+        tempImg = changeGamma(*subwinPointer.img, val);
+        pal.setBrush(subwinPointer.wgt->backgroundRole(), QBrush(tempImg));
+        *subwinPointer.img = tempImg;                                           /////
+        subwinPointer.wgt->setPalette(pal);
+        subwinPointer.wgt->resize(subwinPointer.img->width(), subwinPointer.img->height());
+        subwinPointer.wgt->show();
+}
+
+//set Gamma for snapshot
+void MainWindow::changeGammaSnapshot(){
+    bool ok = true;
+    int temp;
+    temp = vSetting->tl->text().toInt(&ok);
+    if (ok){
+        setGammaValue(temp, *subWinSnapPointer);
+    }
+    else{
+        fprintf(stderr, "Check brightness value!! \n");
+        exit(1);
+    }
+    delVSetting();
 }
 
 //set rotation for snapshot
@@ -615,6 +882,7 @@ void MainWindow::rotateImg(int deg){
         QPalette pal;
 
         tempImg = subWinSnapPointer->img->transformed(mat);
+        *subWinSnapPointer->img = tempImg;                                           /////
         pal.setBrush(subWinSnapPointer->wgt->backgroundRole(), QBrush(tempImg));
         subWinSnapPointer->wgt->setPalette(pal);
         subWinSnapPointer->wgt->resize(tempImg.width(), tempImg.height());
@@ -624,4 +892,36 @@ void MainWindow::rotateImg(int deg){
         fprintf(stderr, "Error degree rotation value !! \n");
         exit(1);
     }
+
+}
+
+void MainWindow::setRotateImgValue(int val, SubWindow &subwinPointer){
+    QTransform mat;
+    mat.rotate(val);
+    subwinPointer.wgt->hide();
+    QImage tempImg;
+    QPalette pal;
+
+    tempImg = subwinPointer.img->transformed(mat);
+
+    pal.setBrush(subwinPointer.wgt->backgroundRole(), QBrush(tempImg));
+    *subwinPointer.img = tempImg;                                           /////
+    subwinPointer.wgt->setPalette(pal);
+    subwinPointer.wgt->resize(tempImg.width(), tempImg.height());
+    subwinPointer.wgt->show();
+}
+
+//set rotation for snapshot
+void MainWindow::rotateImg(){
+    bool ok = true;
+    int temp;
+    temp = vSetting->tl->text().toInt(&ok);
+    if(ok){
+        setRotateImgValue(temp, *subWinSnapPointer);
+    }
+    else{
+        fprintf(stderr, "Error degree rotation value !! \n");
+        exit(1);
+    }
+    delVSetting();
 }

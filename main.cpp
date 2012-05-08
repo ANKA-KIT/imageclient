@@ -69,13 +69,13 @@ int readFromFile(MainWindow &w, char *argv[]){
 int initSignals(MainWindow &w){
     QObject::connect(w.ui->btMkSnapshot, SIGNAL(clicked()), &w,SLOT(mkSnapshot()));
     QObject::connect(w.ui->btNewDev, SIGNAL(clicked()), &w,SLOT(setNewTangoDevice()));
-    QObject::connect(w.ui->btScale, SIGNAL(clicked()), &w,SLOT(scaleImage()));
+    //QObject::connect(w.ui->btScale, SIGNAL(clicked()), &w,SLOT(scaleImage()));
     QObject::connect(w.ui->btChangeDevice, SIGNAL(clicked()), &w,SLOT(setTangoDevice()));
 
     QObject::connect(w.ui->btScaleRealTime, SIGNAL(clicked()), &w,SLOT(setRealtimeScale()));
     QObject::connect(w.ui->btScaleSnapshot, SIGNAL(clicked()), &w,SLOT(setSnapshotScale()));
     QObject::connect(w.ui->btWriteImg,SIGNAL(clicked()), &w,SLOT(saveImg()));
-    QObject::connect(w.ui->btChangeBrightness,SIGNAL(clicked()), &w,SLOT(changeBrightnessSnapshot()));
+    //QObject::connect(w.ui->btChangeBrightness,SIGNAL(clicked()), &w,SLOT(changeBrightnessSnapshot()));
     return 0;
 }
 

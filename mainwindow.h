@@ -17,11 +17,27 @@ namespace Ui {
 class MainWindow;
 }
 class MainWindow;
+class SubWindow;
 
-/*used in version with multi threading (data which transfered to MainWindow::startTesting)*/
-struct thread_data{
-   MainWindow *parent;                      //Main window
-   int threadNum;                           //current Realtime subwin   //(not used)
+/*Send command*/
+class VideoSettingsWin : public QWidget{
+    Q_OBJECT
+public:
+    int param;
+    MainWindow *parent;
+    QWidget *centralWidget;
+    //SubWindow *window;
+    VideoSettingsWin(MainWindow *main, int param);//, SubWindow* win);
+    QLabel *lb;
+    QLineEdit *tl;
+    QPushButton *btOk;
+    QPushButton *btCancel;
+    void initButtons();
+    void initText();
+    void initTextLine();
+    ~VideoSettingsWin();
+public slots:
+    //void closeEvent ( QCloseEvent * closeEvent);
 };
 
 /*Send command*/
@@ -107,7 +123,14 @@ public:
     int dimY;                       //image size
     vector <unsigned char> val;     //keep image data (used in making snapshot)
     QImage *img;                    //Image
-    double scale;
+    double scale;                   //scale value
+    bool verFlip;
+    bool horFlip;
+    int rotation;
+    int contrast;
+    int brightness;
+    int gamma;
+    QImage *imgOrigin;                    //Image
 
     ~SubWindow();
 public slots:
@@ -116,8 +139,7 @@ public slots:
 
 
 /*MainWindow*/
-class MainWindow : public QMainWindow
-{
+class MainWindow : public QMainWindow{
     Q_OBJECT
 
 public:
@@ -134,6 +156,7 @@ public:
     bool firstTime;                     //is it first time showed realtime subwindow
     TangoProperties *tangoDev;          //Window for seting tango properties
     CommandLine *cmdTangoLine;          //Window for sending command to current tango device
+    VideoSettingsWin *vSetting;
 
     SubWindow *subWinSnapPointer;       //Pointer to current snapshot
     QList<SubWindow *> listSnap;        //List snapshot subwindows
@@ -143,16 +166,36 @@ public:
 
     QMenu *server;                      //Server menu
     QMenu *snapshot;                    //Snapshot menu
+    QMenu *realtime;                    //Realtime menu
+    QMenu *submenuImageFormat;
 
     QAction *setDevice;                 //set for current app tango device
     QAction *addNewDevice;              //set tango device in new app
     QAction *pushCommand;               //set tango command
+    QAction *exitAct;                   //Stop app
+
     QAction *scaleRealtime;
     QAction *setBrightnessRealtime;
     QAction *setContrastRealtime;
     QAction *setGammaRealtime;
     QAction *setRotationRealtime;
-    QAction *exitAct;                   //Stop app
+    QAction *verFlipRealtime;
+    QAction *horFlipRealtime;
+    QAction *resetImgRealtime;
+
+    QAction *setImageFormatIndex8;
+    QAction *setImageFormatRGB32;
+    QAction *setImageFormatARGB32;
+    QAction *setImageFormatARGB32Pre;
+    QAction *setImageFormatRGB16;
+    QAction *setImageFormatARGB8565Pre;
+    QAction *setImageFormatRGB666;
+    QAction *setImageFormatARGB6666Pre;
+    QAction *setImageFormatRGB555;
+    QAction *setImageFormatARGB8555Pre;
+    QAction *setImageFormatRGB888;
+    QAction *setImageFormatRGB444;
+    QAction *setImageFormatARGB4444Pre;
 
     QAction *makeSnapshot;              //Make snapshot
     QAction *saveSnapshot;              //Save current snapshot
@@ -163,6 +206,7 @@ public:
     QAction *setContrastSnapshot;
     QAction *setGammaSnapshot;
     QAction *setRotationSnapshot;
+    QAction *resetImgSnapshot;
 
     int isWork(int);                    //!!!!!!need in remaning!!!!!!!!!
 public:
@@ -171,6 +215,7 @@ public:
     Tango::DeviceAttribute setTangoAttr(Tango::DeviceProxy &device, QString attrName);
     void setImage(Tango::DeviceAttribute &attr);
     void tangoDeviceWin();
+    void vSettingWin(int param);
 public slots:
     void openDevInNewProc();            //Start Tango device in new process
     void scaleImage();                  //scale snapshot
@@ -184,6 +229,7 @@ public slots:
     void contextMenuEvent(QContextMenuEvent *event);
     void setRealtimeScale();            //set Realtime Scale
     void setSnapshotScale();            //set Snapshot Scale
+    void changeScaleSnapshot();
     void sendTangoCommand(Tango::DeviceProxy *, QString);            //Send a tango command to current tango device
     void sendTangoCommandSLOT();
     void setTangoCommand();             //Set a tango command to current tango device
@@ -192,13 +238,79 @@ public slots:
     void setNewTangoDevice();
     void changeColorFormat(int);
     void changeBrightnessSnapshot();
+    void changeContrastSnapshot();
+    void changeGammaSnapshot();
     void rotateImg(int);
-    void setFlipHor(int);
-    void setFlipVer(int);
+    void rotateImg();
+    void setFlipHor();
+    void setFlipVer();
 
     void cancelTangoProperties();
+    void cancelVSettingWin();
     void cancelCommandLine();
     void setEnabledSnapshot(bool);
+
+    void settingBrightnessSnapshot();
+    void settingGammaSnapshot();
+    void settingContrastSnapshot();
+    void settingScaleSnapshot();
+    void settingRotationSnapshot();
+    void setResetImgSnapshot();
+    void delVSetting();
+    void settingBrightnessRealtime();
+    void settingGammaRealtime();
+    void settingContrastRealtime();
+    void settingScaleRealtime();
+    void settingRotationRealtime();
+    void setResetImgRealtime();
+
+/*    void setBrightnessSnapshotValue(int );
+    void setGammaSnapshotValue(int );
+    void setContrastSnapshotValue(int );
+    void setRotateImgValue(int );
+    void setScaleSnapshotValue(double);
+*/
+    void setBrightnessValue(int, SubWindow &subwinPointer);
+    void setGammaValue(int, SubWindow &subwinPointer );
+    void setContrastValue(int, SubWindow &subwinPointer );
+    void setRotateImgValue(int, SubWindow &subwinPointer );
+    void setScaleSnapshotValue(double);
+
+
+    void changeScaleRealtime();
+    void setScaleRealtimeValue(double);
+    void changeBrightnessRealtime();
+    void setBrightnessRealtimeValue(int val);
+    void changeContrastRealtime();
+    void setContrastRealtimeValue(int val);
+    void changeGammaRealtime();
+    void setGammaRealtimeValue(int val);
+    void changeFlipHorRealtime();
+    void changeFlipVerRealtime();
+    QImage setFlipHorRealtime(QImage&);
+    QImage setFlipVerRealtime(QImage&);
+    void setRotateImgRealtimeValue(double);
+    void changeRotationRealtime();
+
+    void setIndex8();
+    void setRGB32();
+    void setARGB32();
+    void setARGB32Pre();
+    void setRGB16();
+    void setARGB8565Pre();
+    void setRGB666();
+    void setARGB6666Pre();
+    void setRGB555();
+    void setARGB8555Pre();
+    void setRGB888();
+    void setRGB444();
+    void setARGB4444Pre();
+
+
+    QImage chGamma(QImage &, int);
+    QImage chContrast(QImage &, int);
+    QImage chBrightness(QImage &, int);
+
 };
 
 
