@@ -1,0 +1,15 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$class_main_window.html#a1fb02a2484b4a39cbc17f0f3743f23dc" title="MainWindow::setManipulatorReal" alt="" coords="242,5,459,32"/>
+<area shape="rect" id="node9" href="$class_main_window.html#abb54ad1d6eaade28d9cd4f4665ad37f7" title="MainWindow::setManipulatorSnap" alt="" coords="241,56,461,83"/>
+<area shape="rect" id="node13" href="$class_main_window.html#a3707a540ae92bc3d24b3d15323509f9b" title="MainWindow::realtimeChanged" alt="" coords="249,157,452,184"/>
+<area shape="rect" id="node16" href="$class_main_window.html#a9fe18067debf46c61dc64a33f4875049" title="MainWindow::SnapshotChanged" alt="" coords="245,107,457,133"/>
+<area shape="rect" id="node19" href="$class_main_window.html#aca4f956079ed9acf7212aedcae639b0c" title="MainWindow::setImageMode" alt="" coords="255,233,446,260"/>
+<area shape="rect" id="node5" href="$class_main_window.html#a2fd533a7dec413bc99aa194273037bb5" title="MainWindow::mkRealtime" alt="" coords="825,132,999,159"/>
+<area shape="rect" id="node7" href="$class_main_window.html#a2623c7c35266988a8528397a0732b588" title="MainWindow::initStartTangoWin" alt="" coords="1049,132,1258,159"/>
+<area shape="rect" id="node11" href="$class_main_window.html#a7a13d8928d57cc0252394535e3dec0ef" title="MainWindow::mkSnapshot" alt="" coords="553,56,732,83"/>
+<area shape="rect" id="node21" href="$class_main_window.html#a8ada0fa9c6c71bb4ebedd7bd56974109" title="MainWindow::set16BitGreyImageMode" alt="" coords="518,157,767,184"/>
+<area shape="rect" id="node24" href="$class_main_window.html#a9c58e510901297c339a2de8132af31d4" title="MainWindow::set8BitGreyImageMode" alt="" coords="521,208,764,235"/>
+<area shape="rect" id="node26" href="$class_main_window.html#a6429b01c50d42d1cebb90fe47fdb8d49" title="MainWindow::set8BitColorImageMode" alt="" coords="520,259,765,285"/>
+<area shape="rect" id="node28" href="$class_main_window.html#ae82f57d7eb23aa77dab26c27d88d11a3" title="MainWindow::setRGB_ARGBImageMode" alt="" coords="510,309,775,336"/>
+<area shape="rect" id="node31" href="$class_main_window.html#ad318ada008810bccb89bbca13885d7fc" title="MainWindow::setRGBGreyImageMode" alt="" coords="519,360,767,387"/>
+</map>

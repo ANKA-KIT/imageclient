@@ -1,0 +1,17 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$classmy___device.html#aba4ef4e3ae39415a134f93bda9b7c2ad" title="my_Device::setTangoAttr" alt="" coords="253,233,424,260"/>
+<area shape="rect" id="node5" href="$classmy___device.html#a1357d68c836e42ee80dea17ad3766696" title="my_Device::setTangoAttr" alt="" coords="535,5,705,32"/>
+<area shape="rect" id="node7" href="$classmy___device.html#ad002b970b0471845a0521aeecbc6473b" title="my_Device::setScaleDeviceValCommand" alt="" coords="487,56,753,83"/>
+<area shape="rect" id="node9" href="$classmy___device.html#ac74dfb0dabf5375bca84865849be7db8" title="my_Device::setRotationDeviceValCommand" alt="" coords="479,107,761,133"/>
+<area shape="rect" id="node11" href="$classmy___device.html#a8cd2547eb57986e2db854ce2856ded90" title="my_Device::setContrastDeviceValCommand" alt="" coords="478,157,762,184"/>
+<area shape="rect" id="node13" href="$classmy___device.html#ac1265135c6efe1493afe480b49d800cc" title="my_Device::setBrightnessDeviceValCommand" alt="" coords="472,208,768,235"/>
+<area shape="rect" id="node15" href="$classmy___device.html#a87089317e92413dc104ee54479edf237" title="my_Device::setGammaDeviceValCommand" alt="" coords="480,259,760,285"/>
+<area shape="rect" id="node17" href="$classmy___device.html#a6294c7cab2ad397806fe01f598ca8946" title="my_Device::setHorFlipDeviceValCommand" alt="" coords="482,309,758,336"/>
+<area shape="rect" id="node21" href="$classmy___device.html#a25db7db86e76bc6b4a58f7df6c876691" title="my_Device::setVerFlipDeviceValCommand" alt="" coords="483,360,757,387"/>
+<area shape="rect" id="node25" href="$classmy___device.html#ad3d34b68d417308f01a1c19da9395f6f" title="my_Device::readServerPropertyVal" alt="" coords="507,411,733,437"/>
+<area shape="rect" id="node27" href="$class_start_tango_win.html#a139b21e3207c0ed3d52e2d00186152b7" title="StartTangoWin::testOnOk" alt="" coords="533,461,707,488"/>
+<area shape="rect" id="node19" href="$classmy___device.html#acccd33863bf2812bf37d7c89dd80e2c2" title="my_Device::setHorFlipDeviceValCommand" alt="" coords="817,309,1093,336"/>
+<area shape="rect" id="node23" href="$classmy___device.html#aa14db6fd45b1d80bd1e9cc93df1b6ff5" title="my_Device::setVerFlipDeviceValCommand" alt="" coords="817,360,1092,387"/>
+<area shape="rect" id="node29" href="$class_start_tango_win.html#a4151b0a9297ecc49f11bc4cbc1ffd4de" title="StartTangoWin::initTangoDev" alt="" coords="857,461,1052,488"/>
+<area shape="rect" id="node31" href="$class_start_tango_win.html#acba5ccc5271e88ff8ca1588eab6af111" title="StartTangoWin::StartTangoWin" alt="" coords="1142,461,1346,488"/>
+</map>

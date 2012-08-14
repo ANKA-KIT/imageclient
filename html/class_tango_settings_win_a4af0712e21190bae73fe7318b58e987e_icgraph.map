@@ -1,0 +1,7 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$class_tango_settings_win.html#a20204b38f49dc7287902586137353e46" title="TangoSettingsWin::onOk" alt="" coords="304,5,472,32"/>
+<area shape="rect" id="node7" href="$class_tango_settings_win.html#a29893cebae6bdfcba30056bcab893d39" title="TangoSettingsWin::onOkInt" alt="" coords="297,56,479,83"/>
+<area shape="rect" id="node10" href="$class_tango_settings_win.html#a2e47f6751b145b3fcf62b669aeb44361" title="TangoSettingsWin::onOkDouble" alt="" coords="283,107,493,133"/>
+<area shape="rect" id="node13" href="$class_tango_settings_win.html#abc87127a9b67e73461aea5a78ff42a03" title="TangoSettingsWin::onOkBool" alt="" coords="291,157,485,184"/>
+<area shape="rect" id="node5" href="$class_tango_settings_win.html#a5a89f60a101dad212ddbe887ad31aed1" title="TangoSettingsWin::TangoSettingsWin" alt="" coords="542,81,786,108"/>
+</map>

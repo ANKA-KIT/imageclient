@@ -1,0 +1,5 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$classmy___device.html#a81367e70fc8e866b689f872d054d2201" title="Try to set integer value from tango attribute." alt="" coords="297,5,445,32"/>
+<area shape="rect" id="node5" href="$classmy___device.html#a4d3afbd6123769159f496cd7cf211566" title="Try to set double value from tango attribute." alt="" coords="283,56,458,83"/>
+<area shape="rect" id="node7" href="$classmy___device.html#a4e1c9f0c4293fc9f31e0e17ec3f91343" title="Try to set boolean value from tango attribute." alt="" coords="291,107,450,133"/>
+</map>

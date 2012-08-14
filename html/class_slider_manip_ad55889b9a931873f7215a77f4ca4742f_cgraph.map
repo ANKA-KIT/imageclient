@@ -1,0 +1,10 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$class_slider_manip.html#aaee6034b081733d89c7d4ea4ca92225a" title="SliderManip::redrawHistogram" alt="" coords="224,81,421,108"/>
+<area shape="rect" id="node5" href="$class_histogrammm.html#afad8afd94ce60d3dc4a55b5c74e1106b" title="calculating data for drawing" alt="" coords="469,56,669,83"/>
+<area shape="rect" id="node17" href="$class_slider_manip.html#a48ac6b1b47e8d5265ea582b50a780006" title="SliderManip::get16Bit" alt="" coords="496,107,643,133"/>
+<area shape="rect" id="node7" href="$class_histogrammm.html#aa953e8c7c4242f8e39442298c346716c" title="calculating data for drawing 8bit image from image" alt="" coords="719,5,953,32"/>
+<area shape="rect" id="node9" href="$class_histogrammm.html#a64b24b17962a46e102abd8c306bebe07" title="calculating data for drawing RGB image from image" alt="" coords="718,56,954,83"/>
+<area shape="rect" id="node11" href="$class_histogrammm.html#a10ab2160986d95c3c9b314bcef20c4b8" title="drawing gistogram" alt="" coords="757,107,915,133"/>
+<area shape="rect" id="node13" href="$class_histogram_item.html#acc6d2ea50dbd32cb256e5d7da9a9b6f9" title="HistogramItem::setData" alt="" coords="1003,107,1165,133"/>
+<area shape="rect" id="node15" href="$class_histogram_item.html#a32551c5a0c4f8d987889909453843c5e" title="HistogramItem::data" alt="" coords="1213,107,1355,133"/>
+</map>

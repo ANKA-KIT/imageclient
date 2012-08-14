@@ -1,0 +1,8 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$class_sub_window_snapshot.html#a8ac34e6136bc7b21fdf212600de2efe5" title="SubWindowSnapshot::calcFullPictureScaleSnap" alt="" coords="280,81,584,108"/>
+<area shape="rect" id="node5" href="$class_sub_window_snapshot.html#add15d49902980fee978702df2d3889e0" title="SubWindowSnapshot::resizeEvent" alt="" coords="632,81,856,108"/>
+<area shape="rect" id="node7" href="$class_sub_window_snapshot.html#acc180ea847da2de92a5e39c8b581f73d" title="SubWindowSnapshot::resizeWgt" alt="" coords="905,56,1119,83"/>
+<area shape="rect" id="node11" href="$class_sub_window_snapshot.html#a62f21c5a6731cc375c664afea776e3da" title="SubWindowSnapshot::setFullPictureMode" alt="" coords="1464,56,1731,83"/>
+<area shape="rect" id="node9" href="$class_sub_window_snapshot.html#a570fb758d014c50530e2e62a0e06e733" title="SubWindowSnapshot::initSizableMode" alt="" coords="1169,5,1415,32"/>
+<area shape="rect" id="node13" href="$class_sub_window_snapshot.html#aaa43122d55173a12b3ae70a57da0d142" title="SubWindowSnapshot::initFullPicMode" alt="" coords="1170,56,1414,83"/>
+</map>

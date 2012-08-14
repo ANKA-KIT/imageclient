@@ -1,0 +1,9 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$class_menu_tab.html#a71fb8bd0e73703114955a528d72560dc" title="MenuTab::setSnapshotProp" alt="" coords="268,107,452,133"/>
+<area shape="rect" id="node15" href="$class_main_window.html#af0070391b05f51075140c6bbd8277273" title="MainWindow::chManipulator" alt="" coords="267,157,453,184"/>
+<area shape="rect" id="node5" href="$class_menu_tab.html#a21e8ee5f6f1a4baae80bb0871160d492" title="MenuTab::setChFlipHorSnapshot" alt="" coords="515,5,731,32"/>
+<area shape="rect" id="node7" href="$class_img_manipulation.html#ae709fadd23c48bcfbc9e1a1fee81f708" title="ImgManipulation::getHorFlipVal" alt="" coords="521,56,725,83"/>
+<area shape="rect" id="node9" href="$class_menu_tab.html#a14ff5a8a5ddb9d61e297dc19939391e0" title="MenuTab::setChFlipVerSnapshot" alt="" coords="515,107,730,133"/>
+<area shape="rect" id="node11" href="$class_img_manipulation.html#a56a5bb3920b56dac1edd3bf88d62c7f0" title="ImgManipulation::getVerFlipVal" alt="" coords="521,157,724,184"/>
+<area shape="rect" id="node13" href="$class_menu_tab.html#a3f903d1915655587ac24b7489efef0ff" title="MenuTab::setChFullPictureModeSnap" alt="" coords="501,208,744,235"/>
+</map>

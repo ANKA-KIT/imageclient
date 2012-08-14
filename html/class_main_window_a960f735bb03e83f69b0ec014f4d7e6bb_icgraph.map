@@ -1,0 +1,16 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$class_main_window.html#ac4934749f0e90dd0ef164bef4a37d3fc" title="MainWindow::settingBrightness" alt="" coords="298,5,505,32"/>
+<area shape="rect" id="node5" href="$class_main_window.html#a3c3608cf906dc56f8be3c2336911e0bd" title="MainWindow::settingContrast" alt="" coords="304,56,499,83"/>
+<area shape="rect" id="node7" href="$class_main_window.html#af8035d941367fc8db8bf88358744648f" title="MainWindow::settingGamma" alt="" coords="306,107,497,133"/>
+<area shape="rect" id="node9" href="$class_main_window.html#a65920a063b52a1bcd9f668ba950f8e79" title="MainWindow::settingRotation" alt="" coords="305,157,498,184"/>
+<area shape="rect" id="node11" href="$class_main_window.html#a776fac8797edf7ac87d63e28c3225798" title="MainWindow::settingScale" alt="" coords="313,208,490,235"/>
+<area shape="rect" id="node13" href="$class_main_window.html#a44f3f69301a350708d7e70f90ff9efe1" title="MainWindow::chBrightnessOn" alt="" coords="302,259,501,285"/>
+<area shape="rect" id="node15" href="$class_main_window.html#a010d64b6847660ac5ce813f56a1ee218" title="MainWindow::chContrastOn" alt="" coords="308,309,495,336"/>
+<area shape="rect" id="node17" href="$class_main_window.html#a8f5c42cebc6be84d086b7298fbb0f9cb" title="MainWindow::chGammaOn" alt="" coords="310,360,493,387"/>
+<area shape="rect" id="node19" href="$class_main_window.html#a0b1b6bcfeae0daf70e79457950103c22" title="MainWindow::chRotationOn" alt="" coords="309,411,494,437"/>
+<area shape="rect" id="node21" href="$class_main_window.html#a5e1e3f243ead82f58707ceb3bb1ef57d" title="MainWindow::chScaleOn" alt="" coords="317,461,486,488"/>
+<area shape="rect" id="node23" href="$class_main_window.html#af4ab6affc3a0599db5c872594116a1bc" title="MainWindow::settingHorFlip" alt="" coords="308,512,495,539"/>
+<area shape="rect" id="node25" href="$class_main_window.html#a42fbcd91218fce1615eb2c1667fa42f4" title="MainWindow::settingVerFlip" alt="" coords="309,563,494,589"/>
+<area shape="rect" id="node27" href="$class_main_window.html#a07447d58c20b514d233350e99e8d77c8" title="MainWindow::sendingTangoCommand" alt="" coords="278,613,525,640"/>
+<area shape="rect" id="node29" href="$class_main_window.html#a428ba803e19268634f360f0535e6b9d4" title="MainWindow::settingTimeOut" alt="" coords="304,664,499,691"/>
+</map>

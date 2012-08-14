@@ -1,0 +1,9 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$class_picture_mode.html#a205a4394d74e7074a78f67329970eee2" title="PictureMode::setImageVal" alt="" coords="248,132,424,159"/>
+<area shape="rect" id="node5" href="$class_picture_mode.html#aacab4d46ae123c88119de050abaabd3c" title="PictureMode::setImage" alt="" coords="476,5,633,32"/>
+<area shape="rect" id="node7" href="$class_grey_img.html#a6bb11a2fb9062e97b4d78c2002cd4642" title="GreyImg::recalcGreyImg" alt="" coords="472,56,637,83"/>
+<area shape="rect" id="node9" href="$class_is16_bit_grey.html#a1b08a43a26ee9eb6096f8c35eaeef90b" title="Is16BitGrey::setImage" alt="" coords="478,107,631,133"/>
+<area shape="rect" id="node11" href="$class_is8_bit_grey.html#a8ccd14153db378c390e072c476059b7e" title="Is8BitGrey::setImage" alt="" coords="481,157,628,184"/>
+<area shape="rect" id="node13" href="$class_is_r_g_b.html#a6520b21de94f4132eedf1b0919cf0fd9" title="IsRGB::setImage" alt="" coords="493,208,617,235"/>
+<area shape="rect" id="node15" href="$class_is8_bit_color.html#adc1bb5977542d5e62649339a2c45c6b0" title="Is8BitColor::setImage" alt="" coords="480,259,629,285"/>
+</map>

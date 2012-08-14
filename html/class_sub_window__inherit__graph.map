@@ -1,0 +1,4 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$class_sub_window_realtime.html" title="Realtime subwindow /Class for dealing with tango device, displaying current picture." alt="" coords="5,80,149,107"/>
+<area shape="rect" id="node5" href="$class_sub_window_snapshot.html" title="Snapshot subwindow /Class for dealing with snapshot." alt="" coords="173,80,320,107"/>
+</map>

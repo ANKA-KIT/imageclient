@@ -1,0 +1,11 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$classmy___device.html#a995645fd8fedc47c8d1137d34db6b766" title="Check is set attribute name." alt="" coords="281,19,525,45"/>
+<area shape="rect" id="node7" href="$classmy___device.html#aba4ef4e3ae39415a134f93bda9b7c2ad" title="Try to get attribute value from tango server." alt="" coords="317,95,488,121"/>
+<area shape="rect" id="node13" href="$classmy___device.html#ac0fff01d96962d4ee1d83ca1146ce83a" title="Get properties frm server." alt="" coords="289,171,517,197"/>
+<area shape="rect" id="node5" href="$classmy___device.html#ae73a71e265d70acf1d4f89a43721b31d" title="Check is set attribute." alt="" coords="579,5,767,32"/>
+<area shape="rect" id="node9" href="$classmy___device.html#a5ad5bb4424bba5c1c1dd910e0d5ee2e6" title="on error in tango operation" alt="" coords="597,56,749,83"/>
+<area shape="rect" id="node11" href="$classmy___device.html#a836eeeb23a13624c50bb29529d1e3108" title="on correct readting tango attribute" alt="" coords="574,107,773,133"/>
+<area shape="rect" id="node15" href="$classmy___device.html#a81367e70fc8e866b689f872d054d2201" title="Try to set integer value from tango attribute." alt="" coords="599,157,747,184"/>
+<area shape="rect" id="node17" href="$classmy___device.html#a4d3afbd6123769159f496cd7cf211566" title="Try to set double value from tango attribute." alt="" coords="586,208,761,235"/>
+<area shape="rect" id="node19" href="$classmy___device.html#a4e1c9f0c4293fc9f31e0e17ec3f91343" title="Try to set boolean value from tango attribute." alt="" coords="594,259,753,285"/>
+</map>

@@ -1,0 +1,8 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$classmy___device.html#aafc9d98a7b30017ff1baedf76ff18700" title="my_Device::initDevice" alt="" coords="245,5,400,32"/>
+<area shape="rect" id="node12" href="$classmy___device.html#a301dadd4b71652e8d328ee88f0394167" title="my_Device::sendPing" alt="" coords="247,56,398,83"/>
+<area shape="rect" id="node5" href="$class_start_tango_win.html#a4dbade58b57839021110a6a2901334ac" title="StartTangoWin::onOk" alt="" coords="455,5,603,32"/>
+<area shape="rect" id="node7" href="$class_start_tango_win.html#acba5ccc5271e88ff8ca1588eab6af111" title="StartTangoWin::StartTangoWin" alt="" coords="891,5,1095,32"/>
+<area shape="rect" id="node9" href="$class_start_tango_win.html#a124219a8cb036e0022b0ef78d6744906" title="StartTangoWin::initTextLine" alt="" coords="659,31,843,57"/>
+<area shape="rect" id="node14" href="$classmy___device.html#a88fde1d13c71dbf1d3d19610af714574" title="my_Device::my_Device" alt="" coords="448,56,611,83"/>
+</map>

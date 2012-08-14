@@ -1,0 +1,11 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$class_start_tango_win.html#ab82b98c07b8d29005e176f4d89f7b7f7" title="StartTangoWin::testOnError" alt="" coords="264,5,448,32"/>
+<area shape="rect" id="node5" href="$class_start_tango_win.html#a139b21e3207c0ed3d52e2d00186152b7" title="StartTangoWin::testOnOk" alt="" coords="269,56,443,83"/>
+<area shape="rect" id="node13" href="$class_start_tango_win.html#ad6820119c0c0f77a3b90ee844c95f4a2" title="StartTangoWin::testOnOkImgVal" alt="" coords="249,107,463,133"/>
+<area shape="rect" id="node7" href="$classmy___device.html#aba4ef4e3ae39415a134f93bda9b7c2ad" title="my_Device::setTangoAttr" alt="" coords="524,56,695,83"/>
+<area shape="rect" id="node9" href="$classmy___device.html#a5ad5bb4424bba5c1c1dd910e0d5ee2e6" title="my_Device::sendError" alt="" coords="779,5,931,32"/>
+<area shape="rect" id="node11" href="$classmy___device.html#a836eeeb23a13624c50bb29529d1e3108" title="my_Device::correctImgAttrVal" alt="" coords="755,56,954,83"/>
+<area shape="rect" id="node15" href="$class_start_tango_win.html#ae4ece51bd5557a5383b217d91ac2b36b" title="StartTangoWin::writeSettings" alt="" coords="513,107,706,133"/>
+<area shape="rect" id="node19" href="$class_start_tango_win.html#acef85e4e176e6420a7a0a5bf8d37ccff" title="StartTangoWin::correctDev" alt="" coords="519,157,700,184"/>
+<area shape="rect" id="node17" href="$class_start_tango_win.html#a19fe6f72e5b70cfc10b2c78efeea6807" title="StartTangoWin::curValIsSet" alt="" coords="762,107,947,133"/>
+</map>

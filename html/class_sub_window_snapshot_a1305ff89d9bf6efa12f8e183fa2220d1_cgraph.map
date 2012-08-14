@@ -1,0 +1,20 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$class_sub_window_snapshot.html#ab2eb4444aa7223a632eb492235850865" title="SubWindowSnapshot::initPropConnects" alt="" coords="367,5,622,32"/>
+<area shape="rect" id="node5" href="$class_sub_window_snapshot.html#a21a70ee0c8400c8fbf5b9c737a5f45cf" title="SubWindowSnapshot::handleWindowStateChanged" alt="" coords="333,56,656,83"/>
+<area shape="rect" id="node9" href="$class_sub_window.html#a8af1150c9b9d95c9037a7548ce50a192" title="SubWindow::setLbBr" alt="" coords="422,107,567,133"/>
+<area shape="rect" id="node11" href="$class_img_manipulation.html#a25e8f71790cde204c641acbb8053e5a8" title="ImgManipulation::getBrightnessVal" alt="" coords="383,157,607,184"/>
+<area shape="rect" id="node13" href="$class_sub_window.html#aecacc5f9941ddf8b7d2dea3ee1551fe0" title="SubWindow::setLbRot" alt="" coords="418,208,571,235"/>
+<area shape="rect" id="node15" href="$class_img_manipulation.html#aef134703a3246b6b9adf3da724134db7" title="ImgManipulation::getRotationVal" alt="" coords="389,259,600,285"/>
+<area shape="rect" id="node17" href="$class_sub_window.html#af4137801e5e8cf13f0ded879421d133a" title="SubWindow::setLbCon" alt="" coords="417,309,573,336"/>
+<area shape="rect" id="node19" href="$class_img_manipulation.html#a044d473d88319fafd7fa0088fe7f851d" title="ImgManipulation::getContrastVal" alt="" coords="389,360,601,387"/>
+<area shape="rect" id="node21" href="$class_sub_window.html#a448b3f2cdcf5e43fce97ba5b1766fba8" title="SubWindow::setLbGam" alt="" coords="415,411,575,437"/>
+<area shape="rect" id="node23" href="$class_img_manipulation.html#aaa9de7fd375530c3267bdfb25c16a310" title="ImgManipulation::getGammaVal" alt="" coords="391,461,599,488"/>
+<area shape="rect" id="node25" href="$class_sub_window.html#a6ba0080c740d8cd4a219cbd115080db8" title="SubWindow::setLbScl" alt="" coords="419,512,570,539"/>
+<area shape="rect" id="node27" href="$class_img_manipulation.html#ad432845fa13f7b1ceb2ccae5d77caffb" title="ImgManipulation::getScaleVal" alt="" coords="397,563,592,589"/>
+<area shape="rect" id="node29" href="$class_sub_window.html#a24a1179c0911b0971164ec9c656ec791" title="SubWindow::setLbHFlip" alt="" coords="413,613,576,640"/>
+<area shape="rect" id="node31" href="$class_img_manipulation.html#ae709fadd23c48bcfbc9e1a1fee81f708" title="ImgManipulation::getHorFlipVal" alt="" coords="393,664,597,691"/>
+<area shape="rect" id="node33" href="$class_sub_window.html#a9eb9dea16cdbb084dad0e12b092b08bf" title="SubWindow::setLbVFlip" alt="" coords="413,715,576,741"/>
+<area shape="rect" id="node35" href="$class_img_manipulation.html#a56a5bb3920b56dac1edd3bf88d62c7f0" title="ImgManipulation::getVerFlipVal" alt="" coords="393,765,596,792"/>
+<area shape="rect" id="node37" href="$class_sub_window_snapshot.html#a057673db64c802f8182778f193b8a66a" title="SubWindowSnapshot::ShowContextMenu" alt="" coords="361,816,628,843"/>
+<area shape="rect" id="node7" href="$class_sub_window_snapshot.html#acf1f512ae6c39f3fbe3fef104732096d" title="SubWindowSnapshot::SnapshotWinChanged" alt="" coords="704,56,989,83"/>
+</map>

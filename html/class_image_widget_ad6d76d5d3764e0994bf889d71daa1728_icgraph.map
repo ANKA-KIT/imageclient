@@ -1,0 +1,7 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$class_image_widget.html#a0540982a9bc53517309df882aac7083b" title="ImageWidget::ImageWidget" alt="" coords="224,5,408,32"/>
+<area shape="rect" id="node5" href="$class_image_widget.html#a212f723515b1ce81d355a8e433538064" title="ImageWidget::changeImg" alt="" coords="231,56,401,83"/>
+<area shape="rect" id="node7" href="$class_image_widget.html#ab931056ff8fef10f73e934b0641ffe39" title="ImageWidget::setAllValues" alt="" coords="226,107,406,133"/>
+<area shape="rect" id="node9" href="$class_image_widget.html#a276af9cf0e37fb6ee31fa80b14a5ff94" title="ImageWidget::setScaleSnap" alt="" coords="222,157,410,184"/>
+<area shape="rect" id="node11" href="$class_sub_window_snapshot.html#a1ef9d212ffef579add25dc9865a8bde6" title="SubWindowSnapshot::setScale" alt="" coords="459,157,666,184"/>
+</map>

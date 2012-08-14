@@ -1,0 +1,9 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$class_main_window.html#a8ada0fa9c6c71bb4ebedd7bd56974109" title="MainWindow::set16BitGreyImageMode" alt="" coords="254,5,503,32"/>
+<area shape="rect" id="node9" href="$class_main_window.html#a9c58e510901297c339a2de8132af31d4" title="MainWindow::set8BitGreyImageMode" alt="" coords="257,56,500,83"/>
+<area shape="rect" id="node11" href="$class_main_window.html#a6429b01c50d42d1cebb90fe47fdb8d49" title="MainWindow::set8BitColorImageMode" alt="" coords="256,107,501,133"/>
+<area shape="rect" id="node13" href="$class_main_window.html#ae82f57d7eb23aa77dab26c27d88d11a3" title="MainWindow::setRGB_ARGBImageMode" alt="" coords="246,157,511,184"/>
+<area shape="rect" id="node16" href="$class_main_window.html#ad318ada008810bccb89bbca13885d7fc" title="MainWindow::setRGBGreyImageMode" alt="" coords="255,208,503,235"/>
+<area shape="rect" id="node5" href="$class_main_window.html#a2fd533a7dec413bc99aa194273037bb5" title="MainWindow::mkRealtime" alt="" coords="561,81,735,108"/>
+<area shape="rect" id="node7" href="$class_main_window.html#a2623c7c35266988a8528397a0732b588" title="MainWindow::initStartTangoWin" alt="" coords="785,81,994,108"/>
+</map>

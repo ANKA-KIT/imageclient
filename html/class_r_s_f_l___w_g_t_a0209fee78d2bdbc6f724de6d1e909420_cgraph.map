@@ -1,0 +1,11 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$class_r_s_f_l___w_g_t.html#ace86e96b0ca06a2a019e2ffc26577e3b" title="init fliping manipulator" alt="" coords="235,5,394,32"/>
+<area shape="rect" id="node5" href="$class_r_s_f_l___w_g_t.html#ac15daf2a2d23978578b046d93c7d70cf" title="init rotation manipulator" alt="" coords="230,56,399,83"/>
+<area shape="rect" id="node9" href="$class_r_s_f_l___w_g_t.html#a4317ab63b9efde197a79c6aa89473d80" title="on hFl checked" alt="" coords="233,107,397,133"/>
+<area shape="rect" id="node13" href="$class_r_s_f_l___w_g_t.html#a1d03e6ec301142896571d56e1e0b1896" title="on vFl checked" alt="" coords="233,157,397,184"/>
+<area shape="rect" id="node17" href="$class_r_s_f_l___w_g_t.html#a5616e6e94593dcae27e2d7ad250ef547" title="on rotation currentIndexChanged" alt="" coords="231,208,399,235"/>
+<area shape="rect" id="node7" href="$class_r_s_f_l___w_g_t.html#a64b04cb17b786503e3d78416c787595b" title="set rotation value" alt="" coords="454,56,642,83"/>
+<area shape="rect" id="node11" href="$class_r_s_f_l___w_g_t.html#a7ce69d545f8164105f8bcc8202916229" title="RSFL_WGT::sendHorFlipVal" alt="" coords="453,107,643,133"/>
+<area shape="rect" id="node15" href="$class_r_s_f_l___w_g_t.html#a3d897d3736d98ae47c2e3cdb43823a6f" title="RSFL_WGT::sendVerFlipVal" alt="" coords="453,157,643,184"/>
+<area shape="rect" id="node19" href="$class_r_s_f_l___w_g_t.html#a555268fcff0ac18385c4b2261885e8eb" title="RSFL_WGT::sendRotationVal" alt="" coords="449,208,647,235"/>
+</map>

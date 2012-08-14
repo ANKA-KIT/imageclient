@@ -1,0 +1,6 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$class_grey_img.html#a6bb11a2fb9062e97b4d78c2002cd4642" title="GreyImg::recalcGreyImg" alt="" coords="203,5,368,32"/>
+<area shape="rect" id="node5" href="$class_is16_bit_grey.html#a1b08a43a26ee9eb6096f8c35eaeef90b" title="Is16BitGrey::setImage" alt="" coords="209,56,362,83"/>
+<area shape="rect" id="node7" href="$class_is8_bit_grey.html#a8ccd14153db378c390e072c476059b7e" title="Is8BitGrey::setImage" alt="" coords="212,107,359,133"/>
+<area shape="rect" id="node9" href="$class_is_r_g_b_g_grey.html#ab9e7fd608e46d8c0a9522edb29888cdc" title="IsRGBGGrey::setImage" alt="" coords="204,157,367,184"/>
+</map>

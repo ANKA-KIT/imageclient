@@ -1,0 +1,9 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$class_histogrammm.html#aca7370fd00eb3be03feb40b3ebf364c1" title="Constructor for not IS_16BITGREY_MODE." alt="" coords="268,5,463,32"/>
+<area shape="rect" id="node5" href="$class_slider_manip.html#a97b16520b8860473110afe853b5f2446" title="SliderManip::recalcHistogram" alt="" coords="269,56,462,83"/>
+<area shape="rect" id="node7" href="$class_slider_manip.html#af7bfd841a7a423162f437c89067b31af" title="SliderManip::recalcHistogram16Bit" alt="" coords="254,107,477,133"/>
+<area shape="rect" id="node9" href="$class_slider_manip.html#a4926d8f8d741a56134602e28985172ba" title="SliderManip::get16BitData" alt="" coords="278,157,453,184"/>
+<area shape="rect" id="node11" href="$class_slider_manip.html#aaee6034b081733d89c7d4ea4ca92225a" title="SliderManip::redrawHistogram" alt="" coords="267,208,464,235"/>
+<area shape="rect" id="node13" href="$class_slider_manip.html#ad55889b9a931873f7215a77f4ca4742f" title="SliderManip::setLeftPanel" alt="" coords="525,208,696,235"/>
+<area shape="rect" id="node15" href="$class_slider_manip.html#a375db19b2cf3a838ee3d580765ff76b0" title="SliderManip::SliderManip" alt="" coords="745,208,911,235"/>
+</map>

@@ -1,0 +1,8 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$class_picture_mode.html#ab5d26c86595e1e6c6072e28ce7467f8e" title="PictureMode::getLBorder" alt="" coords="275,5,442,32"/>
+<area shape="rect" id="node5" href="$class_picture_mode.html#a2a75cb18ffdaed11152cb535742d833c" title="PictureMode::getRBorder" alt="" coords="274,56,443,83"/>
+<area shape="rect" id="node7" href="$class_slider_manip.html#a069b5fa3d7217891011c4d36b2945ea9" title="SliderManip::initBtHis" alt="" coords="285,107,433,133"/>
+<area shape="rect" id="node13" href="$class_slider_manip.html#a9ebded9ccb6642297677c523a7f868a0" title="SliderManip::setStartWidgetPosition" alt="" coords="243,157,475,184"/>
+<area shape="rect" id="node9" href="$class_slider_manip.html#a8d8640d111d1dc7c87b85c6b8e5743c8" title="SliderManip::turnOffHistogram" alt="" coords="523,107,722,133"/>
+<area shape="rect" id="node11" href="$class_slider_manip.html#a49c424a0488711547841f41071a5ad08" title="SliderManip::hidehistogram" alt="" coords="771,107,949,133"/>
+</map>

@@ -1,0 +1,9 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$class_brightness.html" title="Answear for keeping Brightness property /Keeps Brightness." alt="" coords="5,80,88,107"/>
+<area shape="rect" id="node5" href="$class_contrast.html" title="Answear for keeping Contrast property /Keeps Contrast." alt="" coords="113,80,185,107"/>
+<area shape="rect" id="node7" href="$class_gamma.html" title="Answear for keeping Gamma property /Keeps Gamma." alt="" coords="210,80,277,107"/>
+<area shape="rect" id="node9" href="$class_hor_flip.html" title="Answear for keeping Horizontal fliping (HorFlip) property /Keeps keeping Horizontal fliping (HorFlip)..." alt="" coords="303,80,367,107"/>
+<area shape="rect" id="node11" href="$class_rotation.html" title="Answear for keeping Rotation property /Keeps Rotation." alt="" coords="391,80,461,107"/>
+<area shape="rect" id="node13" href="$class_scale.html" title="Answear for keeping Scale property /Keeps Scale." alt="" coords="486,80,540,107"/>
+<area shape="rect" id="node15" href="$class_ver_flip.html" title="Answear for keeping Vertical fliping (VerFlip) property /Keeps keeping Vertical fliping (VerFlip)..." alt="" coords="565,80,627,107"/>
+</map>

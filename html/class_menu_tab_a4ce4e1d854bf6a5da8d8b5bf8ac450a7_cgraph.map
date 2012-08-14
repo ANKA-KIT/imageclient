@@ -1,0 +1,15 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$class_menu_tab.html#a63bcdd64e89ae0883330d67ca760099f" title="MenuTab::initTangoSettingWin" alt="" coords="210,5,411,32"/>
+<area shape="rect" id="node5" href="$class_menu_tab.html#a37358b5e715a435eb203e0cda7015cc5" title="MenuTab::saveSnap" alt="" coords="239,56,382,83"/>
+<area shape="rect" id="node7" href="$class_menu_tab.html#a9daa08ae09976ea41db43fdbec2314de" title="MenuTab::printSnap" alt="" coords="241,107,380,133"/>
+<area shape="rect" id="node9" href="$class_menu_tab.html#a428a793bbb82cbf1cd9551834ea4971d" title="MenuTab::resetImg" alt="" coords="243,157,378,184"/>
+<area shape="rect" id="node11" href="$class_menu_tab.html#a70061bf0e1a49cf872f7e6be04fbae83" title="MenuTab::initStartTangoWin" alt="" coords="217,208,405,235"/>
+<area shape="rect" id="node13" href="$class_menu_tab.html#a66da584810aaa2b592d8c4c29f4d7245" title="MenuTab::changeServerManipulation" alt="" coords="192,259,429,285"/>
+<area shape="rect" id="node15" href="$class_menu_tab.html#a567acdd761bb379e6c6f4d4874798b53" title="MenuTab::changeFullPictureMode" alt="" coords="493,335,713,361"/>
+<area shape="rect" id="node17" href="$class_menu_tab.html#ad3e5d3d203b61a8113e4ffa90581dbfa" title="MenuTab::setFullPictureMode" alt="" coords="213,360,409,387"/>
+<area shape="rect" id="node20" href="$class_menu_tab.html#aac9c0058b84ba9bbe3f7a6b4552a048e" title="MenuTab::changeFullPictureModeSnap" alt="" coords="477,449,728,476"/>
+<area shape="rect" id="node22" href="$class_menu_tab.html#a42be94a5e20160f8cebb2123eb7208a7" title="MenuTab::setFullPictureModeSnap" alt="" coords="197,461,424,488"/>
+<area shape="rect" id="node25" href="$class_menu_tab.html#a418b8f5c6cd3c6114c105e078a5bbe69" title="MenuTab::mkSnap" alt="" coords="537,525,669,552"/>
+<area shape="rect" id="node27" href="$class_menu_tab.html#a3424feb20f3cdc4e32147154f95ae66f" title="MenuTab::mkSnapshot" alt="" coords="232,563,389,589"/>
+<area shape="rect" id="node30" href="$class_menu_tab.html#abba39e8304670750ad26d252adaa05b8" title="MenuTab::setTangoAttrNames" alt="" coords="210,613,411,640"/>
+</map>

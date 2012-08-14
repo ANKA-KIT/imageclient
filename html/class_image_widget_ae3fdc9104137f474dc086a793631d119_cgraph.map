@@ -1,0 +1,14 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$class_img_manipulation.html#aa514a57638938fdedb0ae16827e7f2be" title="ImgManipulation::resetParam" alt="" coords="269,157,461,184"/>
+<area shape="rect" id="node5" href="$class_img_manipulation.html#a02d3c892e32f33218e3048d4b6ac2b77" title="ImgManipulation::chScale" alt="" coords="525,5,697,32"/>
+<area shape="rect" id="node7" href="$class_img_manipulation.html#a0836f7f208d2d66e395a75ed52eb055f" title="ImgManipulation::chVerFlip" alt="" coords="521,56,701,83"/>
+<area shape="rect" id="node9" href="$class_img_manipulation.html#aa87d82f2fcb6bb16d2a24ca154072a7a" title="ImgManipulation::chHorFlip" alt="" coords="520,107,701,133"/>
+<area shape="rect" id="node11" href="$class_img_manipulation.html#a064eca9747e1a2e6c3dbe6958cc67471" title="ImgManipulation::chRotate" alt="" coords="521,157,700,184"/>
+<area shape="rect" id="node13" href="$class_img_manipulation.html#a68251389d0f9d8f9f2a1388e8deb26e8" title="ImgManipulation::chBrightness" alt="" coords="510,208,711,235"/>
+<area shape="rect" id="node19" href="$class_img_manipulation.html#a95251c32f218e9843c7f70bcd2597473" title="ImgManipulation::chContrast" alt="" coords="516,259,705,285"/>
+<area shape="rect" id="node24" href="$class_img_manipulation.html#aa688c233d437d1149bffdce2e7f73be1" title="ImgManipulation::chGamma" alt="" coords="518,309,703,336"/>
+<area shape="rect" id="node15" href="$imgmanipulation_8cpp.html#af10fbd6a027617c1fb33857808279462" title="changeBrightness" alt="" coords="761,208,887,235"/>
+<area shape="rect" id="node17" href="$imgmanipulation_8cpp.html#a2b8e9864ec7178ae642221cde17078e7" title="kClamp" alt="" coords="936,259,1003,285"/>
+<area shape="rect" id="node21" href="$imgmanipulation_8cpp.html#aa27ecda39f15b27fe21dfe35353b65f4" title="changeContrast" alt="" coords="767,259,881,285"/>
+<area shape="rect" id="node26" href="$imgmanipulation_8cpp.html#aee812f9c9f864e19554d2b03d78412cb" title="changeGamma" alt="" coords="769,309,879,336"/>
+</map>

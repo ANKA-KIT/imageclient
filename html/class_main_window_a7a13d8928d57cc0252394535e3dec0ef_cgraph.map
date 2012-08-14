@@ -1,0 +1,27 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$class_main_window.html#a9fe18067debf46c61dc64a33f4875049" title="MainWindow::SnapshotChanged" alt="" coords="247,107,459,133"/>
+<area shape="rect" id="node19" href="$class_main_window.html#a2f80c93ea2f024a7bffbfb4afad289b0" title="MainWindow::onCloseSnapshot" alt="" coords="249,157,457,184"/>
+<area shape="rect" id="node21" href="$class_sub_window_snapshot.html#aadd1f1057acdd16b874bc13f892a59f4" title="SubWindowSnapshot::setImageMode" alt="" coords="233,360,474,387"/>
+<area shape="rect" id="node35" href="$class_sub_window_snapshot.html#a9f44be5e26c408205079b37a54508ae6" title="SubWindowSnapshot::setActionMenu" alt="" coords="232,259,475,285"/>
+<area shape="rect" id="node37" href="$class_main_window.html#a69436334303b8432b485a277fc279ed9" title="MainWindow::snapshotMenu" alt="" coords="258,309,449,336"/>
+<area shape="rect" id="node39" href="$class_main_window.html#abb54ad1d6eaade28d9cd4f4665ad37f7" title="MainWindow::setManipulatorSnap" alt="" coords="243,208,463,235"/>
+<area shape="rect" id="node42" href="$class_menu_tab.html#a0d20ebdcac46b9a414ddff0a58f79a51" title="MenuTab::setBGCEnable" alt="" coords="268,411,439,437"/>
+<area shape="rect" id="node44" href="$class_main_window.html#a3dca1c040059de53bd687e94a867af51" title="MainWindow::setMousePos" alt="" coords="261,461,446,488"/>
+<area shape="rect" id="node50" href="$class_main_window.html#ab76473378f7180c1537e2801715b6798" title="MainWindow::setGreylbVal" alt="" coords="263,512,443,539"/>
+<area shape="rect" id="node52" href="$class_main_window.html#aa640d4cafcf191f0fc2344a0b997d77e" title="MainWindow::setRGBlbVal" alt="" coords="263,563,444,589"/>
+<area shape="rect" id="node5" href="$class_menu_tab.html#a71fb8bd0e73703114955a528d72560dc" title="MenuTab::setSnapshotProp" alt="" coords="531,107,715,133"/>
+<area shape="rect" id="node17" href="$class_main_window.html#af0070391b05f51075140c6bbd8277273" title="MainWindow::chManipulator" alt="" coords="529,183,716,209"/>
+<area shape="rect" id="node7" href="$class_menu_tab.html#a21e8ee5f6f1a4baae80bb0871160d492" title="MenuTab::setChFlipHorSnapshot" alt="" coords="784,5,1000,32"/>
+<area shape="rect" id="node9" href="$class_img_manipulation.html#ae709fadd23c48bcfbc9e1a1fee81f708" title="ImgManipulation::getHorFlipVal" alt="" coords="790,56,994,83"/>
+<area shape="rect" id="node11" href="$class_menu_tab.html#a14ff5a8a5ddb9d61e297dc19939391e0" title="MenuTab::setChFlipVerSnapshot" alt="" coords="785,107,999,133"/>
+<area shape="rect" id="node13" href="$class_img_manipulation.html#a56a5bb3920b56dac1edd3bf88d62c7f0" title="ImgManipulation::getVerFlipVal" alt="" coords="791,157,993,184"/>
+<area shape="rect" id="node15" href="$class_menu_tab.html#a3f903d1915655587ac24b7489efef0ff" title="MenuTab::setChFullPictureModeSnap" alt="" coords="771,208,1013,235"/>
+<area shape="rect" id="node23" href="$class_sub_window.html#a930b4d3e791e028b52edcca9e999929f" title="SubWindow::chImageMode" alt="" coords="531,360,714,387"/>
+<area shape="rect" id="node25" href="$class_image_widget.html#a3909dc6d4fa2618b1edc811c8e68d0bd" title="ImageWidget::setRGBImgColorMode" alt="" coords="773,259,1011,285"/>
+<area shape="rect" id="node27" href="$class_image_widget.html#aea88ff6fd80f1e7db1012c6980918de3" title="ImageWidget::set16BitImgGreyMode" alt="" coords="773,309,1011,336"/>
+<area shape="rect" id="node29" href="$class_image_widget.html#abf30bb4d8285f71759620128b700542a" title="ImageWidget::setRGBImgGreyMode" alt="" coords="774,360,1010,387"/>
+<area shape="rect" id="node31" href="$class_image_widget.html#ad8cf751dd015169daf0da13a25a20ca4" title="ImageWidget::set8BitImgGreyMode" alt="" coords="777,411,1007,437"/>
+<area shape="rect" id="node33" href="$class_image_widget.html#aebc632d99596d3aa73593aa590a0d3b4" title="ImageWidget::set8BitImgColorMode" alt="" coords="775,461,1009,488"/>
+<area shape="rect" id="node46" href="$class_main_window.html#abb47ddbac2ebf1189ec540a2739c42bd" title="MainWindow::setMouseXlbVal" alt="" coords="523,487,723,513"/>
+<area shape="rect" id="node48" href="$class_main_window.html#a36cacea51378c50a56053d33e77d44e0" title="MainWindow::setMouseYlbVal" alt="" coords="523,436,723,463"/>
+</map>

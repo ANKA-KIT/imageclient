@@ -1,0 +1,16 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$class_slider_manip.html#ad55889b9a931873f7215a77f4ca4742f" title="init lef&#45;top corner panel" alt="" coords="231,107,401,133"/>
+<area shape="rect" id="node17" href="$class_slider_manip.html#a158d959d05409e6ed4f2edcf8b423ba8" title="init manipulators" alt="" coords="221,183,411,209"/>
+<area shape="rect" id="node5" href="$class_slider_manip.html#aaee6034b081733d89c7d4ea4ca92225a" title="on refreshHis click" alt="" coords="476,81,673,108"/>
+<area shape="rect" id="node7" href="$class_histogrammm.html#afad8afd94ce60d3dc4a55b5c74e1106b" title="calculating data for drawing" alt="" coords="739,56,939,83"/>
+<area shape="rect" id="node15" href="$class_slider_manip.html#a48ac6b1b47e8d5265ea582b50a780006" title="SliderManip::get16Bit" alt="" coords="765,107,912,133"/>
+<area shape="rect" id="node9" href="$class_histogrammm.html#aa953e8c7c4242f8e39442298c346716c" title="calculating data for drawing 8bit image from image" alt="" coords="989,5,1222,32"/>
+<area shape="rect" id="node11" href="$class_histogrammm.html#a64b24b17962a46e102abd8c306bebe07" title="calculating data for drawing RGB image from image" alt="" coords="987,56,1223,83"/>
+<area shape="rect" id="node13" href="$class_histogrammm.html#a10ab2160986d95c3c9b314bcef20c4b8" title="drawing gistogram" alt="" coords="1027,107,1184,133"/>
+<area shape="rect" id="node19" href="$class_picture_mode.html#ab5d26c86595e1e6c6072e28ce7467f8e" title="get left border pixel level value" alt="" coords="491,132,658,159"/>
+<area shape="rect" id="node21" href="$class_picture_mode.html#a2a75cb18ffdaed11152cb535742d833c" title="get right border pixel level value" alt="" coords="490,183,659,209"/>
+<area shape="rect" id="node23" href="$class_slider_manip.html#a069b5fa3d7217891011c4d36b2945ea9" title="SliderManip::initBtHis" alt="" coords="501,233,649,260"/>
+<area shape="rect" id="node29" href="$class_slider_manip.html#a9ebded9ccb6642297677c523a7f868a0" title="Strat widgets&#39; position." alt="" coords="459,284,691,311"/>
+<area shape="rect" id="node25" href="$class_slider_manip.html#a8d8640d111d1dc7c87b85c6b8e5743c8" title="on btHis click" alt="" coords="739,233,938,260"/>
+<area shape="rect" id="node27" href="$class_slider_manip.html#a49c424a0488711547841f41071a5ad08" title="SliderManip::hidehistogram" alt="" coords="1016,233,1195,260"/>
+</map>
