@@ -170,23 +170,22 @@ void SubWindowSnapshot::resizeEvent ( QResizeEvent * event ){
         emit QMdiSubWindow::resizeEvent(event);
     }
     else{
-            int newW;
-            double degree = 0;
-            degree = wgt->manip->listProp.at(ROTATION)->getValue().toDouble();
-            if (degree == 0 || degree == -180 || degree == 180){
-                    newW = event->size().height() + ceil(difLevelPers * event->size().height());
-                    *event = QResizeEvent(QSize(newW, event->size().height()-25),event->oldSize());
-                       W = newW;
-                       H = event->size().height();
-            }
-            else {
-                newW = event->size().height();
-                *event = QResizeEvent(QSize(newW, event->size().width()),event->oldSize());
-                W = newW;
-                H = event->size().height();
-            }
-            emit QMdiSubWindow::resizeEvent(event);
-          //  _space = 35;
+        int newW;
+        double degree = 0;
+        degree = wgt->manip->listProp.at(ROTATION)->getValue().toDouble();
+        if (degree == 0 || degree == -180 || degree == 180){
+            newW = event->size().height() + ceil(difLevelPers * event->size().height());
+            *event = QResizeEvent(QSize(newW, event->size().height()-25),event->oldSize());
+            W = newW;
+            H = event->size().height();
+        }
+        else {
+            newW = event->size().height();
+            *event = QResizeEvent(QSize(newW, event->size().width()),event->oldSize());
+            W = newW;
+            H = event->size().height();
+        }
+        emit QMdiSubWindow::resizeEvent(event);
         calcFullPictureScale(W, H);
 
 
@@ -222,8 +221,9 @@ void SubWindowSnapshot::setFullPictureMode(bool val){
         QList <QVariant> listProp;
         wgt->manip->getParams(listProp);
         QImage img = *wgt->img;
-       // int imgX = wgt->ImgDimX;
-       // int imgY = wgt->ImgDimY;
+        int marker = wgt->isMarked;
+        int xMouseCl = wgt->_clickedMouseX;
+        int yMouseCl = wgt->_clickedMouseY;
         int imgX = wgt->_originSnap->width();
         int imgY = wgt->_originSnap->height();
         if (val){
@@ -246,6 +246,9 @@ void SubWindowSnapshot::setFullPictureMode(bool val){
         board->setAutoFillBackground(true);
         wgt->setAutoFillBackground(true);
         initPropConnects();
+        wgt->isMarked=marker;
+        wgt->_clickedMouseX =xMouseCl;
+        wgt->_clickedMouseY = yMouseCl;
         emit DisplayModeChanged();
         emit fullPictureModeChanged(this);
 }

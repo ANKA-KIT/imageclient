@@ -4,38 +4,55 @@
 #include <QPaintEvent>
 #include <QPainter>
 
-
-ImageWidget::ImageWidget(QWidget *parent) :
-    QWidget(parent)
-{
-    _originSnap = NULL;
+void ImageWidget::init(){
     move(0,30);
-    img  = new QImage();
-    _OriginImg = NULL;
     manip = new ImgManipulation();
     setAutoFillBackground(true);
     setMouseTracking(true);
     qDebug("In ImageWidget constructor");
     imgType = IS_RGBIMG_COLOR;
     picMode = new IsRGB();
+    isMarked = false;
+
+    marker = new QAction(tr("&Set Marker"), this);
+    marker->setStatusTip(tr("Set Marker"));
+    QObject::connect(marker, SIGNAL(triggered()), this, SLOT(allowNewMarker()));
+    contextMenuSetMarker.addAction(marker);
+}
+
+ImageWidget::ImageWidget(QWidget *parent) :
+    QWidget(parent)
+{
+    _originSnap = NULL;
+   // move(0,30);
+    img  = new QImage();
+    _OriginImg = NULL;
+    init();
+
 }
 
 ImageWidget::ImageWidget(QImage* image, QWidget *parent) : QWidget(parent){
     qDebug("In ImageWidget constructor2");
     img  = new QImage();
-    move(0,30);
-    manip = new ImgManipulation();
+  //  move(0,30);
+  //  manip = new ImgManipulation();
     *img = *image;
     _OriginImg = new QImage();
     *_OriginImg = *img;
     _originSnap= new QImage();
     *_originSnap = *img;
-    setAutoFillBackground(true);
-    setMouseTracking(true);
+  //  setAutoFillBackground(true);
+  //  setMouseTracking(true);
     resizeWgt(img->width(), img->height());
     qDebug("In ImageWidget constructor2");
-    imgType = IS_RGBIMG_COLOR;
+  /*  imgType = IS_RGBIMG_COLOR;
     picMode = new IsRGB();
+    isMarked = false;
+    marker = new QAction(tr("&Set Marker"), this);
+    marker->setStatusTip(tr("Set Marker"));
+    QObject::connect(marker, SIGNAL(triggered()), this, SLOT(allowNewMarker()));
+    contextMenuSetMarker.addAction(marker);*/
+    init();
 }
 
 ImageWidget::~ImageWidget(){
@@ -224,9 +241,47 @@ void ImageWidget::printImg(){
 
 //on mouse press event at picture widget
 void ImageWidget::mousePressEvent ( QMouseEvent * e){
-    _clickedMouseX = _curMouseX;
-    _clickedMouseY = _curMouseY;
-    qDebug("ImageWidget::mousePressEvent\n");
+    if (e->button() == Qt::LeftButton ){
+        setMarker(e->pos());
+       // int X = _curMouseX/manip->listProp.at(SCALE)->getValue().toDouble();
+       // int Y = _curMouseY/manip->listProp.at(SCALE)->getValue().toDouble();
+        int X = _curMouseX;
+        int Y = _curMouseY;
+        if (manip->getRotationVal() == 90 || manip->getRotationVal() == -270){
+            int A = X;
+            X = Y;
+            Y= ImgDimY- A;
+        }
+        if (manip->getRotationVal() == 270 || manip->getRotationVal() == -90){
+            int A = X;
+            X = ImgDimX-Y;
+            Y = A;
+        }
+        if (manip->getVerFlipVal() && (manip->getRotationVal() == 180 || manip->getRotationVal() == -180 || manip->getRotationVal() == 0)){
+            Y = ImgDimY-Y;
+        }
+        else if(manip->getVerFlipVal()){
+            X = ImgDimX-X;
+            Y = Y;
+        }
+        if (manip->getHorFlipVal() && (manip->getRotationVal() == 180 || manip->getRotationVal() == -180  || manip->getRotationVal() == 0)){
+            X = ImgDimX-X;
+        }
+        else if(manip->getHorFlipVal()){
+            X = X;
+            Y = ImgDimY-Y;
+        }
+        if (manip->getRotationVal() == 180 || manip->getRotationVal() == -180){
+            Y = ImgDimY-Y;
+            X = ImgDimX-X;
+        }
+        //_clickedMouseX = X;
+        //_clickedMouseY = Y;
+       // isMarked = true;
+        _curMouseY = Y;
+        _curMouseX = X;
+        qDebug("ImageWidget::mousePressEvent\n");
+    }
 }
 
 void ImageWidget::rescreen(){
@@ -243,7 +298,7 @@ void ImageWidget::mouseMoveEvent ( QMouseEvent * e){
         if (imgType == IS_16BITIMG_GREY ){
             if (manip->getScaleVal() == 1){  //temperary if-else
                 int X=_curMouseX, Y=_curMouseY;
-                if (manip->getHorFlipVal()){
+                /*if (manip->getHorFlipVal()){
                     X = img->width()-X;
                 }
                 if (manip->getRotationVal() == 90){
@@ -258,7 +313,8 @@ void ImageWidget::mouseMoveEvent ( QMouseEvent * e){
                 if (manip->getRotationVal() == 180){
                     Y = img->height()-Y;
                     X = img->height()-X;
-                }
+                }*/
+                recalcPosition(X,Y);
                     emit mousePositionVal(qRed(img->pixel(_curMouseX,_curMouseY)), valUSh[X*Y+X] );
             }
             else
@@ -275,6 +331,29 @@ void ImageWidget::mouseMoveEvent ( QMouseEvent * e){
     else{qDebug("ImageWidget::mouseMoveEvent  BAD\n");}
 }
 
+void ImageWidget::recalcPosition(int &X, int &Y){
+    if (manip->getRotationVal() == 90 || manip->getRotationVal() == -270){
+        int A = X;
+        X=img->width()-Y;
+        Y=A;
+    }
+    if (manip->getRotationVal() == 270 || manip->getRotationVal() == -90){
+         int A = X;
+        X = Y;
+        Y = img->height()-A;
+    }
+    if (manip->getVerFlipVal()){
+        Y = img->height()-Y;
+    }
+    if (manip->getHorFlipVal()){
+        X = img->width()-X;
+    }
+    if (manip->getRotationVal() == 180 || manip->getRotationVal() == -180){
+        Y = img->height()-Y;
+        X = img->width()-X;
+    }
+}
+
 //on paint event
 void ImageWidget::paintEvent( QPaintEvent * e){
     QPainter p(this);
@@ -282,6 +361,14 @@ void ImageWidget::paintEvent( QPaintEvent * e){
     p.drawLine(0, _curMouseY, this->width(), _curMouseY);
     p.drawLine(_curMouseX, 0, _curMouseX, this->height());
     qDebug( "ImageWidget::paintEvent\n");
+    if (isMarked){
+        p.setPen(QPen(Qt::red, 1));
+        int Y = _clickedMouseY*manip->listProp.at(SCALE)->getValue().toDouble();
+        int X = _clickedMouseX*manip->listProp.at(SCALE)->getValue().toDouble();
+        recalcPosition(X, Y);
+        p.drawLine(0, Y, this->width(), Y);
+        p.drawLine(X, 0, X, this->height());
+    }
 }
 
 void ImageWidget::setImgType(int type){
@@ -397,4 +484,16 @@ void ImageWidget::calcFullPictureScale(int width, int height, int space){
         manip->listProp.at(SCALE)->setValue(coef);
         emit sendScale(coef);
     }
+}
+
+
+void ImageWidget::setMarker(QPoint pos){
+    QPoint globalPos = this->mapToGlobal(pos);
+    contextMenuSetMarker.popup(globalPos);
+}
+
+void ImageWidget::allowNewMarker(){
+    _clickedMouseX = _curMouseX/manip->listProp.at(SCALE)->getValue().toDouble();
+    _clickedMouseY = _curMouseY/manip->listProp.at(SCALE)->getValue().toDouble();
+    isMarked = true;
 }

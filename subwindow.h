@@ -20,6 +20,8 @@ class SubWindow : public QMdiSubWindow
 protected:
     int _space;                /*!< static margin value for correct displaying picture in full picture mode*/
     QMenu contextMenu;         /*!< Context menu*/
+    QAction *_setOffMarker;       /*!< Set Off marker*/
+
 
     /*!
         \brief Change picture mode
@@ -133,6 +135,9 @@ public slots:
         \param event  - resize event pointer
     */
     void resizeEvent ( QResizeEvent * event ){}
+
+    /*!< \brief Set Off marker*/
+    void setOffMarker();
 };
 
 #endif // SUBWINDOW_H

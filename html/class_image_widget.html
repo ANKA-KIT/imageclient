@@ -114,9 +114,11 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="acdd4ab61d9ab3a48871107a5c0b96a74"></a><!-- doxytag: member="ImageWidget::rescreen" ref="acdd4ab61d9ab3a48871107a5c0b96a74" args="()" -->
 void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_image_widget.html#acdd4ab61d9ab3a48871107a5c0b96a74">rescreen</a> ()</td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Repaint image. <br/></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a89e4acac2ef4ead4d99ef1c684c77f6b"></a><!-- doxytag: member="ImageWidget::setImgType" ref="a89e4acac2ef4ead4d99ef1c684c77f6b" args="(int type)" -->
-void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_image_widget.html#a89e4acac2ef4ead4d99ef1c684c77f6b">setImgType</a> (int type)</td></tr>
-<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Set imgType value  - value. <br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_image_widget.html#a89e4acac2ef4ead4d99ef1c684c77f6b">setImgType</a> (int type)</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Set imgType value.  <a href="#a89e4acac2ef4ead4d99ef1c684c77f6b"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ad4ef83cfbf72511e9ac8336d2703ea56"></a><!-- doxytag: member="ImageWidget::allowNewMarker" ref="ad4ef83cfbf72511e9ac8336d2703ea56" args="()" -->
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_image_widget.html#ad4ef83cfbf72511e9ac8336d2703ea56">allowNewMarker</a> ()</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">contextMenuSlot <br/></td></tr>
 <tr><td colspan="2"><h2><a name="signals"></a>
 Signals</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_image_widget.html#a2d0a489ccf6fe0cfc76c937b636d24f1">resizeImgWgt</a> (int X, int Y)</td></tr>
@@ -192,6 +194,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Destructor. <br/></td></tr>
 <tr><td colspan="2"><h2><a name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_image_widget.html#a3e6351b91d3a700a3868fa1f6d994d03">isMarked</a></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">QImage *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_image_widget.html#ae41409fb58ba7035efc4d6afe74712cd">img</a></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">QImage *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_image_widget.html#acf01b79a5164be4d3bc7cb4f890a9e23">_OriginImg</a></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">QImage *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_image_widget.html#afcacef88e11840c8726faabd5eaecd7f">_originSnap</a></td></tr>
@@ -633,6 +636,31 @@ Here is the call graph for this function:</div>
 
 </div>
 </div>
+<a class="anchor" id="a89e4acac2ef4ead4d99ef1c684c77f6b"></a><!-- doxytag: member="ImageWidget::setImgType" ref="a89e4acac2ef4ead4d99ef1c684c77f6b" args="(int type)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void ImageWidget::setImgType </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>type</em></td><td>)</td>
+          <td><code> [slot]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Set imgType value. </p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramname">type</td><td>- value </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a class="anchor" id="ae20a6d6b4b997d5be26a1afc805247cf"></a><!-- doxytag: member="ImageWidget::setPicSetings" ref="ae20a6d6b4b997d5be26a1afc805247cf" args="(int x, int y)" -->
 <div class="memitem">
 <div class="memproto">
@@ -844,6 +872,20 @@ Here is the call graph for this function:</div>
 
 </div>
 </div>
+<a class="anchor" id="a3e6351b91d3a700a3868fa1f6d994d03"></a><!-- doxytag: member="ImageWidget::isMarked" ref="a3e6351b91d3a700a3868fa1f6d994d03" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool <a class="el" href="class_image_widget.html#a3e6351b91d3a700a3868fa1f6d994d03">ImageWidget::isMarked</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>true if marker was set </p>
+
+</div>
+</div>
 <a class="anchor" id="a8f15543f928912baf87cace27a2464a2"></a><!-- doxytag: member="ImageWidget::manip" ref="a8f15543f928912baf87cace27a2464a2" args="" -->
 <div class="memitem">
 <div class="memproto">
@@ -936,7 +978,7 @@ Here is the call graph for this function:</div>
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Aug 14 2012 11:06:19 for ImageClient by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed Aug 15 2012 17:11:36 for ImageClient by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.5.1
 </small></address>

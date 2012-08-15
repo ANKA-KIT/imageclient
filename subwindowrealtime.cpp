@@ -648,6 +648,10 @@ void SubWindowRealtime::setFullPictureMode(bool val){
     if (_canBeClosed){
         QList <QVariant> listProp;
         wgt->manip->getParams(listProp);
+        int marker = wgt->isMarked;
+        int xMouseCl = wgt->_clickedMouseX;
+        int yMouseCl = wgt->_clickedMouseY;
+
         if (val){
             delete scrollArea;
             scrollArea = NULL;
@@ -666,6 +670,10 @@ void SubWindowRealtime::setFullPictureMode(bool val){
         wgt->manip->setParams(listProp);
         chImageMode(wgt->picMode->getPictureMode());
         board->setAutoFillBackground(true);
+
+        wgt->isMarked=marker;
+        wgt->_clickedMouseX =xMouseCl;
+        wgt->_clickedMouseY = yMouseCl;
         emit DisplayModeChanged();
         emit fullPictureModeChanged(this);
     }

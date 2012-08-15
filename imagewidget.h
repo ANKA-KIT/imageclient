@@ -6,6 +6,8 @@
 #include <imgmanipulation.h>
 #include <picturemode.h>
 #include <QScrollArea>
+#include <QMenu>
+#include <QAction>
 
 #include <opencv/cv.h>
 #include <opencv/highgui.h>
@@ -21,6 +23,19 @@ class ImageWidget : public QWidget
 {
     Q_OBJECT
 private:
+    QMenu contextMenuSetMarker;         /*!< Context menu setMarker*/
+    QAction *marker;                     /*!< Question about set new marker position*/
+    /*!
+        \brief Set marker position
+        \param pos - mouse position
+    */
+    void setMarker(QPoint pos);
+
+    /*!
+        \brief Common initilialization for constructors
+        */
+    void init();
+
     /*!
         \brief recalculate image with limits
         \param valdata - picture data
@@ -38,8 +53,15 @@ private:
         \brief set _OriginImg with new scale
     */
     void setOriginImg();
-public:
 
+    /*!
+        \brief Recalculate mouse position after manipulation
+        X - pointer on X pozition
+        Y - pointer on Y pozition
+    */
+    void recalcPosition(int &X, int &Y);
+public:
+    bool isMarked;                  /*!< true if marker was set*/
     QImage *img;                /*!< image object which used for displaying*/
     QImage *_OriginImg;          /*!< copy of image for manipulation (NOT FOR 16bit gamma,brightness,contrast)*/
     QImage *_originSnap;        /*!< copy of image for manipulation (FOR 16bit gamma,brightness,contrast)*/
@@ -223,9 +245,14 @@ public slots:
 
     /*!
         \brief Set imgType value
-        \type - value
+        \param type - value
     */
     void setImgType(int type);
+
+    /*!
+        \brief contextMenuSlot
+    */
+    void allowNewMarker();
 };
 
 #endif // IMAGEWIDGET_H

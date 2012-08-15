@@ -3,6 +3,9 @@
 SubWindow::SubWindow(QMdiSubWindow *parent) :
     QMdiSubWindow(parent)
 {
+    _setOffMarker = new QAction(tr("&Set off Marker"), this);
+    _setOffMarker->setStatusTip(tr("&Set off Marker"));
+    QObject::connect(_setOffMarker, SIGNAL(triggered()), this, SLOT(setOffMarker()));
     qDebug("in SubWindow Construcotr");
     scrollArea = NULL;//new QScrollArea(this);
     setAutoFillBackground(true);
@@ -132,9 +135,14 @@ void SubWindow::calcFullPictureScale(int width, int height){
 
 void SubWindow::setActionMenu(QList<QAction *> acts){
     contextMenu.addActions(acts);
+    contextMenu.addAction(_setOffMarker);
 }
 
 void SubWindow::ShowContextMenu(const QPoint& pos){
     QPoint globalPos = this->mapToGlobal(pos);
     contextMenu.popup(globalPos);
+}
+
+void SubWindow::setOffMarker(){
+    wgt->isMarked = false;
 }
