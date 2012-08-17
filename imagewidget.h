@@ -54,13 +54,16 @@ private:
     */
     void setOriginImg();
 
+
+
+
+public:
     /*!
-        \brief Recalculate mouse position after manipulation
+        \brief Recalculate mouse position in data array
         X - pointer on X pozition
         Y - pointer on Y pozition
     */
-    void recalcPosition(int &X, int &Y);
-public:
+    void calcRealPosition(int &X, int &Y);
     bool isMarked;                  /*!< true if marker was set*/
     QImage *img;                /*!< image object which used for displaying*/
     QImage *_OriginImg;          /*!< copy of image for manipulation (NOT FOR 16bit gamma,brightness,contrast)*/
@@ -79,6 +82,10 @@ public:
 
     int originWidth;                /*!< Width of 16 bit image*/
     int originHeight;                /*!< Height of 16 bit image*/
+
+
+    void convertPosFromImageSize(int &X, int &Y);
+
     /*!
         \brief Constructor for realtime subwindow
     */
@@ -88,6 +95,13 @@ public:
         \brief Keep Real picture size;
     */
     void setPicSize(int x, int y);
+
+    /*!
+        \brief Recalculate mouse position after manipulation
+        X - pointer on X pozition
+        Y - pointer on Y pozition
+    */
+    void recalcPosition(int &X, int &Y);
 
     /*!
         \brief Constructor for snapshot subwindow
@@ -219,6 +233,8 @@ signals:
     void mousePositionVal(int RGB);             /*!< send image color value in mouse position \param RGB - RGB [0..255] value*/
     void mousePositionVal(int R, int G, int B); /*!< send image color value in mouse position \param R - red value (RGB) [0..255] value \param Green - green value (RGB) [0..255] value \param B - blue value (RGB) [0..255] value*/
     void sendScale(QVariant val);                   /*!< send current scale value \param val - scale value*/
+
+    void sendMarker(QString str);                   /*!< send Marker info \param str - Test for displaying*/
 
 public slots: 
     //void changeImg(int);

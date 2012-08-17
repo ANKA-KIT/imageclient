@@ -75,6 +75,7 @@ public:
     QAction *verFlipRealtime;           /*!< Set Vertical fliping (VerFlip) value realtime*/
     QAction *horFlipRealtime ;          /*!< Set Horizontal fliping (HorFlip) value realtime*/
     QAction *resetImgRealtime;          /*!< Reset value realtime*/
+    QAction *makeMarker;                /*!< Create marker throw window*/
 
     QAction *makeSnapshot;              /*!< make snapshot from realtime*/
     QAction *printSnapshot;             /*!< print snapshot */

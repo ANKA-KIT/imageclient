@@ -93,4 +93,21 @@ public slots:
     void onCancel();
 };
 
+
+class SetMarker : public QWidget{
+Q_OBJECT
+public:
+    QPushButton *btOk;
+    QLabel *lbX;
+    QLineEdit *tlX;
+    QLineEdit *tlY;
+    QLabel *lbY;
+    SetMarker();
+    ~SetMarker();
+signals:
+    void setMarker(int x, int y);
+public slots:
+    void onOk();
+};
+
 #endif // TANGOSETTINGSWIN_H

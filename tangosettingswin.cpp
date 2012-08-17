@@ -140,3 +140,44 @@ bool TangoSettingsWin::converToDouble(double& val){
         val = 0;
     return ok;
 }
+
+//----------------------------------------------------------------------//
+SetMarker::SetMarker(){
+    setWindowTitle("Set Marker position");
+    setFixedSize(100,70);
+    move(100,50);
+    lbX = new QLabel("X", this);
+    lbX->setGeometry(0,0,20,24);
+    lbY = new QLabel("Y", this);
+    lbY->setGeometry(0,25,20,24);
+
+    tlX = new QLineEdit(this);
+    tlX->setGeometry(15, 0, 60, 24);
+    tlY = new QLineEdit(this);
+    tlY->setGeometry(15,25, 60, 24);
+
+    btOk = new QPushButton("Ok", this);
+    btOk->setGeometry(20, 50, 40, 24);
+    connect(btOk, SIGNAL(clicked()), this, SLOT(onOk()));
+}
+SetMarker::~SetMarker(){
+    delete lbX;
+    delete lbY;
+
+    delete tlX;
+    delete tlY;
+
+    delete btOk;
+}
+
+void SetMarker::onOk(){
+    bool okX = true;
+    bool okY = true;
+    int x = tlX->text().toInt(&okX);
+    int y = tlY->text().toInt(&okY);
+
+    if(okX && okY){
+        emit setMarker(x,y);
+        close();
+    }
+}

@@ -41,6 +41,7 @@ MenuTab::~MenuTab()
     delete verFlipRealtime;
     delete horFlipRealtime ;
     delete resetImgRealtime;
+    delete makeMarker;
 
     delete makeSnapshot;
     delete printSnapshot;
@@ -122,6 +123,7 @@ void MenuTab::createMenu(){
     setImageMode->addAction(isRGBGrey);
     setImageMode->addAction(isRGB_ARGB);
 
+    realtime->addAction(makeMarker);
      submenuImageFormat = realtime->addMenu("Image Format");
         submenuImageFormat->addAction(setImageFormatIndex8);
         submenuImageFormat->addAction(setImageFormatRGB32);
@@ -331,6 +333,10 @@ void MenuTab::initRealtime(){
     timeOutRealtime = new QAction(tr("&Timeout(ms)"), this);
     timeOutRealtime->setStatusTip(tr("Timeout(ms)"));
     QObject::connect(timeOutRealtime, SIGNAL(triggered()), this, SLOT(settingTimeOutRealtime()));
+
+    makeMarker  = new QAction(tr("&Set Marker"), this);
+    makeMarker->setStatusTip(tr("Set Marker"));
+    QObject::connect(makeMarker, SIGNAL(triggered()), mainWin, SLOT(setMarkerPos ()));
 }
 void MenuTab::initSnap(){
     /*Snapshot*/

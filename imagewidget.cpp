@@ -63,6 +63,7 @@ ImageWidget::~ImageWidget(){
     delete picMode;
 
     delete _originSnap;
+    delete marker;
 }
 
 void ImageWidget::resizeWgt(int x, int y){
@@ -243,43 +244,6 @@ void ImageWidget::printImg(){
 void ImageWidget::mousePressEvent ( QMouseEvent * e){
     if (e->button() == Qt::LeftButton ){
         setMarker(e->pos());
-       // int X = _curMouseX/manip->listProp.at(SCALE)->getValue().toDouble();
-       // int Y = _curMouseY/manip->listProp.at(SCALE)->getValue().toDouble();
-        int X = _curMouseX;
-        int Y = _curMouseY;
-        if (manip->getRotationVal() == 90 || manip->getRotationVal() == -270){
-            int A = X;
-            X = Y;
-            Y= ImgDimY- A;
-        }
-        if (manip->getRotationVal() == 270 || manip->getRotationVal() == -90){
-            int A = X;
-            X = ImgDimX-Y;
-            Y = A;
-        }
-        if (manip->getVerFlipVal() && (manip->getRotationVal() == 180 || manip->getRotationVal() == -180 || manip->getRotationVal() == 0)){
-            Y = ImgDimY-Y;
-        }
-        else if(manip->getVerFlipVal()){
-            X = ImgDimX-X;
-            Y = Y;
-        }
-        if (manip->getHorFlipVal() && (manip->getRotationVal() == 180 || manip->getRotationVal() == -180  || manip->getRotationVal() == 0)){
-            X = ImgDimX-X;
-        }
-        else if(manip->getHorFlipVal()){
-            X = X;
-            Y = ImgDimY-Y;
-        }
-        if (manip->getRotationVal() == 180 || manip->getRotationVal() == -180){
-            Y = ImgDimY-Y;
-            X = ImgDimX-X;
-        }
-        //_clickedMouseX = X;
-        //_clickedMouseY = Y;
-       // isMarked = true;
-        _curMouseY = Y;
-        _curMouseX = X;
         qDebug("ImageWidget::mousePressEvent\n");
     }
 }
@@ -293,32 +257,18 @@ void ImageWidget::mouseMoveEvent ( QMouseEvent * e){
     _curMouseX = e->x();
     _curMouseY = e->y();
     emit repainting();
-    emit mousePosition(_curMouseX, _curMouseY);
+    int X=_curMouseX, Y=_curMouseY;
+    calcRealPosition(X,Y);
+    //recalcPosition(X,Y);
+
+    emit mousePosition(X/manip->listProp.at(SCALE)->getValue().toDouble(), Y/manip->listProp.at(SCALE)->getValue().toDouble());
     if (!img->isNull() && img->valid(_curMouseX,_curMouseY)){
         if (imgType == IS_16BITIMG_GREY ){
-            if (manip->getScaleVal() == 1){  //temperary if-else
-                int X=_curMouseX, Y=_curMouseY;
-                /*if (manip->getHorFlipVal()){
-                    X = img->width()-X;
-                }
-                if (manip->getRotationVal() == 90){
-                    Y = img->height()-Y;
-                }
-                if (manip->getRotationVal() == 270){
-                    X = img->width()-X;
-                }
-                if (manip->getVerFlipVal()){
-                    Y = img->height()-Y;
-                }
-                if (manip->getRotationVal() == 180){
-                    Y = img->height()-Y;
-                    X = img->height()-X;
-                }*/
-                recalcPosition(X,Y);
+       //     if (manip->getScaleVal() == 1){  //temperary if-else!!!!!!
                     emit mousePositionVal(qRed(img->pixel(_curMouseX,_curMouseY)), valUSh[X*Y+X] );
-            }
-            else
-               emit mousePositionVal(qRed(img->pixel(_curMouseX,_curMouseY)), 99999 );
+         //   }
+        //    else
+         //      emit mousePositionVal(qRed(img->pixel(_curMouseX,_curMouseY)), 99999 );
         }
         else if (imgType == IS_RGBIMG_GREY || imgType == IS_8BITIMG_GREY || imgType == IS_8BITIMG_COLOR){
             emit mousePositionVal(qRed(img->pixel(_curMouseX, _curMouseY)));
@@ -353,6 +303,7 @@ void ImageWidget::recalcPosition(int &X, int &Y){
         X = img->width()-X;
     }
 }
+
 
 //on paint event
 void ImageWidget::paintEvent( QPaintEvent * e){
@@ -493,7 +444,178 @@ void ImageWidget::setMarker(QPoint pos){
 }
 
 void ImageWidget::allowNewMarker(){
-    _clickedMouseX = _curMouseX/manip->listProp.at(SCALE)->getValue().toDouble();
-    _clickedMouseY = _curMouseY/manip->listProp.at(SCALE)->getValue().toDouble();
+    int X = _curMouseX, Y=_curMouseY;
+    calcRealPosition(X,Y);
+    QString str = QString("Marker: X=" + QString().number(int(X/manip->listProp.at(SCALE)->getValue().toDouble())) + ";Y=" + QString().number(int(Y/manip->listProp.at(SCALE)->getValue().toDouble())));
+    emit sendMarker(str);
+
+      X = _curMouseX;
+      Y = _curMouseY;
+             if (manip->getRotationVal() == 90 || manip->getRotationVal() == -270){
+                 int A = X;
+                 X = Y;
+                 Y=  img->width() - A;
+             }
+             if (manip->getRotationVal() == 270 || manip->getRotationVal() == -90){
+                 int A = X;
+                 X = img->height()-Y;
+                 Y = A;
+             }
+
+             if (manip->getRotationVal() == 180 || manip->getRotationVal() == -180 ){
+                 Y = img->height()-Y;
+                 X = img->width()-X;
+             }
+             if (manip->getVerFlipVal() && (manip->getRotationVal() == 180 || manip->getRotationVal() == -180 )){
+                 Y = img->height()-Y;
+             }
+             else if (manip->getVerFlipVal() && manip->getRotationVal() == 0){
+                 Y = img->height()-Y;
+             }
+             else if(manip->getVerFlipVal() && (manip->getRotationVal() == 270 || manip->getRotationVal() == -90)){
+                 X = img->height() - X;
+             }
+             else if(manip->getVerFlipVal() && (manip->getRotationVal() == 90 || manip->getRotationVal() == -270)){
+                 X = img->height()-X;
+                 Y = Y;;
+             }
+
+
+             if (manip->getHorFlipVal() && (manip->getRotationVal() == 180 || manip->getRotationVal() == -180)){
+                 X = img->width()-X;
+             }
+             else if (manip->getHorFlipVal() && manip->getRotationVal() == 0){
+                 X = img->width()-X;
+             }
+             else if(manip->getHorFlipVal() && (manip->getRotationVal() == 90 || manip->getRotationVal() == -270)){
+                 X = X;
+                 Y = img->width()-Y;
+             }
+             else if(manip->getHorFlipVal() && (manip->getRotationVal() == 270 || manip->getRotationVal() == -90)){
+                 X = X;
+                 Y = img->width()-Y;
+             }
+
+    _clickedMouseX = X/manip->listProp.at(SCALE)->getValue().toDouble();
+    _clickedMouseY = Y/manip->listProp.at(SCALE)->getValue().toDouble();
+
     isMarked = true;
 }
+
+
+
+
+
+
+
+
+
+void ImageWidget::calcRealPosition(int &X, int &Y){
+    int diff = (ImgDimX-ImgDimY)*manip->listProp.at(SCALE)->getValue().toDouble();
+    ////////////////////////////////////////////////
+    if (manip->getRotationVal() == 90 || manip->getRotationVal() == -270){
+        int A = X;
+        X=Y;
+        Y=img->height()-A-diff;
+    }
+    if (manip->getRotationVal() == 270 || manip->getRotationVal() == -90){
+         int A = X;
+        X = img->width()-Y + diff;
+        Y = A;
+    }
+    if (manip->getRotationVal() == 180 || manip->getRotationVal() == -180){
+        Y = img->height()-Y;
+        X = img->width()-X;
+    }
+    ////////////////////////////////////////////////
+    if (manip->getVerFlipVal() && (manip->getRotationVal() == 90 || manip->getRotationVal() == -270)){
+        X = img->height()-X;
+    }
+    else if (manip->getVerFlipVal() && (manip->getRotationVal() == 270 || manip->getRotationVal() == -90)){
+       Y = Y;
+       X = img->width()-X + diff;
+    }
+    else if (manip->getVerFlipVal()){
+        Y = img->height()-Y;
+    }
+    ////////////////////////////////////////////////
+    if (manip->getHorFlipVal() && (manip->getRotationVal() == 90 || manip->getRotationVal() == -270)){
+        Y = img->height() - Y - diff;
+    }
+    else if (manip->getHorFlipVal() && (manip->getRotationVal() == 270 || manip->getRotationVal() == -90)){
+        Y = img->height() - Y - diff;
+    }
+    else if (manip->getHorFlipVal()){
+        X = img->width()-X;
+    }
+
+}
+
+
+
+
+
+
+void ImageWidget::convertPosFromImageSize(int &X, int &Y){
+    if (manip->getRotationVal() == 90 || manip->getRotationVal() == -270){
+            int A = X;
+            X=ImgDimY-Y;
+            Y=A;
+        }
+
+
+    if (manip->getVerFlipVal() && (manip->getRotationVal() == 270 || manip->getRotationVal() == -90)){
+            int temp = X;
+            X = Y;
+            Y = temp;
+
+            int A = X;
+            X = Y;
+            Y = ImgDimX-A;
+    }
+    else if (manip->getHorFlipVal() && (manip->getRotationVal() == 270 || manip->getRotationVal() == -90)){
+        int A = X;
+        X = Y;
+        Y = ImgDimX-A;
+    }
+     else   if (manip->getRotationVal() == 270 || manip->getRotationVal() == -90){
+            int A = X;
+            X = Y;
+            Y = ImgDimX-A;
+        }
+
+
+        if (manip->getRotationVal() == 180 || manip->getRotationVal() == -180){
+            Y = ImgDimY-Y;
+            X = ImgDimX-X;
+        }
+
+
+        /////////////////////////////////////
+        if(manip->getVerFlipVal() && (manip->getRotationVal() == 270 || manip->getRotationVal() == -90)){
+                int A = X;
+                X = Y;
+                Y = ImgDimX -A;
+
+                X = ImgDimX - X;
+                Y = A;
+        }
+        else if(manip->getVerFlipVal() && (manip->getRotationVal() == 90 || manip->getRotationVal() == -270)){
+                Y = ImgDimX-Y;
+        }
+        else if (manip->getVerFlipVal()){
+              Y = ImgDimY-Y;
+        }
+
+//////////////////////////////////
+        if(manip->getHorFlipVal() && (manip->getRotationVal() == 270 || manip->getRotationVal() == -90)){
+            X = ImgDimY - X;
+        }
+        else if(manip->getHorFlipVal() && (manip->getRotationVal() == 90 || manip->getRotationVal() == -270)){
+                 X = ImgDimY-X;
+        }
+        else if (manip->getHorFlipVal()){
+            X = ImgDimX-X;
+        }
+}
+

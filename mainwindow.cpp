@@ -45,6 +45,9 @@ MainWindow::MainWindow(QWidget *parent) :
     lbPixVal = new QLabel(ui->centralWidget);
     lbPixVal->setObjectName(QString::fromUtf8("lbPixVal"));
     lbPixVal->setGeometry(QRect(150, 0, 175, 24));
+    lbMarker = new QLabel(ui->centralWidget);
+    lbMarker->setObjectName(QString::fromUtf8("lbarker"));
+    lbMarker->setGeometry(QRect(290, 0, 175, 24));
 
     slider = NULL;
     manip_wgt = NULL;
@@ -98,6 +101,8 @@ MainWindow::~MainWindow()
     delete lbMouseX;
     delete lbMouseY;
     delete lbPixVal;
+    delete lbMarker;
+
 
     delete slider;
     slider = NULL;
@@ -167,6 +172,21 @@ void MainWindow::setManipulatorWGT(SubWindow *subW){
     connect(manip_wgt, SIGNAL(showhistogram()), this, SLOT(setManipulator()));
     manip_wgt->setWindowModality(Qt::WindowModal);
     manip_wgt->show();
+}
+
+void MainWindow::setMarkerPos(){
+    SetMarker *marker = new SetMarker();
+    connect(marker, SIGNAL(setMarker(int,int)), this, SLOT(createMarker(int,int)));
+    marker->setWindowModality(Qt::WindowModal);
+    marker->setAttribute(Qt::WA_DeleteOnClose);
+    marker->show();
+}
+
+void MainWindow::createMarker(int X,int Y){
+    listReal.at(realtimeIntLast)->wgt->convertPosFromImageSize(X, Y);
+    listReal.at(realtimeIntLast)->wgt->_curMouseX = floor(X * listReal.at(realtimeIntLast)->wgt->manip->listProp.at(SCALE)->getValue().toDouble());
+    listReal.at(realtimeIntLast)->wgt->_curMouseY = floor(Y * listReal.at(realtimeIntLast)->wgt->manip->listProp.at(SCALE)->getValue().toDouble());
+    listReal.at(realtimeIntLast)->wgt->allowNewMarker();
 }
 
 void MainWindow::connectPropertyValues(SubWindow* subW){
@@ -608,6 +628,8 @@ void MainWindow::connectSubwindowSignals(SubWindow *subWin){
     QObject::connect(subWin->wgt, SIGNAL(mousePositionVal(int,int)), this, SLOT(setGreylbVal(int,int)));
     QObject::connect(subWin->wgt, SIGNAL(mousePositionVal(int)), this, SLOT(setGreylbVal(int)));
     QObject::connect(subWin->wgt, SIGNAL(mousePositionVal(int,int,int)), this, SLOT(setRGBlbVal(int,int,int)));
+
+    QObject::connect(subWin->wgt, SIGNAL(sendMarker(QString)), this, SLOT(setMarker(QString)));
 }
 
 double MainWindow::isFullPicReal(){
@@ -621,8 +643,6 @@ void MainWindow::mkSnapshot(){
     qDebug() << "mksnapshot: " << QThread::currentThread();
     if (curRealtimeInt != -1){
         qDebug("in calling new SubWindowSnapshot");
-        //listReal.at(curRealtimeInt)->wgt->makeSnpFromWgt();
-
          mkSnapshot(listReal.at(curRealtimeInt)->wgt, isFullPicReal() );
          commandMenu->setSnapshotEnable(true);
     }
@@ -841,4 +861,8 @@ void MainWindow::setRGB444(){
 }
 void MainWindow::setARGB4444Pre(){
     listReal.at(curRealtimeInt)->wgt->picMode->changeColorFormat(QImage::Format_ARGB4444_Premultiplied);
+}
+
+void MainWindow::setMarker(QString str){
+    lbMarker->setText(str);
 }

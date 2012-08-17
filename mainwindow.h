@@ -148,6 +148,8 @@ private:
     */
     int getBGCPL_WGT_MODE(int mode);
 
+
+
 public:
     SliderManip *slider;            /*!< Manipulator with histogram*/
     Manipulator *manip_wgt;         /*!< Manipulator*/
@@ -170,6 +172,7 @@ public:
     QLabel *lbMouseX;               /*!< label for displaying Mouse X position*/
     QLabel *lbMouseY;               /*!< label for displaying Mouse Y position*/
     QLabel *lbPixVal;               /*!< label for displaying pixel value in mouse position*/
+    QLabel *lbMarker;               /*!< label for displaying marker position*/
     QPushButton *bt;                /*!< NOT USED*/
     QPushButton *btMkSnap;          /*!< NOT USED*/
     QPushButton *bt16bit;           /*!< NOT USED*/
@@ -364,6 +367,12 @@ public slots:
     void setMousePos(int x, int y);
 
     /*!
+        \brief set in labels information about marker position
+        \param str - text for displaying
+    */
+    void setMarker(QString str);
+
+    /*!
         \brief set left pixel limit for realtime
         \param val - value
     */
@@ -447,6 +456,17 @@ public slots:
         void setRGB444();
         /*! \brief Set Qt image format*/
         void setARGB4444Pre();
+
+
+        /*! \brief Create window for setting marker */
+        void setMarkerPos();
+        /*!
+            \brief set Marker position
+            \param X - X marker position
+            \param Y - Y marker position
+        */
+        void createMarker(int X,int Y);
+
 };
 
 #endif // MAINWINDOW_H
