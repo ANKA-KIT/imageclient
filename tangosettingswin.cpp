@@ -151,14 +151,17 @@ SetMarker::SetMarker(){
     lbY = new QLabel("Y", this);
     lbY->setGeometry(0,25,20,24);
 
-    tlX = new QLineEdit(this);
+    tlX = new MyLineEdit((QLineEdit*)this);
     tlX->setGeometry(15, 0, 60, 24);
-    tlY = new QLineEdit(this);
+    tlY = new MyLineEdit((QLineEdit*)this);
     tlY->setGeometry(15,25, 60, 24);
 
     btOk = new QPushButton("Ok", this);
     btOk->setGeometry(20, 50, 40, 24);
     connect(btOk, SIGNAL(clicked()), this, SLOT(onOk()));
+    connect(tlX, SIGNAL(setVal(int)), this, SLOT(onOk()));
+    connect(tlY, SIGNAL(setVal(int)), this, SLOT(onOk()));
+
 }
 SetMarker::~SetMarker(){
     delete lbX;

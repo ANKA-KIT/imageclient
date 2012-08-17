@@ -241,7 +241,16 @@ void MainWindow::setSliderConnects(SubWindow*subW, int mode){
 
     connect(subW->wgt, SIGNAL(sendScale (QVariant)), slider->rsfl->scale, SLOT(receiveVal(QVariant)));
 }
-
+void MainWindow::reSetMarkerPos(SubWindow *subWin){  //////set into imagewidget
+    if (subWin->wgt->isMarked){
+        int X = subWin->wgt->_clickedMouseX, Y=subWin->wgt->_clickedMouseY;
+        QString str = QString("Marker: X=" + QString().number(int(X)) + ";Y=" + QString().number(int(Y)));
+        setMarker(str);
+    }
+    else {
+        setMarker("");
+    }
+}
 void MainWindow::setSlider(SubWindow* subW){
     int mode = getBGCPL_WGT_MODE(subW->wgt->picMode->getPictureMode());
     if (!slider)
@@ -298,6 +307,7 @@ void MainWindow::realtimeChanged(SubWindowRealtime* curRealtimeWin){
                 listReal.at(curRealtimeInt)->sendingPing();
 
                 chManipulator(listReal.at(realtimeIntLast));
+                reSetMarkerPos(listReal.at(realtimeIntLast));
                 break;
                 }
             i++;
@@ -342,6 +352,7 @@ void MainWindow::SnapshotChanged(SubWindowSnapshot* curSnapWin){
                     listReal.at(realtimeIntLast)->sendingPing();
                 }
                 chManipulator(listSnap.at(curSnapshotIntLast));
+                reSetMarkerPos(listSnap.at(curSnapshotIntLast));
                 break;
             }
             i++;
@@ -865,4 +876,5 @@ void MainWindow::setARGB4444Pre(){
 
 void MainWindow::setMarker(QString str){
     lbMarker->setText(str);
+    lbMarker->setStatusTip("Value can be near if image scaled");
 }

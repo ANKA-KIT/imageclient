@@ -34,6 +34,11 @@ private:
     bool histogramManip;    /*!< is it manipulator with histogram*/
 
     /*!
+        \brief reset marker label value
+        \param subWin - subwindow pointer
+    */
+    void reSetMarkerPos(SubWindow *subWin);
+    /*!
         \brief get proporsion of height/width
         \return difLevelPers
     */

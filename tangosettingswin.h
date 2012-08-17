@@ -7,6 +7,7 @@
 #include <QPushButton>
 #include <QVariant>
 #include <enum.h>
+#include <mylineedit.h>
 
 /*!
   \file tangosettingswin.h
@@ -99,8 +100,8 @@ Q_OBJECT
 public:
     QPushButton *btOk;
     QLabel *lbX;
-    QLineEdit *tlX;
-    QLineEdit *tlY;
+    MyLineEdit *tlX;
+    MyLineEdit *tlY;
     QLabel *lbY;
     SetMarker();
     ~SetMarker();

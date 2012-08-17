@@ -335,7 +335,8 @@ void MenuTab::initRealtime(){
     QObject::connect(timeOutRealtime, SIGNAL(triggered()), this, SLOT(settingTimeOutRealtime()));
 
     makeMarker  = new QAction(tr("&Set Marker"), this);
-    makeMarker->setStatusTip(tr("Set Marker"));
+    //makeMarker->setShortcuts(QKeySequence::("Ctrl+M");
+    makeMarker->setStatusTip(tr("Set Marker. Value can be near if image scaled"));
     QObject::connect(makeMarker, SIGNAL(triggered()), mainWin, SLOT(setMarkerPos ()));
 }
 void MenuTab::initSnap(){
