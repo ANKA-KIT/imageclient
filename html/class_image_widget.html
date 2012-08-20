@@ -128,14 +128,23 @@ Signals</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_image_widget.html#a00e2755ddf2eda51d93ad68e4b9268e6">mousePositionVal</a> (int RGB)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_image_widget.html#aa4f5f1af064df01bbeca45b24bd18c62">mousePositionVal</a> (int R, int G, int B)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_image_widget.html#aae9bb8506219e01a5805337de30f2357">sendScale</a> (QVariant val)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_image_widget.html#ab10264d1856f40c80b6887f7f1b8d126">sendMarker</a> (QString str)</td></tr>
 <tr><td colspan="2"><h2><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a3abd9973a8905ec28778673cd94e4790"></a><!-- doxytag: member="ImageWidget::calcRealPosition" ref="a3abd9973a8905ec28778673cd94e4790" args="(int &amp;X, int &amp;Y)" -->
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_image_widget.html#a3abd9973a8905ec28778673cd94e4790">calcRealPosition</a> (int &amp;X, int &amp;Y)</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Recalculate mouse position in data array X - pointer on X pozition Y - pointer on Y pozition. <br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ad056e7179a69836286a915ab02b03582"></a><!-- doxytag: member="ImageWidget::convertPosFromImageSize" ref="ad056e7179a69836286a915ab02b03582" args="(int &amp;X, int &amp;Y)" -->
+void&#160;</td><td class="memItemRight" valign="bottom"><b>convertPosFromImageSize</b> (int &amp;X, int &amp;Y)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a29f5483569b0ac4abd6b25bb640f9250"></a><!-- doxytag: member="ImageWidget::ImageWidget" ref="a29f5483569b0ac4abd6b25bb640f9250" args="(QWidget *parent=0)" -->
 &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_image_widget.html#a29f5483569b0ac4abd6b25bb640f9250">ImageWidget</a> (QWidget *parent=0)</td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor for realtime subwindow. <br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a75ebfb9b2f77520011e23558f6c7adb9"></a><!-- doxytag: member="ImageWidget::setPicSize" ref="a75ebfb9b2f77520011e23558f6c7adb9" args="(int x, int y)" -->
 void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_image_widget.html#a75ebfb9b2f77520011e23558f6c7adb9">setPicSize</a> (int x, int y)</td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Keep Real picture size;. <br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a23624c9124a2e152a1d03985516295e4"></a><!-- doxytag: member="ImageWidget::recalcPosition" ref="a23624c9124a2e152a1d03985516295e4" args="(int &amp;X, int &amp;Y)" -->
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_image_widget.html#a23624c9124a2e152a1d03985516295e4">recalcPosition</a> (int &amp;X, int &amp;Y)</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Recalculate mouse position after manipulation X - pointer on X pozition Y - pointer on Y pozition. <br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_image_widget.html#a0540982a9bc53517309df882aac7083b">ImageWidget</a> (QImage *image, QWidget *parent=0)</td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor for snapshot subwindow.  <a href="#a0540982a9bc53517309df882aac7083b"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_image_widget.html#ad6d76d5d3764e0994bf889d71daa1728">resizeWgt</a> (int x, int y)</td></tr>
@@ -612,6 +621,30 @@ Here is the call graph for this function:</div>
 
 </div>
 </div>
+<a class="anchor" id="ab10264d1856f40c80b6887f7f1b8d126"></a><!-- doxytag: member="ImageWidget::sendMarker" ref="ab10264d1856f40c80b6887f7f1b8d126" args="(QString str)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void ImageWidget::sendMarker </td>
+          <td>(</td>
+          <td class="paramtype">QString&#160;</td>
+          <td class="paramname"><em>str</em></td><td>)</td>
+          <td><code> [signal]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>send Marker info </p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramname">str</td><td>- Test for displaying </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a class="anchor" id="aae9bb8506219e01a5805337de30f2357"></a><!-- doxytag: member="ImageWidget::sendScale" ref="aae9bb8506219e01a5805337de30f2357" args="(QVariant val)" -->
 <div class="memitem">
 <div class="memproto">
@@ -978,7 +1011,7 @@ Here is the call graph for this function:</div>
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Aug 15 2012 17:11:36 for ImageClient by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Aug 17 2012 16:39:45 for ImageClient by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.5.1
 </small></address>

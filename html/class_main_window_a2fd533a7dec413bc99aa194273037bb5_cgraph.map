@@ -6,7 +6,7 @@
 <area shape="rect" id="node34" href="$class_main_window.html#a1fb02a2484b4a39cbc17f0f3743f23dc" title="change manipulator for realtime subwindow" alt="" coords="254,259,471,285"/>
 <area shape="rect" id="node37" href="$class_main_window.html#a8ada0fa9c6c71bb4ebedd7bd56974109" title="set PictureMode as IS_16BITIMG_GREY" alt="" coords="238,309,487,336"/>
 <area shape="rect" id="node39" href="$class_main_window.html#ae82f57d7eb23aa77dab26c27d88d11a3" title="set PictureMode as IS_RGBIMG_COLOR" alt="" coords="230,360,495,387"/>
-<area shape="rect" id="node41" href="$class_main_window.html#a02a74dca7399a2d5fdad81f199acf0e1" title="Set connects subwindow and mainwindow." alt="" coords="232,436,493,463"/>
+<area shape="rect" id="node41" href="$class_main_window.html#a02a74dca7399a2d5fdad81f199acf0e1" title="Set connects subwindow and mainwindow." alt="" coords="232,461,493,488"/>
 <area shape="rect" id="node9" href="$class_menu_tab.html#aa1c0fcae018756edc9a230fa3217789d" title="set enable for realtime Menu" alt="" coords="545,157,743,184"/>
 <area shape="rect" id="node14" href="$class_menu_tab.html#ae8b59efdc378b9f056c89b948677f763" title="set Icons for pointer" alt="" coords="553,208,735,235"/>
 <area shape="rect" id="node32" href="$class_main_window.html#af0070391b05f51075140c6bbd8277273" title="change manipulator with/without histogram" alt="" coords="551,259,737,285"/>
@@ -21,6 +21,7 @@
 <area shape="rect" id="node43" href="$class_main_window.html#a3dca1c040059de53bd687e94a867af51" title="set in labels information about mouse position" alt="" coords="551,411,737,437"/>
 <area shape="rect" id="node49" href="$class_main_window.html#a178715eed6ec291dce2104bda727804a" title="set in label information about pixel color" alt="" coords="554,461,734,488"/>
 <area shape="rect" id="node51" href="$class_main_window.html#aa640d4cafcf191f0fc2344a0b997d77e" title="set in label information about pixel color" alt="" coords="553,512,735,539"/>
+<area shape="rect" id="node53" href="$class_main_window.html#ab90ddb6410de2dc014a3fbb01eb3c40a" title="set in labels information about marker position" alt="" coords="563,563,725,589"/>
 <area shape="rect" id="node45" href="$class_main_window.html#a06d8ec49cb4f553424bfe6ab4226793f" title="set in label information about mouse X position" alt="" coords="799,411,999,437"/>
 <area shape="rect" id="node47" href="$class_main_window.html#a6c6cb2969176bcd5970654184be69f48" title="set in label information about mouse Y position" alt="" coords="799,461,999,488"/>
 </map>

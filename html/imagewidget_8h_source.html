@@ -108,99 +108,107 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <a name="l00051"></a>00051 
 <a name="l00055"></a>00055     <span class="keywordtype">void</span> setOriginImg();
 <a name="l00056"></a>00056 
-<a name="l00062"></a>00062     <span class="keywordtype">void</span> recalcPosition(<span class="keywordtype">int</span> &amp;X, <span class="keywordtype">int</span> &amp;Y);
-<a name="l00063"></a>00063 <span class="keyword">public</span>:
-<a name="l00064"></a><a class="code" href="class_image_widget.html#a3e6351b91d3a700a3868fa1f6d994d03">00064</a>     <span class="keywordtype">bool</span> <a class="code" href="class_image_widget.html#a3e6351b91d3a700a3868fa1f6d994d03">isMarked</a>;                  
-<a name="l00065"></a><a class="code" href="class_image_widget.html#ae41409fb58ba7035efc4d6afe74712cd">00065</a>     QImage *<a class="code" href="class_image_widget.html#ae41409fb58ba7035efc4d6afe74712cd">img</a>;                
-<a name="l00066"></a><a class="code" href="class_image_widget.html#acf01b79a5164be4d3bc7cb4f890a9e23">00066</a>     QImage *<a class="code" href="class_image_widget.html#acf01b79a5164be4d3bc7cb4f890a9e23">_OriginImg</a>;          
-<a name="l00067"></a><a class="code" href="class_image_widget.html#afcacef88e11840c8726faabd5eaecd7f">00067</a>     QImage *<a class="code" href="class_image_widget.html#afcacef88e11840c8726faabd5eaecd7f">_originSnap</a>;        
-<a name="l00068"></a><a class="code" href="class_image_widget.html#af29c86a9de3311ab91a8e915888e7be3">00068</a>     <span class="keywordtype">int</span> <a class="code" href="class_image_widget.html#af29c86a9de3311ab91a8e915888e7be3">imgType</a>;                
-<a name="l00069"></a><a class="code" href="class_image_widget.html#a8f15543f928912baf87cace27a2464a2">00069</a>     <a class="code" href="class_img_manipulation.html" title="Keep basic manipulation for color image, set property values /Class answear for keeping basic manipul...">ImgManipulation</a>* <a class="code" href="class_image_widget.html#a8f15543f928912baf87cace27a2464a2">manip</a>;     
-<a name="l00070"></a><a class="code" href="class_image_widget.html#ad64ea022866079b366567c285442d0d2">00070</a>     vector &lt;unsigned short&gt; <a class="code" href="class_image_widget.html#ad64ea022866079b366567c285442d0d2">valUSh</a>;  
-<a name="l00071"></a>00071     <span class="comment">//int curDataFormat;</span>
-<a name="l00072"></a><a class="code" href="class_image_widget.html#aafc6d86164b0b9a2bd0c6354e790e2f4">00072</a>     <a class="code" href="class_picture_mode.html" title="Abstract class, uses for polymorphism /abstract class, uses for polymorphism.">PictureMode</a> *<a class="code" href="class_image_widget.html#aafc6d86164b0b9a2bd0c6354e790e2f4">picMode</a>;       
-<a name="l00073"></a><a class="code" href="class_image_widget.html#a8ef6315d0aa779032438e385f818f958">00073</a>     <span class="keywordtype">int</span> <a class="code" href="class_image_widget.html#a8ef6315d0aa779032438e385f818f958">ImgDimX</a>;                
-<a name="l00074"></a><a class="code" href="class_image_widget.html#a12b8d35c86836c99667015a04db548ec">00074</a>     <span class="keywordtype">int</span> <a class="code" href="class_image_widget.html#a12b8d35c86836c99667015a04db548ec">ImgDimY</a>;                
-<a name="l00075"></a><a class="code" href="class_image_widget.html#a27398a7bbe5f979a7a698948fb18bb96">00075</a>     <span class="keywordtype">int</span> <a class="code" href="class_image_widget.html#a27398a7bbe5f979a7a698948fb18bb96">_curMouseX</a>;             
-<a name="l00076"></a><a class="code" href="class_image_widget.html#ab4c7549b22c8565324a0c00b520a7fea">00076</a>     <span class="keywordtype">int</span> <a class="code" href="class_image_widget.html#ab4c7549b22c8565324a0c00b520a7fea">_curMouseY</a>;             
-<a name="l00077"></a><a class="code" href="class_image_widget.html#a3140a0d3e0d6e85d13e26af542ad06df">00077</a>     <span class="keywordtype">int</span> <a class="code" href="class_image_widget.html#a3140a0d3e0d6e85d13e26af542ad06df">_clickedMouseX</a>;         
-<a name="l00078"></a><a class="code" href="class_image_widget.html#a6224e2e0666be05f9fe079d9dc806ee1">00078</a>     <span class="keywordtype">int</span> <a class="code" href="class_image_widget.html#a6224e2e0666be05f9fe079d9dc806ee1">_clickedMouseY</a>;         
-<a name="l00080"></a><a class="code" href="class_image_widget.html#a6917e5b99377c3193d438e249fac5b3e">00080</a>     <span class="keywordtype">int</span> <a class="code" href="class_image_widget.html#a6917e5b99377c3193d438e249fac5b3e">originWidth</a>;                
-<a name="l00081"></a><a class="code" href="class_image_widget.html#aa0ff2a55694f76ce32899e2580504a15">00081</a>     <span class="keywordtype">int</span> <a class="code" href="class_image_widget.html#aa0ff2a55694f76ce32899e2580504a15">originHeight</a>;                
-<a name="l00085"></a>00085     <span class="keyword">explicit</span> <a class="code" href="class_image_widget.html#a29f5483569b0ac4abd6b25bb640f9250" title="Constructor for realtime subwindow.">ImageWidget</a>(QWidget *parent = 0);
-<a name="l00086"></a>00086 
-<a name="l00090"></a>00090     <span class="keywordtype">void</span> <a class="code" href="class_image_widget.html#a75ebfb9b2f77520011e23558f6c7adb9" title="Keep Real picture size;.">setPicSize</a>(<span class="keywordtype">int</span> x, <span class="keywordtype">int</span> y);
-<a name="l00091"></a>00091 
-<a name="l00096"></a>00096     <a class="code" href="class_image_widget.html#a29f5483569b0ac4abd6b25bb640f9250" title="Constructor for realtime subwindow.">ImageWidget</a>( QImage* image, QWidget *parent = 0);
-<a name="l00097"></a>00097 
-<a name="l00103"></a>00103     <span class="keywordtype">void</span> <a class="code" href="class_image_widget.html#ad6d76d5d3764e0994bf889d71daa1728" title="resize widget">resizeWgt</a>(<span class="keywordtype">int</span> x, <span class="keywordtype">int</span> y);
-<a name="l00104"></a>00104 
-<a name="l00109"></a>00109     <span class="keywordtype">void</span> <a class="code" href="class_image_widget.html#ab062991bcbbe191a8030cb519bb29307" title="set image as background image in widget">paintImg</a>(QImage&amp; <a class="code" href="class_image_widget.html#ae41409fb58ba7035efc4d6afe74712cd">img</a>);
-<a name="l00110"></a>00110 
-<a name="l00114"></a>00114     <span class="keywordtype">void</span> <a class="code" href="class_image_widget.html#a5385cd98e5c2f356ca3938291cc43015" title="set all changes (brightness, rotation, etc.) on image">setClientValues</a>();
-<a name="l00115"></a>00115 
-<a name="l00119"></a>00119     <span class="keywordtype">void</span> <a class="code" href="class_image_widget.html#ac39d5d7bed0470a0761d9b5fc4fe395e" title="NOT USED!!">makeSnpFromWgt</a>();
-<a name="l00120"></a>00120 
-<a name="l00124"></a>00124     <span class="keywordtype">void</span> <a class="code" href="class_image_widget.html#a2a81402601ecb62bcb3beea6067f4485" title="NOT USED!!">makeSnpFromImg</a>();
-<a name="l00125"></a>00125 
-<a name="l00130"></a>00130     <span class="keywordtype">void</span> <a class="code" href="class_image_widget.html#a9878bf7211608fb1439b337299974f88" title="Reaction on mouse press in widget.">mousePressEvent</a> ( QMouseEvent * e);
-<a name="l00131"></a>00131 
-<a name="l00135"></a>00135     <span class="keywordtype">void</span> <a class="code" href="class_image_widget.html#a34a0d5dd6f31c6ca0de6485d2a808349" title="Reaction on mouse move in widget.">mouseMoveEvent</a> ( QMouseEvent * e);
-<a name="l00136"></a>00136 
-<a name="l00140"></a>00140     <span class="keywordtype">void</span> <a class="code" href="class_image_widget.html#a70d75f0e814337e59d079e506f03ca69" title="Painting on widget.">paintEvent</a>( QPaintEvent * e);
-<a name="l00141"></a>00141 
-<a name="l00145"></a>00145     <span class="keywordtype">void</span> <a class="code" href="class_image_widget.html#ad8cf751dd015169daf0da13a25a20ca4" title="Setting IS_8BITIMG_GREY mode for 8bit greyscale image.">set8BitImgGreyMode</a>();
-<a name="l00146"></a>00146 
-<a name="l00150"></a>00150     <span class="keywordtype">void</span> <a class="code" href="class_image_widget.html#aea88ff6fd80f1e7db1012c6980918de3" title="Setting IS_16BITIMG_GREY mode for 16bit greyscale image.">set16BitImgGreyMode</a>();
-<a name="l00151"></a>00151 
-<a name="l00155"></a>00155     <span class="keywordtype">void</span> <a class="code" href="class_image_widget.html#abf30bb4d8285f71759620128b700542a" title="Setting IS_RGBIMG_GREY mode for RGB image to set image greyscale.">setRGBImgGreyMode</a>();
-<a name="l00156"></a>00156 
-<a name="l00160"></a>00160     <span class="keywordtype">void</span> <a class="code" href="class_image_widget.html#a3909dc6d4fa2618b1edc811c8e68d0bd" title="Setting IS_RGBIMG_COLOR mode for RGB image.">setRGBImgColorMode</a>();
-<a name="l00161"></a>00161 
-<a name="l00165"></a>00165     <span class="keywordtype">void</span> <a class="code" href="class_image_widget.html#aebc632d99596d3aa73593aa590a0d3b4" title="Setting IS_8BITIMG_COLOR mode for 8bit color image.">set8BitImgColorMode</a>();
-<a name="l00166"></a>00166 
-<a name="l00172"></a>00172     <span class="keywordtype">void</span> <a class="code" href="class_image_widget.html#ae20a6d6b4b997d5be26a1afc805247cf" title="Setting ImgDimX, ImgDimY.">setPicSetings</a>(<span class="keywordtype">int</span> x, <span class="keywordtype">int</span> y);
-<a name="l00173"></a>00173 
-<a name="l00180"></a>00180     <span class="keywordtype">void</span> <a class="code" href="class_image_widget.html#acb5e89f2d256aea8ba8322bcfbc69bae" title="getting vector image from Image">getImageVector</a>(vector&lt;unsigned char&gt;&amp; val, <span class="keywordtype">int</span> w, <span class="keywordtype">int</span> h);
-<a name="l00181"></a>00181 
-<a name="l00185"></a>00185     <span class="keywordtype">void</span> <a class="code" href="class_image_widget.html#aeb9ecb124a299e9002d30c2ca133d94b" title="Recalculate image values with new image levels (left-right border)">calcGreyImg</a>();
-<a name="l00186"></a>00186 
-<a name="l00190"></a>00190     <span class="keywordtype">void</span> <a class="code" href="class_image_widget.html#ac07655c9a2850bcb0c65dc48fdbcc6b6" title="set default values">resetClientSideVal</a>();
-<a name="l00191"></a>00191 
-<a name="l00196"></a>00196     <span class="keywordtype">void</span> <a class="code" href="class_image_widget.html#a5f2aa5a6a21062dbfddccdf1222ee441" title="Rescale snapshot image.">setScaleSnap</a>(<span class="keywordtype">double</span> val);
-<a name="l00197"></a>00197 
-<a name="l00204"></a>00204     <span class="keywordtype">void</span> <a class="code" href="class_image_widget.html#a9e5e11dab86b857ff39089689e77ec4f" title="Calculate new scale, depends from subwindow size (uses in full picture mode)">calcFullPictureScale</a>(<span class="keywordtype">int</span> width, <span class="keywordtype">int</span> height, <span class="keywordtype">int</span> space);
+<a name="l00057"></a>00057 
+<a name="l00058"></a>00058 
+<a name="l00059"></a>00059 
+<a name="l00060"></a>00060 <span class="keyword">public</span>:
+<a name="l00066"></a>00066     <span class="keywordtype">void</span> <a class="code" href="class_image_widget.html#a3abd9973a8905ec28778673cd94e4790" title="Recalculate mouse position in data array X - pointer on X pozition Y - pointer on Y pozition...">calcRealPosition</a>(<span class="keywordtype">int</span> &amp;X, <span class="keywordtype">int</span> &amp;Y);
+<a name="l00067"></a><a class="code" href="class_image_widget.html#a3e6351b91d3a700a3868fa1f6d994d03">00067</a>     <span class="keywordtype">bool</span> <a class="code" href="class_image_widget.html#a3e6351b91d3a700a3868fa1f6d994d03">isMarked</a>;                  
+<a name="l00068"></a><a class="code" href="class_image_widget.html#ae41409fb58ba7035efc4d6afe74712cd">00068</a>     QImage *<a class="code" href="class_image_widget.html#ae41409fb58ba7035efc4d6afe74712cd">img</a>;                
+<a name="l00069"></a><a class="code" href="class_image_widget.html#acf01b79a5164be4d3bc7cb4f890a9e23">00069</a>     QImage *<a class="code" href="class_image_widget.html#acf01b79a5164be4d3bc7cb4f890a9e23">_OriginImg</a>;          
+<a name="l00070"></a><a class="code" href="class_image_widget.html#afcacef88e11840c8726faabd5eaecd7f">00070</a>     QImage *<a class="code" href="class_image_widget.html#afcacef88e11840c8726faabd5eaecd7f">_originSnap</a>;        
+<a name="l00071"></a><a class="code" href="class_image_widget.html#af29c86a9de3311ab91a8e915888e7be3">00071</a>     <span class="keywordtype">int</span> <a class="code" href="class_image_widget.html#af29c86a9de3311ab91a8e915888e7be3">imgType</a>;                
+<a name="l00072"></a><a class="code" href="class_image_widget.html#a8f15543f928912baf87cace27a2464a2">00072</a>     <a class="code" href="class_img_manipulation.html" title="Keep basic manipulation for color image, set property values /Class answear for keeping basic manipul...">ImgManipulation</a>* <a class="code" href="class_image_widget.html#a8f15543f928912baf87cace27a2464a2">manip</a>;     
+<a name="l00073"></a><a class="code" href="class_image_widget.html#ad64ea022866079b366567c285442d0d2">00073</a>     vector &lt;unsigned short&gt; <a class="code" href="class_image_widget.html#ad64ea022866079b366567c285442d0d2">valUSh</a>;  
+<a name="l00074"></a>00074     <span class="comment">//int curDataFormat;</span>
+<a name="l00075"></a><a class="code" href="class_image_widget.html#aafc6d86164b0b9a2bd0c6354e790e2f4">00075</a>     <a class="code" href="class_picture_mode.html" title="Abstract class, uses for polymorphism /abstract class, uses for polymorphism.">PictureMode</a> *<a class="code" href="class_image_widget.html#aafc6d86164b0b9a2bd0c6354e790e2f4">picMode</a>;       
+<a name="l00076"></a><a class="code" href="class_image_widget.html#a8ef6315d0aa779032438e385f818f958">00076</a>     <span class="keywordtype">int</span> <a class="code" href="class_image_widget.html#a8ef6315d0aa779032438e385f818f958">ImgDimX</a>;                
+<a name="l00077"></a><a class="code" href="class_image_widget.html#a12b8d35c86836c99667015a04db548ec">00077</a>     <span class="keywordtype">int</span> <a class="code" href="class_image_widget.html#a12b8d35c86836c99667015a04db548ec">ImgDimY</a>;                
+<a name="l00078"></a><a class="code" href="class_image_widget.html#a27398a7bbe5f979a7a698948fb18bb96">00078</a>     <span class="keywordtype">int</span> <a class="code" href="class_image_widget.html#a27398a7bbe5f979a7a698948fb18bb96">_curMouseX</a>;             
+<a name="l00079"></a><a class="code" href="class_image_widget.html#ab4c7549b22c8565324a0c00b520a7fea">00079</a>     <span class="keywordtype">int</span> <a class="code" href="class_image_widget.html#ab4c7549b22c8565324a0c00b520a7fea">_curMouseY</a>;             
+<a name="l00080"></a><a class="code" href="class_image_widget.html#a3140a0d3e0d6e85d13e26af542ad06df">00080</a>     <span class="keywordtype">int</span> <a class="code" href="class_image_widget.html#a3140a0d3e0d6e85d13e26af542ad06df">_clickedMouseX</a>;         
+<a name="l00081"></a><a class="code" href="class_image_widget.html#a6224e2e0666be05f9fe079d9dc806ee1">00081</a>     <span class="keywordtype">int</span> <a class="code" href="class_image_widget.html#a6224e2e0666be05f9fe079d9dc806ee1">_clickedMouseY</a>;         
+<a name="l00083"></a><a class="code" href="class_image_widget.html#a6917e5b99377c3193d438e249fac5b3e">00083</a>     <span class="keywordtype">int</span> <a class="code" href="class_image_widget.html#a6917e5b99377c3193d438e249fac5b3e">originWidth</a>;                
+<a name="l00084"></a><a class="code" href="class_image_widget.html#aa0ff2a55694f76ce32899e2580504a15">00084</a>     <span class="keywordtype">int</span> <a class="code" href="class_image_widget.html#aa0ff2a55694f76ce32899e2580504a15">originHeight</a>;                
+<a name="l00087"></a>00087     <span class="keywordtype">void</span> convertPosFromImageSize(<span class="keywordtype">int</span> &amp;X, <span class="keywordtype">int</span> &amp;Y);
+<a name="l00088"></a>00088 
+<a name="l00092"></a>00092     <span class="keyword">explicit</span> <a class="code" href="class_image_widget.html#a29f5483569b0ac4abd6b25bb640f9250" title="Constructor for realtime subwindow.">ImageWidget</a>(QWidget *parent = 0);
+<a name="l00093"></a>00093 
+<a name="l00097"></a>00097     <span class="keywordtype">void</span> <a class="code" href="class_image_widget.html#a75ebfb9b2f77520011e23558f6c7adb9" title="Keep Real picture size;.">setPicSize</a>(<span class="keywordtype">int</span> x, <span class="keywordtype">int</span> y);
+<a name="l00098"></a>00098 
+<a name="l00104"></a>00104     <span class="keywordtype">void</span> <a class="code" href="class_image_widget.html#a23624c9124a2e152a1d03985516295e4" title="Recalculate mouse position after manipulation X - pointer on X pozition Y - pointer on Y pozition...">recalcPosition</a>(<span class="keywordtype">int</span> &amp;X, <span class="keywordtype">int</span> &amp;Y);
+<a name="l00105"></a>00105 
+<a name="l00110"></a>00110     <a class="code" href="class_image_widget.html#a29f5483569b0ac4abd6b25bb640f9250" title="Constructor for realtime subwindow.">ImageWidget</a>( QImage* image, QWidget *parent = 0);
+<a name="l00111"></a>00111 
+<a name="l00117"></a>00117     <span class="keywordtype">void</span> <a class="code" href="class_image_widget.html#ad6d76d5d3764e0994bf889d71daa1728" title="resize widget">resizeWgt</a>(<span class="keywordtype">int</span> x, <span class="keywordtype">int</span> y);
+<a name="l00118"></a>00118 
+<a name="l00123"></a>00123     <span class="keywordtype">void</span> <a class="code" href="class_image_widget.html#ab062991bcbbe191a8030cb519bb29307" title="set image as background image in widget">paintImg</a>(QImage&amp; <a class="code" href="class_image_widget.html#ae41409fb58ba7035efc4d6afe74712cd">img</a>);
+<a name="l00124"></a>00124 
+<a name="l00128"></a>00128     <span class="keywordtype">void</span> <a class="code" href="class_image_widget.html#a5385cd98e5c2f356ca3938291cc43015" title="set all changes (brightness, rotation, etc.) on image">setClientValues</a>();
+<a name="l00129"></a>00129 
+<a name="l00133"></a>00133     <span class="keywordtype">void</span> <a class="code" href="class_image_widget.html#ac39d5d7bed0470a0761d9b5fc4fe395e" title="NOT USED!!">makeSnpFromWgt</a>();
+<a name="l00134"></a>00134 
+<a name="l00138"></a>00138     <span class="keywordtype">void</span> <a class="code" href="class_image_widget.html#a2a81402601ecb62bcb3beea6067f4485" title="NOT USED!!">makeSnpFromImg</a>();
+<a name="l00139"></a>00139 
+<a name="l00144"></a>00144     <span class="keywordtype">void</span> <a class="code" href="class_image_widget.html#a9878bf7211608fb1439b337299974f88" title="Reaction on mouse press in widget.">mousePressEvent</a> ( QMouseEvent * e);
+<a name="l00145"></a>00145 
+<a name="l00149"></a>00149     <span class="keywordtype">void</span> <a class="code" href="class_image_widget.html#a34a0d5dd6f31c6ca0de6485d2a808349" title="Reaction on mouse move in widget.">mouseMoveEvent</a> ( QMouseEvent * e);
+<a name="l00150"></a>00150 
+<a name="l00154"></a>00154     <span class="keywordtype">void</span> <a class="code" href="class_image_widget.html#a70d75f0e814337e59d079e506f03ca69" title="Painting on widget.">paintEvent</a>( QPaintEvent * e);
+<a name="l00155"></a>00155 
+<a name="l00159"></a>00159     <span class="keywordtype">void</span> <a class="code" href="class_image_widget.html#ad8cf751dd015169daf0da13a25a20ca4" title="Setting IS_8BITIMG_GREY mode for 8bit greyscale image.">set8BitImgGreyMode</a>();
+<a name="l00160"></a>00160 
+<a name="l00164"></a>00164     <span class="keywordtype">void</span> <a class="code" href="class_image_widget.html#aea88ff6fd80f1e7db1012c6980918de3" title="Setting IS_16BITIMG_GREY mode for 16bit greyscale image.">set16BitImgGreyMode</a>();
+<a name="l00165"></a>00165 
+<a name="l00169"></a>00169     <span class="keywordtype">void</span> <a class="code" href="class_image_widget.html#abf30bb4d8285f71759620128b700542a" title="Setting IS_RGBIMG_GREY mode for RGB image to set image greyscale.">setRGBImgGreyMode</a>();
+<a name="l00170"></a>00170 
+<a name="l00174"></a>00174     <span class="keywordtype">void</span> <a class="code" href="class_image_widget.html#a3909dc6d4fa2618b1edc811c8e68d0bd" title="Setting IS_RGBIMG_COLOR mode for RGB image.">setRGBImgColorMode</a>();
+<a name="l00175"></a>00175 
+<a name="l00179"></a>00179     <span class="keywordtype">void</span> <a class="code" href="class_image_widget.html#aebc632d99596d3aa73593aa590a0d3b4" title="Setting IS_8BITIMG_COLOR mode for 8bit color image.">set8BitImgColorMode</a>();
+<a name="l00180"></a>00180 
+<a name="l00186"></a>00186     <span class="keywordtype">void</span> <a class="code" href="class_image_widget.html#ae20a6d6b4b997d5be26a1afc805247cf" title="Setting ImgDimX, ImgDimY.">setPicSetings</a>(<span class="keywordtype">int</span> x, <span class="keywordtype">int</span> y);
+<a name="l00187"></a>00187 
+<a name="l00194"></a>00194     <span class="keywordtype">void</span> <a class="code" href="class_image_widget.html#acb5e89f2d256aea8ba8322bcfbc69bae" title="getting vector image from Image">getImageVector</a>(vector&lt;unsigned char&gt;&amp; val, <span class="keywordtype">int</span> w, <span class="keywordtype">int</span> h);
+<a name="l00195"></a>00195 
+<a name="l00199"></a>00199     <span class="keywordtype">void</span> <a class="code" href="class_image_widget.html#aeb9ecb124a299e9002d30c2ca133d94b" title="Recalculate image values with new image levels (left-right border)">calcGreyImg</a>();
+<a name="l00200"></a>00200 
+<a name="l00204"></a>00204     <span class="keywordtype">void</span> <a class="code" href="class_image_widget.html#ac07655c9a2850bcb0c65dc48fdbcc6b6" title="set default values">resetClientSideVal</a>();
 <a name="l00205"></a>00205 
-<a name="l00209"></a>00209     <a class="code" href="class_image_widget.html#ad7ce3e83b4756c1cadb25d27439eea9b" title="Destructor.">~ImageWidget</a>();
-<a name="l00210"></a>00210 
-<a name="l00211"></a>00211 signals:
-<a name="l00212"></a>00212     <span class="keywordtype">void</span> <a class="code" href="class_image_widget.html#a2d0a489ccf6fe0cfc76c937b636d24f1">resizeImgWgt</a>(<span class="keywordtype">int</span> X, <span class="keywordtype">int</span> Y);    
-<a name="l00213"></a>00213     <span class="keywordtype">void</span> <a class="code" href="class_image_widget.html#a30a096b69870729184e8afedb28d49b3">repainting</a>();                  
-<a name="l00214"></a>00214    <span class="comment">// void mkSnapshotRealtime(QImage*,ImgManipulation*);  /*!&lt; make snapshot */</span>
-<a name="l00215"></a>00215    <span class="comment">// void mkSnapshotRealtime();</span>
-<a name="l00216"></a>00216   <span class="comment">//  void mkSnapshotRealtime(ImageWidget *);</span>
-<a name="l00217"></a>00217     <span class="keywordtype">void</span> <a class="code" href="class_image_widget.html#aedcf0040429370d2c3cc0780ba1bce06">mousePosition</a>(<span class="keywordtype">int</span> x, <span class="keywordtype">int</span> y);    
-<a name="l00218"></a>00218     <span class="keywordtype">void</span> <a class="code" href="class_image_widget.html#aa791e9c6c304400a3d040d4f89a99089">mousePositionVal</a>(<span class="keywordtype">int</span> RGB, <span class="keywordtype">int</span> val);    
-<a name="l00219"></a>00219     <span class="keywordtype">void</span> <a class="code" href="class_image_widget.html#aa791e9c6c304400a3d040d4f89a99089">mousePositionVal</a>(<span class="keywordtype">int</span> RGB);             
-<a name="l00220"></a>00220     <span class="keywordtype">void</span> <a class="code" href="class_image_widget.html#aa791e9c6c304400a3d040d4f89a99089">mousePositionVal</a>(<span class="keywordtype">int</span> R, <span class="keywordtype">int</span> G, <span class="keywordtype">int</span> B); 
-<a name="l00221"></a>00221     <span class="keywordtype">void</span> <a class="code" href="class_image_widget.html#aae9bb8506219e01a5805337de30f2357">sendScale</a>(QVariant val);                   
-<a name="l00223"></a>00223 <span class="keyword">public</span> slots: 
-<a name="l00224"></a>00224     <span class="comment">//void changeImg(int);</span>
-<a name="l00225"></a>00225 
-<a name="l00229"></a>00229     <span class="keywordtype">void</span> <a class="code" href="class_image_widget.html#a1177d4eb1b0a9f84f4644132c44401a5" title="Save snapshot.">saveImg</a>();
-<a name="l00230"></a>00230 
-<a name="l00234"></a>00234     <span class="keywordtype">void</span> <a class="code" href="class_image_widget.html#add62c81fa3bcbfcd83379b6f0109664d" title="Print snapshot (NOT REALESED)">printImg</a>();
-<a name="l00235"></a>00235 
-<a name="l00239"></a>00239     <span class="keywordtype">void</span> <a class="code" href="class_image_widget.html#a9683eeb92b7ff97da10aa4e2a54a7c0a" title="Set all property on image.">setAllValues</a>(<span class="keywordtype">int</span> );
-<a name="l00240"></a>00240 
-<a name="l00244"></a>00244     <span class="keywordtype">void</span> <a class="code" href="class_image_widget.html#acdd4ab61d9ab3a48871107a5c0b96a74" title="Repaint image.">rescreen</a>();
-<a name="l00245"></a>00245 
-<a name="l00250"></a>00250     <span class="keywordtype">void</span> <a class="code" href="class_image_widget.html#a89e4acac2ef4ead4d99ef1c684c77f6b" title="Set imgType value.">setImgType</a>(<span class="keywordtype">int</span> type);
+<a name="l00210"></a>00210     <span class="keywordtype">void</span> <a class="code" href="class_image_widget.html#a5f2aa5a6a21062dbfddccdf1222ee441" title="Rescale snapshot image.">setScaleSnap</a>(<span class="keywordtype">double</span> val);
+<a name="l00211"></a>00211 
+<a name="l00218"></a>00218     <span class="keywordtype">void</span> <a class="code" href="class_image_widget.html#a9e5e11dab86b857ff39089689e77ec4f" title="Calculate new scale, depends from subwindow size (uses in full picture mode)">calcFullPictureScale</a>(<span class="keywordtype">int</span> width, <span class="keywordtype">int</span> height, <span class="keywordtype">int</span> space);
+<a name="l00219"></a>00219 
+<a name="l00223"></a>00223     <a class="code" href="class_image_widget.html#ad7ce3e83b4756c1cadb25d27439eea9b" title="Destructor.">~ImageWidget</a>();
+<a name="l00224"></a>00224 
+<a name="l00225"></a>00225 signals:
+<a name="l00226"></a>00226     <span class="keywordtype">void</span> <a class="code" href="class_image_widget.html#a2d0a489ccf6fe0cfc76c937b636d24f1">resizeImgWgt</a>(<span class="keywordtype">int</span> X, <span class="keywordtype">int</span> Y);    
+<a name="l00227"></a>00227     <span class="keywordtype">void</span> <a class="code" href="class_image_widget.html#a30a096b69870729184e8afedb28d49b3">repainting</a>();                  
+<a name="l00228"></a>00228    <span class="comment">// void mkSnapshotRealtime(QImage*,ImgManipulation*);  /*!&lt; make snapshot */</span>
+<a name="l00229"></a>00229    <span class="comment">// void mkSnapshotRealtime();</span>
+<a name="l00230"></a>00230   <span class="comment">//  void mkSnapshotRealtime(ImageWidget *);</span>
+<a name="l00231"></a>00231     <span class="keywordtype">void</span> <a class="code" href="class_image_widget.html#aedcf0040429370d2c3cc0780ba1bce06">mousePosition</a>(<span class="keywordtype">int</span> x, <span class="keywordtype">int</span> y);    
+<a name="l00232"></a>00232     <span class="keywordtype">void</span> <a class="code" href="class_image_widget.html#aa791e9c6c304400a3d040d4f89a99089">mousePositionVal</a>(<span class="keywordtype">int</span> RGB, <span class="keywordtype">int</span> val);    
+<a name="l00233"></a>00233     <span class="keywordtype">void</span> <a class="code" href="class_image_widget.html#aa791e9c6c304400a3d040d4f89a99089">mousePositionVal</a>(<span class="keywordtype">int</span> RGB);             
+<a name="l00234"></a>00234     <span class="keywordtype">void</span> <a class="code" href="class_image_widget.html#aa791e9c6c304400a3d040d4f89a99089">mousePositionVal</a>(<span class="keywordtype">int</span> R, <span class="keywordtype">int</span> G, <span class="keywordtype">int</span> B); 
+<a name="l00235"></a>00235     <span class="keywordtype">void</span> <a class="code" href="class_image_widget.html#aae9bb8506219e01a5805337de30f2357">sendScale</a>(QVariant val);                   
+<a name="l00237"></a>00237     <span class="keywordtype">void</span> <a class="code" href="class_image_widget.html#ab10264d1856f40c80b6887f7f1b8d126">sendMarker</a>(QString str);                   
+<a name="l00239"></a>00239 <span class="keyword">public</span> slots: 
+<a name="l00240"></a>00240     <span class="comment">//void changeImg(int);</span>
+<a name="l00241"></a>00241 
+<a name="l00245"></a>00245     <span class="keywordtype">void</span> <a class="code" href="class_image_widget.html#a1177d4eb1b0a9f84f4644132c44401a5" title="Save snapshot.">saveImg</a>();
+<a name="l00246"></a>00246 
+<a name="l00250"></a>00250     <span class="keywordtype">void</span> <a class="code" href="class_image_widget.html#add62c81fa3bcbfcd83379b6f0109664d" title="Print snapshot (NOT REALESED)">printImg</a>();
 <a name="l00251"></a>00251 
-<a name="l00255"></a>00255     <span class="keywordtype">void</span> <a class="code" href="class_image_widget.html#ad4ef83cfbf72511e9ac8336d2703ea56" title="contextMenuSlot">allowNewMarker</a>();
-<a name="l00256"></a>00256 };
-<a name="l00257"></a>00257 
-<a name="l00258"></a>00258 <span class="preprocessor">#endif // IMAGEWIDGET_H</span>
+<a name="l00255"></a>00255     <span class="keywordtype">void</span> <a class="code" href="class_image_widget.html#a9683eeb92b7ff97da10aa4e2a54a7c0a" title="Set all property on image.">setAllValues</a>(<span class="keywordtype">int</span> );
+<a name="l00256"></a>00256 
+<a name="l00260"></a>00260     <span class="keywordtype">void</span> <a class="code" href="class_image_widget.html#acdd4ab61d9ab3a48871107a5c0b96a74" title="Repaint image.">rescreen</a>();
+<a name="l00261"></a>00261 
+<a name="l00266"></a>00266     <span class="keywordtype">void</span> <a class="code" href="class_image_widget.html#a89e4acac2ef4ead4d99ef1c684c77f6b" title="Set imgType value.">setImgType</a>(<span class="keywordtype">int</span> type);
+<a name="l00267"></a>00267 
+<a name="l00271"></a>00271     <span class="keywordtype">void</span> <a class="code" href="class_image_widget.html#ad4ef83cfbf72511e9ac8336d2703ea56" title="contextMenuSlot">allowNewMarker</a>();
+<a name="l00272"></a>00272 };
+<a name="l00273"></a>00273 
+<a name="l00274"></a>00274 <span class="preprocessor">#endif // IMAGEWIDGET_H</span>
 </pre></div></div>
 </div>
 <!-- window showing the filter options -->
@@ -220,7 +228,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Aug 15 2012 17:11:35 for ImageClient by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Aug 17 2012 16:39:45 for ImageClient by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.5.1
 </small></address>

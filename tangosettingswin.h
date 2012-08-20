@@ -94,20 +94,30 @@ public slots:
     void onCancel();
 };
 
-
+/*!
+  \file tangosettingswin.h
+  \author Georgii Vasilev
+  \class SetMarker
+  \brief Widget for setting marker position
+  ///Widget for setting marker position
+*/
 class SetMarker : public QWidget{
 Q_OBJECT
 public:
-    QPushButton *btOk;
-    QLabel *lbX;
-    MyLineEdit *tlX;
-    MyLineEdit *tlY;
-    QLabel *lbY;
+    QPushButton *btOk;  /*!< button ok  */
+    QLabel *lbX;        /*!< Label  */
+    MyLineEdit *tlX;    /*!< Line of text to set X marker position */
+    MyLineEdit *tlY;    /*!< Line of text to set Y marker position */
+    QLabel *lbY;        /*!< Label  */
+
+    /*! \brief Constructor  */
     SetMarker();
+    /*! \brief Destructor  */
     ~SetMarker();
 signals:
-    void setMarker(int x, int y);
+    void setMarker(int x, int y); /*!< OnSuccess set marker \param x - X position \param y - Y position*/
 public slots:
+    /*! \brief On OkButton clicking  */
     void onOk();
 };
 
