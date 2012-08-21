@@ -24,7 +24,6 @@ ImageWidget::ImageWidget(QWidget *parent) :
     QWidget(parent)
 {
     _originSnap = NULL;
-   // move(0,30);
     img  = new QImage();
     _OriginImg = NULL;
     init();
@@ -34,24 +33,13 @@ ImageWidget::ImageWidget(QWidget *parent) :
 ImageWidget::ImageWidget(QImage* image, QWidget *parent) : QWidget(parent){
     qDebug("In ImageWidget constructor2");
     img  = new QImage();
-  //  move(0,30);
-  //  manip = new ImgManipulation();
     *img = *image;
     _OriginImg = new QImage();
     *_OriginImg = *img;
     _originSnap= new QImage();
     *_originSnap = *img;
-  //  setAutoFillBackground(true);
-  //  setMouseTracking(true);
     resizeWgt(img->width(), img->height());
     qDebug("In ImageWidget constructor2");
-  /*  imgType = IS_RGBIMG_COLOR;
-    picMode = new IsRGB();
-    isMarked = false;
-    marker = new QAction(tr("&Set Marker"), this);
-    marker->setStatusTip(tr("Set Marker"));
-    QObject::connect(marker, SIGNAL(triggered()), this, SLOT(allowNewMarker()));
-    contextMenuSetMarker.addAction(marker);*/
     init();
 }
 
@@ -214,18 +202,20 @@ void ImageWidget::saveImg(){
               this,
               tr("Save Snapshot"),
               QDir::currentPath(),
-                  tr("JPG(*.jpg);; TIFF(*.tiff);; BMP(*.bmp);; PNG(*.png);; JPEG(*jpeg);;"
-                                "XBM(*.xbm);; XPM(*.xpm);; PPM(*.ppm)"),
+                  tr("JPG(*.jpg);;TIFF(*.tiff);;BMP(*.bmp);;PNG(*.png);;JPEG(*jpeg);;"
+                                "XBM(*.xbm);;XPM(*.xpm);;PPM(*.ppm)"),
                  &selectedFilter);
     if(filename != ""){
-        QString f = filename +    //QString("./") + filename.split("\/").last() +
-                QString(".") + selectedFilter.split("(").takeFirst().toLower();
+
         qDebug( "save Format %s\n",  selectedFilter.split("(").takeFirst().toLower().toAscii().constData());
         if (imgType != IS_16BITIMG_GREY){
             img->save(filename);
+            //cv::Mat image( ImgDimY,  ImgDimX, CV_8UC4,  &valUSh.front());  // read from value in realtime->makeimg, set correct CV_8UC!!
         }
         else{
-            this->img->save("16Bit_" + filename);
+            QString f = (QString)filename.split(".").takeFirst() +    "_16Bit" +
+                    QString(".") + selectedFilter.split("(").takeFirst().toLower();
+            bool s = this->img->save(f);
             //cv::Mat img(ImgDimY, ImgDimX, CV_16UC1,  &valUSh.front());
             cv::Mat img( originHeight,  originWidth, CV_16UC1,  &valUSh.front());
             cv::imwrite(filename.toAscii().constData(), img);

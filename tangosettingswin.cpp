@@ -142,7 +142,7 @@ bool TangoSettingsWin::converToDouble(double& val){
 }
 
 //----------------------------------------------------------------------//
-SetMarker::SetMarker(){
+SetMarker::SetMarker(QWidget *parent) :QWidget(parent){
     setWindowTitle("Set Marker position");
     setFixedSize(100,70);
     move(100,50);
@@ -181,6 +181,11 @@ void SetMarker::onOk(){
 
     if(okX && okY){
         emit setMarker(x,y);
-        close();
+        //close();
+        emit cancel();
     }
+}
+
+void SetMarker::closeEvent(QCloseEvent *){
+    emit cancel();
 }

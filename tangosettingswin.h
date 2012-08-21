@@ -111,14 +111,18 @@ public:
     QLabel *lbY;        /*!< Label  */
 
     /*! \brief Constructor  */
-    SetMarker();
+    SetMarker(QWidget *parent = 0);
     /*! \brief Destructor  */
     ~SetMarker();
 signals:
     void setMarker(int x, int y); /*!< OnSuccess set marker \param x - X position \param y - Y position*/
+    void cancel();                  /*!< Delete window*/
 public slots:
     /*! \brief On OkButton clicking  */
     void onOk();
+
+    /*! \briefOn Close window */
+    void closeEvent(QCloseEvent *e);
 };
 
 #endif // TANGOSETTINGSWIN_H

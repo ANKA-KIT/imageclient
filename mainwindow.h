@@ -171,6 +171,7 @@ public:
     StartTangoWin* tangoDev;        /*!< Window for setting connection with tango device*/
     TangoSettingsWin* tangoDevSet;  /*!< Manipulator window*/
     TangoVariables *tangoVar;       /*!< window for setting tango attributes name*/
+    SetMarker *marker;              /*!< window for setting marker position*/
     QMdiArea*  area;                /*!< Area for subwindow locaton*/
     MenuTab* commandMenu;           /*!< Command menu of app*/
 
@@ -471,6 +472,8 @@ public slots:
             \param Y - Y marker position
         */
         void createMarker(int X,int Y);
+        /*!  \brief Delete set Marker  window */
+        void delMarkerWin();
 
 };
 

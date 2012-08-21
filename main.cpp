@@ -6,6 +6,10 @@
 #include <my_device.h>
 
 void print_usage(FILE * stream, int exitCode){
+    fprintf(stream,"ImageClient - Qt application for dealing with ANKA photo-cameras, based on TANGO."
+            "ImageClient allows set Contrast, Gamma, Brightness, Rotation, Scale, Horizontal and Vertical flipping for getting picture from TANGO photo-cameras. "
+            "Application also allows to make a snapshot, does some manipulations with picture and save it, send a Tango command."
+            "Application has opportunity to deal with Server variables which are answer for image properties and read Tango device static info.\n");
     fprintf(stream, "\n~~Usage: imageClient options are: \n");
     fprintf(stream,
             "-h  --help         Display Help \n"
@@ -77,7 +81,7 @@ int main(int argc, char *argv[])
                     next_option = getopt_long(argc, argv, short_options, long_options, NULL);
          }
 
-        if (hostName != "" && devName != "" && attrName != ""){
+        if (hostName != "" && devName != ""){// && attrName != ""){
 
             w.initStartTangoWin();             //init rows for tango properties
             w.tangoDev->tlAttr->setText(attrName);

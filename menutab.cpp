@@ -326,12 +326,12 @@ void MenuTab::initRealtime(){
     fullPictureMode->setStatusTip(tr("Full picture"));
     QObject::connect(fullPictureMode, SIGNAL(triggered()), this, SLOT(setFullPictureMode()));
 
-    pauseRealtime = new QAction(QIcon(falseIcon), tr("&Timeout"), this);
-    pauseRealtime->setStatusTip(tr("Timeout"));
+    pauseRealtime = new QAction(QIcon(falseIcon), tr("&Delay"), this);
+    pauseRealtime->setStatusTip(tr("Delay"));
     QObject::connect(pauseRealtime, SIGNAL(triggered()), mainWin, SLOT(setRealtimePause()));
 
-    timeOutRealtime = new QAction(tr("&Timeout(ms)"), this);
-    timeOutRealtime->setStatusTip(tr("Timeout(ms)"));
+    timeOutRealtime = new QAction(tr("&Delay(ms)"), this);
+    timeOutRealtime->setStatusTip(tr("Delay(ms)"));
     QObject::connect(timeOutRealtime, SIGNAL(triggered()), this, SLOT(settingTimeOutRealtime()));
 
     makeMarker  = new QAction(tr("&Set Marker"), this);

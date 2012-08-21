@@ -613,6 +613,7 @@ void SubWindowRealtime::chServerOperation(){
         lbHorFl->setText("H_Fl:\n n/a");
         lbVerFl->setText("V_Fl:\n n/a");
         setClientSideDisconnects();
+        setServerSideConnects();
     }
 }
 

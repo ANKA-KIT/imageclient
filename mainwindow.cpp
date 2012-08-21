@@ -51,6 +51,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     slider = NULL;
     manip_wgt = NULL;
+    marker = NULL;
     histogramManip = false;//true;
 }
 
@@ -138,6 +139,7 @@ void MainWindow::closeEvent ( QCloseEvent * closeEvent){
     qDebug("CLOSE MAIN_WIN");
     deleteAllSnap();
     deleteAllReal();
+    delMarkerWin();
 
     delete slider;
     slider = NULL;
@@ -175,12 +177,20 @@ void MainWindow::setManipulatorWGT(SubWindow *subW){
 }
 
 void MainWindow::setMarkerPos(){
-    SetMarker *marker = new SetMarker();
+    marker = new SetMarker();
     connect(marker, SIGNAL(setMarker(int,int)), this, SLOT(createMarker(int,int)));
     marker->setWindowModality(Qt::WindowModal);
-    marker->setAttribute(Qt::WA_DeleteOnClose);
+    //marker->setAttribute(Qt::WA_DeleteOnClose);
+    connect(marker, SIGNAL(cancel()), this, SLOT(delMarkerWin()));
     marker->show();
 }
+
+void MainWindow::delMarkerWin(){
+   // marker->close();
+    delete marker;
+    marker = NULL;
+}
+
 
 void MainWindow::createMarker(int X,int Y){
     listReal.at(realtimeIntLast)->wgt->convertPosFromImageSize(X, Y);
