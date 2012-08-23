@@ -114,9 +114,9 @@ void MenuTab::createMenu(){
     setValRealtime->addAction(horFlipRealtime);
     setValRealtime->addAction(verFlipRealtime);
     setValRealtime->addAction(timeOutRealtime);
-    changeOnValRealtime = realtime->addMenu("Change on value");
-    changeOnValRealtime->addAction(chOnScaleRealtime);             //scale current snapshot  //not used
-    changeOnValRealtime->addAction(chOnRotationRealtime);
+   // changeOnValRealtime = realtime->addMenu("Change on value");
+  //  changeOnValRealtime->addAction(chOnScaleRealtime);             //scale current snapshot  //not used
+  //  changeOnValRealtime->addAction(chOnRotationRealtime);
     setImageMode = realtime->addMenu("Image Mode");
     setImageMode->addAction(is16BitGrey);
     setImageMode->addAction(is16BitRGB);
@@ -124,26 +124,26 @@ void MenuTab::createMenu(){
     setImageMode->addAction(is8BitColor);
     setImageMode->addAction(isRGBGrey);
     setImageMode->addAction(isRGB_ARGB);
-
     realtime->addAction(makeMarker);
-     submenuImageFormat = realtime->addMenu("Image Format");
-        submenuImageFormat->addAction(setImageFormatIndex8);
-        submenuImageFormat->addAction(setImageFormatRGB32);
-        submenuImageFormat->addAction(setImageFormatARGB32);
-        submenuImageFormat->addAction(setImageFormatARGB32Pre);
-        submenuImageFormat->addAction(setImageFormatRGB16);
-        submenuImageFormat->addAction(setImageFormatARGB8565Pre);
-        submenuImageFormat->addAction(setImageFormatRGB666);
-        submenuImageFormat->addAction(setImageFormatARGB6666Pre);
-        submenuImageFormat->addAction(setImageFormatRGB555);
-        submenuImageFormat->addAction(setImageFormatARGB8555Pre);
-        submenuImageFormat->addAction(setImageFormatRGB888);
-        submenuImageFormat->addAction(setImageFormatRGB444);
-        submenuImageFormat->addAction(setImageFormatARGB4444Pre);
-
     realtime->addAction(fullPictureMode);
     realtime->addAction(pauseRealtime);
     realtime->addAction(resetImgRealtime);
+
+    submenuImageFormat = realtime->addMenu("Image Format");
+    submenuImageFormat->setStatusTip("Set Qt stuff image formate for RGB/ARGB mode only");
+    submenuImageFormat->addAction(setImageFormatIndex8);
+    submenuImageFormat->addAction(setImageFormatRGB32);
+    submenuImageFormat->addAction(setImageFormatARGB32);
+    submenuImageFormat->addAction(setImageFormatARGB32Pre);
+    submenuImageFormat->addAction(setImageFormatRGB16);
+    submenuImageFormat->addAction(setImageFormatARGB8565Pre);
+    submenuImageFormat->addAction(setImageFormatRGB666);
+    submenuImageFormat->addAction(setImageFormatARGB6666Pre);
+    submenuImageFormat->addAction(setImageFormatRGB555);
+    submenuImageFormat->addAction(setImageFormatARGB8555Pre);
+    submenuImageFormat->addAction(setImageFormatRGB888);
+    submenuImageFormat->addAction(setImageFormatRGB444);
+    submenuImageFormat->addAction(setImageFormatARGB4444Pre);
     realtime->setEnabled(false);
 
     snapshot = mainWin->menuBar()->addMenu(tr("&Snapshot"));
@@ -155,9 +155,9 @@ void MenuTab::createMenu(){
     setValSnapshot->addAction(setRotationSnapshot);
     setValSnapshot->addAction(horFlipSnapshot);
     setValSnapshot->addAction(verFlipSnapshot);
-    changeOnValSnapshot = snapshot->addMenu("Change on value");
-    changeOnValSnapshot->addAction(chOnScaleSnapshot);             //scale current snapshot  //not used
-    changeOnValSnapshot->addAction(chOnRotationSnapshot);
+  //  changeOnValSnapshot = snapshot->addMenu("Change on value");
+  //  changeOnValSnapshot->addAction(chOnScaleSnapshot);             //scale current snapshot  //not used
+  //  changeOnValSnapshot->addAction(chOnRotationSnapshot);
     snapshot->addAction(fullPictureModeSnap);
     snapshot->addAction(saveSnapshot);
     snapshot->addAction(printSnapshot);
@@ -266,28 +266,28 @@ void MenuTab::initPropManipSnap(){
 }
 void MenuTab::initPicMode(){
     is16BitGrey =  new QAction(QIcon(trueIcon), tr("&16Bit Grey"), this);
-    is16BitGrey->setStatusTip(tr("16Bit Grey"));
+    is16BitGrey->setStatusTip(tr("16Bit Grey. For dealing with 16bit images with 1 channel"));
     QObject::connect(is16BitGrey, SIGNAL(triggered()), mainWin, SLOT(set16BitGreyImageMode()));
 
     is16BitRGB =  new QAction(QIcon(trueIcon), tr("&16Bit RGB"), this);
-    is16BitRGB->setStatusTip(tr("16Bit RGB"));
+    is16BitRGB->setStatusTip(tr("16Bit RGB. for dealing with 48bit images with 3 channels, 16bit per channel"));
     QObject::connect(is16BitRGB, SIGNAL(triggered()), mainWin, SLOT(set16BitRGBImageMode()));
 
     is8BitGrey =  new QAction(QIcon(trueIcon), tr("&8Bit Grey"), this);
-    is8BitGrey->setStatusTip(tr("8Bit Grey"));
+    is8BitGrey->setStatusTip(tr("8Bit Grey. Grey 8bit image"));
     QObject::connect(is8BitGrey, SIGNAL(triggered()), mainWin, SLOT(set8BitGreyImageMode()));
 
     is8BitColor =  new QAction(QIcon(trueIcon), tr("&8Bit Color"), this);
-    is8BitColor->setStatusTip(tr("8Bit Color"));
+    is8BitColor->setStatusTip(tr("8Bit Color. Color 8bit image"));
     QObject::connect(is8BitColor, SIGNAL(triggered()), mainWin, SLOT(set8BitColorImageMode()));
 
     isRGBGrey =  new QAction(QIcon(trueIcon), tr("&RGB Grey"), this);
-    isRGBGrey->setStatusTip(tr("RGB Grey"));
+    isRGBGrey->setStatusTip(tr("RGB Grey. Convert Color image to Grey"));
     QObject::connect(isRGBGrey, SIGNAL(triggered()), mainWin, SLOT(setRGBGreyImageMode()));
 
 
     isRGB_ARGB =  new QAction(QIcon(trueIcon), tr("&RGB/ARGB"), this);
-    isRGB_ARGB->setStatusTip(tr("RGB/ARGB"));
+    isRGB_ARGB->setStatusTip(tr("RGB/ARGB. You can change ImageFormat for get correct image by different Qt stuff image formats"));
     QObject::connect(isRGB_ARGB, SIGNAL(triggered()), mainWin, SLOT(setRGB_ARGBImageMode()));
 }
 
@@ -302,9 +302,8 @@ void MenuTab::initServer(){
     addNewDevice->setStatusTip(tr("Start new device"));
     connect(addNewDevice, SIGNAL(triggered()), this, SLOT(startNewDevice()));
     pushCommand = new QAction(tr("&Send a command"), this);
-    pushCommand->setStatusTip(tr("Send a command"));
+    pushCommand->setStatusTip(tr("Send a command without feedback"));
     connect(pushCommand, SIGNAL(triggered()), this, SLOT(sendCommand()));
-
 
 
     serverManipulation = new QAction(QIcon(falseIcon), tr("&Server manipulation"), this);

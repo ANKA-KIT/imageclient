@@ -261,8 +261,6 @@ bool SubWindowRealtime::makeImg(){
    Tango::DeviceAttribute attr;
    if (myDev->setTangoAttr(IMAGE, attr)){
        vector <unsigned char> val;
-       //wgt->curDataFormat = attr.get_type();
-       //switch (wgt->curDataFormat){
        switch (attr.get_type()){
            case IS_UCHAR_DATA:
                if(myDev->setUCharVal(attr, val)){
@@ -288,6 +286,7 @@ bool SubWindowRealtime::makeImg(){
                         val[i+2] = temp;
                     }
                   }
+                  /////////////////////////////////////////////////////////////////
                   emit send16BitData(wgt->valUSh);
                }
                else{

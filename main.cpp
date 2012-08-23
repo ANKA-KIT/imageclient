@@ -5,6 +5,13 @@
 #include <getopt.h>
 #include <my_device.h>
 
+/*!
+  imageClient - Qt application for dealing with ANKA photo-cameras, based on TANGO
+  Developed by Georgii Vasilev TPU (TOMSK POLYTECHNIC UNIVERITY) for KIT
+  E-Mail: georgy13@mail.ru
+*/
+
+/*HELP INFO*/
 void print_usage(FILE * stream, int exitCode){
     fprintf(stream,"ImageClient - Qt application for dealing with ANKA photo-cameras, based on TANGO."
             "ImageClient allows set Contrast, Gamma, Brightness, Rotation, Scale, Horizontal and Vertical flipping for getting picture from TANGO photo-cameras. "
@@ -17,7 +24,7 @@ void print_usage(FILE * stream, int exitCode){
             "-d  --device       Set tango device\n"
             "-a  --attr         Set image attribute\n"
             "-c  --command      Exec tango command before reading tango image data\n"
-            "-m  --imagemode    Set imageMode for correct displaying Image in a strt\n"
+            "-m  --imagemode    Set imageMode for correct displaying Image in a start\n"
             "  -m0            IS_16BITIMG_GREY. It is 16 bit greyscale  image mode \n"
             "  -m1            IS_RGBIMG_GREY.   It is RGB greyscale image mode \n"
             "  -m2            IS_RGBIMG_COLOR.  It is RGB color image mode \n"
@@ -42,7 +49,7 @@ void print_usage(FILE * stream, int exitCode){
             "  -f14           ImageFormatRGB444;      The image is stored using a 16-bit RGB format (4-4-4). The unused bits are always zero.\n"
             "  -f15           ImageFormatARGB4444Pre; The image is stored using a premultiplied 16-bit ARGB format (4-4-4-4).\n\n"
 
-            "EXAMPLE: ./imageClient -tTANGO_HOST -dsys/tg_test/mytest -atestImage -cLoad16BitImg -cSetDataImage\n");
+            "EXAMPLE: ./imageClient -tTANGO_HOST -dsys/tg_test/mytest -atestImage -cLoad16BitImg -cSetDataImage -m2 -f4\n");
     exit(exitCode);
 }
 
@@ -82,20 +89,16 @@ int main(int argc, char *argv[])
                             //if env TANGO_HOST
                         if (strcmp(optarg, "TANGO_HOST") == 0){ //eql
                             hostName = QString(getenv("TANGO_HOST"));
-                            //w.tangoDev->tlServer->setText(QString(getenv("TANGO_HOST")));
                         }
                         else{
                             hostName = QString(optarg);
-                            //w.tangoDev->tlServer->setText(QString(optarg));
                         }
                         break;
                         case 'd':      //set device
                             devName = QString(optarg);
-                             //w.tangoDev->tlDevice->setText(QString(optarg));
                         break;
                         case 'a':      //set attribute
                             attrName = QString(optarg);
-                            // w.tangoDev->tlAttr->setText(QString(optarg));
                         break;
                         case 'c':
                             tangoCommands.push_back(QString(optarg));
@@ -129,7 +132,7 @@ int main(int argc, char *argv[])
          }
 
         if (hostName != "" && devName != "" && attrName != ""){
-
+            /*Open an feel startTangoWin*/
             w.initStartTangoWin();             //init rows for tango properties
             w.tangoDev->tlAttr->setText(attrName);
             w.tangoDev->tlDevice->setText(devName);
@@ -142,6 +145,7 @@ int main(int argc, char *argv[])
                    fprintf(stderr, "Command not set\n");
                 }
             }
+            /*setting imageMode and imageFormat*/
             if (w.startWithParams){
                 if(isImFormatSet){
                     w.startImageFormat = new int();

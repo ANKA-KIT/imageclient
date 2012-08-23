@@ -1,23 +1,23 @@
 <map id="G" name="G">
-<area shape="rect" id="node3" href="$class_main_window.html#a1aef90af0174863bc9f07a638a57cc42" title="delete window for setting tango device" alt="" coords="258,56,467,83"/>
-<area shape="rect" id="node5" href="$class_sub_window.html#ad08fda3b5e899fdc08e602148176a9fa" title="fill context menu" alt="" coords="269,107,456,133"/>
-<area shape="rect" id="node7" href="$class_main_window.html#ab68a04cf25ab50337f71e6b8348dfe44" title="on close realtime subwindow" alt="" coords="263,157,462,184"/>
-<area shape="rect" id="node11" href="$class_main_window.html#ab0a11b9e0f3b83495ea9c0fb306d6b83" title="on realtime subwindow change focus" alt="" coords="261,208,464,235"/>
-<area shape="rect" id="node34" href="$class_main_window.html#a1fb02a2484b4a39cbc17f0f3743f23dc" title="change manipulator for realtime subwindow" alt="" coords="254,259,471,285"/>
-<area shape="rect" id="node37" href="$class_main_window.html#a8ada0fa9c6c71bb4ebedd7bd56974109" title="set PictureMode as IS_16BITIMG_GREY" alt="" coords="238,309,487,336"/>
-<area shape="rect" id="node39" href="$class_main_window.html#ae82f57d7eb23aa77dab26c27d88d11a3" title="set PictureMode as IS_RGBIMG_COLOR" alt="" coords="230,360,495,387"/>
+<area shape="rect" id="node3" href="$class_sub_window.html#ad08fda3b5e899fdc08e602148176a9fa" title="fill context menu" alt="" coords="269,107,456,133"/>
+<area shape="rect" id="node5" href="$class_main_window.html#ab68a04cf25ab50337f71e6b8348dfe44" title="on close realtime subwindow" alt="" coords="263,157,462,184"/>
+<area shape="rect" id="node9" href="$class_main_window.html#ab0a11b9e0f3b83495ea9c0fb306d6b83" title="on realtime subwindow change focus" alt="" coords="261,208,464,235"/>
+<area shape="rect" id="node32" href="$class_main_window.html#a1aef90af0174863bc9f07a638a57cc42" title="delete window for setting tango device" alt="" coords="258,259,467,285"/>
+<area shape="rect" id="node34" href="$class_main_window.html#a1fb02a2484b4a39cbc17f0f3743f23dc" title="change manipulator for realtime subwindow" alt="" coords="254,309,471,336"/>
+<area shape="rect" id="node37" href="$class_main_window.html#a8ada0fa9c6c71bb4ebedd7bd56974109" title="set PictureMode as IS_16BITIMG_GREY" alt="" coords="238,360,487,387"/>
+<area shape="rect" id="node39" href="$class_main_window.html#ae82f57d7eb23aa77dab26c27d88d11a3" title="set PictureMode as IS_RGBIMG_COLOR" alt="" coords="230,411,495,437"/>
 <area shape="rect" id="node41" href="$class_main_window.html#a02a74dca7399a2d5fdad81f199acf0e1" title="Set connects subwindow and mainwindow." alt="" coords="232,461,493,488"/>
-<area shape="rect" id="node9" href="$class_menu_tab.html#aa1c0fcae018756edc9a230fa3217789d" title="set enable for realtime Menu" alt="" coords="545,157,743,184"/>
-<area shape="rect" id="node14" href="$class_menu_tab.html#ae8b59efdc378b9f056c89b948677f763" title="set Icons for pointer" alt="" coords="553,208,735,235"/>
-<area shape="rect" id="node32" href="$class_main_window.html#af0070391b05f51075140c6bbd8277273" title="change manipulator with/without histogram" alt="" coords="551,259,737,285"/>
-<area shape="rect" id="node16" href="$class_menu_tab.html#ae6c55168b721e3af56c4cc3a3b9db505" title="set Icon for horizontal flip realtime" alt="" coords="792,5,1005,32"/>
-<area shape="rect" id="node18" href="$class_img_manipulation.html#ae709fadd23c48bcfbc9e1a1fee81f708" title="Get Horizontal fliping value." alt="" coords="797,56,1001,83"/>
-<area shape="rect" id="node20" href="$class_menu_tab.html#a4155c4461fbdce796770968d6fff1832" title="set Icon for vertical flip realtime" alt="" coords="793,107,1005,133"/>
-<area shape="rect" id="node22" href="$class_img_manipulation.html#a56a5bb3920b56dac1edd3bf88d62c7f0" title="Get Vertical fliping value." alt="" coords="797,157,1000,184"/>
-<area shape="rect" id="node24" href="$class_menu_tab.html#a4ee6efe2abf63d3a8ba017b5ad7a414d" title="set Icon for serverManipulation" alt="" coords="803,208,995,235"/>
-<area shape="rect" id="node26" href="$class_menu_tab.html#a3aaea1f26c59ed8781df5f0037f833f5" title="set correct icon for full picture mode" alt="" coords="792,259,1005,285"/>
-<area shape="rect" id="node28" href="$class_menu_tab.html#aa8af82310dfd8cd7a72fa1779a2eac36" title="set picture mode on true" alt="" coords="815,309,982,336"/>
-<area shape="rect" id="node30" href="$class_menu_tab.html#af98d1537b5e7ebcee5ef93fc975815fd" title="set correct icon for realtime pause" alt="" coords="803,360,994,387"/>
+<area shape="rect" id="node7" href="$class_menu_tab.html#aa1c0fcae018756edc9a230fa3217789d" title="set enable for realtime Menu" alt="" coords="545,157,743,184"/>
+<area shape="rect" id="node12" href="$class_menu_tab.html#ae8b59efdc378b9f056c89b948677f763" title="set Icons for pointer" alt="" coords="553,208,735,235"/>
+<area shape="rect" id="node30" href="$class_main_window.html#af0070391b05f51075140c6bbd8277273" title="change manipulator with/without histogram" alt="" coords="551,284,737,311"/>
+<area shape="rect" id="node14" href="$class_menu_tab.html#ae6c55168b721e3af56c4cc3a3b9db505" title="set Icon for horizontal flip realtime" alt="" coords="792,5,1005,32"/>
+<area shape="rect" id="node16" href="$class_img_manipulation.html#ae709fadd23c48bcfbc9e1a1fee81f708" title="Get Horizontal fliping value." alt="" coords="797,56,1001,83"/>
+<area shape="rect" id="node18" href="$class_menu_tab.html#a4155c4461fbdce796770968d6fff1832" title="set Icon for vertical flip realtime" alt="" coords="793,107,1005,133"/>
+<area shape="rect" id="node20" href="$class_img_manipulation.html#a56a5bb3920b56dac1edd3bf88d62c7f0" title="Get Vertical fliping value." alt="" coords="797,157,1000,184"/>
+<area shape="rect" id="node22" href="$class_menu_tab.html#a4ee6efe2abf63d3a8ba017b5ad7a414d" title="set Icon for serverManipulation" alt="" coords="803,208,995,235"/>
+<area shape="rect" id="node24" href="$class_menu_tab.html#a3aaea1f26c59ed8781df5f0037f833f5" title="set correct icon for full picture mode" alt="" coords="792,259,1005,285"/>
+<area shape="rect" id="node26" href="$class_menu_tab.html#aa8af82310dfd8cd7a72fa1779a2eac36" title="set picture mode on true" alt="" coords="815,309,982,336"/>
+<area shape="rect" id="node28" href="$class_menu_tab.html#af98d1537b5e7ebcee5ef93fc975815fd" title="set correct icon for realtime pause" alt="" coords="803,360,994,387"/>
 <area shape="rect" id="node43" href="$class_main_window.html#a3dca1c040059de53bd687e94a867af51" title="set in labels information about mouse position" alt="" coords="551,411,737,437"/>
 <area shape="rect" id="node49" href="$class_main_window.html#a178715eed6ec291dce2104bda727804a" title="set in label information about pixel color" alt="" coords="554,461,734,488"/>
 <area shape="rect" id="node51" href="$class_main_window.html#aa640d4cafcf191f0fc2344a0b997d77e" title="set in label information about pixel color" alt="" coords="553,512,735,539"/>

@@ -1,8 +1,9 @@
 <map id="G" name="G">
-<area shape="rect" id="node3" href="$class_grey_img.html" title="Parent class for greyscale modes /abstract class, uses for polymorphism." alt="" coords="127,80,199,107"/>
-<area shape="rect" id="node11" href="$class_is8_bit_color.html" title="8 bit color image mode /Uses for correct displaying 8 bit color image" alt="" coords="223,80,309,107"/>
-<area shape="rect" id="node13" href="$class_is_r_g_b.html" title="RGB/RGBA image mode /Uses for correct displaying color image." alt="" coords="334,80,396,107"/>
+<area shape="rect" id="node3" href="$class_grey_img.html" title="Parent class for greyscale modes /abstract class, uses for polymorphism." alt="" coords="187,80,259,107"/>
+<area shape="rect" id="node13" href="$class_is8_bit_color.html" title="8 bit color image mode /Uses for correct displaying 8 bit color image" alt="" coords="283,80,369,107"/>
+<area shape="rect" id="node15" href="$class_is_r_g_b.html" title="RGB/RGBA image mode /Uses for correct displaying color image." alt="" coords="394,80,456,107"/>
 <area shape="rect" id="node5" href="$class_is16_bit_grey.html" title="16 bit grayscale image mode /Uses for correct displaying and 16 bit picture levels manipulation..." alt="" coords="5,155,96,181"/>
-<area shape="rect" id="node7" href="$class_is8_bit_grey.html" title="8 bit grayscale image mode /Uses for correct displaying and 8 bit grayscale picture levels manipulati..." alt="" coords="121,155,204,181"/>
-<area shape="rect" id="node9" href="$class_is_r_g_b_g_grey.html" title="Converting RGB/RGBA image to grayscale image mode /Converting RGB/RGBA image to 8 bit grayscale image..." alt="" coords="229,155,328,181"/>
+<area shape="rect" id="node7" href="$class_is16_bit_r_g_b.html" title="16 bit RGB image mode /Uses for correct displaying and 16 bit Color picture levels manipulation..." alt="" coords="121,155,212,181"/>
+<area shape="rect" id="node9" href="$class_is8_bit_grey.html" title="8 bit grayscale image mode /Uses for correct displaying and 8 bit grayscale picture levels manipulati..." alt="" coords="237,155,320,181"/>
+<area shape="rect" id="node11" href="$class_is_r_g_b_g_grey.html" title="Converting RGB/RGBA image to grayscale image mode /Converting RGB/RGBA image to 8 bit grayscale image..." alt="" coords="345,155,444,181"/>
 </map>

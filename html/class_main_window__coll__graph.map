@@ -1,20 +1,21 @@
 <map id="G" name="G">
-<area shape="rect" id="node29" href="$class_menu_tab.html" title="Command menu /keep whole apps manipulations." alt="" coords="1531,133,1607,160"/>
-<area shape="rect" id="node2" href="$class_tango_settings_win.html" title="Widget for setting device picture prorty /Widget for setting device picture prorty." alt="" coords="1030,5,1159,32"/>
-<area shape="rect" id="node4" href="$class_tango_variables.html" title="Widget for setting/changing Tango attributes /Setting/changing Tango attributes for reading serversid..." alt="" coords="333,441,445,468"/>
-<area shape="rect" id="node6" href="$class_my_line_edit.html" title="Overloaded QLineEdit class /Keeps extra signals and posibilities." alt="" coords="6,277,93,304"/>
-<area shape="rect" id="node14" href="$classbr__gm__con__pix_level_1_1_b_g_c_p_l___w_g_t.html" title="br_gm_con_pixLevel::BGCPL_WGT" alt="" coords="688,245,920,272"/>
-<area shape="rect" id="node21" href="$class_double___w_g_t.html" title="Base class for manipulation double value property Base class for manipulation double value property..." alt="" coords="204,311,305,337"/>
-<area shape="rect" id="node24" href="$class_start_tango_win.html" title="Widget for setting Tango device /Checking device in database, check connecktion." alt="" coords="200,107,309,133"/>
-<area shape="rect" id="node8" href="$class_ui_1_1_main_window.html" title="Ui::MainWindow" alt="" coords="1035,56,1154,83"/>
-<area shape="rect" id="node10" href="$class_ui___main_window.html" title="Ui_MainWindow" alt="" coords="745,55,863,81"/>
-<area shape="rect" id="node12" href="$class_manipulator.html" title="Basic Manipulator panel /Based on modal widget." alt="" coords="1050,245,1139,272"/>
-<area shape="rect" id="node32" href="$class_slider_manip.html" title="Manipulator with Histogram widget / Manipulator with Histogram widget." alt="" coords="1049,176,1140,203"/>
-<area shape="rect" id="node17" href="$class_r_s_f_l___w_g_t.html" title="Rotation&#45;Scale&#45;Fliping manipulation widget of /Rotation, Scale, Fliping (VerFlip, HorFlip) manipulati..." alt="" coords="757,311,851,337"/>
-<area shape="rect" id="node19" href="$class_scl___w_g_t.html" title="class for scale manipulation scale manipulator" alt="" coords="485,311,563,337"/>
-<area shape="rect" id="node26" href="$classmy___device.html" title="Answear for dealing with Tango Device /Whole connects with Tango Device." alt="" coords="5,107,93,133"/>
-<area shape="rect" id="node36" href="$class_histogrammm.html" title="Histogram widget /Histogram widget which wll be displayed for user, based on QWT&#45;5.2.1_tutorial." alt="" coords="752,168,856,195"/>
-<area shape="rect" id="node38" href="$class_my_plot.html" title="Widget for displaying histogram /Widget for displaying histogram. Is a child of QwtPlot class..." alt="" coords="493,157,555,184"/>
-<area shape="rect" id="node40" href="$class_picture_mode.html" title="Abstract class, uses for polymorphism /abstract class, uses for polymorphism." alt="" coords="207,157,302,184"/>
-<area shape="rect" id="node42" href="$class_histogram_item.html" title="Initing Histogram widget /Initing Histogram widget." alt="" coords="470,208,578,235"/>
+<area shape="rect" id="node32" href="$class_menu_tab.html" title="Command menu /keep whole apps manipulations." alt="" coords="1553,213,1629,240"/>
+<area shape="rect" id="node2" href="$class_tango_settings_win.html" title="Widget for setting device picture prorty /Widget for setting device picture prorty." alt="" coords="1051,49,1181,76"/>
+<area shape="rect" id="node4" href="$class_tango_variables.html" title="Widget for setting/changing Tango attributes /Setting/changing Tango attributes for reading serversid..." alt="" coords="333,103,445,129"/>
+<area shape="rect" id="node6" href="$class_my_line_edit.html" title="Overloaded QLineEdit class /Keeps extra signals and posibilities." alt="" coords="6,275,93,301"/>
+<area shape="rect" id="node14" href="$classbr__gm__con__pix_level_1_1_b_g_c_p_l___w_g_t.html" title="br_gm_con_pixLevel::BGCPL_WGT" alt="" coords="709,368,941,395"/>
+<area shape="rect" id="node21" href="$class_double___w_g_t.html" title="Base class for manipulation double value property Base class for manipulation double value property..." alt="" coords="204,419,305,445"/>
+<area shape="rect" id="node24" href="$class_set_marker.html" title="Widget for setting marker position /Widget for setting marker position." alt="" coords="603,275,685,301"/>
+<area shape="rect" id="node27" href="$class_start_tango_win.html" title="Widget for setting Tango device /Checking device in database, check connecktion." alt="" coords="200,208,309,235"/>
+<area shape="rect" id="node8" href="$class_ui_1_1_main_window.html" title="Ui::MainWindow" alt="" coords="1057,161,1175,188"/>
+<area shape="rect" id="node10" href="$class_ui___main_window.html" title="Ui_MainWindow" alt="" coords="767,161,884,188"/>
+<area shape="rect" id="node12" href="$class_manipulator.html" title="Basic Manipulator panel /Based on modal widget." alt="" coords="1071,325,1161,352"/>
+<area shape="rect" id="node35" href="$class_slider_manip.html" title="Manipulator with Histogram widget / Manipulator with Histogram widget." alt="" coords="1071,433,1161,460"/>
+<area shape="rect" id="node17" href="$class_r_s_f_l___w_g_t.html" title="Rotation&#45;Scale&#45;Fliping manipulation widget of /Rotation, Scale, Fliping (VerFlip, HorFlip) manipulati..." alt="" coords="778,419,873,445"/>
+<area shape="rect" id="node19" href="$class_scl___w_g_t.html" title="class for scale manipulation scale manipulator" alt="" coords="485,419,563,445"/>
+<area shape="rect" id="node29" href="$classmy___device.html" title="Answear for dealing with Tango Device /Whole connects with Tango Device." alt="" coords="5,156,93,183"/>
+<area shape="rect" id="node39" href="$class_histogrammm.html" title="Histogram widget /Histogram widget which wll be displayed for user, based on QWT&#45;5.2.1_tutorial." alt="" coords="773,501,877,528"/>
+<area shape="rect" id="node41" href="$class_my_plot.html" title="Widget for displaying histogram /Widget for displaying histogram. Is a child of QwtPlot class..." alt="" coords="493,484,555,511"/>
+<area shape="rect" id="node43" href="$class_picture_mode.html" title="Abstract class, uses for polymorphism /abstract class, uses for polymorphism." alt="" coords="207,484,302,511"/>
+<area shape="rect" id="node45" href="$class_histogram_item.html" title="Initing Histogram widget /Initing Histogram widget." alt="" coords="470,535,578,561"/>
 </map>

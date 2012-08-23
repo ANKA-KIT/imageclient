@@ -153,7 +153,8 @@ private:
     */
     int getBGCPL_WGT_MODE(int mode);
 
-
+    /*! \brief set ImageMode and ImageFormat values which were sended as command parametrs */
+    void setStartImgModeAndFormat();
 
 public:
     SliderManip *slider;            /*!< Manipulator with histogram*/

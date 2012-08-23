@@ -27,7 +27,7 @@
   
   <td style="padding-left: 0.5em;">
    <div id="projectname">ImageClient
-   &#160;<span id="projectnumber">0.9</span>
+   
    </div>
    
   </td>
@@ -205,7 +205,19 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <a name="l00334"></a>00334 
 <a name="l00338"></a>00338     <a class="code" href="class_is8_bit_color.html" title="8 bit color image mode /Uses for correct displaying 8 bit color image">Is8BitColor</a>();
 <a name="l00339"></a>00339 };
-<a name="l00340"></a>00340 <span class="preprocessor">#endif // PICTUREMODE_H</span>
+<a name="l00340"></a>00340 
+<a name="l00346"></a>00346 
+<a name="l00347"></a><a class="code" href="class_is16_bit_r_g_b.html">00347</a> <span class="keyword">class </span><a class="code" href="class_is16_bit_r_g_b.html" title="16 bit RGB image mode /Uses for correct displaying and 16 bit Color picture levels manipulation...">Is16BitRGB</a> : <span class="keyword">public</span> <a class="code" href="class_grey_img.html" title="Parent class for greyscale modes /abstract class, uses for polymorphism.">GreyImg</a>{
+<a name="l00348"></a>00348 <span class="keyword">public</span>:
+<a name="l00352"></a>00352     <a class="code" href="class_is16_bit_r_g_b.html" title="16 bit RGB image mode /Uses for correct displaying and 16 bit Color picture levels manipulation...">Is16BitRGB</a>();
+<a name="l00353"></a>00353 
+<a name="l00361"></a>00361     <span class="keyword">virtual</span> QImage setImage(<span class="keywordtype">int</span> x, <span class="keywordtype">int</span> y, vector &lt;unsigned char&gt;&amp; val);
+<a name="l00362"></a>00362 
+<a name="l00368"></a>00368     <span class="keywordtype">void</span> Convert16BitData(vector &lt;unsigned short&gt;&amp; val16, vector &lt;unsigned char&gt;&amp; val8);
+<a name="l00369"></a>00369 
+<a name="l00375"></a>00375     <span class="keywordtype">void</span> recalcColors(vector &lt;unsigned char&gt;&amp; valColor, vector &lt;unsigned char&gt;&amp; valGrey);
+<a name="l00376"></a>00376 };
+<a name="l00377"></a>00377 <span class="preprocessor">#endif // PICTUREMODE_H</span>
 </pre></div></div>
 </div>
 <!-- window showing the filter options -->
@@ -225,7 +237,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Aug 17 2012 16:39:45 for ImageClient by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Aug 23 2012 15:16:57 for ImageClient by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.5.1
 </small></address>

@@ -14,6 +14,7 @@ unix{
     TANGO_DIR =  /usr
     QWT_DIR = /usr/local/qwt-5.2.1
     #QWT_DIR = /usr/local/qwt5
+    #QWT_DIR = /usr/include/qwt5     #set   -I $${QWT_DIR}/
     OPENCV_DIR  = /usr/local
 
     INCLUDEPATH += -I $${TANGO_DIR}/include/tango \

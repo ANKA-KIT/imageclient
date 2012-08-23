@@ -7,7 +7,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    setWindowTitle("Image Client 0.9");
+    setWindowTitle("Image Client");
     bt = NULL; /*new QPushButton(ui->centralWidget);
            bt->setObjectName(QString::fromUtf8("bt"));
            bt->setGeometry(QRect(0, 0, 125, 24));
@@ -55,7 +55,7 @@ MainWindow::MainWindow(QWidget *parent) :
     slider = NULL;
     manip_wgt = NULL;
     marker = NULL;
-    histogramManip = false;//true;
+    histogramManip = false;
 }
 
 void MainWindow::setManipulator(){
@@ -303,11 +303,11 @@ void MainWindow::chManipulator(SubWindow* subW){
 
 void MainWindow::realtimeChanged(SubWindowRealtime* curRealtimeWin){
     qDebug("MainWindow::realtimeChanged");
-    if(curRealtimeWin){
+    if(curRealtimeWin){             //if realtimewindow active
         QList<SubWindowRealtime*>::iterator iter;
         int  i = 0;
         for (iter = listReal.begin(); iter < listReal.end(); ++iter){
-            if(curRealtimeWin == *iter){
+            if(curRealtimeWin == *iter){                             /*Find current window in list of realtime windows*/
                 qDebug("MainWindow::realtimeChanged!!!!");
                 curRealtimeInt = listReal.indexOf(curRealtimeWin);
                 realtimeIntLast = curRealtimeInt;
@@ -317,7 +317,7 @@ void MainWindow::realtimeChanged(SubWindowRealtime* curRealtimeWin){
                 listReal.at(curRealtimeInt)->myDev->pingTimer.stop();
                 qDebug("Attention, realtimeChanged pingTimer STOPED");
                 listReal.at(curRealtimeInt)->setPause(false);  //to allow realTime
-                listReal.at(curRealtimeInt)->sendingPing();
+                listReal.at(curRealtimeInt)->sendingPing();     //Start timer
 
                 chManipulator(listReal.at(realtimeIntLast));
                 reSetMarkerPos(listReal.at(realtimeIntLast));
@@ -346,7 +346,7 @@ void MainWindow::SnapshotChanged(SubWindowSnapshot* curSnapWin){
         QList<SubWindowSnapshot*>::iterator iter;
         int  i = 0;
         for (iter = listSnap.begin(); iter < listSnap.end(); ++iter){
-            if(curSnapWin == *iter){
+            if(curSnapWin == *iter){                            /*Find current window in list of snapshot windows*/
                 qDebug("MainWindow::SnapshotChanged!!!!");
                 curSnapshotInt = listSnap.indexOf(curSnapWin);
                 curSnapshotIntLast = curSnapshotInt;
@@ -533,7 +533,7 @@ void MainWindow::delTangoSettingWin(){
     tangoDevSet = NULL;
 }
 
-void MainWindow::delStartTangoWin(){
+void MainWindow::setStartImgModeAndFormat(){
     if(startWithParams){
         if(startImageMode && *startImageMode != -1){
             switch(*startImageMode){
@@ -566,6 +566,10 @@ void MainWindow::delStartTangoWin(){
         delete startImageMode;
         delete startImageFormat;
     }
+}
+
+void MainWindow::delStartTangoWin(){
+    setStartImgModeAndFormat();
     tangoDev->close();
     delete tangoDev;
     tangoDev = NULL;
