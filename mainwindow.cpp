@@ -33,6 +33,9 @@ MainWindow::MainWindow(QWidget *parent) :
     curRealtimeInt = -1;
     realtimeIntLast = -1;
     curSnapshotInt = -1;
+    startWithParams = false;
+    startImageMode = NULL;
+    startImageFormat = NULL;
     readSettings();
 
 
@@ -150,7 +153,7 @@ void MainWindow::closeEvent ( QCloseEvent * closeEvent){
 }
 
 int MainWindow::getBGCPL_WGT_MODE(int mode){
-    if (mode == IS_8BITIMG_COLOR || mode == IS_RGBIMG_COLOR){
+    if (mode == IS_8BITIMG_COLOR || mode == IS_RGBIMG_COLOR || IS_16BITIMG_RGB){  /*IS_16BITIMG_RGB temparary here*/
         mode = IS_COLOR_MODE;
     }
     else if(mode == IS_8BITIMG_GREY || mode == IS_RGBIMG_GREY){
@@ -531,6 +534,38 @@ void MainWindow::delTangoSettingWin(){
 }
 
 void MainWindow::delStartTangoWin(){
+    if(startWithParams){
+        if(startImageMode && *startImageMode != -1){
+            switch(*startImageMode){
+                case 0: set16BitGreyImageMode(); break;
+                case 1: setRGBGreyImageMode();  break;
+                case 2: setRGB_ARGBImageMode(); break;
+                case 3: set8BitGreyImageMode(); break;
+                case 4: set8BitColorImageMode(); break;
+                case 5: set16BitRGBImageMode(); break;
+            }
+        }
+        if(startImageFormat && *startImageFormat != -1){
+            switch(*startImageFormat){
+                case 3: setIndex8(); break;
+                case 4: setRGB32(); break;
+                case 5: setARGB32(); break;
+                case 6: setARGB32Pre(); break;
+                case 7: setRGB16(); break;
+                case 8: setARGB8565Pre(); break;
+                case 9: setRGB666(); break;
+                case 10: setARGB6666Pre(); break;
+                case 11: setRGB555(); break;
+                case 12: setARGB8555Pre(); break;
+                case 13: setRGB888(); break;
+                case 14: setRGB444(); break;
+                case 15: setARGB4444Pre(); break;
+            }
+        }
+        startWithParams = false;
+        delete startImageMode;
+        delete startImageFormat;
+    }
     tangoDev->close();
     delete tangoDev;
     tangoDev = NULL;
@@ -578,14 +613,17 @@ QList<QAction*>  MainWindow::realtimeMenu(){
 
 void MainWindow::mkRealtime( QString servName, QString imgAtr ){
     area->hide();
-    delStartTangoWin();
+   // delStartTangoWin();
     SubWindowRealtime *  curRealtimePointer = new SubWindowRealtime(servName, imgAtr);
+
     curRealtimePointer->setActionMenu(realtimeMenu());
     curRealtimePointer->resize(800,area->height()-25);
     QObject::connect(curRealtimePointer, SIGNAL(closeRealtime(SubWindowRealtime*)), this, SLOT(onCloseRaltime(SubWindowRealtime*)));
   //  QObject::connect(curRealtimePointer->wgt, SIGNAL(mkSnapshotRealtime(ImageWidget*)), this, SLOT(mkSnapshot(ImageWidget*)));
     QObject::connect(curRealtimePointer, SIGNAL(realtimeWinChanged(SubWindowRealtime*)), this, SLOT(realtimeChanged(SubWindowRealtime*)));
     listReal<<curRealtimePointer;
+    curRealtimeInt = 0;
+    delStartTangoWin();
     QObject::connect(curRealtimePointer, SIGNAL(DisplayModeChanged()), this, SLOT(setManipulatorReal()));
     area->addSubWindow(curRealtimePointer);
 
@@ -632,6 +670,7 @@ void MainWindow::mkSnapshot(ImageWidget* image, double difHW){
         }
    curSnapshotPointer->wgt->setPicSize(image->ImgDimX, image->ImgDimY);
    curSnapshotPointer->wgt->setPicSetings(image->img->width(), image->img->height());
+   curSnapshotPointer->wgt->scaled = image->manip->listProp.at(SCALE)->getValue().toDouble();
    // curSnapshotPointer->wgt->imgType = image->imgType;  //not commented if setImageMode not work correct
 
     if (image->imgType == IS_16BITIMG_GREY){
@@ -774,6 +813,9 @@ void MainWindow::setImageMode(int mode){
 }
 void MainWindow::set16BitGreyImageMode(){
     setImageMode(IS_16BITIMG_GREY);
+}
+void MainWindow::set16BitRGBImageMode(){
+    setImageMode(IS_16BITIMG_RGB);
 }
 void MainWindow::set8BitGreyImageMode(){
     setImageMode(IS_8BITIMG_GREY);

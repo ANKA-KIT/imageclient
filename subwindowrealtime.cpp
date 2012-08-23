@@ -266,7 +266,7 @@ bool SubWindowRealtime::makeImg(){
        switch (attr.get_type()){
            case IS_UCHAR_DATA:
                if(myDev->setUCharVal(attr, val)){
-                   if (wgt->imgType  == IS_16BITIMG_GREY){ emit isUCharData();  return false;}
+                   if (wgt->imgType  == IS_16BITIMG_GREY || wgt->imgType  == IS_16BITIMG_RGB){ emit isUCharData();  return false;}
                }
                else{
                    qDebug("Error, UCHAR DATA WASN'T READ");
@@ -275,8 +275,19 @@ bool SubWindowRealtime::makeImg(){
            break;
            case IS_USHORT_DATA:
                if (myDev->setUShortVal(attr, wgt->valUSh)){
-                  if (wgt->imgType  != IS_16BITIMG_GREY){emit isUShortData(); return false;}
+                  if (wgt->imgType  == IS_8BITIMG_GREY || wgt->imgType  == IS_8BITIMG_COLOR || wgt->imgType  == IS_RGBIMG_COLOR ||  wgt->imgType  == IS_RGBIMG_GREY){emit isUShortData(); return false;}
                   wgt->picMode->Convert16BitData(wgt->valUSh, val);
+
+                  /*Convert BGR to RGB for correct color displaying (tested on test server RGB 48bit TIFF image)*/
+                  if (wgt->imgType == IS_16BITIMG_RGB){
+                    int d = wgt->picMode->getDelimitr();
+                    unsigned short temp;
+                    for(int i=0; i<val.size()-1;i+=3){
+                        temp = val[i];
+                        val[i] = val[i+2];
+                        val[i+2] = temp;
+                    }
+                  }
                   emit send16BitData(wgt->valUSh);
                }
                else{
@@ -652,6 +663,7 @@ void SubWindowRealtime::setFullPictureMode(bool val){
         int marker = wgt->isMarked;
         int xMouseCl = wgt->_clickedMouseX;
         int yMouseCl = wgt->_clickedMouseY;
+        double scl = wgt->scaled;
 
         if (val){
             delete scrollArea;
@@ -675,6 +687,7 @@ void SubWindowRealtime::setFullPictureMode(bool val){
         wgt->isMarked=marker;
         wgt->_clickedMouseX =xMouseCl;
         wgt->_clickedMouseY = yMouseCl;
+        wgt->scaled = scl;
         emit DisplayModeChanged();
         emit fullPictureModeChanged(this);
     }

@@ -76,6 +76,8 @@ public:
 	Tango::DevULong	*attr_Rotate_read;
 	Tango::DevUChar	*attr_TestImage_read;
 	Tango::DevUShort	*attr_UShortImg_read;
+	Tango::DevUShort	*attr_UShortImgColor_read;
+	Tango::DevUChar	*attr_TestImageColor_read;
 
 
 
@@ -226,6 +228,32 @@ public:
 	virtual void read_UShortImg(Tango::Attribute &attr);
 	virtual void write_UShortImg(Tango::WAttribute &attr);
 	virtual bool is_UShortImg_allowed(Tango::AttReqType type);
+
+
+
+	/**
+	 *	UShortImgColor attribute related methods.
+	 *	Description: 
+	 *
+	 *	Data type:	Tango::DevUShort
+	 *	Attr type:	Image  max = 99999 x 99999
+	 */
+	virtual void read_UShortImgColor(Tango::Attribute &attr);
+	virtual void write_UShortImgColor(Tango::WAttribute &attr);
+	virtual bool is_UShortImgColor_allowed(Tango::AttReqType type);
+
+
+
+	/**
+	 *	TestImageColor attribute related methods.
+	 *	Description: 
+	 *
+	 *	Data type:	Tango::DevUChar
+	 *	Attr type:	Image  max = 99999 x 99999
+	 */
+	virtual void read_TestImageColor(Tango::Attribute &attr);
+	virtual void write_TestImageColor(Tango::WAttribute &attr);
+	virtual bool is_TestImageColor_allowed(Tango::AttReqType type);
 
 
 

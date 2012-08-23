@@ -337,4 +337,41 @@ public:
     */
     Is8BitColor();
 };
+
+/*!
+  \author Georgii Vasilev
+  \class Is16BitRGB
+  \brief 16 bit RGB image mode
+  ///Uses for correct displaying and 16 bit Color picture levels manipulation
+*/
+class Is16BitRGB : public GreyImg{
+public:
+    /*!
+        \brief Constructor
+    */
+    Is16BitRGB();
+
+    /*!
+        \brief Make image (virtual method)
+        \param x - number of bytes for image width
+        \param y - number of bytes for image height
+        \param val - data vector
+        \return image
+    */
+    virtual QImage setImage(int x, int y, vector <unsigned char>& val);
+
+    /*!
+        \brief convert 16 bit data to 8 bit for displaying
+        \param val16 - 16 bit data vector
+        \param val8 - 8 bit data vector
+    */
+    void Convert16BitData(vector <unsigned short>& val16, vector <unsigned char>& val8);
+
+    /*!
+        \brief recalculate image with new pixel levels
+        \param valColor - input vector
+        \param valGrey - vector, which will be set if pixel levels isn't default
+    */
+    void recalcColors(vector <unsigned char>& valColor, vector <unsigned char>& valGrey);
+};
 #endif // PICTUREMODE_H

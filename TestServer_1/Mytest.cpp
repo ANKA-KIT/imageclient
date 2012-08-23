@@ -39,6 +39,7 @@ static const char *RcsId = "$Id:  $";
 #include <stdlib.h>
 #include <cv.h>
 #include <highgui.h>
+#include "tiffio.h"
 //using namespace cimg_library;
 int W = 468, H = 315;
 
@@ -134,6 +135,8 @@ void Mytest::delete_device()
 	delete[] attr_Rotate_read;
 	delete[] attr_TestImage_read;
 	delete[] attr_UShortImg_read;
+	delete[] attr_UShortImgColor_read;
+	delete[] attr_TestImageColor_read;
 	
 }
 
@@ -156,9 +159,14 @@ void Mytest::init_device()
 	attr_Rotate_read = new Tango::DevULong[1];
 	attr_TestImage_read = new Tango::DevUChar[99999 * 99999];
 	attr_UShortImg_read = new Tango::DevUShort[99999 * 99999];
+	attr_UShortImgColor_read = new Tango::DevUShort[99999 * 99999];
+	attr_TestImageColor_read = new Tango::DevUChar[99999 * 99999];
 	
 	/*----- PROTECTED REGION ID(Mytest::init_device) ENABLED START -----*/
-
+	attr_Rotate_read[0] = 0;
+	attr_FlipVertical_read[0]=false;
+	attr_FlipHorizontal_read[0]=false;
+	
 	//	Initialize device
 
 	/*----- PROTECTED REGION END -----*/	//	Mytest::init_device
@@ -366,6 +374,7 @@ void Mytest::read_Rotate(Tango::Attribute &attr)
 	/*----- PROTECTED REGION ID(Mytest::read_Rotate) ENABLED START -----*/
 
 	//	Set the attribute value
+	//attr_Rotate_read[0] = 1.5;
 	attr.set_value(attr_Rotate_read);
 
 	/*----- PROTECTED REGION END -----*/	//	Mytest::read_Rotate
@@ -491,6 +500,99 @@ void Mytest::write_UShortImg(Tango::WAttribute &attr)
 	
 
 	/*----- PROTECTED REGION END -----*/	//	Mytest::write_UShortImg
+}
+
+//--------------------------------------------------------
+/**
+ *	Read UShortImgColor attribute
+ *	Description: 
+ *
+ *	Data type:	Tango::DevUShort
+ *	Attr type:	Image  max = 99999 x 99999
+ */
+//--------------------------------------------------------
+void Mytest::read_UShortImgColor(Tango::Attribute &attr)
+{
+	DEBUG_STREAM << "Mytest::read_UShortImgColor(Tango::Attribute &attr) entering... " << endl;
+	/*----- PROTECTED REGION ID(Mytest::read_UShortImgColor) ENABLED START -----*/
+
+	//	Set the attribute value
+	//!!!!!!attr.set_value(attr_UShortImgColor_read, W, H);
+	attr.set_value(attr_UShortImgColor_read, W*3, 120);
+
+	/*----- PROTECTED REGION END -----*/	//	Mytest::read_UShortImgColor
+}
+
+//--------------------------------------------------------
+/**
+ *	Write UShortImgColor attribute values to hardware.
+ *
+ *	Data type:	Tango::DevUShort
+ *	Attr type:	Image  max = 99999 x 99999
+ */
+//--------------------------------------------------------
+void Mytest::write_UShortImgColor(Tango::WAttribute &attr)
+{
+	DEBUG_STREAM << "Mytest::write_UShortImgColor(Tango::Attribute &attr) entering... " << endl;
+	
+	//	Retrieve number of write values
+	int	w_length = attr.get_write_value_length();
+
+	//	Retrieve pointer on write values (Do not delete !)
+	const Tango::DevUShort	*w_val;
+	attr.get_write_value(w_val);
+	
+	/*----- PROTECTED REGION ID(Mytest::write_UShortImgColor) ENABLED START -----*/
+
+	
+
+	/*----- PROTECTED REGION END -----*/	//	Mytest::write_UShortImgColor
+}
+
+//--------------------------------------------------------
+/**
+ *	Read TestImageColor attribute
+ *	Description: 
+ *
+ *	Data type:	Tango::DevUChar
+ *	Attr type:	Image  max = 99999 x 99999
+ */
+//--------------------------------------------------------
+void Mytest::read_TestImageColor(Tango::Attribute &attr)
+{
+	DEBUG_STREAM << "Mytest::read_TestImageColor(Tango::Attribute &attr) entering... " << endl;
+	/*----- PROTECTED REGION ID(Mytest::read_TestImageColor) ENABLED START -----*/
+
+	//	Set the attribute value
+	attr.set_value(attr_TestImageColor_read, W, H);
+
+	/*----- PROTECTED REGION END -----*/	//	Mytest::read_TestImageColor
+}
+
+//--------------------------------------------------------
+/**
+ *	Write TestImageColor attribute values to hardware.
+ *
+ *	Data type:	Tango::DevUChar
+ *	Attr type:	Image  max = 99999 x 99999
+ */
+//--------------------------------------------------------
+void Mytest::write_TestImageColor(Tango::WAttribute &attr)
+{
+	DEBUG_STREAM << "Mytest::write_TestImageColor(Tango::Attribute &attr) entering... " << endl;
+	
+	//	Retrieve number of write values
+	int	w_length = attr.get_write_value_length();
+
+	//	Retrieve pointer on write values (Do not delete !)
+	const Tango::DevUChar	*w_val;
+	attr.get_write_value(w_val);
+	
+	/*----- PROTECTED REGION ID(Mytest::write_TestImageColor) ENABLED START -----*/
+
+	
+
+	/*----- PROTECTED REGION END -----*/	//	Mytest::write_TestImageColor
 }
 
 
@@ -791,7 +893,7 @@ Tango::DevULong Mytest::set_data_image()
 //--------------------------------------------------------
 Tango::DevBoolean Mytest::load16_bit_img()
 {
-	Tango::DevBoolean argout = true;
+	Tango::DevBoolean argout;
 	DEBUG_STREAM << "Mytest::Load16BitImg()  - " << device_name << endl;
 	/*----- PROTECTED REGION ID(Mytest::load16_bit_img) ENABLED START -----*/
 
@@ -807,58 +909,144 @@ Tango::DevBoolean Mytest::load16_bit_img()
 	}
 	cv::Mat img(imgs);
 	*/ 
-	cv::Mat img = cv::imread("img16.tiff", 2);
-	W = img.cols;
-	H = img.rows;
+      srand(time(NULL));
+      int randomPic = rand()%10;
+      char const * Name = "img16.tiff";
+      switch(randomPic){
+	case 4:
+	case 3:
+	case 2: 
+	case 5:
+	case 1:Name = "img16.tiff"; break;
+	case 6: 
+	case 7:
+	case 8:
+	case 9:
+ 	case 0: Name = "Basler-Testimage.tiff"; break;
+      }
+      fprintf(stderr,"\nrandomPic = %d\n",randomPic);
+
+      int i=0;
+      int j=0;
+      
+      //---GREYSCALE 16 bit----------SET attr_UShortImg_read =============
+      fprintf(stderr,"\nGREYSCALE 16 bit-\n");
+	cv::Mat img = cv::imread(Name, 2);
+	W = img.cols;			//keep width
+	H = img.rows;			//keep height
 	fprintf(stderr,"\nW = %d\n",W);
-	fprintf(stderr,"\nH = %d\n",H);
-	//fprintf(stderr,"\nH = %d\n",);
+	fprintf(stderr,"\nH = %d\n",H);	
 	
-	//int *myPtr = img.ptr<int>(0);
-	unsigned short *myPtr = img.ptr<unsigned short>(0);
+	//SET IMAGE POINTER like unsigned short array
+	unsigned short *myPtr = img.ptr<unsigned short>(0); 
+
 	
-	//fprintf(stderr,"\Img Depth = %d\n",imgs->depth);
-	fprintf(stderr,"\nmyPtr = %d\n",*myPtr);
-	fprintf(stderr,"\nmyPtr = %d\n",*(myPtr+1));
-	fprintf(stderr,"\nmyPtr = %d\n",*(myPtr+1000));
-	fprintf(stderr,"\nmyPtr = %d\n",*(myPtr+10000));
-	
-	int i=0;
-	int j=0;
-	delete[] attr_TestImage_read;
-	attr_TestImage_read = NULL;
+	//====cleen arrays=====
+
 	delete[] attr_UShortImg_read;
-	attr_UShortImg_read = NULL;
+	attr_UShortImg_read = NULL; 
+	//====END cleen arrays=====
+	//---- INIT arrays and set pointers ----
 	attr_UShortImg_read = new unsigned short[W*H];
-	attr_TestImage_read = new unsigned char[W*H];
 	unsigned short *uu = attr_UShortImg_read;
-	unsigned char *uuchar = attr_TestImage_read;
-	double count = W*H;
+	//double count = W*H;
+	//----END  INIT arrays and set pointers ----
+	
+	
 	for (i=0;i<H;i++){
-	//  fprintf(stderr,"\nIter = %d\n",i);
-	  for (j=0;j<W;j++){  
-	  //*(attr_UShortImg_read+sizeof(attr_UShortImg_read)*(int)i) = *(myPtr+sizeof(myPtr)*(int)i);
-	    //attr_UShortImg_read[i][j] = myPtr[i][j];
-	      //*uu = *myPtr;
-	      
+	  for (j=0;j<W;j++){  	      
 	      *uu = *myPtr;
 	      uu++;myPtr++;
 	  }
 	}
-	/*
-	IplImage* imgs8Bit = cvLoadImage("img16.tiff", 0);
 	
-	if (imgs8Bit){
-	  fprintf(stderr,"IMG Not null");
+	
+	//====COLOR 16 bit=======attr_UShortImgColor_read=======
+	fprintf(stderr,"\COLOR 16 bit-\n");
+	cv::Mat img16Color = cv::imread(Name, -1);
+	W = img16Color.cols;			//keep width
+	H = img16Color.rows;			//keep height
+	fprintf(stderr,"\nW = %d\n",W);
+	fprintf(stderr,"\nH = %d\n",H);	
+	fprintf(stderr,"\nCHANELS = %d\n",img16Color.channels());	
+	fprintf(stderr,"\nDepth = %d\n",img16Color.depth());	
+	fprintf(stderr,"\nDim = %d\n",img16Color.dims);	
+	//SET IMAGE POINTER like unsigned short array
+	unsigned short *myPtrC = img16Color.ptr<unsigned short>(0); 
+	delete[] attr_UShortImgColor_read;
+	attr_UShortImgColor_read = NULL;
+	
+	attr_UShortImgColor_read = new unsigned short[W*H];
+	unsigned short *uuC = attr_UShortImgColor_read;
+	//double count = W*H;
+	//----END  INIT arrays and set pointers ----
+	
+	int integer = 0;
+	for (i=0;i<H;i++){
+	  for (j=0;j<W;j++){  	      
+	    integer++;
+	      *uuC = *myPtrC;
+	      uuC++;myPtrC++;
+	  }
 	}
-	else{
-	  fprintf(stderr,"IMG Null");
+
+	fprintf(stderr,"\n First = %d\n", *img16Color.ptr<unsigned short>(0));
+	fprintf(stderr,"\n the Last = %d\n", *myPtrC);
+	fprintf(stderr,"\n Num of elements = %d\n", integer);	
+	
+/*
+
+delete[] attr_UShortImgColor_read;
+    attr_UShortImgColor_read = NULL;
+    fprintf(stderr,"\n-0\n");
+    TIFF* tif = TIFFOpen(Name, "r");
+uint32 imagelength;
+tdata_t buf;
+uint32 row;
+uint32 tileWidth, tileLength;
+
+fprintf(stderr,"\n-1\n");
+TIFFGetField(tif, TIFFTAG_IMAGELENGTH, &imagelength);
+TIFFGetField(tif, TIFFTAG_IMAGEWIDTH, &row);
+TIFFGetField(tif, TIFFTAG_TILEWIDTH, &tileWidth);
+TIFFGetField(tif, TIFFTAG_TILELENGTH, &tileLength);
+fprintf(stderr,"\n-2\n");
+buf = _TIFFmalloc(TIFFScanlineSize(tif));
+uint32 iter;
+for (iter = 0; iter < imagelength; iter++)
+	TIFFReadScanline(tif, buf, iter);
+unsigned short *myPtrC = (unsigned short*)buf;
+
+fprintf(stderr,"\n-3 - iter = %d\n", iter);
+fprintf(stderr,"\n-3 - len = %d\n", imagelength);
+fprintf(stderr,"\n-3 - W = %d\n", row);
+fprintf(stderr,"\n-3 - TW = %d\n", tileWidth);
+fprintf(stderr,"\n-3 - TH = %d\n", tileLength);
+ // W = W * img16Color.channels();
+  attr_UShortImgColor_read = new unsigned short[W*H];
+  unsigned short *uuC = attr_UShortImgColor_read;
+  fprintf(stderr,"\n-4\n");
+  for (i=0;i<H;i++){
+	  for (j=0;j<W;j++){  	      
+	      *uuC = *myPtrC;
+	      uuC++;myPtrC++;
+	  }
 	}
-	cv::Mat imgData(imgs8Bit); 
-	*/
-	cv::Mat imgData = cv::imread("img16.tiff", 0);
+	fprintf(stderr,"\n-5\n");
+	TIFFClose(tif);
+*/
+	//----GREYSCALE 8 bit---------SET attr_TestImage_read =============
+	fprintf(stderr,"\nGREYSCALE 8 bit-\n");
+	cv::Mat imgData = cv::imread(Name, 0);
+	delete[] attr_TestImage_read;
+	attr_TestImage_read = NULL;
+	attr_TestImage_read = new unsigned char[W*H];
+	unsigned char *uuchar = attr_TestImage_read;
 	H = imgData.rows;
 	W = imgData.cols;
+	fprintf(stderr,"\nW = %d\n",W);
+	fprintf(stderr,"\nH = %d\n",H);	
+	//SET IMAGE POINTER like unsigned char array
 	unsigned char *myPtrUChar = imgData.ptr<unsigned char>(0);
 	for (i=0;i<H;i++){
 	//  fprintf(stderr,"\nIter = %d\n",i);
@@ -872,8 +1060,31 @@ Tango::DevBoolean Mytest::load16_bit_img()
 	  }
 	}
 	
-	//cvSetZero(imgs);
-	//cvSetZero(imgs8Bit);
+	
+	//----Color 8 bit---------SET attr_TestImage_read =============
+	fprintf(stderr,"\nColor 8 bit-\n");
+	cv::Mat imgDataC = cv::imread(Name, -1);
+	delete[] attr_TestImageColor_read;
+	attr_TestImageColor_read = NULL;
+	
+	H = imgDataC.rows;
+	W = imgDataC.cols;
+	fprintf(stderr,"\nW = %d\n",W);
+	fprintf(stderr,"\nH = %d\n",H);	
+	attr_TestImageColor_read = new unsigned char[W*H];
+	unsigned char *uucharC = attr_TestImageColor_read;
+	//SET IMAGE POINTER like unsigned char array
+	unsigned char *myPtrUCharColor = imgDataC.ptr<unsigned char>(0);
+	for (i=0;i<H;i++){
+	//  fprintf(stderr,"\nIter = %d\n",i);
+	  for (j=0;j<W;j++){  
+	      
+	      *uucharC = *myPtrUCharColor;
+	      uucharC++;myPtrUCharColor++;
+	  }
+	}
+	
+
 	/*----- PROTECTED REGION END -----*/	//	Mytest::load16_bit_img
 
 	return argout;

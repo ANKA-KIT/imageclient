@@ -100,7 +100,8 @@ void SliderManip::initManipulators(int mode,  QList <MyDevProperty *> &prop, Pic
     rsfl->hFl->setChecked(prop.at(HOR_FLIP)->getValue().toBool());
     rsfl->vFl->setChecked(prop.at(VER_FLIP)->getValue().toBool());
     rsfl->setRotationVal(prop.at(ROTATION)->getValue().toInt());
-    if(mode != IS_RGBIMG_COLOR){
+    //if(mode != IS_RGBIMG_COLOR){
+    if(mode == IS_RGBIMG_GREY || mode == IS_16BITIMG_GREY || mode == IS_8BITIMG_GREY || mode == IS_8BITIMG_COLOR){
         if (usData.size() != 0){
             histogram = new Histogrammm(usData, pm, this);
             cbData->setChecked(true);

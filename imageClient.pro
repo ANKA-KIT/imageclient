@@ -23,7 +23,16 @@ unix{
                 -L$${QWT_DIR}/lib  -lqwt \
                 -L$${OPENCV_DIR}/lib  -lopencv_highgui  -lopencv_core
 #-lopencv_photo -lopencv_contrib -lopencv_calib3d -lopencv_imgproc
-    CONFIG += debug
+    #CONFIG += debug
+    CONFIG(debug, debug|release) {
+        QMAKE_CXXFLAGS_DEBUG += -g3 -O0
+        message("DEBUG!")
+    } else {
+        DEFINES += QT_NO_DEBUG
+        DEFINES += QT_NO_DEBUG_OUTPUT
+        message("RELEASE!")
+    }
+    #CONFIG      += warn_off release qt app_bundle
 }
 
 win32{

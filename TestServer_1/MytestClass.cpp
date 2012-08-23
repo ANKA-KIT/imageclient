@@ -737,6 +737,60 @@ void MytestClass::attribute_factory(vector<Tango::Attr *> &att_list)
 	//	UShortImg does not fire data_ready event
 	att_list.push_back(ushortimg);
 
+	//	Attribute : UShortImgColor
+	UShortImgColorAttrib	*ushortimgcolor = new UShortImgColorAttrib();
+	Tango::UserDefaultAttrProp	ushortimgcolor_prop;
+	//	description	not set for	UShortImgColor
+	//	label	not set for	UShortImgColor
+	//	unit	not set for	UShortImgColor
+	//	standard_unit	not set for	UShortImgColor
+	//	display_unit	not set for	UShortImgColor
+	//	format	not set for	UShortImgColor
+	//	max_value	not set for	UShortImgColor
+	//	min_value	not set for	UShortImgColor
+	//	max_alarm	not set for	UShortImgColor
+	//	min_alarm	not set for	UShortImgColor
+	//	max_warning	not set for	UShortImgColor
+	//	min_warning	not set for	UShortImgColor
+	//	delta_t	not set for	UShortImgColor
+	//	delta_val	not set for	UShortImgColor
+	ushortimgcolor->set_default_properties(ushortimgcolor_prop);
+	//	Not Polled
+	ushortimgcolor->set_disp_level(Tango::OPERATOR);
+	//	Not memorized
+
+	//	UShortImgColor does not fire change event
+	//	UShortImgColor does not fire archive event
+	//	UShortImgColor does not fire data_ready event
+	att_list.push_back(ushortimgcolor);
+
+	//	Attribute : TestImageColor
+	TestImageColorAttrib	*testimagecolor = new TestImageColorAttrib();
+	Tango::UserDefaultAttrProp	testimagecolor_prop;
+	//	description	not set for	TestImageColor
+	//	label	not set for	TestImageColor
+	//	unit	not set for	TestImageColor
+	//	standard_unit	not set for	TestImageColor
+	//	display_unit	not set for	TestImageColor
+	//	format	not set for	TestImageColor
+	//	max_value	not set for	TestImageColor
+	//	min_value	not set for	TestImageColor
+	//	max_alarm	not set for	TestImageColor
+	//	min_alarm	not set for	TestImageColor
+	//	max_warning	not set for	TestImageColor
+	//	min_warning	not set for	TestImageColor
+	//	delta_t	not set for	TestImageColor
+	//	delta_val	not set for	TestImageColor
+	testimagecolor->set_default_properties(testimagecolor_prop);
+	//	Not Polled
+	testimagecolor->set_disp_level(Tango::OPERATOR);
+	//	Not memorized
+
+	//	TestImageColor does not fire change event
+	//	TestImageColor does not fire archive event
+	//	TestImageColor does not fire data_ready event
+	att_list.push_back(testimagecolor);
+
 
 	//	Create a list of static attributes
 	create_static_attribute_list(get_class_attr()->get_attr_list());

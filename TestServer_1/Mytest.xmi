@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="ASCII"?>
 <pogoDsl:PogoSystem xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:pogoDsl="http://www.esrf.fr/tango/pogo/PogoDsl">
   <classes name="Mytest">
-    <description description="Just for fun" title="TestinsVasil" sourcePath="/home/vasilev/TangoServer/FirstTest" language="Cpp" filestogenerate="XMI   file,Code files" hasAbstractCommand="false" hasAbstractAttribute="false">
+    <description description="Just for fun" title="TestinsVasil" sourcePath="/home/vasilev/imageClient/imageclient/TestServer_1" language="Cpp" filestogenerate="XMI   file,Code files" hasAbstractCommand="false" hasAbstractAttribute="false">
       <inheritances classname="Device_Impl" sourcePath=""/>
       <identification contact="at mail.ru - geory13" author="geory13" emailDomain="mail.ru" classFamily="Process" siteSpecific="" platform="All Platforms" bus="Socket" manufacturer="none" reference=""/>
       <comments commandsTable="//================================================================&#xA;//&#xA;//  The following table gives the correspondence&#xA;//  between command and method names.&#xA;//&#xA;//  Command name                  |  Method name&#xA;//----------------------------------------------------------------&#xA;//  State                         |  Inherited (no method)&#xA;//  Status                        |  Inherited (no method)&#xA;//  MyReadScalarCommand           |  my_read_scalar_command&#xA;//  ReadLocalDataFromTangoServer  |  read_local_data_from_tango_server&#xA;//  GeneratingRandomDataImage     |  generating_random_data_image&#xA;//  SetDataImage                  |  set_data_image&#xA;//  Load16BitImg                  |  load16_bit_img&#xA;//================================================================"/>
@@ -119,6 +119,22 @@
     </attributes>
     <attributes name="UShortImg" attType="Image" rwType="READ_WRITE" displayLevel="OPERATOR" maxX="99999" maxY="99999" allocReadMember="true">
       <dataType xsi:type="pogoDsl:UShortType"/>
+      <changeEvent fire="false" libCheckCriteria="true"/>
+      <archiveEvent fire="false" libCheckCriteria="true"/>
+      <dataReadyEvent fire="false" libCheckCriteria="true"/>
+      <status abstract="false" inherited="false" concrete="true" concreteHere="true"/>
+      <properties description="" label="" unit="" standardUnit="" displayUnit="" format="" maxValue="" minValue="" maxAlarm="" minAlarm="" maxWarning="" minWarning="" deltaTime="" deltaValue=""/>
+    </attributes>
+    <attributes name="UShortImgColor" attType="Image" rwType="READ_WRITE" displayLevel="OPERATOR" maxX="99999" maxY="99999" allocReadMember="true">
+      <dataType xsi:type="pogoDsl:UShortType"/>
+      <changeEvent fire="false" libCheckCriteria="true"/>
+      <archiveEvent fire="false" libCheckCriteria="true"/>
+      <dataReadyEvent fire="false" libCheckCriteria="true"/>
+      <status abstract="false" inherited="false" concrete="true" concreteHere="true"/>
+      <properties description="" label="" unit="" standardUnit="" displayUnit="" format="" maxValue="" minValue="" maxAlarm="" minAlarm="" maxWarning="" minWarning="" deltaTime="" deltaValue=""/>
+    </attributes>
+    <attributes name="TestImageColor" attType="Image" rwType="READ_WRITE" displayLevel="OPERATOR" maxX="99999" maxY="99999" allocReadMember="true">
+      <dataType xsi:type="pogoDsl:UCharType"/>
       <changeEvent fire="false" libCheckCriteria="true"/>
       <archiveEvent fire="false" libCheckCriteria="true"/>
       <dataReadyEvent fire="false" libCheckCriteria="true"/>

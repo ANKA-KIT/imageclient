@@ -158,6 +158,9 @@ private:
 public:
     SliderManip *slider;            /*!< Manipulator with histogram*/
     Manipulator *manip_wgt;         /*!< Manipulator*/
+    bool startWithParams;           /*!< Is app was start with -f or -m attribute*/
+    int *startImageMode;            /*!< Start ImageMode value*/
+    int *startImageFormat;          /*!< Start ImageFormat value*/
 
     QList<SubWindowRealtime *>  listReal;       /*!< List of realtime subwindows*/
     QList<SubWindowSnapshot *>  listSnap;       /*!< List of snapshot subwindows*/
@@ -404,6 +407,9 @@ public slots:
 
     /*! \brief set PictureMode as IS_16BITIMG_GREY */
     void set16BitGreyImageMode();
+
+    /*! \brief set PictureMode as IS_16BITIMG_RGB */
+    void set16BitRGBImageMode();
 
     /*! \brief set PictureMode as IS_8BITIMG_GREY */
     void set8BitGreyImageMode();

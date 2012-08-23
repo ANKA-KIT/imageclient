@@ -226,6 +226,7 @@ void SubWindowSnapshot::setFullPictureMode(bool val){
         int yMouseCl = wgt->_clickedMouseY;
         int imgX = wgt->_originSnap->width();
         int imgY = wgt->_originSnap->height();
+        double scl = wgt->scaled;
         if (val){
             delete scrollArea;
             scrollArea = NULL;
@@ -249,6 +250,7 @@ void SubWindowSnapshot::setFullPictureMode(bool val){
         wgt->isMarked=marker;
         wgt->_clickedMouseX =xMouseCl;
         wgt->_clickedMouseY = yMouseCl;
+        wgt->scaled = scl;
         emit DisplayModeChanged();
         emit fullPictureModeChanged(this);
 }

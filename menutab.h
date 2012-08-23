@@ -98,6 +98,7 @@ public:
 
     QMenu *setImageMode;                /*!< Set image mode*/
     QAction *is16BitGrey;               /*!< Set image mode IS_16BITIMG_GREY*/
+    QAction *is16BitRGB;               /*!< Set image mode IS_16BITIMG_RGB*/
     QAction *is8BitGrey;                /*!< Set image mode IS_8BITIMG_GREY*/
     QAction *is8BitColor;               /*!< Set image mode IS_8BITIMG_COLOR*/
     QAction *isRGBGrey;                 /*!< Set image mode IS_RGBIMG_GREY*/

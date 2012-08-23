@@ -265,6 +265,7 @@ bool my_Device::setUCharVal(Tango::DeviceAttribute& attr, vector <unsigned char>
          return false;
     }
 }
+
 bool my_Device::setUShortVal(Tango::DeviceAttribute& attr, vector <unsigned short>& val){
     try{
         attr>>val;

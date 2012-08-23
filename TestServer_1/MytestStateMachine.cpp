@@ -244,6 +244,66 @@ bool Mytest::is_UShortImg_allowed(Tango::AttReqType type)
 	return true;
 }
 
+//--------------------------------------------------------
+/**
+ *	Method      : Mytest::is_UShortImgColorState_allowed()
+ *	Description : Execution allowed for UShortImgColor attribute.
+ */
+//--------------------------------------------------------
+
+bool Mytest::is_UShortImgColor_allowed(Tango::AttReqType type)
+{
+	//	Check if access type.
+	if ( type!=Tango::READ_REQ )
+	{
+			//	Not any excluded states for UShortImgColor attribute in WRITE access.
+		
+	/*----- PROTECTED REGION ID(Mytest::UShortImgColorStateAllowed_WRITE) ENABLED START -----*/
+
+	/*----- PROTECTED REGION END -----*/	//	Mytest::UShortImgColorStateAllowed_WRITE
+
+		return true;
+	}
+	else
+		//	Not any excluded states for UShortImgColor attribute in READ access.
+	
+	/*----- PROTECTED REGION ID(Mytest::read_UShortImgColorStateAllowed_READ) ENABLED START -----*/
+
+	/*----- PROTECTED REGION END -----*/	//	Mytest::read_UShortImgColorStateAllowed_READ
+
+	return true;
+}
+
+//--------------------------------------------------------
+/**
+ *	Method      : Mytest::is_TestImageColorState_allowed()
+ *	Description : Execution allowed for TestImageColor attribute.
+ */
+//--------------------------------------------------------
+
+bool Mytest::is_TestImageColor_allowed(Tango::AttReqType type)
+{
+	//	Check if access type.
+	if ( type!=Tango::READ_REQ )
+	{
+			//	Not any excluded states for TestImageColor attribute in WRITE access.
+		
+	/*----- PROTECTED REGION ID(Mytest::TestImageColorStateAllowed_WRITE) ENABLED START -----*/
+
+	/*----- PROTECTED REGION END -----*/	//	Mytest::TestImageColorStateAllowed_WRITE
+
+		return true;
+	}
+	else
+		//	Not any excluded states for TestImageColor attribute in READ access.
+	
+	/*----- PROTECTED REGION ID(Mytest::read_TestImageColorStateAllowed_READ) ENABLED START -----*/
+
+	/*----- PROTECTED REGION END -----*/	//	Mytest::read_TestImageColorStateAllowed_READ
+
+	return true;
+}
+
 
 	/*----- PROTECTED REGION ID(Mytest::are_dynamic_attributes_allowed) ENABLED START -----*/
 

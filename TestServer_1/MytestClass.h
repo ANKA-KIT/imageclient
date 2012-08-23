@@ -158,6 +158,38 @@ public:
 		{return (static_cast<Mytest *>(dev))->is_UShortImg_allowed(ty);}
 };
 
+//	Attribute UShortImgColor class definition
+class UShortImgColorAttrib: public Tango::ImageAttr
+{
+public:
+	UShortImgColorAttrib():ImageAttr("UShortImgColor",
+	                   Tango::DEV_USHORT, Tango::READ_WRITE, 99999, 99999) {};
+	~UShortImgColorAttrib() {};
+	
+	virtual void read(Tango::DeviceImpl *dev,Tango::Attribute &att)
+		{(static_cast<Mytest *>(dev))->read_UShortImgColor(att);}
+	virtual void write(Tango::DeviceImpl *dev,Tango::WAttribute &att)
+		{(static_cast<Mytest *>(dev))->write_UShortImgColor(att);}
+	virtual bool is_allowed(Tango::DeviceImpl *dev,Tango::AttReqType ty)
+		{return (static_cast<Mytest *>(dev))->is_UShortImgColor_allowed(ty);}
+};
+
+//	Attribute TestImageColor class definition
+class TestImageColorAttrib: public Tango::ImageAttr
+{
+public:
+	TestImageColorAttrib():ImageAttr("TestImageColor",
+	                   Tango::DEV_UCHAR, Tango::READ_WRITE, 99999, 99999) {};
+	~TestImageColorAttrib() {};
+	
+	virtual void read(Tango::DeviceImpl *dev,Tango::Attribute &att)
+		{(static_cast<Mytest *>(dev))->read_TestImageColor(att);}
+	virtual void write(Tango::DeviceImpl *dev,Tango::WAttribute &att)
+		{(static_cast<Mytest *>(dev))->write_TestImageColor(att);}
+	virtual bool is_allowed(Tango::DeviceImpl *dev,Tango::AttReqType ty)
+		{return (static_cast<Mytest *>(dev))->is_TestImageColor_allowed(ty);}
+};
+
 
 
 

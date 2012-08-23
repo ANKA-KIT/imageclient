@@ -113,6 +113,9 @@ void SubWindow::chImageMode(int mode){
     case IS_16BITIMG_GREY:
         wgt->set16BitImgGreyMode();
         break;
+    case IS_16BITIMG_RGB:
+        wgt->set16BitImgRGBMode();
+        break;
     case IS_RGBIMG_GREY:
         wgt->setRGBImgGreyMode();
         break;

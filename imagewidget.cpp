@@ -6,6 +6,7 @@
 
 void ImageWidget::init(){
     move(0,30);
+    scaled = 1;
     manip = new ImgManipulation();
     setAutoFillBackground(true);
     setMouseTracking(true);
@@ -208,17 +209,25 @@ void ImageWidget::saveImg(){
     if(filename != ""){
 
         qDebug( "save Format %s\n",  selectedFilter.split("(").takeFirst().toLower().toAscii().constData());
-        if (imgType != IS_16BITIMG_GREY){
-            img->save(filename);
-            //cv::Mat image( ImgDimY,  ImgDimX, CV_8UC4,  &valUSh.front());  // read from value in realtime->makeimg, set correct CV_8UC!!
+        if (imgType == IS_16BITIMG_RGB){
+            QString f = (QString)filename.split(".").takeFirst() +    "_16Bit" +
+                    QString(".") + selectedFilter.split("(").takeFirst().toLower();
+            bool s = this->img->save(f);
+            //cv::Mat img(ImgDimY, ImgDimX, CV_16UC1,  &valUSh.front());
+            cv::Mat img( originHeight,  originWidth, CV_16UC3,  &valUSh.front());
+            cv::imwrite(filename.toAscii().constData(), img);
         }
-        else{
+        else if (imgType == IS_16BITIMG_GREY){
             QString f = (QString)filename.split(".").takeFirst() +    "_16Bit" +
                     QString(".") + selectedFilter.split("(").takeFirst().toLower();
             bool s = this->img->save(f);
             //cv::Mat img(ImgDimY, ImgDimX, CV_16UC1,  &valUSh.front());
             cv::Mat img( originHeight,  originWidth, CV_16UC1,  &valUSh.front());
             cv::imwrite(filename.toAscii().constData(), img);
+        }
+        else{
+            img->save(filename);
+            //cv::Mat image( ImgDimY,  ImgDimX, CV_8UC4,  &valUSh.front());  // read from value in realtime->makeimg, set correct CV_8UC!!
         }
         qDebug("Save an Image\n");
     }
@@ -247,15 +256,17 @@ void ImageWidget::mouseMoveEvent ( QMouseEvent * e){
     _curMouseX = e->x();
     _curMouseY = e->y();
     emit repainting();
-    int X=_curMouseX, Y=_curMouseY;
+    int X=_curMouseX/scaled, Y=_curMouseY/scaled;
     calcRealPosition(X,Y);
     //recalcPosition(X,Y);
 
-    emit mousePosition(X/manip->listProp.at(SCALE)->getValue().toDouble(), Y/manip->listProp.at(SCALE)->getValue().toDouble());
+    int XX = X/manip->listProp.at(SCALE)->getValue().toDouble();
+    int YY = Y/manip->listProp.at(SCALE)->getValue().toDouble();
+    emit mousePosition(XX ,YY);
     if (!img->isNull() && img->valid(_curMouseX,_curMouseY)){
         if (imgType == IS_16BITIMG_GREY ){
        //     if (manip->getScaleVal() == 1){  //temperary if-else!!!!!!
-                    emit mousePositionVal(qRed(img->pixel(_curMouseX,_curMouseY)), valUSh[X*Y+X] );
+                    emit mousePositionVal(qRed(img->pixel(_curMouseX,_curMouseY)), valUSh[XX*YY+XX] );
          //   }
         //    else
          //      emit mousePositionVal(qRed(img->pixel(_curMouseX,_curMouseY)), 99999 );
@@ -319,6 +330,10 @@ void ImageWidget::setImgType(int type){
 void ImageWidget::set16BitImgGreyMode(){
     imgType = IS_16BITIMG_GREY;
     picMode = new Is16BitGrey();
+}
+void ImageWidget::set16BitImgRGBMode(){
+    imgType = IS_16BITIMG_RGB;
+    picMode = new Is16BitRGB();
 }
 void ImageWidget::setRGBImgGreyMode(){
     imgType = IS_RGBIMG_GREY;

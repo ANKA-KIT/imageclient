@@ -10,7 +10,8 @@ enum ImageTypes{ IS_16BITIMG_GREY=0     /*!< It is 16 bit greyscale  image*/,
                  IS_RGBIMG_GREY=1       /*!< It is RGB greyscale image*/,
                  IS_RGBIMG_COLOR=2      /*!< It is RGB color image*/,
                  IS_8BITIMG_GREY=3      /*!< It is 8 bit greyscale  image*/,
-                 IS_8BITIMG_COLOR=4     /*!< It is 8 bit color image*/
+                 IS_8BITIMG_COLOR=4     /*!< It is 8 bit color image*/,
+                 IS_16BITIMG_RGB=5     /*!< It is 16 bit RGB  image*/
                };
 //enum StartParam {ReadFromFile = 2, LoadOneDevice = 4};
 //enum StatusOfWork{DevNotSet = 1, Work = 0, Error = 2};
@@ -31,7 +32,7 @@ enum TangoDataTypes{ IS_USHORT_DATA = 6 /*!< It is unsigned short data*/,
                      IS_UCHAR_DATA = 22 /*!< It is unsigned short data*/
                    };
 enum BGCPL_WGT_MODE{ IS_16BITGREY_MODE = 0 /*!< It is 16 bit greyscale image*/,
-                     IS_8BITGREY_MODE = 1 /*!< It is 8 bit greyscale image*/,
-                     IS_COLOR_MODE = 2 /*!< It is color image*/
+                     IS_8BITGREY_MODE = 1 /*!< It is 8 bit image (one of 8 bit mode or RGB_GREY)*/,
+                     IS_COLOR_MODE = 2 /*!< It is color image (RGB/RGBA mode or 16bit_Color)*/
                    };
 #endif // ENUM_H

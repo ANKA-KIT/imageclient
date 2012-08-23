@@ -68,6 +68,7 @@ MenuTab::~MenuTab()
     delete chOnRotationSnapshot	;
 
     delete is16BitGrey;
+    delete is16BitRGB;
     delete is8BitGrey;
     delete is8BitColor;
     delete isRGBGrey;
@@ -118,6 +119,7 @@ void MenuTab::createMenu(){
     changeOnValRealtime->addAction(chOnRotationRealtime);
     setImageMode = realtime->addMenu("Image Mode");
     setImageMode->addAction(is16BitGrey);
+    setImageMode->addAction(is16BitRGB);
     setImageMode->addAction(is8BitGrey);
     setImageMode->addAction(is8BitColor);
     setImageMode->addAction(isRGBGrey);
@@ -266,6 +268,10 @@ void MenuTab::initPicMode(){
     is16BitGrey =  new QAction(QIcon(trueIcon), tr("&16Bit Grey"), this);
     is16BitGrey->setStatusTip(tr("16Bit Grey"));
     QObject::connect(is16BitGrey, SIGNAL(triggered()), mainWin, SLOT(set16BitGreyImageMode()));
+
+    is16BitRGB =  new QAction(QIcon(trueIcon), tr("&16Bit RGB"), this);
+    is16BitRGB->setStatusTip(tr("16Bit RGB"));
+    QObject::connect(is16BitRGB, SIGNAL(triggered()), mainWin, SLOT(set16BitRGBImageMode()));
 
     is8BitGrey =  new QAction(QIcon(trueIcon), tr("&8Bit Grey"), this);
     is8BitGrey->setStatusTip(tr("8Bit Grey"));
@@ -601,6 +607,7 @@ void MenuTab::setUCharImageModeEnable(bool mode){
     setGammaRealtime->setEnabled(mode) ;
 
     is16BitGrey->setEnabled(!mode);
+    is16BitRGB->setEnabled(!mode);
     is8BitColor->setEnabled(mode);
     is8BitGrey->setEnabled(mode);
     isRGBGrey->setEnabled(mode);
@@ -609,6 +616,7 @@ void MenuTab::setUCharImageModeEnable(bool mode){
 
 void MenuTab::chImageMode(int mode){
     is16BitGrey->setIconVisibleInMenu(false);
+    is16BitRGB->setIconVisibleInMenu(false);
     is8BitGrey->setIconVisibleInMenu(false);
     is8BitColor->setIconVisibleInMenu(false);
     isRGBGrey->setIconVisibleInMenu(false);
@@ -620,6 +628,11 @@ void MenuTab::chImageMode(int mode){
         case IS_16BITIMG_GREY:
             is16BitGrey->setIcon(QIcon(trueIcon));
             is16BitGrey->setIconVisibleInMenu(true);
+            setUCharImageModeEnable(false);
+            break;
+        case IS_16BITIMG_RGB:
+            is16BitRGB->setIcon(QIcon(trueIcon));
+            is16BitRGB->setIconVisibleInMenu(true);
             setUCharImageModeEnable(false);
             break;
         case IS_8BITIMG_GREY:

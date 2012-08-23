@@ -259,3 +259,44 @@ QImage Is8BitColor::setImage(int x, int y, vector <unsigned char>& val){
     return setImageVal(x, y, val);
 }
 //----------------------------------------//
+
+
+//-----------------------------------------//
+
+Is16BitRGB::Is16BitRGB(){
+    _pictureMode = IS_16BITIMG_RGB;
+    _maxContrast = 65535;
+     _lBorder = 0;
+    _rBorder = _maxContrast;
+    changeColorFormat(QImage::Format_RGB888);
+}
+
+QImage Is16BitRGB::setImage(int x, int y, vector <unsigned char>& val){
+    QImage tempImg = setImageVal(x,y, val);
+    //setGreyImg(tempImg);
+   // tempImg.invertPixels(QImage::InvertRgb);
+    return tempImg;
+}
+
+void Is16BitRGB::Convert16BitData(vector <unsigned short>& val16, vector <unsigned char>& val8){
+    if (_colorMapChanged){
+        recalcColorMap();
+    }
+    for (unsigned int i=0; i<val16.size(); i++){
+        val8.push_back(colorMap[val16[i]]);
+    }
+}
+
+
+
+void Is16BitRGB::recalcColors(vector <unsigned char>& valBefore, vector <unsigned char>& valAfter){
+    if (_colorMapChanged){
+        recalcColorMap();
+    }
+    if (_rBorder != _maxContrast || _lBorder != 0){
+        for (unsigned int i=0; i<valBefore.size(); i++){
+            valAfter.push_back(colorMap[valBefore[i]]);
+        }
+    }
+}
+//-----------------------------------------//

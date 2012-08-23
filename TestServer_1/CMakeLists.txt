@@ -5,8 +5,8 @@ project(mytesting_project)
     find_package(Tango
             PATHS ${CMAKE_CURRENT_SOURCE_DIR})
     
-    include_directories(${CMAKE_CURRENT_SOURCE_DIR} ${tango_includes} /usr/local/include/opencv)
-    link_directories(${tango_libs} /usr/local/lib)
+    include_directories(${CMAKE_CURRENT_SOURCE_DIR} ${tango_includes} /usr/local/include/opencv /usr/include)
+    link_directories(${tango_libs} /usr/local/lib /usr/lib64)
    
    add_definitions(-Wall)
    
@@ -19,13 +19,7 @@ project(mytesting_project)
    
    add_executable(Mytest ${source_files})
    
-   target_link_libraries(Mytest ${TANGO_LIBRARIES} omniORB4 omnithread dl yat jpeg
-                       opencv_core 
-		      opencv_contrib 
-		  opencv_calib3d 
-		opencv_highgui 
-	      opencv_photo 
-	  opencv_imgproc)
+   target_link_libraries(Mytest ${TANGO_LIBRARIES} omniORB4 omnithread dl yat jpeg opencv_core opencv_highgui tiff)
    
    install(TARGETS Mytest
            RUNTIME

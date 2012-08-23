@@ -82,6 +82,7 @@ public:
 
     int originWidth;                /*!< Width of 16 bit image*/
     int originHeight;                /*!< Height of 16 bit image*/
+    double scaled;                  /*!< value of scale snapshot*/
 
 
     void convertPosFromImageSize(int &X, int &Y);
@@ -162,6 +163,11 @@ public:
         \brief Setting IS_16BITIMG_GREY mode for 16bit greyscale image
     */
     void set16BitImgGreyMode();
+
+    /*!
+        \brief Setting IS_16BITIMG_RGB mode for 16bit color image
+    */
+    void set16BitImgRGBMode();
 
     /*!
         \brief Setting IS_RGBIMG_GREY mode for RGB image to set image greyscale
