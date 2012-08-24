@@ -162,6 +162,8 @@ public:
     bool startWithParams;           /*!< Is app was start with -f or -m attribute*/
     int *startImageMode;            /*!< Start ImageMode value*/
     int *startImageFormat;          /*!< Start ImageFormat value*/
+    int *startDelayTime;            /*!< Delay value*/
+    bool *startWithDelay;           /*!< Start realtime with delay*/
 
     QList<SubWindowRealtime *>  listReal;       /*!< List of realtime subwindows*/
     QList<SubWindowSnapshot *>  listSnap;       /*!< List of snapshot subwindows*/

@@ -15,6 +15,7 @@ SubWindowRealtime::SubWindowRealtime(QString serv, QString attr){
     set5 = NULL;
     fullPictureMode = true;
 
+    isTimeout = false;
     dimX = dimY = 0;
     difLevelPers = NULL;
     isResized= true;

@@ -134,7 +134,9 @@ int main(int argc, char *argv[])
                     next_option = getopt_long(argc, argv, short_options, long_options, NULL);
          }
         */
-    struct arg_lit  *help    = arg_lit0("h","help",                    "print this help and exit");
+    struct arg_lit  *help    = arg_lit0("h","help", "print this help and exit");
+    struct arg_lit  *delay    = arg_lit0(NULL,"delay",  "Set Delay on getting getting new image");
+    struct arg_int  *delaytime = arg_int0(NULL,"delay-time","<int>", "Set in miliseconds time on Delay on getting new picture\n");
     struct arg_int  *imagemode = arg_int0("m","imagemode","<int>", "Set imageMode for correct displaying Image in a start\n");
     struct arg_int  *imageformat = arg_int0("f","imageformat","<int>", "Qt stuff setting for correct setting image in image Modes (-m)\n");
     struct arg_str  *tangohost = arg_str0("t", "tango_host", NULL,    "Set tango HOST. \n");
@@ -142,7 +144,7 @@ int main(int argc, char *argv[])
     struct arg_str  *tangoattr = arg_str0("a", "attr", NULL,    "Set tango image attribute\n");
     struct arg_str  *tangocommand = arg_strn("c", "command", NULL,0, 999,    "Exec tango command before reading tango image data\n");
     struct arg_end  *end = arg_end(20);
-    void* argtable[] = {tangocommand, tangoattr, tangodevice, tangohost, imagemode, imageformat, help, end};
+    void* argtable[] = {delay, delaytime,tangocommand, tangoattr, tangodevice, tangohost, imagemode, imageformat, help, end};
 
     /* verify the argtable[] entries were allocated sucessfully */
     if (arg_nullcheck(argtable) != 0)
@@ -160,6 +162,13 @@ int main(int argc, char *argv[])
     }
     if (help->count > 0){
         print_usage(stdout, 0);
+    }
+    if (delay->count > 0){
+        w.startWithDelay = new bool();
+    }
+    if (delaytime->count > 0){
+        w.startDelayTime = new int();
+        *w.startDelayTime = delaytime->ival[0];
     }
     if (tangoattr->count > 0){withAttrs = true; attrName = QString(tangoattr->sval[0]);}
     if (tangodevice->count > 0){withAttrs = true; devName = QString(tangodevice->sval[0]);}

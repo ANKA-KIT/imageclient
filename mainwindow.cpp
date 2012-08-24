@@ -36,6 +36,8 @@ MainWindow::MainWindow(QWidget *parent) :
     startWithParams = false;
     startImageMode = NULL;
     startImageFormat = NULL;
+    startDelayTime = NULL;
+    startWithDelay = NULL;
     readSettings();
 
 
@@ -562,10 +564,21 @@ void MainWindow::setStartImgModeAndFormat(){
                 case 15: setARGB4444Pre(); break;
             }
         }
+
         startWithParams = false;
         delete startImageMode;
         delete startImageFormat;
+
     }
+    /*set delay and delay value*/
+    if (startWithDelay){
+        setRealtimePause();
+    }
+    if (startDelayTime){
+        listReal.at(curRealtimeInt)->setTimeOutVal(*startDelayTime);
+    }
+    delete startDelayTime;
+    delete startWithDelay;
 }
 
 void MainWindow::delStartTangoWin(){

@@ -16,15 +16,15 @@ unix{
     #QWT_DIR = /usr/local/qwt5
     #QWT_DIR = /usr/include/qwt5     #set   -I $${QWT_DIR}/
     OPENCV_DIR  = /usr/local
-    ARGTABLE_DIR = argtable/nix
+   # ARGTABLE_DIR = argtable/nix
 
     INCLUDEPATH += -I $${TANGO_DIR}/include/tango \
             -I $${QWT_DIR}/include \
-           -I $${OPENCV_DIR}/include \
-            -I $${ARGTABLE_DIR}/include
+           -I $${OPENCV_DIR}/include
+  #          -I $${ARGTABLE_DIR}/include
     LIBS += -L$${TANGO_DIR}/lib -ltango -llog4tango -lomniORB4 -llog4tango -lomniDynamic4 -lCOS4 -lomnithread -lpthread \
                 -L$${QWT_DIR}/lib  -lqwt \
-                -L$${ARGTABLE_DIR}/lib64  -largtable2 \
+ #               -L$${ARGTABLE_DIR}/lib64  -largtable2 \
                 -L$${OPENCV_DIR}/lib  -lopencv_highgui  -lopencv_core
 #-lopencv_photo -lopencv_contrib -lopencv_calib3d -lopencv_imgproc
     #CONFIG += debug
@@ -43,7 +43,7 @@ win32{
     TANGO_DIR =  "C:/Program Files/tango/win32_vc9/win32_dll"
     QWT_DIR = "C:/Qwt-5.2.1"
     OPENCV_DIR  = "C:/Users/ISS/Downloads/opencv/opencv/install"
-    ARGTABLE_DIR = argtable/Win
+    #ARGTABLE_DIR = argtable/Win
     #IMAGEFORMATS = "C:/Qt/4.8.1/plugins"
 
     INCLUDEPATH += $${TANGO_DIR}/include \
@@ -92,7 +92,12 @@ SOURCES += main.cpp\
     propertymanipulation.cpp \
     manipulator.cpp \
     rsfl_wgt.cpp \
-    mydevproperty.cpp
+    mydevproperty.cpp \
+    argtable/src/arg_int.c \
+    argtable/src/arg_lit.c \
+    argtable/src/arg_end.c \
+    argtable/src/arg_str.c \
+    argtable/src/argtable2.c
 
 HEADERS  += mainwindow.h \
     my_device.h \
@@ -121,6 +126,13 @@ HEADERS  += mainwindow.h \
 FORMS    += mainwindow.ui
 
 RESOURCES     = application.qrc
+
+
+
+
+
+
+
 
 
 
