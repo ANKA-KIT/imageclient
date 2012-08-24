@@ -1,0 +1,9 @@
+If you will have such problems as
+  argtable.obj: error LNK2001: unresolved external simbol _optopt
+
+you should  go to src dir and exec:
+  nmake -f Makefile.nmake
+  Then copy the argtable2.h, argtable2.lib, argtable2.dll, impargtable2.lib to Win dir
+
+
+IF you will have some another trouble visit http://argtable.sourceforge.net/

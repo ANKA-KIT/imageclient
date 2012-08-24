@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 //#include <getopt.h>
-#include <argtable2.h>
+#include "argtable/src/argtable2.h"
 #include <my_device.h>
 
 /*!
