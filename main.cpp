@@ -21,7 +21,6 @@ void print_usage(FILE * stream, int exitCode){
     fprintf(stream, "\n~~Usage: imageClient options are: \n");
     fprintf(stream,
             "-h  --help         Display Help \n"
-            "--delay            Set Delay on getting getting new image \n"
             "--delay-time=<int> Set in miliseconds time on Delay on getting new picture\n"
             "-t  --tango_host   Set tango HOST.\n"
             "-d  --device       Set tango device\n"
@@ -121,7 +120,7 @@ int main(int argc, char *argv[])
                         case 'm':
                             ok = true;
                             imMode = QString(optarg).toInt(&ok);
-                            if (!ok && (imMode >= -1 || imMode <= 5)){
+                            if (!ok && (imMode >= -1 && imMode <= 5)){
                                 fprintf(stderr, "SET correct IMAGE MODE (-m) value");
                                 print_usage(stderr, 1);
                             }
@@ -137,7 +136,6 @@ int main(int argc, char *argv[])
          }
         */
     struct arg_lit  *help    = arg_lit0("h","help", "print this help and exit");
-    struct arg_lit  *delay    = arg_lit0(NULL,"delay",  "Set Delay on getting getting new image");
     struct arg_int  *delaytime = arg_int0(NULL,"delay-time","<int>", "Set in miliseconds time on Delay on getting new picture\n");
     struct arg_int  *imagemode = arg_int0("m","imagemode","<int>", "Set imageMode for correct displaying Image in a start\n");
     struct arg_int  *imageformat = arg_int0("f","imageformat","<int>", "Qt stuff setting for correct setting image in image Modes (-m)\n");
@@ -146,7 +144,7 @@ int main(int argc, char *argv[])
     struct arg_str  *tangoattr = arg_str0("a", "attr", NULL,    "Set tango image attribute\n");
     struct arg_str  *tangocommand = arg_strn("c", "command", NULL,0, 999,    "Exec tango command before reading tango image data\n");
     struct arg_end  *end = arg_end(20);
-    void* argtable[] = {delay, delaytime,tangocommand, tangoattr, tangodevice, tangohost, imagemode, imageformat, help, end};
+    void* argtable[] = {delaytime,tangocommand, tangoattr, tangodevice, tangohost, imagemode, imageformat, help, end};
 
     /* verify the argtable[] entries were allocated sucessfully */
     if (arg_nullcheck(argtable) != 0)
@@ -165,9 +163,6 @@ int main(int argc, char *argv[])
     if (help->count > 0){
         print_usage(stdout, 0);
     }
-    if (delay->count > 0){
-        w.startWithDelay = new bool();
-    }
     if (delaytime->count > 0){
         w.startDelayTime = new int();
         *w.startDelayTime = delaytime->ival[0];
@@ -177,13 +172,25 @@ int main(int argc, char *argv[])
     if (tangohost->count > 0){withAttrs = true; hostName = QString(tangohost->sval[0]);}
     if (imageformat->count > 0){
         imFormat = imageformat->ival[0];
-        isImModeSet = true;
-        w.startWithParams = true;
+        if  (imFormat-4>=-1 && imFormat-4 <= 11){
+            isImFormatSet = true;
+            w.startWithParams = true;
+        }
+        else{
+            fprintf(stderr, "SET correct IMAGE FORMAT (-f) value\n");
+            print_usage(stderr, 1);
+        }
     }
     if (imagemode->count > 0){
         imMode = imagemode->ival[0];
-        isImFormatSet = true;
-        w.startWithParams = true;
+        if (imMode >= -1 && imMode <= 5){
+            isImModeSet = true;
+            w.startWithParams = true;
+        }
+        else{
+            fprintf(stderr, "SET correct IMAGE MODE (-m) value\n");
+            print_usage(stderr, 1);
+        }
     }
     for (int i=0; i<tangocommand->count; i++){
         tangoCommands.push_back(QString(tangocommand->sval[i]));
@@ -224,7 +231,6 @@ int main(int argc, char *argv[])
             print_usage(stdout, 1);
         }
     }
-    //}
     arg_freetable(argtable,sizeof(argtable)/sizeof(argtable[0]));
     return a.exec();
 }

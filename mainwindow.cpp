@@ -37,7 +37,6 @@ MainWindow::MainWindow(QWidget *parent) :
     startImageMode = NULL;
     startImageFormat = NULL;
     startDelayTime = NULL;
-    startWithDelay = NULL;
     readSettings();
 
 
@@ -571,14 +570,11 @@ void MainWindow::setStartImgModeAndFormat(){
 
     }
     /*set delay and delay value*/
-    if (startWithDelay){
-        setRealtimePause();
-    }
     if (startDelayTime){
+        setRealtimePause();
         listReal.at(curRealtimeInt)->setTimeOutVal(*startDelayTime);
     }
     delete startDelayTime;
-    delete startWithDelay;
 }
 
 void MainWindow::delStartTangoWin(){
