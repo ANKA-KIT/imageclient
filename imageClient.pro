@@ -42,7 +42,7 @@ win32{
     TANGO_DIR =  "C:/Program Files/tango/win32_vc9/win32_dll"
     QWT_DIR = "C:/Qwt-5.2.1"
     OPENCV_DIR  = "C:/Users/ISS/Downloads/opencv/opencv/install"
-    ARGTABLE_DIR = argtable/src/Win
+    ARGTABLE_DIR = argtable/src
 
     INCLUDEPATH += $${TANGO_DIR}/include \
                     $${QWT_DIR}/include \

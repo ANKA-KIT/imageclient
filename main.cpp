@@ -21,6 +21,8 @@ void print_usage(FILE * stream, int exitCode){
     fprintf(stream, "\n~~Usage: imageClient options are: \n");
     fprintf(stream,
             "-h  --help         Display Help \n"
+            "--delay            Set Delay on getting getting new image \n"
+            "--delay-time=<int> Set in miliseconds time on Delay on getting new picture\n"
             "-t  --tango_host   Set tango HOST.\n"
             "-d  --device       Set tango device\n"
             "-a  --attr         Set image attribute\n"
@@ -50,7 +52,7 @@ void print_usage(FILE * stream, int exitCode){
             "  -f14           ImageFormatRGB444;      The image is stored using a 16-bit RGB format (4-4-4). The unused bits are always zero.\n"
             "  -f15           ImageFormatARGB4444Pre; The image is stored using a premultiplied 16-bit ARGB format (4-4-4-4).\n\n"
 
-            "EXAMPLE: ./imageClient -tanka-tango3.ka.fzk.de:10000 -dsys/tg_test/mytest -atestImage -cLoad16BitImg -cSetDataImage -m2 -f4\n");
+            "EXAMPLE: ./imageClient -tanka-tango3.ka.fzk.de:10000 -dsys/tg_test/mytest -atestImage -cLoad16BitImg -cSetDataImage -m2 -f4 --delay --delay-time=1000 \n");
     exit(exitCode);
 }
 
