@@ -2,7 +2,8 @@
 #include "mainwindow.h"
 #include <stdio.h>
 #include <stdlib.h>
-#include <getopt.h>
+//#include <getopt.h>
+#include <argtable2.h>
 #include <my_device.h>
 
 /*!
@@ -13,14 +14,14 @@
 
 /*HELP INFO*/
 void print_usage(FILE * stream, int exitCode){
-    fprintf(stream,"ImageClient - Qt application for dealing with ANKA photo-cameras, based on TANGO."
+    fprintf(stream,"\nImageClient - Qt application for dealing with ANKA photo-cameras, based on TANGO."
             "ImageClient allows set Contrast, Gamma, Brightness, Rotation, Scale, Horizontal and Vertical flipping for getting picture from TANGO photo-cameras. "
             "Application also allows to make a snapshot, does some manipulations with picture and save it, send a Tango command."
             "Application has opportunity to deal with Server variables which are answer for image properties and read Tango device static info.\n");
     fprintf(stream, "\n~~Usage: imageClient options are: \n");
     fprintf(stream,
             "-h  --help         Display Help \n"
-            "-t  --tango_host   Set tango HOST. You can use TANGO_HOST system variable or set direct tango host\n"
+            "-t  --tango_host   Set tango HOST.\n"
             "-d  --device       Set tango device\n"
             "-a  --attr         Set image attribute\n"
             "-c  --command      Exec tango command before reading tango image data\n"
@@ -49,7 +50,7 @@ void print_usage(FILE * stream, int exitCode){
             "  -f14           ImageFormatRGB444;      The image is stored using a 16-bit RGB format (4-4-4). The unused bits are always zero.\n"
             "  -f15           ImageFormatARGB4444Pre; The image is stored using a premultiplied 16-bit ARGB format (4-4-4-4).\n\n"
 
-            "EXAMPLE: ./imageClient -tTANGO_HOST -dsys/tg_test/mytest -atestImage -cLoad16BitImg -cSetDataImage -m2 -f4\n");
+            "EXAMPLE: ./imageClient -tanka-tango3.ka.fzk.de:10000 -dsys/tg_test/mytest -atestImage -cLoad16BitImg -cSetDataImage -m2 -f4\n");
     exit(exitCode);
 }
 
@@ -60,8 +61,13 @@ int main(int argc, char *argv[])
     MainWindow w;
     w.show();
 
+
+    vector<QString> tangoCommands;
+    QString attrName, devName, hostName;
+    int imFormat = -1, imMode = -1;
+    bool withAttrs = false, isImModeSet=false, isImFormatSet=false;
     /////////////*deal with input options*//////////////
-    int next_option;
+/*    int next_option;
     const char* const short_options  = "ht:d:a:c:f:m:";
     const struct option long_options[] = {
         {"help",            0, NULL, 'h'},
@@ -75,10 +81,7 @@ int main(int argc, char *argv[])
     };
 
     next_option = getopt_long(argc, argv, short_options, long_options, NULL);
-    vector<QString> tangoCommands;
-    QString attrName, devName, hostName;
-    int imFormat = -1, imMode = -1;
-    bool ok, isImModeSet=false, isImFormatSet=false;
+
     if(next_option != -1){
         while (next_option != -1){      //if no options
                     switch(next_option){
@@ -130,8 +133,55 @@ int main(int argc, char *argv[])
                     }
                     next_option = getopt_long(argc, argv, short_options, long_options, NULL);
          }
+        */
+    struct arg_lit  *help    = arg_lit0("h","help",                    "print this help and exit");
+    struct arg_int  *imagemode = arg_int0("m","imagemode","<int>", "Set imageMode for correct displaying Image in a start\n");
+    struct arg_int  *imageformat = arg_int0("f","imageformat","<int>", "Qt stuff setting for correct setting image in image Modes (-m)\n");
+    struct arg_str  *tangohost = arg_str0("t", "tango_host", NULL,    "Set tango HOST. \n");
+    struct arg_str  *tangodevice = arg_str0("d", "device", NULL,    "Set tango device\n");
+    struct arg_str  *tangoattr = arg_str0("a", "attr", NULL,    "Set tango image attribute\n");
+    struct arg_str  *tangocommand = arg_strn("c", "command", NULL,0, 999,    "Exec tango command before reading tango image data\n");
+    struct arg_end  *end = arg_end(20);
+    void* argtable[] = {tangocommand, tangoattr, tangodevice, tangohost, imagemode, imageformat, help, end};
 
-        if (hostName != "" && devName != "" && attrName != ""){
+    /* verify the argtable[] entries were allocated sucessfully */
+    if (arg_nullcheck(argtable) != 0)
+    {
+        /* NULL entries were detected, some allocations must have failed */
+        fprintf(stderr,": insufficient memory\n");
+        print_usage(stderr, 1);
+    }
+    int nerrors = arg_parse(argc,argv,argtable);
+    if (nerrors > 0){
+        const char *progname = "imageClient";
+            /* Display the error details contained in the arg_end struct.*/
+            arg_print_errors(stderr,end,progname);
+            print_usage(stderr, 1);
+    }
+    if (help->count > 0){
+        print_usage(stdout, 0);
+    }
+    if (tangoattr->count > 0){withAttrs = true; attrName = QString(tangoattr->sval[0]);}
+    if (tangodevice->count > 0){withAttrs = true; devName = QString(tangodevice->sval[0]);}
+    if (tangohost->count > 0){withAttrs = true; hostName = QString(tangohost->sval[0]);}
+    if (imageformat->count > 0){
+        imFormat = imageformat->ival[0];
+        isImModeSet = true;
+        w.startWithParams = true;
+    }
+    if (imagemode->count > 0){
+        imMode = imagemode->ival[0];
+        isImFormatSet = true;
+        w.startWithParams = true;
+    }
+    for (int i=0; i<tangocommand->count; i++){
+        tangoCommands.push_back(QString(tangocommand->sval[i]));
+    }
+
+
+        ///////////////////Set Options in app///////////////////////////
+    if (withAttrs){
+        if (tangoattr->count > 0 && tangodevice->count > 0 && tangohost->count > 0){// &&hostName != "" && devName != "" && attrName != ""){
             /*Open an feel startTangoWin*/
             w.initStartTangoWin();             //init rows for tango properties
             w.tangoDev->tlAttr->setText(attrName);
@@ -159,9 +209,11 @@ int main(int argc, char *argv[])
             w.tangoDev->onOk();
         }
         else{
-            fprintf(stderr, "~~Put server, device, attribute info about tango device\n");
+            fprintf(stderr, "~~Put SERVER, DEVICE and ATTRIBUTE info about tango device (-t -d -a attribute must be set)\n");
             print_usage(stdout, 1);
         }
     }
+    //}
+    arg_freetable(argtable,sizeof(argtable)/sizeof(argtable[0]));
     return a.exec();
 }

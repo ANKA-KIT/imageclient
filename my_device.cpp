@@ -312,7 +312,7 @@ bool my_Device::setBoolVal(Tango::DeviceAttribute& attr, QString& val){
         return true;
     }
     catch(Tango::DevFailed){
-         qDebug("Error, Serrios error in my_Device::setUCharVal");
+         qDebug("Error, Serrios error in my_Device::setBoolVal");
          return false;
     }
 }
@@ -331,7 +331,7 @@ bool my_Device::setBoolVal(Tango::DeviceAttribute& attr, bool& val){
         return true;
     }
     catch(Tango::DevFailed){
-         qDebug("Error, Serrios error in my_Device::setUCharVal");
+         qDebug("Error, Serrios error in my_Device::setBoolVal");
          return false;
     }
 }
@@ -356,25 +356,33 @@ bool my_Device::sendTangoCommand(QString command){
         return true;
     }
     catch(const Tango::ConnectionFailed &e){
-        qDebug("Error, ConnectionFailed while write an ATTR");
+        qDebug("Error, ConnectionFailed while Send a command to server");
+        fprintf(stderr, "ConnectionFailed while Send a command to server");
+        Tango::Except::print_exception(e);
         delete device;
         device = NULL;
         return false;
    }
     catch(const Tango::CommunicationFailed& e){
-        qDebug("Error, CommunicationFailed while write an ATTR");
+        qDebug("Error, CommunicationFailed while Send a command to server");
+        fprintf(stderr, "CommunicationFailed while Send a command to server");
+        Tango::Except::print_exception(e);
         delete device;
         device = NULL;
         return false;
     }
     catch(const Tango::DeviceUnlocked& e){
-        qDebug("Error, DeviceUnlocked while write an ATTR");
+        qDebug("Error, DeviceUnlocked while Send a command to server");
+        fprintf(stderr, "DeviceUnlocked while Send a command to server");
+        Tango::Except::print_exception(e);
         delete device;
         device = NULL;
         return false;
     }
     catch(const Tango::DevFailed& e){
-        qDebug("Error, DevFailed while write an ATTR");
+        qDebug("Error, DevFailed while Send a command to server");
+        fprintf(stderr, "DevFailed while Send a command to server");
+        Tango::Except::print_exception(e);
         delete device;
         device = NULL;
         return false;
@@ -417,24 +425,32 @@ bool my_Device::writeAttr(Tango::DeviceAttribute& attr){
     }
     catch(const Tango::ConnectionFailed &e){
         qDebug("Error, ConnectionFailed while write an ATTR");
+        fprintf(stderr,"ConnectionFailed while write an ATTR");
+        Tango::Except::print_exception(e);
         delete device;
         device = NULL;
         return false;
    }
     catch(const Tango::CommunicationFailed& e){
         qDebug("Error, CommunicationFailed while write an ATTR");
+        fprintf(stderr,"CommunicationFailed while write an ATTR");
+        Tango::Except::print_exception(e);
         delete device;
         device = NULL;
         return false;
     }
-    catch(const Tango::DeviceUnlocked& e){
+    catch(const Tango::DeviceUnlocked &e){
         qDebug("Error, DeviceUnlocked while write an ATTR");
+        fprintf(stderr,"DeviceUnlocked while write an ATTR");
+        Tango::Except::print_exception(e);
         delete device;
         device = NULL;
         return false;
     }
-    catch(const Tango::DevFailed& e){
+    catch(const Tango::DevFailed &e){
         qDebug("Error, DevFailed while write an ATTR");
+        fprintf(stderr,"DevFailed while write an ATTR");
+        Tango::Except::print_exception(e);
         delete device;
         device = NULL;
         return false;
@@ -598,24 +614,28 @@ bool my_Device::sendTangoCommandFidBack(QString command, Tango::DeviceData& devD
     }
     catch(const Tango::ConnectionFailed &e){
         qDebug("Error, ConnectionFailed while write an ATTR");
+        Tango::Except::print_exception(e);
         delete device;
         device = NULL;
         return false;
    }
     catch(const Tango::CommunicationFailed& e){
         qDebug("Error, CommunicationFailed while write an ATTR");
+        Tango::Except::print_exception(e);
         delete device;
         device = NULL;
         return false;
     }
     catch(const Tango::DeviceUnlocked& e){
         qDebug("Error, DeviceUnlocked while write an ATTR");
+        Tango::Except::print_exception(e);
         delete device;
         device = NULL;
         return false;
     }
     catch(const Tango::DevFailed& e){
         qDebug("Error, DevFailed while write an ATTR");
+        Tango::Except::print_exception(e);
         delete device;
         device = NULL;
         return false;
