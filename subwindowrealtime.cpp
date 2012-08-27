@@ -279,7 +279,7 @@ bool SubWindowRealtime::makeImg(){
 
                   /*Convert BGR to RGB for correct color displaying (tested on test server RGB 48bit TIFF image)*/
                   if (wgt->imgType == IS_16BITIMG_RGB){
-                    int d = wgt->picMode->getDelimitr();
+                    //int d = wgt->picMode->getDelimitr();
                     unsigned short temp;
                     for(int i=0; i<val.size()-1;i+=3){
                         temp = val[i];

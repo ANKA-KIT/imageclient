@@ -154,7 +154,7 @@ void MainWindow::closeEvent ( QCloseEvent * closeEvent){
 }
 
 int MainWindow::getBGCPL_WGT_MODE(int mode){
-    if (mode == IS_8BITIMG_COLOR || mode == IS_RGBIMG_COLOR || IS_16BITIMG_RGB){  /*IS_16BITIMG_RGB temparary here*/
+    if (mode == IS_8BITIMG_COLOR || mode == IS_RGBIMG_COLOR || mode == IS_16BITIMG_RGB){  /*IS_16BITIMG_RGB temparary here*/
         mode = IS_COLOR_MODE;
     }
     else if(mode == IS_8BITIMG_GREY || mode == IS_RGBIMG_GREY){

@@ -43,7 +43,7 @@ Histogrammm::~Histogrammm(){
 void Histogrammm::initPlot(PictureMode *pm){
     histogram = new HistogramItem();
     histogram->setColor(Qt::darkCyan);
-    plot = new MyPlot(QwtText("Histograma"),pm, this);
+    plot = new MyPlot(QwtText("Histogram"),pm, this);
     plot->resize(350,100);
     plot->setAutoFillBackground(true);
 }
