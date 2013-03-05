@@ -22,9 +22,13 @@ unix{
             -I $${QWT_DIR}/include \
            -I $${OPENCV_DIR}/include
 
-    LIBS += -L$${TANGO_DIR}/lib -ltango -llog4tango -lomniORB4 -llog4tango -lomniDynamic4 -lCOS4 -lomnithread -lpthread \
-                -L$${QWT_DIR}/lib  -lqwt \
-                -L$${OPENCV_DIR}/lib  -lopencv_highgui  -lopencv_core
+    LIBS += -L$${TANGO_DIR}/lib -ltango -llog4tango -lomniORB4 -llog4tango -lomniDynamic4 -lCOS4 -lomnithread -lzmq \
+            -lpthread \
+            -L$${QWT_DIR}/lib  -lqwt \
+            -L$${OPENCV_DIR}/lib  -lopencv_highgui  -lopencv_core
+
+
+    QMAKE_CXXFLAGS += -std=c++0x
 
     #CONFIG += debug
     CONFIG(debug, debug|release) {

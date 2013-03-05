@@ -2,21 +2,36 @@ PROJECT(ImageClient)
 cmake_minimum_required(VERSION 2.6)
 
 FIND_PACKAGE(Qt4 REQUIRED)
+find_package(PkgConfig)
+pkg_check_modules(TANGO tango>=7.2.6 REQUIRED)
+
+# check for 64 bit
+if (CMAKE_SIZEOF_VOID_P EQUAL 8)
+  set(LIB_INSTALL_DIR "lib64")
+else()
+  set(LIB_INSTALL_DIR "lib")
+endif()
 
 INCLUDE(${QT_USE_FILE})
 
-ADD_DEFINITIONS(${QT_DEFINITIONS} -Wall)
+ADD_DEFINITIONS(${QT_DEFINITIONS} -Wall -std=c++0x)
 
-find_path(QWT_HEADERS qwt_plot.h HINTS /usr/include /usr/local/include /usr/local/qwt-5.2.1/include)
+find_path(QWT_HEADERS qwt_plot.h HINTS /usr/include /usr/include/qwt5 /usr/local/qwt-5.2.1/include)
+find_path(QWT_LIBS libqwt.so HINTS /usr/${LIB_INSTALL_DIR} /usr/local/qwt-5.2.1/lib)
 
 include_directories(
   ${CMAKE_CURRENT_SOURCE_DIR}
   ${QT_HEADERS}
   ${QWT_HEADERS}
-  /usr/include/tango
+  ${TANGO_INCLUDE_DIRS}
+# TODO: use OpenCVConfig.cmake later
   /usr/include/opencv
 )
 
+link_directories(
+  ${TANGO_LIBRARY_DIRS}
+  ${QWT_LIBS}
+)
 SET(source_files
   main.cpp
   mainwindow.cpp
@@ -88,8 +103,8 @@ QT4_ADD_RESOURCES(imageclient_RESOURCES_RCC ${imageclient_RESOURCES})
 
 add_executable(imageclient ${source_files}  ${imageclient_HEADERS_MOC} ${imageclient_FORMS_HEADERS} ${imageclient_RESOURCES_RCC})
 
-target_link_libraries(imageclient tango log4tango omniORB4 log4tango omniDynamic4 COS4 omnithread pthread qwt-qt4 opencv_highgui  opencv_core)
+target_link_libraries(imageclient ${TANGO_LIBRARIES} pthread qwt opencv_highgui opencv_core)
    
 install(TARGETS imageclient
         RUNTIME
-        DESTINATION bin)
+        DESTINATION ${CMAKE_INSTALL_PREFIX}/bin)
