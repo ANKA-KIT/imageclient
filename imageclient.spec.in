@@ -9,7 +9,7 @@ Group:          Productivity/Graphics/Viewers
 Vendor:         @CPACK_PACKAGE_VENDOR@
 Prefix:         @CPACK_PACKAGING_INSTALL_PREFIX@
 Requires:       opencv >= 2.2
-Requires:       qt4 >= 4.6
+Requires:       libqt4 >= 4.6
 Requires:       tango >= 7.2.6
 
 #p define prefix /usr/local
@@ -41,6 +41,8 @@ mv "@CMAKE_CURRENT_BINARY_DIR@/_CPack_Packages/Linux/RPM/tmpBBroot" $RPM_BUILD_R
 @CPACK_PACKAGING_INSTALL_PREFIX@/bin/imageclient
 
 %changelog
+* Tue Mar 5 2013 Mihael Koep <mihael.koep@softwareschneiderei.de> 1.0.0-4
+- fix runtime dependency to Qt4 (libqt4)
 * Tue Mar 5 2013 Mihael Koep <mihael.koep@softwareschneiderei.de> 1.0.0-3
 - add Qt4 libraries to the linker flags
 * Tue Mar 5 2013 Mihael Koep <mihael.koep@softwareschneiderei.de> 1.0.0-2
