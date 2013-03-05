@@ -1,6 +1,8 @@
 PROJECT(ImageClient)
 cmake_minimum_required(VERSION 2.6)
 
+set(VERSION "1.0.0")
+
 FIND_PACKAGE(Qt4 REQUIRED)
 find_package(PkgConfig)
 pkg_check_modules(TANGO tango>=7.2.6 REQUIRED)
@@ -108,3 +110,18 @@ target_link_libraries(imageclient ${TANGO_LIBRARIES} pthread qwt opencv_highgui 
 install(TARGETS imageclient
         RUNTIME
         DESTINATION ${CMAKE_INSTALL_PREFIX}/bin)
+if (UNIX)
+  set(CPACK_PACKAGE_VERSION ${VERSION})
+  set(CPACK_GENERATOR "RPM")
+  set(CPACK_PACKAGE_NAME "imageclient")
+  set(CPACK_PACKAGE_RELEASE 1)
+  set(CPACK_PACKAGE_CONTACT "Mihael Koep")
+  set(CPACK_PACKAGE_VENDOR "ANKA Computing Group")
+  set(CPACK_PACKAGING_INSTALL_PREFIX ${CMAKE_INSTALL_PREFIX})
+  set(CPACK_PACKAGE_FILE_NAME "${CPACK_PACKAGE_NAME}-${CPACK_PACKAGE_VERSION}-${CPACK_PACKAGE_RELEASE}.${CMAKE_SYSTEM_PROCESSOR}")
+  set(SMARACT_BUILD_DIR ${CMAKE_CURRENT_BINARY_DIR})
+  configure_file("${CMAKE_CURRENT_SOURCE_DIR}/imageclient.spec.in" "${CMAKE_CURRENT_BINARY_DIR}/imageclient.spec" @ONLY IMMEDIATE)
+  set(CPACK_RPM_USER_BINARY_SPECFILE "${CMAKE_CURRENT_BINARY_DIR}/imageclient.spec")
+
+  include(CPack)
+endif()
