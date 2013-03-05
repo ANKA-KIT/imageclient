@@ -105,7 +105,7 @@ QT4_ADD_RESOURCES(imageclient_RESOURCES_RCC ${imageclient_RESOURCES})
 
 add_executable(imageclient ${source_files}  ${imageclient_HEADERS_MOC} ${imageclient_FORMS_HEADERS} ${imageclient_RESOURCES_RCC})
 
-target_link_libraries(imageclient ${TANGO_LIBRARIES} pthread qwt opencv_highgui opencv_core)
+target_link_libraries(imageclient ${TANGO_LIBRARIES} ${QT_LIBRARIES} pthread qwt opencv_highgui opencv_core)
    
 install(TARGETS imageclient
         RUNTIME
@@ -114,7 +114,7 @@ if (UNIX)
   set(CPACK_PACKAGE_VERSION ${VERSION})
   set(CPACK_GENERATOR "RPM")
   set(CPACK_PACKAGE_NAME "imageclient")
-  set(CPACK_PACKAGE_RELEASE 1)
+  set(CPACK_PACKAGE_RELEASE 3)
   set(CPACK_PACKAGE_CONTACT "Mihael Koep")
   set(CPACK_PACKAGE_VENDOR "ANKA Computing Group")
   set(CPACK_PACKAGING_INSTALL_PREFIX ${CMAKE_INSTALL_PREFIX})
