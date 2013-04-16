@@ -1,7 +1,6 @@
 SET(source_files
   main.cpp
   mainwindow.cpp
-#  qrc_application.cpp
   realtimecontainer.cpp
   realtimesubwindow.cpp
   roicontainer.cpp
@@ -35,7 +34,7 @@ SET(source_headers
 
 include_directories(
   ${CMAKE_CURRENT_SOURCE_DIR}
-  ${CMAKE_CURRENT_SOURCE_DIR}/../imageWidget
+  ${ImageClient_SOURCE_DIR}/imageWidget
   ${TANGO_INCLUDE_DIRS}
   ${QWT_HEADERS}
 )
@@ -43,6 +42,7 @@ include_directories(
 link_directories(
   ${TANGO_LIBRARY_DIRS}
   ${QWT_LIBS}
+  ${ImageClient_BINARY_DIR}/imageWidget
 )
 
 SET(source_FORMS
@@ -58,8 +58,8 @@ QT4_ADD_RESOURCES(imageclient_RESOURCES_RCC ${imageclient_RESOURCES})
 
 add_executable(imageclient ${source_files}  ${imageclient_HEADERS_MOC} ${imageclient_FORMS_HEADERS} ${imageclient_RESOURCES_RCC})
 
-target_link_libraries(imageclient ${TANGO_LIBRARIES} ${QT_LIBRARIES} pthread qwt opencv_highgui opencv_core)
-   
+target_link_libraries(imageclient tangoImageWidget ${TANGO_LIBRARIES} ${QT_LIBRARIES} pthread qwt opencv_highgui opencv_core)
+
 install(TARGETS imageclient
         RUNTIME
         DESTINATION ${CMAKE_INSTALL_PREFIX}/bin)

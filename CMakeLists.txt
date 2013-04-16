@@ -14,6 +14,7 @@ else()
   set(LIB_INSTALL_DIR "lib")
 endif()
 
+SET(QT_USE_QTDESIGNER ON)
 INCLUDE(${QT_USE_FILE})
 
 ADD_DEFINITIONS(${QT_DEFINITIONS} -Wall -std=c++0x)
@@ -21,16 +22,8 @@ ADD_DEFINITIONS(${QT_DEFINITIONS} -Wall -std=c++0x)
 find_path(QWT_HEADERS qwt_plot.h HINTS /usr/include /usr/include/qwt5 /usr/local/qwt-5.2.1/include)
 find_path(QWT_LIBS libqwt.so HINTS /usr/${LIB_INSTALL_DIR} /usr/local/qwt-5.2.1/lib)
 
+add_subdirectory(imageWidget)
 add_subdirectory(imageclient2.0)
-
-#include_directories(
-#  ${CMAKE_CURRENT_SOURCE_DIR}
-#  ${QT_HEADERS}
-#  ${QWT_HEADERS}
-#  ${TANGO_INCLUDE_DIRS}
-# TODO: use OpenCVConfig.cmake later
-#  /usr/include/opencv
-#)
 
 if (UNIX)
   set(CPACK_PACKAGE_VERSION ${VERSION})
