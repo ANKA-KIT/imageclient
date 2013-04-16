@@ -1,9 +1,0 @@
-<map id="G" name="G">
-<area shape="rect" id="node3" href="$class_img_manipulation.html#a02d3c892e32f33218e3048d4b6ac2b77" title="change Scale value" alt="" coords="261,5,433,32"/>
-<area shape="rect" id="node5" href="$class_img_manipulation.html#a0836f7f208d2d66e395a75ed52eb055f" title="change Vertical fliping (VerFlip) value" alt="" coords="257,56,437,83"/>
-<area shape="rect" id="node7" href="$class_img_manipulation.html#aa87d82f2fcb6bb16d2a24ca154072a7a" title="change Horizotal fliping (HorFlip) value" alt="" coords="256,107,437,133"/>
-<area shape="rect" id="node9" href="$class_img_manipulation.html#a064eca9747e1a2e6c3dbe6958cc67471" title="change Rotation value" alt="" coords="257,157,436,184"/>
-<area shape="rect" id="node11" href="$class_img_manipulation.html#a68251389d0f9d8f9f2a1388e8deb26e8" title="change Brightness value" alt="" coords="246,208,447,235"/>
-<area shape="rect" id="node13" href="$class_img_manipulation.html#a95251c32f218e9843c7f70bcd2597473" title="change Contrast value" alt="" coords="252,259,441,285"/>
-<area shape="rect" id="node15" href="$class_img_manipulation.html#aa688c233d437d1149bffdce2e7f73be1" title="change Gamma value" alt="" coords="254,309,439,336"/>
-</map>

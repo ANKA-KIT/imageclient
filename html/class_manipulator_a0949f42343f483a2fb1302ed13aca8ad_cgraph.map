@@ -1,7 +1,0 @@
-<map id="G" name="G">
-<area shape="rect" id="node3" href="$class_manipulator.html#adb9a426c75ec1362e1a2f4b998e9a087" title="Init widgets." alt="" coords="235,56,394,83"/>
-<area shape="rect" id="node5" href="$class_picture_mode.html#ab5d26c86595e1e6c6072e28ce7467f8e" title="get left border pixel level value" alt="" coords="458,5,625,32"/>
-<area shape="rect" id="node7" href="$class_picture_mode.html#a2a75cb18ffdaed11152cb535742d833c" title="get right border pixel level value" alt="" coords="457,56,626,83"/>
-<area shape="rect" id="node9" href="$class_manipulator.html#a060532bf1b8fb2c7ed7fa62c70edc3f9" title="On btHis click." alt="" coords="443,107,639,133"/>
-<area shape="rect" id="node11" href="$class_manipulator.html#a3afc1084e4039a4b89e7aef6ef582df4" title="Manipulator::showhistogram" alt="" coords="689,107,874,133"/>
-</map>

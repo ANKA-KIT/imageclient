@@ -1,9 +1,0 @@
-<map id="G" name="G">
-<area shape="rect" id="node3" href="$class_image_widget.html#a30a096b69870729184e8afedb28d49b3" title="ImageWidget::repainting" alt="" coords="292,5,455,32"/>
-<area shape="rect" id="node5" href="$class_image_widget.html#aedcf0040429370d2c3cc0780ba1bce06" title="ImageWidget::mousePosition" alt="" coords="277,56,470,83"/>
-<area shape="rect" id="node7" href="$class_img_manipulation.html#ad432845fa13f7b1ceb2ccae5d77caffb" title="ImgManipulation::getScaleVal" alt="" coords="276,107,471,133"/>
-<area shape="rect" id="node9" href="$class_img_manipulation.html#ae709fadd23c48bcfbc9e1a1fee81f708" title="ImgManipulation::getHorFlipVal" alt="" coords="271,157,475,184"/>
-<area shape="rect" id="node11" href="$class_img_manipulation.html#aef134703a3246b6b9adf3da724134db7" title="ImgManipulation::getRotationVal" alt="" coords="268,208,479,235"/>
-<area shape="rect" id="node13" href="$class_img_manipulation.html#a56a5bb3920b56dac1edd3bf88d62c7f0" title="ImgManipulation::getVerFlipVal" alt="" coords="272,259,475,285"/>
-<area shape="rect" id="node15" href="$class_image_widget.html#aa791e9c6c304400a3d040d4f89a99089" title="ImageWidget::mousePositionVal" alt="" coords="267,309,479,336"/>
-</map>

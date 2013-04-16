@@ -1,9 +1,0 @@
-<map id="G" name="G">
-<area shape="rect" id="node3" href="$class_img_manipulation.html#a68251389d0f9d8f9f2a1388e8deb26e8" title="ImgManipulation::chBrightness" alt="" coords="182,81,383,108"/>
-<area shape="rect" id="node5" href="$class_image_widget.html#a212f723515b1ce81d355a8e433538064" title="ImageWidget::changeImg" alt="" coords="447,5,617,32"/>
-<area shape="rect" id="node7" href="$class_image_widget.html#a5385cd98e5c2f356ca3938291cc43015" title="ImageWidget::setClientValues" alt="" coords="433,56,631,83"/>
-<area shape="rect" id="node9" href="$class_image_widget.html#ab931056ff8fef10f73e934b0641ffe39" title="ImageWidget::setAllValues" alt="" coords="442,107,622,133"/>
-<area shape="rect" id="node11" href="$class_img_manipulation.html#aa514a57638938fdedb0ae16827e7f2be" title="ImgManipulation::resetParam" alt="" coords="436,157,628,184"/>
-<area shape="rect" id="node13" href="$class_image_widget.html#ae3fdc9104137f474dc086a793631d119" title="ImageWidget::resetClientSideVal" alt="" coords="681,157,895,184"/>
-<area shape="rect" id="node15" href="$class_sub_window_snapshot.html#aecc36b8ff7969c06d64375a97c9130bb" title="SubWindowSnapshot::resetImg" alt="" coords="945,157,1151,184"/>
-</map>

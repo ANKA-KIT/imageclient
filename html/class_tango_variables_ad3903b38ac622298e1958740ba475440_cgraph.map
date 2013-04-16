@@ -1,8 +1,0 @@
-<map id="G" name="G">
-<area shape="rect" id="node3" href="$class_tango_variables.html#a3c2508fe3987bbd5cea8254a6960f602" title="TangoVariables::onOk" alt="" coords="286,56,437,83"/>
-<area shape="rect" id="node11" href="$class_tango_variables.html#aec49d7371bdb44ce899240aba278669f" title="TangoVariables::onCancel" alt="" coords="274,107,449,133"/>
-<area shape="rect" id="node14" href="$class_tango_variables.html#a584ae3e3968c57b61c503684cf3dac83" title="TangoVariables::readSettings" alt="" coords="265,157,458,184"/>
-<area shape="rect" id="node5" href="$class_tango_variables.html#a462ef6e237052c3d94e2f07eceee59b6" title="TangoVariables::writeSettings" alt="" coords="507,5,703,32"/>
-<area shape="rect" id="node7" href="$class_tango_variables.html#a393db854ece61108c49b5fb706229006" title="TangoVariables::setVar" alt="" coords="526,56,685,83"/>
-<area shape="rect" id="node9" href="$class_tango_variables.html#a1f1a8e20d60d5739a7567636905e63de" title="TangoVariables::cancel" alt="" coords="526,107,685,133"/>
-</map>

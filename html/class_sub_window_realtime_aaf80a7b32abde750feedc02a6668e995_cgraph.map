@@ -1,8 +1,0 @@
-<map id="G" name="G">
-<area shape="rect" id="node3" href="$class_my_dev_property.html#ab91aa68fec783887fd8435dbac0c8909" title="Get property value." alt="" coords="317,5,489,32"/>
-<area shape="rect" id="node5" href="$classmy___device.html#ad002b970b0471845a0521aeecbc6473b" title="Set Scale value in server." alt="" coords="269,56,536,83"/>
-<area shape="rect" id="node7" href="$classmy___device.html#aba4ef4e3ae39415a134f93bda9b7c2ad" title="Try to get attribute value from tango server." alt="" coords="584,31,755,57"/>
-<area shape="rect" id="node13" href="$classmy___device.html#a6efd350246a5cba56036bb42eba02535" title="Set device attribute in server." alt="" coords="597,81,742,108"/>
-<area shape="rect" id="node9" href="$classmy___device.html#a5ad5bb4424bba5c1c1dd910e0d5ee2e6" title="on error in tango operation" alt="" coords="827,5,979,32"/>
-<area shape="rect" id="node11" href="$classmy___device.html#a836eeeb23a13624c50bb29529d1e3108" title="on correct readting tango attribute" alt="" coords="803,56,1002,83"/>
-</map>

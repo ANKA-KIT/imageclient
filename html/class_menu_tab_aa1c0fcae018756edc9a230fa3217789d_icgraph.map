@@ -1,6 +1,0 @@
-<map id="G" name="G">
-<area shape="rect" id="node3" href="$class_main_window.html#a3707a540ae92bc3d24b3d15323509f9b" title="MainWindow::realtimeChanged" alt="" coords="253,5,456,32"/>
-<area shape="rect" id="node9" href="$class_main_window.html#a77066084794330299ee44b3944ba05cd" title="MainWindow::onCloseRaltime" alt="" coords="255,56,454,83"/>
-<area shape="rect" id="node5" href="$class_main_window.html#a2fd533a7dec413bc99aa194273037bb5" title="MainWindow::mkRealtime" alt="" coords="505,31,679,57"/>
-<area shape="rect" id="node7" href="$class_main_window.html#a2623c7c35266988a8528397a0732b588" title="MainWindow::initStartTangoWin" alt="" coords="729,31,938,57"/>
-</map>

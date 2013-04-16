@@ -1,7 +1,0 @@
-<map id="G" name="G">
-<area shape="rect" id="node3" href="$classmy___device.html#a6294c7cab2ad397806fe01f598ca8946" title="Set Horizontal flip (HorFlip) value in server." alt="" coords="331,56,607,83"/>
-<area shape="rect" id="node5" href="$classmy___device.html#aba4ef4e3ae39415a134f93bda9b7c2ad" title="Try to get attribute value from tango server." alt="" coords="656,31,827,57"/>
-<area shape="rect" id="node11" href="$classmy___device.html#a6efd350246a5cba56036bb42eba02535" title="Set device attribute in server." alt="" coords="669,81,814,108"/>
-<area shape="rect" id="node7" href="$classmy___device.html#a5ad5bb4424bba5c1c1dd910e0d5ee2e6" title="on error in tango operation" alt="" coords="899,5,1051,32"/>
-<area shape="rect" id="node9" href="$classmy___device.html#a836eeeb23a13624c50bb29529d1e3108" title="on correct readting tango attribute" alt="" coords="875,56,1074,83"/>
-</map>

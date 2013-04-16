@@ -1,7 +1,0 @@
-<map id="G" name="G">
-<area shape="rect" id="node3" href="$classmy___device.html#ac74dfb0dabf5375bca84865849be7db8" title="Set Rotation value in server." alt="" coords="272,56,555,83"/>
-<area shape="rect" id="node5" href="$classmy___device.html#aba4ef4e3ae39415a134f93bda9b7c2ad" title="Try to get attribute value from tango server." alt="" coords="603,31,773,57"/>
-<area shape="rect" id="node11" href="$classmy___device.html#a6efd350246a5cba56036bb42eba02535" title="Set device attribute in server." alt="" coords="615,81,761,108"/>
-<area shape="rect" id="node7" href="$classmy___device.html#a5ad5bb4424bba5c1c1dd910e0d5ee2e6" title="on error in tango operation" alt="" coords="845,5,997,32"/>
-<area shape="rect" id="node9" href="$classmy___device.html#a836eeeb23a13624c50bb29529d1e3108" title="on correct readting tango attribute" alt="" coords="822,56,1021,83"/>
-</map>

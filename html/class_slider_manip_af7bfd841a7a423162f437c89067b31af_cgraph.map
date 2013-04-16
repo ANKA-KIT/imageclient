@@ -1,8 +1,0 @@
-<map id="G" name="G">
-<area shape="rect" id="node3" href="$class_histogrammm.html#afad8afd94ce60d3dc4a55b5c74e1106b" title="calculating data for drawing" alt="" coords="277,56,477,83"/>
-<area shape="rect" id="node5" href="$class_histogrammm.html#aa953e8c7c4242f8e39442298c346716c" title="calculating data for drawing 8bit image from image" alt="" coords="527,5,761,32"/>
-<area shape="rect" id="node7" href="$class_histogrammm.html#a64b24b17962a46e102abd8c306bebe07" title="calculating data for drawing RGB image from image" alt="" coords="526,56,762,83"/>
-<area shape="rect" id="node9" href="$class_histogrammm.html#a10ab2160986d95c3c9b314bcef20c4b8" title="drawing gistogram" alt="" coords="565,107,723,133"/>
-<area shape="rect" id="node11" href="$class_histogram_item.html#acc6d2ea50dbd32cb256e5d7da9a9b6f9" title="HistogramItem::setData" alt="" coords="811,107,973,133"/>
-<area shape="rect" id="node13" href="$class_histogram_item.html#a32551c5a0c4f8d987889909453843c5e" title="HistogramItem::data" alt="" coords="1021,107,1163,133"/>
-</map>

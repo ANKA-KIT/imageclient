@@ -1,7 +1,0 @@
-<map id="G" name="G">
-<area shape="rect" id="node3" href="$class_menu_tab.html#a21e8ee5f6f1a4baae80bb0871160d492" title="set Icon for horizontal flip snapshot" alt="" coords="251,5,467,32"/>
-<area shape="rect" id="node5" href="$class_img_manipulation.html#ae709fadd23c48bcfbc9e1a1fee81f708" title="Get Horizontal fliping value." alt="" coords="257,56,461,83"/>
-<area shape="rect" id="node7" href="$class_menu_tab.html#a14ff5a8a5ddb9d61e297dc19939391e0" title="set Icon for vertical flip snapshot" alt="" coords="251,107,466,133"/>
-<area shape="rect" id="node9" href="$class_img_manipulation.html#a56a5bb3920b56dac1edd3bf88d62c7f0" title="Get Vertical fliping value." alt="" coords="257,157,460,184"/>
-<area shape="rect" id="node11" href="$class_menu_tab.html#a3f903d1915655587ac24b7489efef0ff" title="set Icon for fullpicturemodesnap" alt="" coords="237,208,480,235"/>
-</map>

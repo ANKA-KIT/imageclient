@@ -1,8 +1,0 @@
-<map id="G" name="G">
-<area shape="rect" id="node3" href="$class_main_window.html#a3dca1c040059de53bd687e94a867af51" title="set in labels information about mouse position" alt="" coords="315,31,501,57"/>
-<area shape="rect" id="node9" href="$class_main_window.html#a178715eed6ec291dce2104bda727804a" title="set in label information about pixel color" alt="" coords="318,81,498,108"/>
-<area shape="rect" id="node11" href="$class_main_window.html#aa640d4cafcf191f0fc2344a0b997d77e" title="set in label information about pixel color" alt="" coords="317,132,499,159"/>
-<area shape="rect" id="node13" href="$class_main_window.html#ab90ddb6410de2dc014a3fbb01eb3c40a" title="set in labels information about marker position" alt="" coords="327,183,489,209"/>
-<area shape="rect" id="node5" href="$class_main_window.html#a06d8ec49cb4f553424bfe6ab4226793f" title="set in label information about mouse X position" alt="" coords="549,5,749,32"/>
-<area shape="rect" id="node7" href="$class_main_window.html#a6c6cb2969176bcd5970654184be69f48" title="set in label information about mouse Y position" alt="" coords="549,56,749,83"/>
-</map>

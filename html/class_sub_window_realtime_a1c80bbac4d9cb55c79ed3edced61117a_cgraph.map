@@ -1,9 +1,0 @@
-<map id="G" name="G">
-<area shape="rect" id="node3" href="$class_sub_window_realtime.html#a40d317d429ab73f1534243eba7d2e723" title="set pause value" alt="" coords="385,5,591,32"/>
-<area shape="rect" id="node5" href="$class_sub_window_realtime.html#ae435f5aceb03a18ae386832c306ca154" title="set timeout" alt="" coords="378,56,598,83"/>
-<area shape="rect" id="node7" href="$class_sub_window_realtime.html#a1038648ff3204ffd4302506e53e1f2cd" title="set timeout value for reading getting image from tango server" alt="" coords="369,107,607,133"/>
-<area shape="rect" id="node11" href="$class_sub_window.html#a30535f90f11cff1d393a2e8950f8ffde" title="show context menu" alt="" coords="383,157,593,184"/>
-<area shape="rect" id="node13" href="$class_sub_window_realtime.html#a58398f6bfc8bf04bdf598fdf043ee5d0" title="on window state change" alt="" coords="328,208,648,235"/>
-<area shape="rect" id="node9" href="$classmy___device.html#aa8cc6d2ff4f4f2401b0eb482229fbfc9" title="Set timer interval value." alt="" coords="743,107,923,133"/>
-<area shape="rect" id="node15" href="$class_sub_window_realtime.html#a85e68579a51d0cb3d50609905f2f6cc5" title="SubWindowRealtime::realtimeWinChanged" alt="" coords="697,208,970,235"/>
-</map>

@@ -1,7 +1,0 @@
-<map id="G" name="G">
-<area shape="rect" id="node3" href="$class_menu_tab.html#a4087a3a189c441642646fdc49e5294aa" title="MenuTab::setRealtimeProp" alt="" coords="245,31,427,57"/>
-<area shape="rect" id="node5" href="$class_main_window.html#a3707a540ae92bc3d24b3d15323509f9b" title="MainWindow::realtimeChanged" alt="" coords="489,5,692,32"/>
-<area shape="rect" id="node11" href="$class_main_window.html#a90b9713a3b703f22487f961d892526f7" title="MainWindow::chServerManipulation" alt="" coords="475,56,706,83"/>
-<area shape="rect" id="node7" href="$class_main_window.html#a2fd533a7dec413bc99aa194273037bb5" title="MainWindow::mkRealtime" alt="" coords="755,5,930,32"/>
-<area shape="rect" id="node9" href="$class_main_window.html#a2623c7c35266988a8528397a0732b588" title="MainWindow::initStartTangoWin" alt="" coords="979,5,1189,32"/>
-</map>

@@ -1,6 +1,0 @@
-<map id="G" name="G">
-<area shape="rect" id="node2" href="$class_sub_window.html" title="SubWindow" alt="" coords="71,187,163,213"/>
-<area shape="rect" id="node4" href="$class_image_widget.html" title="Widget for displaying device image /Widget for background drawing device image." alt="" coords="68,96,167,123"/>
-<area shape="rect" id="node6" href="$class_picture_mode.html" title="Abstract class, uses for polymorphism /abstract class, uses for polymorphism." alt="" coords="5,5,99,32"/>
-<area shape="rect" id="node8" href="$class_img_manipulation.html" title="Keep basic manipulation for color image, set property values /Class answear for keeping basic manipul..." alt="" coords="124,5,240,32"/>
-</map>

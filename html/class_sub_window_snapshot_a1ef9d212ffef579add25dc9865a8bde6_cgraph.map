@@ -1,7 +1,0 @@
-<map id="G" name="G">
-<area shape="rect" id="node3" href="$class_sub_window.html#a6ba0080c740d8cd4a219cbd115080db8" title="set scale label value" alt="" coords="281,5,431,32"/>
-<area shape="rect" id="node5" href="$class_image_widget.html#a5f2aa5a6a21062dbfddccdf1222ee441" title="Rescale snapshot image." alt="" coords="262,56,450,83"/>
-<area shape="rect" id="node7" href="$class_img_manipulation.html#a02d3c892e32f33218e3048d4b6ac2b77" title="change Scale value" alt="" coords="499,31,671,57"/>
-<area shape="rect" id="node9" href="$class_image_widget.html#ad6d76d5d3764e0994bf889d71daa1728" title="resize widget" alt="" coords="502,81,669,108"/>
-<area shape="rect" id="node11" href="$class_image_widget.html#ab062991bcbbe191a8030cb519bb29307" title="set image as background image in widget" alt="" coords="720,81,877,108"/>
-</map>

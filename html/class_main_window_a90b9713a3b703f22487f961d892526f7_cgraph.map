@@ -1,9 +1,0 @@
-<map id="G" name="G">
-<area shape="rect" id="node3" href="$class_menu_tab.html#a4087a3a189c441642646fdc49e5294aa" title="MenuTab::setRealtimeProp" alt="" coords="285,132,467,159"/>
-<area shape="rect" id="node5" href="$class_menu_tab.html#ae6c55168b721e3af56c4cc3a3b9db505" title="MenuTab::setChFlipHorRealtime" alt="" coords="515,5,728,32"/>
-<area shape="rect" id="node7" href="$class_menu_tab.html#a4155c4461fbdce796770968d6fff1832" title="MenuTab::setChFlipVerRealtime" alt="" coords="515,56,727,83"/>
-<area shape="rect" id="node9" href="$class_menu_tab.html#a4ee6efe2abf63d3a8ba017b5ad7a414d" title="MenuTab::setChServerManip" alt="" coords="525,107,717,133"/>
-<area shape="rect" id="node11" href="$class_menu_tab.html#a0843dd7b5483109cad18ef0257e284f8" title="MenuTab::setChFullPictureMode" alt="" coords="515,157,728,184"/>
-<area shape="rect" id="node13" href="$class_menu_tab.html#afb9f0c7e35f1869d717a2e6281d68237" title="MenuTab::chImageMode" alt="" coords="538,208,705,235"/>
-<area shape="rect" id="node15" href="$class_menu_tab.html#af98d1537b5e7ebcee5ef93fc975815fd" title="MenuTab::setRealtimePause" alt="" coords="526,259,717,285"/>
-</map>

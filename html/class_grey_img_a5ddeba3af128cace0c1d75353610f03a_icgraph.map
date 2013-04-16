@@ -1,9 +1,0 @@
-<map id="G" name="G">
-<area shape="rect" id="node3" href="$class_grey_img.html#ae981651f2fd7a7d94af5888d3fd9e91c" title="GreyImg::recalcColors" alt="" coords="249,5,402,32"/>
-<area shape="rect" id="node5" href="$class_is16_bit_grey.html#a190452cec4da9d158f3e96e292d1e6c0" title="Is16BitGrey::Convert16BitData" alt="" coords="224,56,427,83"/>
-<area shape="rect" id="node7" href="$class_is16_bit_grey.html#a8429c61ffebb4d8d112ce2404fe16414" title="Is16BitGrey::recalcColors" alt="" coords="239,107,411,133"/>
-<area shape="rect" id="node9" href="$class_is8_bit_grey.html#ab7707633e9162ea3ef2f9905c047f82b" title="Is8BitGrey::recalcColors" alt="" coords="243,157,408,184"/>
-<area shape="rect" id="node13" href="$class_is_r_g_b_g_grey.html#a7ebbf39e60a72521ce50d6bc1548d333" title="IsRGBGGrey::recalcColors" alt="" coords="235,208,416,235"/>
-<area shape="rect" id="node11" href="$class_is8_bit_grey.html#a8ccd14153db378c390e072c476059b7e" title="Is8BitGrey::setImage" alt="" coords="483,157,629,184"/>
-<area shape="rect" id="node15" href="$class_is_r_g_b_g_grey.html#ab9e7fd608e46d8c0a9522edb29888cdc" title="IsRGBGGrey::setImage" alt="" coords="475,208,637,235"/>
-</map>

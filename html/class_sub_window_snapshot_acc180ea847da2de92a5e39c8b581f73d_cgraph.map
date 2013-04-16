@@ -1,6 +1,0 @@
-<map id="G" name="G">
-<area shape="rect" id="node3" href="$class_sub_window_snapshot.html#add15d49902980fee978702df2d3889e0" title="On resize subwindow." alt="" coords="269,5,493,32"/>
-<area shape="rect" id="node5" href="$class_sub_window.html#ae6df725c0a8f701b5e3fdbcb22d6961c" title="Calculate new scale for current snapshot subwindow." alt="" coords="541,5,760,32"/>
-<area shape="rect" id="node7" href="$class_image_widget.html#a9e5e11dab86b857ff39089689e77ec4f" title="Calculate new scale, depends from subwindow size (uses in full picture mode)" alt="" coords="808,5,1035,32"/>
-<area shape="rect" id="node9" href="$class_image_widget.html#aae9bb8506219e01a5805337de30f2357" title="ImageWidget::sendScale" alt="" coords="1083,5,1251,32"/>
-</map>

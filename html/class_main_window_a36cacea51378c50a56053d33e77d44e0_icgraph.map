@@ -1,6 +1,0 @@
-<map id="G" name="G">
-<area shape="rect" id="node3" href="$class_main_window.html#a3dca1c040059de53bd687e94a867af51" title="MainWindow::setMousePos" alt="" coords="254,31,439,57"/>
-<area shape="rect" id="node5" href="$class_main_window.html#a2fd533a7dec413bc99aa194273037bb5" title="MainWindow::mkRealtime" alt="" coords="490,5,665,32"/>
-<area shape="rect" id="node9" href="$class_main_window.html#a7a13d8928d57cc0252394535e3dec0ef" title="MainWindow::mkSnapshot" alt="" coords="488,56,667,83"/>
-<area shape="rect" id="node7" href="$class_main_window.html#a2623c7c35266988a8528397a0732b588" title="MainWindow::initStartTangoWin" alt="" coords="715,5,925,32"/>
-</map>
