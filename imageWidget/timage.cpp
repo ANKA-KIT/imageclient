@@ -29,6 +29,7 @@ iii=0;
     __serverAttrName = "ServerParameter";//"PictureParameters";
     roiAddedFromServer = false;
     //setServerMode(true);
+    _pause = false;
 }
 
 void TImage::setPause(bool value){
@@ -39,6 +40,7 @@ void TImage::setPause(bool value){
     else{
         connect(tango, SIGNAL(newData(const TVariant&)), this, SLOT(refresh(const TVariant&)), Qt::DirectConnection);
     }
+    _pause = value;
 }
 void TImage::refresh(const TVariant &newVal)
 {
@@ -48,6 +50,7 @@ void TImage::refresh(const TVariant &newVal)
         if (newVal.quality() == Tango::ATTR_INVALID)
         {
             qDebug("TImages::refresh: Lose connection with a TANGO server!");
+            setPeriod(100);  //temporary
             QImage image = errorImage();
             //emit newPicture(image);
             wgt->image = image.copy();
@@ -55,6 +58,7 @@ void TImage::refresh(const TVariant &newVal)
             emit newPicture(image,dimX,dimY,picMode->getPictureMode());
             emit newPictureDim(dimX/picMode->getDelimitr(), dimY);
             emit newPicture(image, this);
+
             return;
         }
         int nTime = time.restart();
@@ -73,6 +77,8 @@ void TImage::refresh(const TVariant &newVal)
             picMode->convert16BitData(val16, val);
          //   qDebug("time CONVERT is %d",ppp.restart());
             if (val.size() == 0){
+                val16.clear();
+                setPeriod(100);  //temporary
                 qDebug("TImages::refresh: val vector is Empty. Do not Use uchar mode for dealing with ushort data");
                 QImage image = errorImage();
                 emit newPicture(val16,dimX,dimY,picMode->getPictureMode());
