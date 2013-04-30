@@ -24,7 +24,8 @@ SOURCES += main.cpp\
     roisubwindow.cpp \
     snapshotcontainer.cpp \
     roicontainer.cpp \
-    realtimecontainer.cpp
+    realtimecontainer.cpp \
+    tangocommandwin.cpp
 
 HEADERS  += mainwindow.h \
     starttangowin.h \
@@ -35,7 +36,8 @@ HEADERS  += mainwindow.h \
     roisubwindow.h \
     realtimecontainer.h \
     roicontainer.h \
-    snapshotcontainer.h
+    snapshotcontainer.h \
+    tangocommandwin.h
 
 FORMS    += mainwindow.ui
 

@@ -11,6 +11,25 @@
 #include <QColorDialog>
 #include <stdlib.h>
 #include <time.h>
+#include <QHBoxLayout>
+#include <QLineEdit>
+#include <QLabel>
+#include <QFormLayout>
+#include <QPushButton>
+
+class ResizeMarker : public QWidget{
+    Q_OBJECT
+protected:
+    //QPushButton *bt;
+    QLineEdit *hor;
+    QLineEdit *ver;
+public:
+    ResizeMarker();
+signals:
+    void changeMarkerSize(int,int);
+protected slots:
+    void onOk();
+};
 
 class RoiAction : public QMenu//QAction{
 {
@@ -66,6 +85,7 @@ public:
 
     QAction *actDel;
     QAction *actSettings;
+    QAction *actSize;
 signals:
     void deleteMarker(ImageMarker*);
     void colorChangedMarker(ImageMarker*);
@@ -73,6 +93,8 @@ public slots:
     void setMarkerColor(QRgb color);
     void del();
     void showSettings();
+    void resizeMarkerWin();
+    void resizeMarker(int,int);
 };
 
 

@@ -8,6 +8,9 @@ MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
+    startImageMode  = -1;
+    startDelayTime = -1;
+
     emptyIcon = "/icons/true.png";
     trueIcon = ":/icons/true.png";
     falseIcon = ":/icons/false.png";
@@ -56,7 +59,7 @@ MainWindow::MainWindow(QWidget *parent) :
    // centralWidget()->setLayout(vbox);
 
 
-    setWindowTitle("ImageClient 2.0 Build 1");
+    setWindowTitle("ImageClient 2.0 Build 2");
 }
 
 void MainWindow::startWindow(){

@@ -28,8 +28,8 @@ iii=0;
     __serverMode = SINGLE;//READ;//_WITH_SERVERTRANSFORMATION;
     __serverAttrName = "ServerParameter";//"PictureParameters";
     roiAddedFromServer = false;
-    //setServerMode(true);
     _pause = false;
+    //setServerMode(true);
 }
 
 void TImage::setPause(bool value){
@@ -49,8 +49,8 @@ void TImage::refresh(const TVariant &newVal)
         timeWorking.start();
         if (newVal.quality() == Tango::ATTR_INVALID)
         {
+            setPeriod(100);//temporary
             qDebug("TImages::refresh: Lose connection with a TANGO server!");
-            setPeriod(100);  //temporary
             QImage image = errorImage();
             //emit newPicture(image);
             wgt->image = image.copy();
@@ -58,11 +58,10 @@ void TImage::refresh(const TVariant &newVal)
             emit newPicture(image,dimX,dimY,picMode->getPictureMode());
             emit newPictureDim(dimX/picMode->getDelimitr(), dimY);
             emit newPicture(image, this);
-
             return;
         }
         int nTime = time.restart();
-        qDebug("Displaying time is %d", nTime);
+   //     qDebug("Displaying time is %d", nTime);
         emit timeNewPic(nTime);
         bool error = false;
         dimX = newVal.dimX;
@@ -78,7 +77,7 @@ void TImage::refresh(const TVariant &newVal)
          //   qDebug("time CONVERT is %d",ppp.restart());
             if (val.size() == 0){
                 val16.clear();
-                setPeriod(100);  //temporary
+                setPeriod(100);//temporary
                 qDebug("TImages::refresh: val vector is Empty. Do not Use uchar mode for dealing with ushort data");
                 QImage image = errorImage();
                 emit newPicture(val16,dimX,dimY,picMode->getPictureMode());
@@ -108,13 +107,13 @@ void TImage::refresh(const TVariant &newVal)
         emit newPicture(img, this);
         iii++;
         QString ttt = "New pic " + QString().number(iii);
-        qDebug(ttt.toAscii().constData());
+   //     qDebug(ttt.toAscii().constData());
 
 
         }
     }
     else{
-        qDebug("TImages::refresh: Cannot load picture!");
+     //   qDebug("TImages::refresh: Cannot load picture!");
     }
 }
 
@@ -134,7 +133,7 @@ void TImage::draw(QImage img){
     drawing(img);
     canLoadnewPic = true;
     int wTime = timeWorking.restart();
-    qDebug("Working  time is %d",wTime);
+  //  qDebug("Working  time is %d",wTime);
     emit timePicDisplaying(wTime);
 }
 
@@ -316,7 +315,7 @@ void TImage::drawInServerMode(QImage img){
     index =m+roiCount*4;    //index of marker position
 
 
-    if(serverMarkerCount != (serVar.count() - index)/5){
+    if(serverMarkerCount != (serVar.count() - index)/7){  //5
         disconnect(this,SIGNAL(newMarker(QPoint,QRgb)),this,SLOT(writeMarker(QPoint , QRgb ))); ///!
         disconnect(this->wgt,SIGNAL(delMarker(QPoint,QRgb)),this,SLOT(delMarker(QPoint , QRgb )));
         if(__serverMode == WRITE ){
@@ -333,9 +332,10 @@ void TImage::drawInServerMode(QImage img){
             serverMarkerList.clear();
         }
 
-        for (index; index < serVar.count()-1; index+=5){
+        for (index; index < serVar.count()-1; index+=7){ //5
             ImageMarker* marker = wgt->initMarker(QPoint(serVar[index], (int)serVar[index+1]));
             marker->setMarkerColor(qRgb(serVar[index+2],serVar[index+3],serVar[index+4]));
+            marker->resizeMarker(serVar[index+5],serVar[index+6]);
             if (__serverMode == READ){
                 marker->actDel->setEnabled(false);
                 marker->actSettings->setEnabled(false);
@@ -354,7 +354,7 @@ void TImage::drawInServerMode(QImage img){
     drawing(img);
     canLoadnewPic = true;
     int wTime = timeWorking.restart();
-    qDebug("Working  time is %d",wTime);
+  //  qDebug("Working  time is %d",wTime);
     emit timePicDisplaying(wTime);
 }
 
@@ -364,6 +364,8 @@ TImage::~TImage(){
 }
 
 void TImage::setPeriod(int p){
+    //fprintf(stderr, "!!set peiod!!");
+    _timer = p;
     TDevice::setPeriod(p);
 }
 
@@ -662,15 +664,16 @@ void TImage::setServerMode(bool value){
             serverMarkerList[i]->del();
         serverMarkerList.clear();
         QPoint onPicCoord;
-        serverMarkerCount = (serVar.count() - index)/5;
+        serverMarkerCount = (serVar.count() - index)/7; //5
 
         disconnect(this,SIGNAL(newMarker(QPoint,QRgb)),this,SLOT(writeMarker(QPoint , QRgb )));
         disconnect(this->wgt,SIGNAL(delMarker(QPoint,QRgb)),this,SLOT(delMarker(QPoint , QRgb )));
-        for (; index < serVar.count()-1; index+=5){
+        for (; index < serVar.count()-1; index+=7){ //5
             onPicCoord = QPoint(serVar[index], (int)serVar[index+1]);
 
             ImageMarker* marker = wgt->initMarker(onPicCoord);
             marker->setMarkerColor(qRgb(serVar[index+2],serVar[index+3],serVar[index+4]));
+            marker->resizeMarker(serVar[index+5],serVar[index+6]);
             if (__serverMode == READ){
                 marker->actDel->setEnabled(false);
                 marker->actSettings->setEnabled(false);
@@ -723,7 +726,7 @@ void TImage::writeProperty(){
 
 QVector<double> TImage::initParametersVector(){
     QVector<double> serVar;
-    int count = 7 + wgt->marker.count()*5 + roiActionList.count()*4;
+    int count = 7 + wgt->marker.count()*7 /*5*/ + roiActionList.count()*4;
     int roiIndexLast = 7+ roiActionList.count()*4;
 
     serVar.resize(count);
@@ -747,12 +750,14 @@ QVector<double> TImage::initParametersVector(){
     }
 
     index=0;
-    for (int i=roiIndexLast;i<count;i+=5){
+    for (int i=roiIndexLast;i<count;i+=7){ //5
             *(ptr+i)=wgt->marker.at(index)->_xOnPic;
             *(ptr+i+1)=wgt->marker.at(index)->_yOnPic;
             *(ptr+i+2)=qRed(wgt->marker.at(index)->_clr);
             *(ptr+i+3)=qGreen(wgt->marker.at(index)->_clr);
         *(ptr+i+4)=qBlue(wgt->marker.at(index)->_clr);
+        *(ptr+i+5)=wgt->marker.at(index)->hLineLength;
+        *(ptr+i+6)=wgt->marker.at(index)->vLineLength;
         index++;
     }
     return serVar;

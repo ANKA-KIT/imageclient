@@ -41,7 +41,7 @@ void EImageScreen::mouseMoveEvent ( QMouseEvent * event ){
         emit moveXSignal(x);
         emit moveYSignal(y);
     }
-    qDebug("EImageScreen::mouseMoveEvent  AAAAAAAAAAAAAAAAA\n");
+  //  qDebug("EImageScreen::mouseMoveEvent  AAAAAAAAAAAAAAAAA\n");
 }
 
 void EImageScreen::mousePressEvent ( QMouseEvent * e){
@@ -49,7 +49,7 @@ void EImageScreen::mousePressEvent ( QMouseEvent * e){
         curXPos = e->x();
         curYPos = e->y();
         lButtonPresed = true;
-        qDebug("EImageScreen::mousePressEvent\n");
+   //     qDebug("EImageScreen::mousePressEvent\n");
     }
     if (e->button() == Qt::RightButton ){
         contextMenu->popup(e->globalPos());//exec(e->globalPos());
@@ -238,7 +238,7 @@ void EImageScreen::paintEvent( QPaintEvent * e){
     p.setPen(QPen(Qt::yellow, 2));
     p.drawLine(_curMouseX-3, _curMouseY, _curMouseX+3, _curMouseY);
     p.drawLine(_curMouseX, _curMouseY-3, _curMouseX, _curMouseY+3);
-    qDebug( "EImageScreen::paintEvent\n");
+    //qDebug( "EImageScreen::paintEvent\n");
     if (!imageTransform.fullPictureMode){
         //if (((image.height()>height() || image.width()>width()) && (imageTransform.rotate == 0 || imageTransform.rotate == 180 || imageTransform.rotate == -180)) ||
         //    ((image.height()>width() || image.width()>height()) && (imageTransform.rotate == -90 || imageTransform.rotate == 90 || imageTransform.rotate == -270 || imageTransform.rotate == 270)) ){
@@ -454,8 +454,16 @@ void EImageScreen::paintEvent( QPaintEvent * e){
                 }
                 int hLine = marker.at(i)->hLineLength;
                 int vLine = marker.at(i)->vLineLength;
-                hLine = imageTransform.imageScale < 1 ? marker.at(i)->hLineLength:marker.at(i)->hLineLength*imageTransform.imageScale;
-                vLine = imageTransform.imageScale < 1 ? marker.at(i)->vLineLength:marker.at(i)->vLineLength*imageTransform.imageScale;
+               // hLine = imageTransform.imageScale < 1 ? marker.at(i)->hLineLength:marker.at(i)->hLineLength*imageTransform.imageScale;
+              //  vLine = imageTransform.imageScale < 1 ? marker.at(i)->vLineLength:marker.at(i)->vLineLength*imageTransform.imageScale;
+                if(!imageTransform.fullPictureMode){
+                    hLine = hLine < 1? 1: hLine*imageTransform.imageScale;
+                    vLine = vLine < 1? 1: vLine*imageTransform.imageScale;
+                }
+                else{
+                    hLine = hLine < 1? 1: hLine*sclX;
+                    vLine = vLine < 1? 1: vLine*sclY;
+                }
                 p.drawLine(X-vLine, Y, X+vLine, Y);
                 p.drawLine(X, Y-hLine, X, Y+hLine);
                 }

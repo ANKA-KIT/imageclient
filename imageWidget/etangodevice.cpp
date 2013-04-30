@@ -22,9 +22,9 @@ TVariant::TVariant(Tango::DeviceAttribute &attr){
         return;
     }
  try {
-    if (dataFormat == Tango::IMAGE){
+   // if (dataFormat == Tango::IMAGE){
        // vec.clear();
-        //
+
         dimX = attr.get_dim_x();
         dimY = attr.get_dim_y();
        // if (d_type != DEV_UCHAR){  ///DEV_USHORT
@@ -57,7 +57,7 @@ TVariant::TVariant(Tango::DeviceAttribute &attr){
 
          //   attr >> dataReadUCharVector;
             return;
-        }
+   //     }
     }
 } catch (Tango::DevFailed &e) {
     //setMessage(e.errors);
@@ -140,7 +140,7 @@ void ImageTangoDevice::sendPing(){
 
 void ImageTangoDevice::checkDevice(QString s ){
     try{
-        Tango::DeviceProxy dev(s.toAscii().constData());
+        Tango::DeviceProxy dev(("//"+s).toAscii().constData());
     }
     catch(const Tango::WrongNameSyntax& e){
         qDebug("Error, Wrong Name Syntax of Tango Server\n");
@@ -190,7 +190,7 @@ ImageTangoDevice::ImageTangoDevice(QObject* p): QObject(p)//(QWidget *ps): QWidg
 
 bool ImageTangoDevice::sendCommand(QString command){
 try{
-      Tango::DeviceProxy dev(_serverName.toAscii().constData());
+      Tango::DeviceProxy dev(("//"+_serverName).toAscii().constData());
       dev.command_inout(command.toAscii().constData());
       return true;
   }
@@ -222,7 +222,7 @@ try{
 
 bool ImageTangoDevice::sendCommand(QString command, Tango::DeviceData &data){
 try{
-      Tango::DeviceProxy dev(_serverName.toAscii().constData());
+      Tango::DeviceProxy dev(("//"+_serverName).toAscii().constData());
       //dev.command_inout(command.toAscii().constData());
       dev.command_inout(command.toAscii().constData(), data);
       return true;
@@ -256,7 +256,7 @@ try{
 
 bool ImageTangoDevice::writeAttr(Tango::DeviceAttribute& attr){
     try{
-        Tango::DeviceProxy dev(_serverName.toAscii().constData());
+        Tango::DeviceProxy dev(("//"+_serverName).toAscii().constData());
         dev.write_attribute(attr);
         return true;
     }
@@ -288,7 +288,7 @@ bool ImageTangoDevice::writeAttr(Tango::DeviceAttribute& attr){
 
 bool ImageTangoDevice::setTangoAttr(QString attrName, Tango::DeviceAttribute& attr){
     try{
-        Tango::DeviceProxy dev(_serverName.toAscii().constData());
+        Tango::DeviceProxy dev(("//"+_serverName).toAscii().constData());
         attr = dev.read_attribute(attrName.toAscii().constData());
         if (attr.quality == Tango::ATTR_INVALID || attr.get_dim_x() == 0){
             //delete attr;
@@ -331,7 +331,7 @@ return false;
 
 bool ImageTangoDevice::checkAttr(QString serverName, QString attrName){
     try{
-        Tango::DeviceProxy dev(serverName.toAscii().constData());
+        Tango::DeviceProxy dev(("//"+serverName).toAscii().constData());
         Tango::DeviceAttribute attr;
         attr = dev.read_attribute(attrName.toAscii().constData());
         if (attr.quality == Tango::ATTR_INVALID || attr.get_dim_x() == 0){

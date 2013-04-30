@@ -21,12 +21,18 @@ ImageMarker::ImageMarker(int x, int y, QMenu *parent) :
     connect(actDel,SIGNAL(triggered()),this,SLOT(del()));
     connect(actSettings,SIGNAL(triggered()),this,SLOT(showSettings()));
 
+    actSize = new QAction(tr("Marker Size"),this);
+    connect(actSize,SIGNAL(triggered()),this,SLOT(resizeMarkerWin()));
+
     menuAction()->setIcon(*pic);
     menuAction()->setIconVisibleInMenu(true);
 
     this->addAction(actSettings);
+    this->addAction(actSize);
     this->addAction(actDel);
 }
+
+
 
 void ImageMarker::del(){
     emit deleteMarker(this);
@@ -44,4 +50,43 @@ void ImageMarker::setMarkerColor(QRgb color){
     pic->fill(QColor(_clr));
     menuAction()->setIcon(*pic);
     emit colorChangedMarker(this);
+}
+
+void ImageMarker::resizeMarkerWin(){
+    ResizeMarker *sizeWin = new ResizeMarker();
+    connect(sizeWin, SIGNAL(changeMarkerSize(int,int)), this, SLOT(resizeMarker(int,int)));
+    sizeWin->show();
+}
+
+void ImageMarker::resizeMarker(int h,int v){
+    hLineLength = h;
+    vLineLength = v;
+}
+
+ResizeMarker::ResizeMarker(){
+   // QWidget *sizeWin = new QWidget();
+    setAttribute(Qt::WA_DeleteOnClose);
+    QHBoxLayout *h = new QHBoxLayout;
+    hor = new QLineEdit(this);
+    ver = new QLineEdit(this);
+    QLabel *lb = new QLabel("Marker length", this);
+    h->addWidget(lb);
+    h->addWidget(hor);
+    h->addWidget(ver);
+    QFormLayout *layout = new QFormLayout(this);
+    layout->addRow(h);
+    QPushButton *bt = new QPushButton("Ok",this);
+    layout->addRow(bt);
+    connect(bt, SIGNAL(clicked()), this, SLOT(onOk()));
+    resize(300,100);
+}
+
+void ResizeMarker::onOk(){
+    bool h,v;
+    int hVal = hor->text().toInt(&h);
+    int vVal = ver->text().toInt(&v);
+    if (h && v){
+        emit changeMarkerSize(hVal, vVal);
+        deleteLater();
+    }
 }

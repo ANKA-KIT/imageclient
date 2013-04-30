@@ -10,7 +10,7 @@
 #include <realtimecontainer.h>
 #include <snapshotcontainer.h>
 #include <roicontainer.h>
-
+#include <tangocommandwin.h>
 
 namespace Ui {
 class MainWindow;
@@ -21,7 +21,9 @@ class MainWindow : public QMainWindow
     Q_OBJECT
     QString emptyIcon;
 public:
-
+    StartTangoWindow *startTWin;
+    int startImageMode;
+    int startDelayTime;
 
     QString trueIcon,falseIcon;
     explicit MainWindow(QWidget *parent = 0);

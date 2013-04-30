@@ -9,7 +9,7 @@ QT += dbus
 unix{
     CONFIG += dbus
 }
-
+#QMAKE_CXXFLAGS += -W c++0x
 win32{
     QMAKE_LFLAGS += static
     DEFINES += \
@@ -52,7 +52,19 @@ SOURCES	= \
     timage.cpp \
     timagesnapshot.cpp \
     roiclass.cpp \
-    imagewidgetplugin.cpp
+    imagewidgetplugin.cpp \
+    argtable/src/argtable2.c \
+    argtable/src/arg_str.c \
+    argtable/src/arg_rex.c \
+    argtable/src/getopt1.c \
+    argtable/src/getopt.c \
+    argtable/src/arg_rem.c \
+    argtable/src/arg_lit.c \
+    argtable/src/arg_int.c \
+    argtable/src/arg_file.c \
+    argtable/src/arg_end.c \
+    argtable/src/arg_dbl.c \
+    argtable/src/arg_date.c
 
 
 HEADERS	= \
@@ -68,7 +80,11 @@ HEADERS	= \
     timagesnapshot.h \
     TImageSnapshot \
     roiclass.h \
-    imagewidgetplugin.h
+    imagewidgetplugin.h \
+    argtable/src/argtable2.h \
+    argtable/src/getopt.h \
+    argtable/src/config.h \
+    tangocommandwin.h
 
 TARGET  = tangoImageWidget
 DESTDIR = ./designer
@@ -85,3 +101,6 @@ lib.path = ./release/lib
 # installation
 
 INSTALLS += inc lib
+
+OTHER_FILES += \
+    argtable/src/config.h.in

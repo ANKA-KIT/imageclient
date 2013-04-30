@@ -7,10 +7,17 @@ void EImageBase::init(){
         serverValues[iter]=0;
 
     manipulatorIsClosed = true;
-    wgt = new EImageScreen(this);
-    setAutoFillBackground(true);
+   QWidget *w = new QWidget(this);
+   wgt = new EImageScreen(w);
+   // setAutoFillBackground(true);
 
-    setWidget(wgt);
+
+
+    QHBoxLayout *h= new QHBoxLayout;
+    h->setMargin(0);
+    h->addWidget(w);
+    viewport()->setLayout(h);
+    setWidget(w);
 
 
     params = new QAction(tr("Set Params"), this);
@@ -784,7 +791,7 @@ void EImageBase::drawHistogram(){
         }
     }
     else{
-        qDebug("Manipulator is not inited");
+       // qDebug("Manipulator is not inited");
     }
 
 }
@@ -803,7 +810,7 @@ void EImageBase::onScreenReapinting(QPoint p){
     if (p.x() < 0)    p.setX(0);
     if(p.y() < 0)     p.setY(0);
     emit mousePosition(p);
-    qDebug("%d %d", p.x(), p.y());
+ //   qDebug("%d %d", p.x(), p.y());
     int r = p.x()+ dimX*(p.y());
     int rgb = 3*p.x()+ dimX*(p.y());
     if (rgb<0){ r=0; rgb=0;}
