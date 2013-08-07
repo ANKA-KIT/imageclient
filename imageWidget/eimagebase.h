@@ -5,6 +5,7 @@
 #include <QDir>
 #include <QDate>
 #include <QTime>
+#include <QRgb>
 
 #include "eimagescreen.h"
 #include "imagemanipulator.h"
@@ -104,6 +105,7 @@ signals:
     void greyscaleImageColor(int);
 
     void newMarker(QPoint, QRgb );
+    void fullscreenMode(bool);
 public slots:
     void onNewMarker(QPoint, QRgb col);
     void setMarker(QPoint, QRgb);

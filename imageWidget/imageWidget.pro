@@ -91,7 +91,7 @@ DESTDIR = ./designer
 
 QMAKE_CLEAN += designer
 
-CONFIG += designer plugin qt thread
+CONFIG += designer plugin qt thread debug
 
 inc.files += $${HEADERS}
 inc.path = ./release/include

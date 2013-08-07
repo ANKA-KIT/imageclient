@@ -4,15 +4,20 @@
 #include <QObject>
 #include <snapshotsubwindow.h>
 
+#include "mainwindow.h"
+
+class MainWindow;
+
 class SnapshotContainer : public QObject
 {
     Q_OBJECT
 private:
+    MainWindow* windowElement;
     QList<SnapshotSubWindow *> snapshotList;
     int curSnapshot;
     int snapshotLast;
 public:
-    explicit SnapshotContainer(QObject *parent = 0);
+    explicit SnapshotContainer(MainWindow *parent = 0);
     void add(SnapshotSubWindow *snp){snapshotList.push_back(snp);}
     int getSnapshotLastVal(){return snapshotLast;}
 signals:

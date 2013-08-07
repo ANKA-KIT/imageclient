@@ -11,14 +11,11 @@ void EImageBase::init(){
    wgt = new EImageScreen(w);
    // setAutoFillBackground(true);
 
-
-
     QHBoxLayout *h= new QHBoxLayout;
     h->setMargin(0);
     h->addWidget(w);
     viewport()->setLayout(h);
     setWidget(w);
-
 
     params = new QAction(tr("Set Params"), this);
     params->setStatusTip(tr("Set image parameters"));
@@ -672,6 +669,7 @@ void EImageBase::manipDestroed(){
 }
 
 void EImageBase::setFullscreenMode(bool val){
+    emit fullscreenMode(val);
     if (val){
         setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
         setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
@@ -815,6 +813,11 @@ void EImageBase::onScreenReapinting(QPoint p){
     int rgb = 3*p.x()+ dimX*(p.y());
     if (rgb<0){ r=0; rgb=0;}
     //*
+    if (val.size() == 0){
+        QRgb pointColor = wgt->image.color(r);
+        emit rgbImageColor(qRed(pointColor), qGreen(pointColor), qBlue(pointColor));
+    }
+    else
     switch(picMode->getPictureMode()){
         case ImagePictureMode::IS_16BITGRAY:
         if (val16.size()>r && val16.size() !=0) emit greyscaleImageColor(val16.at(r));

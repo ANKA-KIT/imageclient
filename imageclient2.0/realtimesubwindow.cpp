@@ -29,6 +29,7 @@ RealtimeSubWindow::RealtimeSubWindow(QString  tangoDev, QString  tangoImage):Sub
     QMenu  *snpMenu = new QMenu(tr("Make Snapshot"), this);
     snpWhole = new QAction(tr("Whole image"),this);
     snpVis = new QAction(tr("Visiable part"), this);
+    snpVis->setEnabled(false);
     snpMenu->addAction(snpWhole);
     snpMenu->addAction(snpVis);
     tim->wgt->contextMenu->addMenu(snpMenu);
@@ -41,6 +42,8 @@ RealtimeSubWindow::RealtimeSubWindow(QString  tangoDev, QString  tangoImage):Sub
     roiMenu->addAction(newRoi);
     connect(tim,SIGNAL(addRoi(RoiAction*)),this,SLOT(addRoi(RoiAction*)));
     initRoiFlag = true;//false;
+
+    connect(tim, SIGNAL(fullscreenMode(bool)),this,SLOT(onChangeFullscreen(bool)));
 }
 
 
@@ -111,4 +114,8 @@ void RealtimeSubWindow::initRoi(QPoint p1,QPoint p2){
     }
     else initRoiFlag = true;
     emit newRoiCreated(p1,p2, tim);
+}
+
+void RealtimeSubWindow::onChangeFullscreen(bool val){
+    snpVis->setEnabled(!val);
 }

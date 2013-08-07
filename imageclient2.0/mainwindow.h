@@ -16,6 +16,10 @@ namespace Ui {
 class MainWindow;
 }
 
+class SnapshotContainer;
+class RealtimeContainer;
+class RoiContainer;
+
 class MainWindow : public QMainWindow
 {
     Q_OBJECT

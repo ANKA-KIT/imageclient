@@ -32,6 +32,8 @@ public slots:
     void initRoi(QPoint p1,QPoint p2);
     void showRoi(RoiAction*);
     void addRoi(RoiAction *r);
+
+    void onChangeFullscreen(bool);
 };
 
 #endif // REALTIMESUBWINDOW_H

@@ -1,10 +1,11 @@
 #include "realtimecontainer.h"
 
-RealtimeContainer::RealtimeContainer(QWidget *parent) ://(QObject *parent) :
+RealtimeContainer::RealtimeContainer(MainWindow *parent) ://(QObject *parent) :
     QWidget(parent)//QObject(parent)
 {
+    windowElement = parent;
     realtimeLast = curRealtime = -1;
-setVisible(false);
+    setVisible(false);
     emptyIcon = "/icons/true.png";
     trueIcon = ":/icons/true.png";
 
@@ -64,8 +65,14 @@ void RealtimeContainer::realtimeChanged(SubWindow* curRealtimeWin){
                 }
             i++;
         }
+        connect(realtimeList.at(curRealtime)->tim, SIGNAL(mousePosition(QPoint)), windowElement, SLOT(curPosition(QPoint)),Qt::UniqueConnection);
+        connect(realtimeList.at(curRealtime)->tim, SIGNAL(greyscaleImageColor(int)), windowElement, SLOT(curColor(int)),Qt::UniqueConnection);
+        connect(realtimeList.at(curRealtime)->tim, SIGNAL(rgbImageColor(int,int,int)), windowElement, SLOT(curColor(int,int,int)),Qt::UniqueConnection);
     }
     else{
+         disconnect(realtimeList.at(curRealtime)->tim, SIGNAL(mousePosition(QPoint)), windowElement, SLOT(curPosition(QPoint)));
+         disconnect(realtimeList.at(curRealtime)->tim, SIGNAL(greyscaleImageColor(int)), windowElement, SLOT(curColor(int)));
+         disconnect(realtimeList.at(curRealtime)->tim, SIGNAL(rgbImageColor(int,int,int)), windowElement, SLOT(curColor(int,int,int)));
          curRealtime = -1;
     }
 }

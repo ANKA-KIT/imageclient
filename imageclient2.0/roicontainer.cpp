@@ -1,8 +1,9 @@
 #include "roicontainer.h"
 
-RoiContainer::RoiContainer(QObject *parent) :
+RoiContainer::RoiContainer(MainWindow *parent) :
     QObject(parent)
 {
+    windowElement = parent;
 }
 
 void RoiContainer::roiChanged(SubWindow* curWin){
@@ -17,8 +18,14 @@ void RoiContainer::roiChanged(SubWindow* curWin){
                 }
             i++;
         }
+        connect(roiList.at(curRoi)->roi->sample, SIGNAL(mousePosition(QPoint)), windowElement, SLOT(curPosition(QPoint)),Qt::UniqueConnection);
+        connect(roiList.at(curRoi)->roi->sample, SIGNAL(greyscaleImageColor(int)), windowElement, SLOT(curColor(int)),Qt::UniqueConnection);
+        connect(roiList.at(curRoi)->roi->sample, SIGNAL(rgbImageColor(int,int,int)), windowElement, SLOT(curColor(int,int,int)),Qt::UniqueConnection);
     }
     else{
+         disconnect(roiList.at(curRoi)->roi->sample, SIGNAL(mousePosition(QPoint)), windowElement, SLOT(curPosition(QPoint)));
+         disconnect(roiList.at(curRoi)->roi->sample, SIGNAL(greyscaleImageColor(int)), windowElement, SLOT(curColor(int)));
+         disconnect(roiList.at(curRoi)->roi->sample, SIGNAL(rgbImageColor(int,int,int)), windowElement, SLOT(curColor(int,int,int)));
          curRoi = -1;
     }
 }

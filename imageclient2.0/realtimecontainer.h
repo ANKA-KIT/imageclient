@@ -5,10 +5,14 @@
 #include <QMenu>
 #include <realtimesubwindow.h>
 
+#include  "mainwindow.h"
+class MainWindow;
+
 class RealtimeContainer : public QWidget//QObject
 {
     Q_OBJECT
 private:
+    MainWindow* windowElement;
     int curRealtime;
     int realtimeLast;
     QList<RealtimeSubWindow *> realtimeList;
@@ -23,7 +27,7 @@ public:
     QMenu *actSerKeepSide;
     QMenu *serverMode;
 
-    explicit RealtimeContainer(QWidget *parent = 0);//(QObject *parent = 0);
+    explicit RealtimeContainer(MainWindow *parent = 0);//(QObject *parent = 0);
     void add(RealtimeSubWindow *rt){realtimeList.push_back(rt);}
     int getRealtimeLastVal(){return realtimeLast;}
     RealtimeSubWindow* getRealtimeLastWin(){return realtimeList[realtimeLast];}

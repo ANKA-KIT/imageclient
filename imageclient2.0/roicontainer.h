@@ -3,16 +3,19 @@
 
 #include <QObject>
 #include <roisubwindow.h>
+#include  "mainwindow.h"
+class MainWindow;
 
 class RoiContainer : public QObject
 {
     Q_OBJECT
 private:
+    MainWindow* windowElement;
     int curRoi;
     int roiLast;
     QList<RoiSubWindow *> roiList;
 public:
-    explicit RoiContainer(QObject *parent = 0);
+    explicit RoiContainer(MainWindow *parent = 0);
     void add(RoiSubWindow *roi){roiList.push_back(roi);}
     int getRoiLastVal(){return roiLast;}
     RoiSubWindow* getRoiLastWin(){return roiList[roiLast];}

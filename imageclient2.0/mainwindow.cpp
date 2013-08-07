@@ -89,9 +89,9 @@ void MainWindow::initRealtime(QString dev, QString attr){
     connect(rt->snpVis,SIGNAL(triggered()),this,SLOT(makeSnpVis()));
     connect(rt, SIGNAL(winChanged(SubWindow*)),rtContainer,SLOT(realtimeChanged(SubWindow*)));
     connect(rt, SIGNAL(destroyed(QObject*)), rtContainer, SLOT(onCloseRaltime(QObject*)));
-    connect(rt->tim, SIGNAL(mousePosition(QPoint)), this, SLOT(curPosition(QPoint)));
-    connect(rt->tim, SIGNAL(greyscaleImageColor(int)), this, SLOT(curColor(int)));
-    connect(rt->tim, SIGNAL(rgbImageColor(int,int,int)), this, SLOT(curColor(int,int,int)));
+//    connect(rt->tim, SIGNAL(mousePosition(QPoint)), this, SLOT(curPosition(QPoint)));
+//    connect(rt->tim, SIGNAL(greyscaleImageColor(int)), this, SLOT(curColor(int)));
+//    connect(rt->tim, SIGNAL(rgbImageColor(int,int,int)), this, SLOT(curColor(int,int,int)));
 
     connect(rt, SIGNAL(newRoiCreated(QPoint,QPoint,TImage*)), this, SLOT(initRoi(QPoint,QPoint,TImage*)));
     area->addSubWindow(rt);
@@ -104,9 +104,9 @@ void MainWindow::initSnapshot(TImage *tim, int type){
     snpContainer->add(snp);
     connect(snp, SIGNAL(destroyed(QObject*)), snpContainer, SLOT(onCloseSnapshot(QObject*)));
     connect(snp, SIGNAL(winChanged(SubWindow*)),snpContainer,SLOT(snapshotChanged(SubWindow*)));
-    connect(snp->snp, SIGNAL(mousePosition(QPoint)), this, SLOT(curPosition(QPoint)));
-    connect(snp->snp, SIGNAL(greyscaleImageColor(int)), this, SLOT(curColor(int)));
-    connect(snp->snp, SIGNAL(rgbImageColor(int,int,int)), this, SLOT(curColor(int,int,int)));
+//    connect(snp->snp, SIGNAL(mousePosition(QPoint)), this, SLOT(curPosition(QPoint)));
+//    connect(snp->snp, SIGNAL(greyscaleImageColor(int)), this, SLOT(curColor(int)));
+//    connect(snp->snp, SIGNAL(rgbImageColor(int,int,int)), this, SLOT(curColor(int,int,int)));
     area->addSubWindow(snp);
     snp->show();
 }
@@ -119,9 +119,9 @@ void MainWindow::initRoi(QPoint p1,QPoint p2,TImage *tim){
     connect(roi->snpVis,SIGNAL(triggered()),this,SLOT(makeSnpVis()));
     connect(roi, SIGNAL(destroyed(QObject*)), roiContainer, SLOT(onCloseRoi(QObject*)));
     connect(roi, SIGNAL(winChanged(SubWindow*)),roiContainer,SLOT(roiChanged(SubWindow*)));
-    connect(roi->roi->sample, SIGNAL(mousePosition(QPoint)), this, SLOT(curPosition(QPoint)));
-    connect(roi->roi->sample, SIGNAL(greyscaleImageColor(int)), this, SLOT(curColor(int)));
-    connect(roi->roi->sample, SIGNAL(rgbImageColor(int,int,int)), this, SLOT(curColor(int,int,int)));
+//    connect(roi->roi->sample, SIGNAL(mousePosition(QPoint)), this, SLOT(curPosition(QPoint)));
+//    connect(roi->roi->sample, SIGNAL(greyscaleImageColor(int)), this, SLOT(curColor(int)));
+//    connect(roi->roi->sample, SIGNAL(rgbImageColor(int,int,int)), this, SLOT(curColor(int,int,int)));
     area->addSubWindow(roi);
     roi->show();
 }
