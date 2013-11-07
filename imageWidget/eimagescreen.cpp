@@ -5,19 +5,28 @@ EImageScreen::EImageScreen(QWidget *p):QWidget(p){
     //serverPicTrans.hFlip = serverPicTrans.vFlip = false; serverPicTrans.rotate =0;
     setFullscreenMode(false);
     setAutoFillBackground(true);
-        setMouseTracking(true);
+    setMouseTracking(true);
     setSizePolicy(QSizePolicy::Ignored,QSizePolicy::Ignored);
     moveX = moveY = 0;
     imageTransform.imageScale= 1;
     imageTransform.rotate = 0;
-   imageTransform.horFlip= imageTransform.verFlip  = false;
-   imageTransform.fullPictureMode = true;
-     connect(this,SIGNAL(currentPos(int,int)),this,SLOT(setCursorPos(int,int)));
-     contextMenu = new QMenu("Image", this);
-     lButtonPresed=false;
-     curYPos=curXPos=0;
+    imageTransform.horFlip= imageTransform.verFlip  = false;
+    imageTransform.fullPictureMode = true;
+    connect(this,SIGNAL(currentPos(int,int)),this,SLOT(setCursorPos(int,int)));
+    contextMenu = new QMenu("Image", this);
+    lButtonPresed=false;
+    curYPos=curXPos=0;
     connect(this, SIGNAL(showPictureSize(int,int,int,int)), SLOT(setLimits(int,int,int,int)));
     connect(this,SIGNAL(imgTransformed(QImage)),SLOT(recalcMarkerPos()));
+
+    heightScrBar = new QScrollBar(this);
+    widthScrBar = new QScrollBar(this);
+    widthScrBar->setOrientation(Qt::Horizontal);
+    connect(widthScrBar, SIGNAL(sliderMoved(int)), this, SLOT(setMoveX(int)));
+    connect(heightScrBar, SIGNAL(sliderMoved(int)), this, SLOT(setMoveY(int)));
+    connect(heightScrBar, SIGNAL(valueChanged(int)), this, SLOT(setMoveY(int)));
+    connect(widthScrBar, SIGNAL(valueChanged(int)), this, SLOT(setMoveX(int)));
+
 }
 
 void EImageScreen::wheelEvent(QWheelEvent *event){
@@ -38,10 +47,11 @@ void EImageScreen::mouseMoveEvent ( QMouseEvent * event ){
     emit currentPos(curX,curY);
     if (lButtonPresed){
         int x=curX-curXPos, y=curY-curYPos;
-        emit moveXSignal(x);
-        emit moveYSignal(y);
+      //  emit moveXSignal(x);
+      //  emit moveYSignal(y);
     }
   //  qDebug("EImageScreen::mouseMoveEvent  AAAAAAAAAAAAAAAAA\n");
+
 }
 
 void EImageScreen::mousePressEvent ( QMouseEvent * e){
@@ -50,9 +60,10 @@ void EImageScreen::mousePressEvent ( QMouseEvent * e){
         curYPos = e->y();
         lButtonPresed = true;
    //     qDebug("EImageScreen::mousePressEvent\n");
+
     }
     if (e->button() == Qt::RightButton ){
-        contextMenu->popup(e->globalPos());//exec(e->globalPos());
+        contextMenu->popup(e->globalPos());
     }
 }
 
@@ -233,7 +244,7 @@ void EImageScreen::setMarkersOnPic(bool fullPic, QImage &imgPtr){
 
 ////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////
-void EImageScreen::paintEvent( QPaintEvent * e){
+void EImageScreen::paintEvent( QPaintEvent * ){
     QPainter p(this);
     p.setPen(QPen(Qt::yellow, 2));
     p.drawLine(_curMouseX-3, _curMouseY, _curMouseX+3, _curMouseY);

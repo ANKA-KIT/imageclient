@@ -29,6 +29,10 @@ void TImageSnapshot::setImage(QImage img ){
         img = picMode->setImage(dimX,dimY,val);
         wgt->image = img;
     }
+//    horizontalScrollBar()->setMaximum(wgt->image.width());
+//    verticalScrollBar()->setMaximum(wgt->image.height());
+    wgt->widthScrBar->setMaximum(wgt->image.width());
+    wgt->heightScrBar->setMaximum(wgt->image.height());
      img = setPropertiesOnImg(img);
      drawing(img);
  }

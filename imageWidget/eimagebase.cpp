@@ -12,9 +12,11 @@ void EImageBase::init(){
    // setAutoFillBackground(true);
 
     QHBoxLayout *h= new QHBoxLayout;
+    QVBoxLayout *wBox= new QVBoxLayout;
+    wBox->addLayout(h);
     h->setMargin(0);
     h->addWidget(w);
-    viewport()->setLayout(h);
+    viewport()->setLayout(wBox);
     setWidget(w);
 
     params = new QAction(tr("Set Params"), this);
@@ -53,6 +55,11 @@ void EImageBase::init(){
     wgt->contextMenu->addMenu(saveMenu);
 
 
+    wBox->setMargin(0);
+    h->addWidget(wgt->heightScrBar);
+    wBox->addWidget(wgt->widthScrBar);
+
+
       imageParams.contrast = 100;
       imageParams.gamma = 100;
       imageParams.brightness = 0;
@@ -63,6 +70,9 @@ void EImageBase::init(){
       setFullscreenMode(wgt->imageTransform.fullPictureMode);
       connect(wgt,SIGNAL(mousePosition(QPoint)), this, SLOT(onScreenReapinting(QPoint)));
       connect(wgt,SIGNAL(newMarker(QPoint,QRgb)), this, SLOT(onNewMarker(QPoint,QRgb)));
+
+//      connect(horizontalScrollBar(), SIGNAL(sliderMoved(int)), wgt, SLOT(setMoveX(int)));
+//      connect(verticalScrollBar(), SIGNAL(sliderMoved(int)), wgt, SLOT(setMoveY(int)));
 }
 
 EImageBase::EImageBase(QWidget *p): QScrollArea(p)
@@ -673,12 +683,17 @@ void EImageBase::setFullscreenMode(bool val){
     if (val){
         setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
         setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+
+        wgt->widthScrBar->setVisible(false);
+        wgt->heightScrBar->setVisible(false);
        // saveWholePic->setEnabled(true);
        // saveCatPic->setEnabled(false);
     }
     else{
-        setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
-        setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
+       //// setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
+       //// setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
+        wgt->widthScrBar->setVisible(true);
+        wgt->heightScrBar->setVisible(true);
       //  saveWholePic->setEnabled(false);
      //   saveCatPic->setEnabled(true);
     }
@@ -706,10 +721,10 @@ double EImageBase::imageHeight(){
 QImage EImageBase::errorImage(){
     QString errText = "ERROR!";
     QImage tempImage(500, 500, QImage::Format_ARGB32);
-         QPainter painter(&tempImage);
-         painter.drawText(25, 25, errText);
-          painter.end();
-          return tempImage;
+    QPainter painter(&tempImage);
+    painter.drawText(25, 25, errText);
+    painter.end();
+    return tempImage;
 }
 
 QImage EImageBase::setImageByFullScreenMode(QImage img){

@@ -47,6 +47,7 @@ TVariant::TVariant(Tango::DeviceAttribute &attr){
         if (d_type == Tango::DEV_UCHAR){
             dataReadUCharVector.clear();
            vector<unsigned char> tempVector;
+           tempVector.resize(dimX*dimY);
             attr >> tempVector;
             int count = tempVector.size();
             dataReadUCharVector.resize(count);

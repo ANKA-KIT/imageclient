@@ -7,6 +7,7 @@
 #include <QWheelEvent>
 #include "imagemarker.h"
 
+#include <QScrollBar>
 #include "math.h"
 //My_Code
 
@@ -50,6 +51,10 @@ public:
 
    // QPoint convertToImagePointServer(int x, int y);
   //  QPoint convertPoint(int x, int y);
+
+
+    QScrollBar *heightScrBar;
+    QScrollBar *widthScrBar;
 signals:
     void moveXSignal(int);
     void currentPos(int,int);

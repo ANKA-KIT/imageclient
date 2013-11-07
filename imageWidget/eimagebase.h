@@ -70,6 +70,7 @@ public:
 
     ImagePictureMode *picMode;
     EImageScreen *wgt;
+
     QImage setVisualPropertiesOnImg(QImage img);
 
     double getRotate();

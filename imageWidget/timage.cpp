@@ -8,7 +8,7 @@ TImage::TImage(QWidget *parent, Qt::WFlags ):  EImageBase(parent),TDevice(this)/
     setProperty("forceNoUnit", false);
     setSizePolicy(QSizePolicy::Ignored,QSizePolicy::Ignored);
 
-    connect(device(), SIGNAL(newTangoData(const TVariant&)), this, SLOT(refresh(const TVariant&)),        Qt::DirectConnection);
+    connect(device(), SIGNAL(newTangoData(const TVariant&)), this, SLOT(refresh(const TVariant&)), Qt::DirectConnection);
     setAutoFillBackground(true);
     viewport()->setAutoFillBackground(true);
 iii=0;
@@ -30,6 +30,8 @@ iii=0;
     roiAddedFromServer = false;
     _pause = false;
     //setServerMode(true);
+
+
 }
 
 void TImage::setPause(bool value){
@@ -107,7 +109,7 @@ void TImage::refresh(const TVariant &newVal)
         emit newPicture(img, this);
         iii++;
         QString ttt = "New pic " + QString().number(iii);
-   //     qDebug(ttt.toAscii().constData());
+        //     qDebug(ttt.toAscii().constData());
 
 
         }
@@ -118,6 +120,10 @@ void TImage::refresh(const TVariant &newVal)
 }
 
 void TImage::draw(QImage img){
+   // horizontalScrollBar()->setMaximum(wgt->image.width());
+   // verticalScrollBar()->setMaximum(wgt->image.height());
+    wgt->widthScrBar->setMaximum(wgt->image.width());
+    wgt->heightScrBar->setMaximum(wgt->image.height());
     wgt->image = img.copy();
             if(picMode->getPictureMode() == ImagePictureMode::IS_RGBGRAY){
                 emit newPictureDim(dimX/picMode->lastDelimetr, dimY);
