@@ -6,21 +6,17 @@
 #include <QDate>
 #include <QTime>
 #include <QRgb>
+#include <QScrollArea>
+#include <QVariant>
 
 #include "eimagescreen.h"
 #include "imagemanipulator.h"
 #include "imagepicturemode.h"
-#include <QScrollArea>
 
-
-#include <QVariant>
-
-//My_Code
-struct Parametres{
+struct Parametres {
     int brightness;
     int contrast;
     int gamma;
-
 };
 
 class EImageBase : public QScrollArea
@@ -38,7 +34,6 @@ public:
     EImageBase(QImage img, int x, int y, int pm, QWidget *p = 0);
     EImageBase(QVector<unsigned short > vector, int x, int y, int pm, QWidget *p);
 // EImage(QVector<unsigned char>& vector, int x, int y, int pm, QScrollArea *p = 0);
- //   ~EImageBase();
 
     void drawing(QImage &img);
 
@@ -46,7 +41,6 @@ public:
     void saveImg(QImage img);
     void fastSave();
 
-//    QMenu *contextMenu;
     QAction *params;
     unsigned long iii;
     QVector<unsigned short> val16;
@@ -55,18 +49,15 @@ public:
     int dimX, dimY;
     int _timer;
 
-
     QImage errorImage();
     QImage setPropertiesOnImg(QImage img);
     QImage setPropertiesOnImg(QImage img, QVariant *params);
-
 
 //    void ShowContextMenu(const QPoint& pos);
 //    void setActionMenu(QList<QAction *> acts);
     ImageManipulator *manip;
     double imageWidth();
     double imageHeight();
-
 
     ImagePictureMode *picMode;
     EImageScreen *wgt;
@@ -81,11 +72,16 @@ public:
     int getGamma();
     int getContrast();
 
-    //double serverValues[6];
     double serverValues[7];
     double valuesForWrite[6];
     int __serverMode;
-    enum WORKMODE{SINGLE, READ, READ_WITH_SERVERTRANSFORMATION, WRITE, WRITE_WITH_SERVERTRANSFORMATION};
+    enum WORKMODE {
+        SINGLE,
+        READ,
+        READ_WITH_SERVERTRANSFORMATION,
+        WRITE,
+        WRITE_WITH_SERVERTRANSFORMATION
+    };
 
     QMenu *saveWholePic;
     QMenu *saveCatPic;
@@ -122,7 +118,6 @@ public slots:
     void chImageMode(int mode);
     void  setImageType(int type);
 
-
     virtual void showParams(){}
     virtual void drawHistogram();
 
@@ -130,7 +125,6 @@ public slots:
     void saveWholeMarked();
     void saveCatMarked();
     void saveCat();
-
 
     void setBrightness(QVariant);
     void setContrast(QVariant);
@@ -145,12 +139,9 @@ public slots:
 protected slots:
     void manipDestroed();
 
-
-
     QImage changeGammaImg( const QImage& image, int gamma );
     QImage changeContrastImg( const QImage& image, int contrast );
     QImage changeBrightnessImg( const QImage& image, int brightness );
-
 };
 //My_Code_End
 #endif // EIMAGEBASE_H
