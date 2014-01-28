@@ -4,6 +4,8 @@
 #include <QGroupBox>
 #include <QLabel>
 
+#include "config.h"
+
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
@@ -58,8 +60,9 @@ MainWindow::MainWindow(QWidget *parent) :
     vbox->addWidget(area,100);
    // centralWidget()->setLayout(vbox);
 
-
-    setWindowTitle("ImageClient 2.0 Build 2");
+    QString title = "ImageClient ";
+    title += VERSION;
+    setWindowTitle(title);
 }
 
 void MainWindow::startWindow(){

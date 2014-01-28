@@ -25,6 +25,8 @@ find_path(QWT_LIBS libqwt.so HINTS /usr/${LIB_INSTALL_DIR} /usr/local/qwt-5.2.1/
 add_subdirectory(imageWidget)
 add_subdirectory(imageclient2.0)
 
+configure_file("${CMAKE_CURRENT_SOURCE_DIR}/config.h.in" "${CMAKE_CURRENT_BINARY_DIR}/config.h" @ONLY IMMEDIATE)
+
 if (UNIX)
   set(CPACK_PACKAGE_VERSION ${VERSION})
   set(CPACK_GENERATOR "RPM")

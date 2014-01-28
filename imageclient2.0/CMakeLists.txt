@@ -32,11 +32,15 @@ SET(source_headers
   argtable/src/argtable2.h
 )
 
+message("CONFIGDIR ${CONFIG_INCLUDE_DIR}")
+
+
 include_directories(
   ${CMAKE_CURRENT_SOURCE_DIR}
   ${ImageClient_SOURCE_DIR}/imageWidget
   ${TANGO_INCLUDE_DIRS}
   ${QWT_HEADERS}
+  ${CMAKE_CURRENT_BINARY_DIR}/.. # HACK
 )
 
 link_directories(
