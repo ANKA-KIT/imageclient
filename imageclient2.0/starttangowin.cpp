@@ -62,15 +62,8 @@ int StartTangoWindow::findLastEnteredIndex(QStringList cmb, QString str){
 }
 
 void StartTangoWindow::readSettings(){
-    QSettings settings("Vasil","imageClient");
- /*   QString host = settings.value("tangoHost", QString("anka-tango3.ka.fzk.de:10000")).toString();
-    QString dev = settings.value("tangoDev", QString("sys/tg_test/mytest")).toString();
-    QString attrImage = settings.value("tangoImgAttr", QString("testimage")).toString();
-    lsDev = settings.value("tangoDevList", QStringList("sys/tg_test/mytest")).toStringList();
-    lsAttr = settings.value("tangoAttrList", QStringList("testimage")).toStringList();
-    lsHost = settings.value("tangoHostList", QStringList("anka-tango3.ka.fzk.de:10000")).toStringList();
-*/
-    QString host = settings.value("tangoHost", QString("localhost:10000")).toString();
+    QSettings settings("ANKA","imageclient");
+    QString host = settings.value("tangoHost", QString("anka-tango:10000")).toString();
     QString dev = settings.value("tangoDev", QString("web/web_test/camera")).toString();
     QString attrImage = settings.value("tangoImgAttr", QString("image")).toString();
     lsDev = settings.value("tangoDevList", QStringList("web/web_test/camera")).toStringList();
