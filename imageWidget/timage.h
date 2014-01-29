@@ -5,18 +5,14 @@
 #include "TImageSnapshot"
 #include "etangodevice.h"
 #include <QCoreApplication>
-
-
 #include <QTimer>
 
 /**
  * \brief a widget for displaying current image from TANGO
  *
- *
- **/
+ */
 class TImage : public EImageBase, public TDevice//, public QTangoComProxyReader, public QTangoWidgetCommon
 {
-
    // Q_PROPERTY(QString source READ source WRITE setSource DESIGNABLE true)
     Q_PROPERTY(int period READ period WRITE setPeriod)
 
@@ -33,7 +29,6 @@ private:
      * @see pause
      **/
     bool _pause;
-
     bool _serverMode;
 
     QVector<double> initParametersVector();
@@ -89,10 +84,7 @@ public:
 
     bool serverMode(){return _serverMode;}
 
-
-
     QList<QRect> roiList;
-
     QList<ImageMarker*> serverMarkerList;
     int serverMarkerCount;
     QList<RoiAction*> roiActionList;
@@ -154,7 +146,6 @@ public slots:
     * @see pause
     **/
     void setPause(bool value);
-
 
     void writeProperty();
     void writeProperty(QVector<double>);

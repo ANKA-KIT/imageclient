@@ -7,22 +7,22 @@ ImageMarker::ImageMarker(int x, int y, QMenu *parent) :
     _yOnPic = yTransformed = _y = y;
     hLineLength = vLineLength = 5;
     srand (time(NULL));
-    int r = rand()%255;
-    int g = rand()%255;
-    int b = rand()%255;
-    _clr = qRgb(r,g,b);
-    pic = new QPixmap(48,48);
+    int r = rand() % 255;
+    int g = rand() % 255;
+    int b = rand() % 255;
+    _clr = qRgb(r, g, b);
+    pic = new QPixmap(48, 48);
     pic->fill(QColor(_clr));
-    setTitle("Marker["+QString().number(x)+";"+QString().number(y)+"]");
+    setTitle("Marker[" + QString().number(x) + ";" + QString().number(y) + "]");
     _width = 1;
 
-    actDel = new QAction(tr("Delete"),this);
-    actSettings = new QAction(tr("Marker Color"),this);
-    connect(actDel,SIGNAL(triggered()),this,SLOT(del()));
-    connect(actSettings,SIGNAL(triggered()),this,SLOT(showSettings()));
+    actDel = new QAction(tr("Delete"), this);
+    actSettings = new QAction(tr("Marker Color"), this);
+    connect(actDel, SIGNAL(triggered()), this, SLOT(del()));
+    connect(actSettings, SIGNAL(triggered()), this, SLOT(showSettings()));
 
-    actSize = new QAction(tr("Marker Size"),this);
-    connect(actSize,SIGNAL(triggered()),this,SLOT(resizeMarkerWin()));
+    actSize = new QAction(tr("Marker Size"), this);
+    connect(actSize, SIGNAL(triggered()), this, SLOT(resizeMarkerWin()));
 
     menuAction()->setIcon(*pic);
     menuAction()->setIconVisibleInMenu(true);
@@ -30,9 +30,8 @@ ImageMarker::ImageMarker(int x, int y, QMenu *parent) :
     this->addAction(actSettings);
     this->addAction(actSize);
     this->addAction(actDel);
+    // TODO: add menu entry for submitting marker to tango device
 }
-
-
 
 void ImageMarker::del(){
     emit deleteMarker(this);

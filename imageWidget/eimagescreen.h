@@ -9,9 +9,8 @@
 
 #include <QScrollBar>
 #include "math.h"
-//My_Code
 
-struct TransformParametres{
+struct TransformParametres {
     bool horFlip;
     bool verFlip;
     double rotate;
@@ -19,7 +18,8 @@ struct TransformParametres{
     double imageScale;
 };
 
-class EImageScreen :public QWidget{//, public RightClickMenuable{
+class EImageScreen : public QWidget
+{
      Q_OBJECT
 private:
     bool lButtonPresed;
@@ -48,10 +48,6 @@ public:
     void setMarkersOnPic(bool, QImage &imgPtr);
     double getRotate();
     QPoint convertToImageCoordinates();
-
-   // QPoint convertToImagePointServer(int x, int y);
-  //  QPoint convertPoint(int x, int y);
-
 
     QScrollBar *heightScrBar;
     QScrollBar *widthScrBar;
@@ -87,7 +83,6 @@ public slots:
     void initMarker();
     QPoint convertToImagePoint(int x, int y);
     QImage setImageByFullScreenMode(QImage);
-
 
     QImage chScale(QImage &image, double val);
     QImage chScale(QImage &image, double valX, double valY);

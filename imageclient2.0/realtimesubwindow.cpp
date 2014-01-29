@@ -1,22 +1,20 @@
 #include "realtimesubwindow.h"
 #include "imagemarker.h"
 
-RealtimeSubWindow::RealtimeSubWindow(QString  tangoDev, QString  tangoImage):SubWindow(SubWindow::REALTIME)//, QMdiSubWindow*parent):SubWindow(parent)
+RealtimeSubWindow::RealtimeSubWindow(QString tangoDev, QString tangoImage) : SubWindow(SubWindow::REALTIME), tim(new TImage(this))
 {
-    //serVars = NULL;
-    tim = new TImage(this);
     tim->setSource(tangoDev, tangoImage);
     setWindowTitle(tangoDev);
     vbox->addWidget(tim,100);
 
-    connect(tim,SIGNAL(scaleValue(double)),this,SLOT(setScaleDisplay(double)));
-    connect(tim,SIGNAL(brightnessValue(int)),this,SLOT(setBrightnessDisplay(int)));
-    connect(tim,SIGNAL(contrastValue(int)),this,SLOT(setContrastDisplay(int)));
-    connect(tim,SIGNAL(gammaValue(int)),this,SLOT(setGammaDisplay(int)));
-    connect(tim,SIGNAL(rotateValue(double)),this,SLOT(setRotateDisplay(double)));
-    connect(tim,SIGNAL(hFlipValue(bool)),this,SLOT(setHFlipDisplay(bool)));
-    connect(tim,SIGNAL(vFlipValue(bool)),this,SLOT(setVFlipDisplay(bool)));
-    connect(tim,SIGNAL(timeNewPic(int)),this,SLOT(setTimeDisplay(int)));
+    connect(tim, SIGNAL(scaleValue(double)), this, SLOT(setScaleDisplay(double)));
+    connect(tim, SIGNAL(brightnessValue(int)), this, SLOT(setBrightnessDisplay(int)));
+    connect(tim, SIGNAL(contrastValue(int)), this, SLOT(setContrastDisplay(int)));
+    connect(tim, SIGNAL(gammaValue(int)), this, SLOT(setGammaDisplay(int)));
+    connect(tim, SIGNAL(rotateValue(double)), this, SLOT(setRotateDisplay(double)));
+    connect(tim, SIGNAL(hFlipValue(bool)), this, SLOT(setHFlipDisplay(bool)));
+    connect(tim, SIGNAL(vFlipValue(bool)), this, SLOT(setVFlipDisplay(bool)));
+    connect(tim, SIGNAL(timeNewPic(int)), this, SLOT(setTimeDisplay(int)));
 
     setRotateDisplay(tim->getRotate());
     setGammaDisplay(tim->getGamma());
@@ -46,11 +44,9 @@ RealtimeSubWindow::RealtimeSubWindow(QString  tangoDev, QString  tangoImage):Sub
     connect(tim, SIGNAL(fullscreenMode(bool)),this,SLOT(onChangeFullscreen(bool)));
 }
 
-
 void RealtimeSubWindow::setServerVar(QString val){//(ServerVariables val){
     tim->__serverAttrName = val;
 }
-
 
 void RealtimeSubWindow::setServerModeRead(bool val){//(ServerVariables val){
     tim->__serverMode = TImage::READ;

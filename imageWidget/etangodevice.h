@@ -67,13 +67,7 @@ public slots:
 signals:
     void tangoError(QString);
     void newTangoData(const TVariant&);
-
-
 };
-
-
-
-
 
 class TDevice{
 

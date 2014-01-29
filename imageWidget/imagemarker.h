@@ -63,7 +63,7 @@ public slots:
     }
 };
 
-class ImageMarker : public QMenu//QAction//QObject
+class ImageMarker : public QMenu
 {
     Q_OBJECT
 public:
@@ -75,7 +75,8 @@ public:
     int _yOnPic;
     int xTransformed;
     int yTransformed;
-    int visiableXPos,visiableYPos;
+    int visiableXPos;
+    int visiableYPos;
     int _width;
     int hLineLength;
     int vLineLength;

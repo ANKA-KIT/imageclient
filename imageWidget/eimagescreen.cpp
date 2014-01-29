@@ -480,11 +480,10 @@ void EImageScreen::paintEvent( QPaintEvent * ){
                 }
     }
 }
-/////////////////////////////////////////////////////
-//////////////////////////////////////////////////////
+
 ImageMarker* EImageScreen::initMarker(QPoint pos){
   //  QPoint posSer = convertToImagePointServer(pos.x(),pos.y());
-    ImageMarker *m1 = new ImageMarker(pos.x(),pos.y(),contextMenu);
+    ImageMarker *m1 = new ImageMarker(pos.x(),pos.y(), contextMenu);
     m1->_x = pos.x();//posSer.x();
     m1->_y = pos.y();//posSer.y();
     m1->_xOnPic = pos.x();
