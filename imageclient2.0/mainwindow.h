@@ -41,7 +41,7 @@ public:
 private:
     Ui::MainWindow *ui;
 public slots:
-    void startWindow();
+    void chooseDevice();
     void variablesWindow();
     void initRealtime(QString dev, QString attr);
     void initSnapshot(TImage *tim, int type);

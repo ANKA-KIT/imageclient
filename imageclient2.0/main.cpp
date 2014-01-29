@@ -115,7 +115,7 @@ int main(int argc, char *argv[])
             TDevice *dev = new TDevice(&a);
             if (dev->device()->checkAttr(hostName+"/"+devName, attrName)){
 
-            w.startWindow();
+            w.chooseDevice();
             w.startTWin->tlAttr->setText(attrName);
             w.startTWin->tlDevice->setText(devName);
             w.startTWin->tlServer->setText(hostName);

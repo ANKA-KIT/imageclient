@@ -17,14 +17,10 @@ MainWindow::MainWindow(QWidget *parent) :
     trueIcon = ":/icons/true.png";
     falseIcon = ":/icons/false.png";
     ui->setupUi(this);
-    QAction *actStartWin = new QAction("Start New Device", this);
-    actStartWin->setStatusTip(tr("Init new image device"));
-    connect(actStartWin,SIGNAL(triggered()),SLOT(startWindow()));
 
     QAction *actExit = new QAction("Exit", this);
     actExit->setStatusTip(tr("Finish"));
     connect(actExit,SIGNAL(triggered()),this,SLOT(close()));
-    ui->menuServer->addAction(actStartWin);
     ui->menuServer->addAction(actExit);
 
     QAction *actVarWin = new QAction("Set Tango Variables", this);
@@ -59,7 +55,8 @@ MainWindow::MainWindow(QWidget *parent) :
     setWindowTitle(title);
 }
 
-void MainWindow::startWindow(){
+void MainWindow::chooseDevice()
+{
     StartTangoWindow *startTWin;
     startTWin = new StartTangoWindow();
     startTWin->setAttribute(Qt::WA_DeleteOnClose);

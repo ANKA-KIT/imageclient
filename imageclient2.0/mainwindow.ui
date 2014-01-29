@@ -27,6 +27,7 @@
     <property name="title">
      <string>&amp;Server</string>
     </property>
+    <addaction name="actionStart_New_Device"/>
    </widget>
    <widget class="QMenu" name="menuRealtime">
     <property name="title">
@@ -49,8 +50,36 @@
     <string>Sync..</string>
    </property>
   </action>
+  <action name="actionStart_New_Device">
+   <property name="text">
+    <string>Start New Device</string>
+   </property>
+   <property name="toolTip">
+    <string>Init new image device</string>
+   </property>
+  </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources/>
- <connections/>
+ <connections>
+  <connection>
+   <sender>actionStart_New_Device</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>chooseDevice()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>199</x>
+     <y>149</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <slots>
+  <slot>chooseDevice()</slot>
+ </slots>
 </ui>
