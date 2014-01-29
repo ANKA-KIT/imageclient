@@ -1,59 +1,56 @@
 SET(source_files
-  main.cpp
-  mainwindow.cpp
-  realtimecontainer.cpp
-  realtimesubwindow.cpp
-  roicontainer.cpp
-  roisubwindow.cpp
-  snapshotcontainer.cpp
-  snapshotsubwindow.cpp
-  starttangowin.cpp
-  subwindowmdi.cpp
-  tangoservervariableswin.cpp
-  argtable/src/arg_int.c
-  argtable/src/arg_lit.c
-  argtable/src/arg_end.c
-  argtable/src/arg_str.c
-  argtable/src/argtable2.c
+    main.cpp
+    mainwindow.cpp
+    realtimecontainer.cpp
+    realtimesubwindow.cpp
+    roicontainer.cpp
+    roisubwindow.cpp
+    snapshotcontainer.cpp
+    snapshotsubwindow.cpp
+    starttangowin.cpp
+    subwindowmdi.cpp
+    tangoservervariableswin.cpp
+    argtable/src/arg_int.c
+    argtable/src/arg_lit.c
+    argtable/src/arg_end.c
+    argtable/src/arg_str.c
+    argtable/src/argtable2.c
 )
 
 SET(source_headers
-  mainwindow.h
-  realtimecontainer.h
-  realtimesubwindow.h
-  roicontainer.h
-  roisubwindow.h
-  snapshotcontainer.h
-  snapshotsubwindow.h
-  starttangowin.h
-  subwindowmdi.h
-  tangoservervariableswin.h
-  ui_mainwindow.h
-  argtable/src/argtable2.h
+    mainwindow.h
+    realtimecontainer.h
+    realtimesubwindow.h
+    roicontainer.h
+    roisubwindow.h
+    snapshotcontainer.h
+    snapshotsubwindow.h
+    starttangowin.h
+    subwindowmdi.h
+    tangoservervariableswin.h
+    argtable/src/argtable2.h
 )
 
-message("CONFIGDIR ${CONFIG_INCLUDE_DIR}")
-
-
 include_directories(
-  ${CMAKE_CURRENT_SOURCE_DIR}
-  ${ImageClient_SOURCE_DIR}/imageWidget
-  ${TANGO_INCLUDE_DIRS}
-  ${QWT_HEADERS}
-  ${CMAKE_CURRENT_BINARY_DIR}/.. # HACK
+    ${CMAKE_CURRENT_BINARY_DIR}
+    ${CMAKE_CURRENT_SOURCE_DIR}
+    ${ImageClient_SOURCE_DIR}/imageWidget
+    ${TANGO_INCLUDE_DIRS}
+    ${QWT_HEADERS}
+    ${CMAKE_CURRENT_BINARY_DIR}/.. # HACK
 )
 
 link_directories(
-  ${TANGO_LIBRARY_DIRS}
-  ${QWT_LIBS}
-  ${ImageClient_BINARY_DIR}/imageWidget
+    ${TANGO_LIBRARY_DIRS}
+    ${QWT_LIBS}
+    ${ImageClient_BINARY_DIR}/imageWidget
 )
 
 SET(source_FORMS
-  mainwindow.ui
+    mainwindow.ui
 )
 SET(imageclient_RESOURCES
-  application.qrc
+    application.qrc
 )
 
 QT4_WRAP_CPP(imageclient_HEADERS_MOC ${source_headers})
@@ -64,6 +61,4 @@ add_executable(imageclient ${source_files}  ${imageclient_HEADERS_MOC} ${imagecl
 
 target_link_libraries(imageclient tangoImageWidget ${TANGO_LIBRARIES} ${QT_LIBRARIES} pthread qwt opencv_highgui opencv_core)
 
-install(TARGETS imageclient
-        RUNTIME
-        DESTINATION ${CMAKE_INSTALL_PREFIX}/bin)
+install(TARGETS imageclient RUNTIME DESTINATION ${CMAKE_INSTALL_PREFIX}/bin)

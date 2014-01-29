@@ -17,10 +17,6 @@ MainWindow::MainWindow(QWidget *parent) :
     trueIcon = ":/icons/true.png";
     falseIcon = ":/icons/false.png";
     ui->setupUi(this);
-    QMenu* serverMenu;
-    QMenu* realtimeMenu;
-//    QMenu* snapshotMenu;
-	serverMenu =  menuBar()->addMenu(QString("&Server"));
     QAction *actStartWin = new QAction("Start New Device", this);
     actStartWin->setStatusTip(tr("Init new image device"));
     connect(actStartWin,SIGNAL(triggered()),SLOT(startWindow()));
@@ -28,8 +24,8 @@ MainWindow::MainWindow(QWidget *parent) :
     QAction *actExit = new QAction("Exit", this);
     actExit->setStatusTip(tr("Finish"));
     connect(actExit,SIGNAL(triggered()),this,SLOT(close()));
-    serverMenu->addAction(actStartWin);
-    serverMenu->addAction(actExit);
+    ui->menuServer->addAction(actStartWin);
+    ui->menuServer->addAction(actExit);
 
     QAction *actVarWin = new QAction("Set Tango Variables", this);
     actVarWin->setStatusTip(tr("Set server parameter variable"));
@@ -39,14 +35,12 @@ MainWindow::MainWindow(QWidget *parent) :
     snpContainer = new SnapshotContainer(this);
     roiContainer = new RoiContainer(this);
 
-    realtimeMenu = menuBar()->addMenu(QString("&Realtime"));
-    realtimeMenu->addAction(actVarWin);
-    realtimeMenu->addMenu(rtContainer->serverMode);
-    realtimeMenu->addAction(rtContainer->actClientSide);
-  //  snapshotMenu = menuBar()->addMenu(QString("&Snapshot"));
+    ui->menuRealtime->addAction(actVarWin);
+    ui->menuRealtime->addMenu(rtContainer->serverMode);
+    ui->menuRealtime->addAction(rtContainer->actClientSide);
     QVBoxLayout *vbox = new QVBoxLayout(centralWidget());//(palet);
     vbox->setMargin(0);
-    area = new QMdiArea(this);//centralWidget());
+    area = new QMdiArea(this);
     area->setGeometry(0, 0, 400, 300);
     QHBoxLayout *layout = new QHBoxLayout;
     lbPos = new QLabel(this);
@@ -54,7 +48,7 @@ MainWindow::MainWindow(QWidget *parent) :
     layout->addWidget(lbPos);
     layout->addWidget(lbColor);
     layout->addStretch();
-	vbox->addStretch();
+    vbox->addStretch();
     vbox->addLayout(layout);
     vbox->addStretch();
     vbox->addWidget(area,100);
