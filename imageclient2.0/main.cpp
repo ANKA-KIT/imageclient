@@ -9,7 +9,6 @@
   E-Mail: georgy13@mail.ru
 */
 
-/*HELP INFO*/
 void print_usage(FILE * stream, int exitCode){
     fprintf(stream,"\nImageClient - Qt application for dealing with ANKA photo-cameras, based on TANGO."
             "ImageClient allows set Contrast, Gamma, Brightness, Rotation, Scale, Horizontal and Vertical flipping for getting picture from TANGO photo-cameras. "
@@ -30,30 +29,10 @@ void print_usage(FILE * stream, int exitCode){
             "  -m3            IS_RGBGRAY.    It is RGB greyscale image mode \n"
             "  -m4            IS_8BIT.       It is 8 bit greyscale  image mode \n"
             "  -m5            IS_RGBA.       It is 8 bit RGBA  image mode \n"
-/*            "-f  --imageformat  Qt stuff setting for correct setting image in image Modes (-m)\n"
-            "  -f3            ImageFormatIndex8;      The image is stored using 8-bit indexes into a colormap.\n"
-            "  -f4            ImageFormatRGB32;       The image is stored using a 32-bit RGB format (0xffRRGGBB).\n"
-            "  -f5            ImageFormatARGB32;      The image is stored using a 32-bit ARGB format (0xAARRGGBB).\n"
-            "  -f6            ImageFormatARGB32Pre;   The image is stored using a premultiplied 32-bit ARGB format (0xAARRGGBB),"
-                                                        "i.e. the red, green, and blue channels are multiplied by the alpha component divided by 255."
-                                                        " (If RR, GG, or BB has a higher value than the alpha channel, the results are undefined.) "
-                                                        "Certain operations (such as image composition using alpha blending) are faster using premultiplied ARGB32 than with plain ARGB32.\n"
-            "  -f7            ImageFormatRGB16;       The image is stored using a 16-bit RGB format (5-6-5).\n"
-            "  -f8            ImageFormatARGB8565Pre; The image is stored using a premultiplied 24-bit ARGB format (8-5-6-5).\n"
-            "  -f9            ImageFormatRGB666;      The image is stored using a 24-bit RGB format (6-6-6). The unused most significant bits is always zero.\n"
-            "  -f10           ImageFormatARGB6666Pre; The image is stored using a premultiplied 24-bit ARGB format (6-6-6-6).\n"
-            "  -f11           ImageFormatRGB555;      The image is stored using a 16-bit RGB format (5-5-5). The unused most significant bit is always zero.\n"
-            "  -f12           ImageFormatARGB8555Pre; The image is stored using a premultiplied 24-bit ARGB format (8-5-5-5).\n"
-            "  -f13           ImageFormatRGB888;      The image is stored using a 24-bit RGB format (8-8-8).\n"
-            "  -f14           ImageFormatRGB444;      The image is stored using a 16-bit RGB format (4-4-4). The unused bits are always zero.\n"
-            "  -f15           ImageFormatARGB4444Pre; The image is stored using a premultiplied 16-bit ARGB format (4-4-4-4).\n\n"
-*/
-            "EXAMPLE: ./imageClient -tanka-tango3.ka.fzk.de:10000 -dsys/tg_test/mytest -atestImage -cLoad16BitImg -cSetDataImage -m2  --delay-time=1000 \n"  /*-f4*/
-            /*   "./imageClient2 -tlocalhost:10000 -dweb/web_test/camera -aImage -cLoad16BitImg -cSetDataImage -m3  - --delay-time=1000 \n"         */
+            "EXAMPLE: ./imageClient -tanka-tango3.ka.fzk.de:10000 -dsys/tg_test/mytest -atestImage -cLoad16BitImg -cSetDataImage -m2  --delay-time=1000 \n"
             );
     exit(exitCode);
 }
-
 
 int main(int argc, char *argv[])
 {
@@ -130,13 +109,9 @@ int main(int argc, char *argv[])
     for (int i=0; i<tangocommand->count; i++){
         tangoCommands.push_back(QString(tangocommand->sval[i]));
     }
-
-
-
     if (withAttrs){
-        //fprintf(stderr,"%d  %d  %d", tangoattr->count, tangodevice->count, tangohost->count);
         if (tangoattr->count > 0 && tangodevice->count > 0 && tangohost->count > 0){// &&hostName != "" && devName != "" && attrName != ""){
-            /*Open an feel startTangoWin*/
+            /* Open an feel startTangoWin */
             TDevice *dev = new TDevice(&a);
             if (dev->device()->checkAttr(hostName+"/"+devName, attrName)){
 
@@ -145,11 +120,11 @@ int main(int argc, char *argv[])
             w.startTWin->tlDevice->setText(devName);
             w.startTWin->tlServer->setText(hostName);
 
-            for(int i=0; i<tangoCommands.size(); i++){
+            for (size_t i = 0; i < tangoCommands.size(); i++){
                 fprintf(stderr, "Command: %s\n", tangoCommands.at(i).toAscii().constData());
                 dev->setSource("//"+hostName+"/"+devName,"");
-                if (!dev->sendTangoCommand(tangoCommands.at(i))){
-                   fprintf(stderr, "Command not set\n");
+                if (!dev->sendTangoCommand(tangoCommands[i])){
+                    fprintf(stderr, "Command not set\n");
                 }
             }
             /*setting imageMode and imageFormat*/
@@ -176,11 +151,7 @@ int main(int argc, char *argv[])
             print_usage(stdout, 1);
         }
     }
-
-
     arg_freetable(argtable,sizeof(argtable)/sizeof(argtable[0]));
-
     w.show();
-
     return a.exec();
 }
