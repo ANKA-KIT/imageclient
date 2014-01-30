@@ -18,37 +18,26 @@ MainWindow::MainWindow(QWidget *parent) :
     falseIcon = ":/icons/false.png";
     ui->setupUi(this);
 
-    QAction *actExit = new QAction("Exit", this);
-    actExit->setStatusTip(tr("Finish"));
-    connect(actExit,SIGNAL(triggered()),this,SLOT(close()));
-    ui->menuServer->addAction(actExit);
-
-    QAction *actVarWin = new QAction("Set Tango Variables", this);
-    actVarWin->setStatusTip(tr("Set server parameter variable"));
-    connect(actVarWin,SIGNAL(triggered()),SLOT(variablesWindow()));
-
     rtContainer = new RealtimeContainer(this);
     snpContainer = new SnapshotContainer(this);
     roiContainer = new RoiContainer(this);
 
-    ui->menuRealtime->addAction(actVarWin);
     ui->menuRealtime->addMenu(rtContainer->serverMode);
     ui->menuRealtime->addAction(rtContainer->actClientSide);
-    QVBoxLayout *vbox = new QVBoxLayout(centralWidget());//(palet);
+    QVBoxLayout *vbox = new QVBoxLayout(centralWidget());
     vbox->setMargin(0);
     area = new QMdiArea(this);
     area->setGeometry(0, 0, 400, 300);
     QHBoxLayout *layout = new QHBoxLayout;
     lbPos = new QLabel(this);
-    lbColor = new QLabel(this);
     layout->addWidget(lbPos);
+    lbColor = new QLabel(this);
     layout->addWidget(lbColor);
     layout->addStretch();
     vbox->addStretch();
     vbox->addLayout(layout);
     vbox->addStretch();
-    vbox->addWidget(area,100);
-   // centralWidget()->setLayout(vbox);
+    vbox->addWidget(area, 100);
 
     QString title = "ImageClient ";
     title += VERSION;
@@ -64,8 +53,9 @@ void MainWindow::chooseDevice()
     startTWin->show();
 }
 
-void MainWindow::variablesWindow(){
-    if (rtContainer->getRealtimeLastVal() !=-1){
+void MainWindow::variablesWindow()
+{
+    if (rtContainer->getRealtimeLastVal() != -1) {
         TangoServerVariablesWin *varWin;
         RealtimeSubWindow *rt = rtContainer->getRealtimeCurWin();
         varWin = new TangoServerVariablesWin(rt->tim->getServerName());//(rt->serVars);

@@ -17,18 +17,16 @@ SET(source_files
     argtable/src/argtable2.c
 )
 
-SET(source_headers
+SET(qt_headers
     mainwindow.h
     realtimecontainer.h
     realtimesubwindow.h
     roicontainer.h
     roisubwindow.h
     snapshotcontainer.h
-    snapshotsubwindow.h
     starttangowin.h
     subwindowmdi.h
     tangoservervariableswin.h
-    argtable/src/argtable2.h
 )
 
 include_directories(
@@ -53,7 +51,7 @@ SET(imageclient_RESOURCES
     application.qrc
 )
 
-QT4_WRAP_CPP(imageclient_HEADERS_MOC ${source_headers})
+QT4_WRAP_CPP(imageclient_HEADERS_MOC ${qt_headers})
 QT4_WRAP_UI(imageclient_FORMS_HEADERS ${source_FORMS})
 QT4_ADD_RESOURCES(imageclient_RESOURCES_RCC ${imageclient_RESOURCES})
 

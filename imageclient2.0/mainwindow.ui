@@ -28,11 +28,13 @@
      <string>&amp;Server</string>
     </property>
     <addaction name="actionStart_New_Device"/>
+    <addaction name="actionExit"/>
    </widget>
    <widget class="QMenu" name="menuRealtime">
     <property name="title">
      <string>&amp;Realtime</string>
     </property>
+    <addaction name="actionSet_Tango_Variables"/>
    </widget>
    <widget class="QMenu" name="menuTango">
     <property name="title">
@@ -58,6 +60,22 @@
     <string>Init new image device</string>
    </property>
   </action>
+  <action name="actionExit">
+   <property name="text">
+    <string>Exit</string>
+   </property>
+   <property name="toolTip">
+    <string>Finish</string>
+   </property>
+  </action>
+  <action name="actionSet_Tango_Variables">
+   <property name="text">
+    <string>Set Tango Variables</string>
+   </property>
+   <property name="toolTip">
+    <string>Set server parameter variable</string>
+   </property>
+  </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources/>
@@ -78,8 +96,41 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>actionExit</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>close()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>199</x>
+     <y>149</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionSet_Tango_Variables</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>variablesWindow()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>199</x>
+     <y>149</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>chooseDevice()</slot>
+  <slot>variablesWindow()</slot>
  </slots>
 </ui>
