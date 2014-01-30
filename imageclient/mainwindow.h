@@ -43,6 +43,7 @@ private:
 public slots:
     void chooseDevice();
     void variablesWindow();
+    void syncDialog();
     void initRealtime(QString dev, QString attr);
     void initSnapshot(TImage *tim, int type);
     void initRoi(QPoint, QPoint, TImage *);

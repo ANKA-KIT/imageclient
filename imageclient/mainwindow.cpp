@@ -5,6 +5,7 @@
 #include <QLabel>
 
 #include "config.h"
+#include "syncdialog.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -64,6 +65,13 @@ void MainWindow::variablesWindow()
         varWin->show();
     }
 }
+
+void MainWindow::syncDialog()
+{
+    SyncDialog sync(this);
+    sync.exec();
+}
+
 
 void MainWindow::initRealtime(QString dev, QString attr){
     RealtimeSubWindow *rt = new RealtimeSubWindow(dev, attr);

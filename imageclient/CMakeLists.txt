@@ -1,6 +1,7 @@
 SET(source_files
     main.cpp
     mainwindow.cpp
+    syncdialog.cpp
     realtimecontainer.cpp
     realtimesubwindow.cpp
     roicontainer.cpp
@@ -19,6 +20,7 @@ SET(source_files
 
 SET(qt_headers
     mainwindow.h
+    syncdialog.h
     realtimecontainer.h
     realtimesubwindow.h
     roicontainer.h
@@ -46,6 +48,7 @@ link_directories(
 
 SET(source_FORMS
     mainwindow.ui
+    syncdialog.ui
 )
 SET(imageclient_RESOURCES
     application.qrc
