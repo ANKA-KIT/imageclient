@@ -32,7 +32,7 @@ SET(qt_headers
 include_directories(
     ${CMAKE_CURRENT_BINARY_DIR}
     ${CMAKE_CURRENT_SOURCE_DIR}
-    ${ImageClient_SOURCE_DIR}/imageWidget
+    ${ImageClient_SOURCE_DIR}/imagewidget
     ${TANGO_INCLUDE_DIRS}
     ${QWT_HEADERS}
     ${CMAKE_CURRENT_BINARY_DIR}/.. # HACK
@@ -41,7 +41,7 @@ include_directories(
 link_directories(
     ${TANGO_LIBRARY_DIRS}
     ${QWT_LIBS}
-    ${ImageClient_BINARY_DIR}/imageWidget
+    ${ImageClient_BINARY_DIR}/imagewidget
 )
 
 SET(source_FORMS

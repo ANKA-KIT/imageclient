@@ -22,8 +22,8 @@ ADD_DEFINITIONS(${QT_DEFINITIONS} -Wall -std=c++0x)
 find_path(QWT_HEADERS qwt_plot.h HINTS /usr/include /usr/include/qwt5 /usr/local/qwt-5.2.1/include)
 find_path(QWT_LIBS libqwt.so HINTS /usr/${LIB_INSTALL_DIR} /usr/local/qwt-5.2.1/lib)
 
-add_subdirectory(imageWidget)
-add_subdirectory(imageclient2.0)
+add_subdirectory(imagewidget)
+add_subdirectory(imageclient)
 
 configure_file("${CMAKE_CURRENT_SOURCE_DIR}/config.h.in" "${CMAKE_CURRENT_BINARY_DIR}/config.h" @ONLY IMMEDIATE)
 
