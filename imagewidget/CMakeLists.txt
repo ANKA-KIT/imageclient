@@ -7,7 +7,6 @@ SET(source_files
   imagemarker.cpp
   imagepicturemode.cpp
   imagewidgetplugin.cpp
-  qrc_qtangoplugin.cpp
   roiclass.cpp
   timage.cpp
   timagesnapshot.cpp
