@@ -1,5 +1,14 @@
 #include "starttangowin.h"
 
+static const QString ORGANISATION = "ANKA";
+static const QString APPLICATION = "imageclient";
+static const QString HOST_SETTING = "tangoHost";
+static const QString HOST_LIST_SETTING = "tangoHostList";
+static const QString DEVICE_SETTING = "tangoDev";
+static const QString DEVICE_LIST_SETTING = "tangoDevList";
+static const QString IMAGE_ATTRIBUTE_SETTING = "tangoImgAttr";
+static const QString IMAGE_ATTRIBUTE_LIST_SETTING = "tangoAttrList";
+
 void StartTangoWindow::refresh(const TVariant &newVal)
 {
     if (newVal.quality() == Tango::ATTR_INVALID)
@@ -52,27 +61,26 @@ StartTangoWindow::StartTangoWindow(QWidget *parent) : QWidget(parent),
 }
 
 int StartTangoWindow::findLastEnteredIndex(QStringList cmb, QString str){
-    int i=0;
-    for (i; i<cmb.count(); i++){
+    for (int i = 0; i < cmb.count(); i++){
         if (cmb.at(i) == str){
-            break;
+            return i;
         }
     }
-    return i;
+    return -1;
 }
 
 void StartTangoWindow::readSettings(){
-    QSettings settings("ANKA","imageclient");
-    QString host = settings.value("tangoHost", QString("anka-tango:10000")).toString();
-    QString dev = settings.value("tangoDev", QString("web/web_test/camera")).toString();
-    QString attrImage = settings.value("tangoImgAttr", QString("image")).toString();
-    lsDev = settings.value("tangoDevList", QStringList("web/web_test/camera")).toStringList();
-    lsAttr = settings.value("tangoAttrList", QStringList("image")).toStringList();
-    lsHost = settings.value("tangoHostList", QStringList("localhost:10000")).toStringList();
+    QSettings settings(ORGANISATION, APPLICATION);
+    QString host = settings.value(HOST_SETTING, QString("anka-tango:10000")).toString();
+    QString dev = settings.value(DEVICE_SETTING, QString("web/web_test/camera")).toString();
+    QString attrImage = settings.value(IMAGE_ATTRIBUTE_SETTING, QString("image")).toString();
+    lsHost = settings.value(HOST_LIST_SETTING, QStringList("localhost:10000")).toStringList();
+    lsDev = settings.value(DEVICE_LIST_SETTING, QStringList("web/web_test/camera")).toStringList();
+    lsAttr = settings.value(IMAGE_ATTRIBUTE_LIST_SETTING, QStringList("image")).toStringList();
 
+    cmbHost->addItems(lsHost);
     cmbDevice->addItems(lsDev);
     cmbAttr->addItems(lsAttr);
-    cmbHost->addItems(lsHost);
 
     cmbDevice->setCurrentIndex(findLastEnteredIndex(lsDev, dev));
     cmbHost->setCurrentIndex(findLastEnteredIndex(lsHost, host));
@@ -91,10 +99,10 @@ bool StartTangoWindow::curValIsSet(QStringList listVal, QString str){
 }
 
 void StartTangoWindow::writeSettings(){
-    QSettings settings("Vasil","imageClient");
-    settings.setValue("tangoHost", tlServer->text());
-    settings.setValue("tangoDev", tlDevice->text());
-    settings.setValue("tangoImgAttr", tlAttr->text());
+    QSettings settings(ORGANISATION, APPLICATION);
+    settings.setValue(HOST_SETTING, tlServer->text());
+    settings.setValue(DEVICE_SETTING, tlDevice->text());
+    settings.setValue(IMAGE_ATTRIBUTE_SETTING, tlAttr->text());
 
     if (!curValIsSet(lsDev,cmbDevice->currentText()))
         lsDev<<cmbDevice->currentText();
@@ -102,9 +110,9 @@ void StartTangoWindow::writeSettings(){
         lsAttr<<cmbAttr->currentText();
     if (!curValIsSet(lsHost,cmbHost->currentText()))
         lsHost<<cmbHost->currentText();
-     settings.setValue("tangoHostList", lsHost);
-     settings.setValue("tangoAttrList", lsAttr);
-     settings.setValue("tangoDevList", lsDev);
+     settings.setValue(HOST_LIST_SETTING, lsHost);
+     settings.setValue(IMAGE_ATTRIBUTE_LIST_SETTING, lsAttr);
+     settings.setValue(DEVICE_LIST_SETTING, lsDev);
 }
 
 void StartTangoWindow::onCancel(){
@@ -112,7 +120,7 @@ void StartTangoWindow::onCancel(){
 }
 
 void StartTangoWindow::onOk(){
-    QString s = tlServer->text() +(QString)"/" + tlDevice->text();//(QString)"//" + tlServer->text() +(QString)"\/" +
+    QString s = tlServer->text() +(QString)"/" + tlDevice->text();
     setSource(s, tlAttr->text());
 }
 
@@ -127,14 +135,9 @@ void StartTangoWindow::initButtons(){
 }
 
 void StartTangoWindow::initText(){
- //   tlServer->setText("anka-tango3.ka.fzk.de:10000");
     lbServer->setText("Server name");
     lbAttr->setText("Attribute");
- //   tlAttr->setText("testImage");
-    //tlAttr->setText("gray16");
     lbDevice->setText("Device name");
- //   tlDevice->setText("sys/tg_test/mytest");
-    //tlDevice->setText("iss/ucadevice/image");
     btChangeDevice->setText("Set Dev");
     btCancel->setText("Cancel");
 }
@@ -192,7 +195,7 @@ void StartTangoWindow::testOnOk(){
 void StartTangoWindow::testOnOkImgVal(){
     qDebug("\nCORRect img val\n");
     qDebug("Attention, in StartTangoWin pingTimer STOPED");
-    emit dev(tlServer->text() +(QString)"\/" + tlDevice->text(), tlAttr->text());//(source());
+    emit dev(tlServer->text() +(QString) "/" + tlDevice->text(), tlAttr->text());
     writeSettings();
     deleteLater();
 }

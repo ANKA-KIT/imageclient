@@ -36,9 +36,9 @@ void print_usage(FILE * stream, int exitCode){
 
 int main(int argc, char *argv[])
 {
-    QApplication a(argc, argv);
-    MainWindow w;
-    a.addLibraryPath("./plugins");
+    QApplication application(argc, argv);
+    application.addLibraryPath("./plugins");
+    MainWindow mainWindow;
     vector<QString> tangoCommands;
     QString attrName, devName, hostName;
     int imMode = -1;
@@ -63,7 +63,7 @@ int main(int argc, char *argv[])
         print_usage(stderr, 1);
     }
     int nerrors = arg_parse(argc, argv, argtable);
-    if (nerrors > 0){
+    if (nerrors > 0) {
         const char *progname = "imageClient";
             /* Display the error details contained in the arg_end struct.*/
             arg_print_errors(stderr, end, progname);
@@ -73,7 +73,7 @@ int main(int argc, char *argv[])
         print_usage(stdout, 0);
     }
     if (delaytime->count > 0){
-        w.startDelayTime = delaytime->ival[0];
+        mainWindow.startDelayTime = delaytime->ival[0];
     }
     if (tangoattr->count > 0) {
         withAttrs = true;
@@ -92,24 +92,23 @@ int main(int argc, char *argv[])
         if (imMode >= -1 && imMode <= 5) {
             isImModeSet = true;
             startWithParams = true;
-        }
-        else{
+        } else {
             fprintf(stderr, "SET correct IMAGE MODE (-m) value\n");
             print_usage(stderr, 1);
         }
     }
-    for (int i=0; i<tangocommand->count; i++){
+    for (int i = 0; i < tangocommand->count; i++){
         tangoCommands.push_back(QString(tangocommand->sval[i]));
     }
-    if (withAttrs){
+    if (withAttrs) {
         if (tangoattr->count > 0 && tangodevice->count > 0 && tangohost->count > 0){// &&hostName != "" && devName != "" && attrName != ""){
             /* Open and fill startTangoWin */
-            TDevice *dev = new TDevice(&a);
+            TDevice *dev = new TDevice(&application);
             if (dev->device()->checkAttr(hostName + "/" + devName, attrName)) {
-                w.chooseDevice();
-                w.startTWin->tlAttr->setText(attrName);
-                w.startTWin->tlDevice->setText(devName);
-                w.startTWin->tlServer->setText(hostName);
+                mainWindow.chooseDevice();
+                mainWindow.startTWin->tlAttr->setText(attrName);
+                mainWindow.startTWin->tlDevice->setText(devName);
+                mainWindow.startTWin->tlServer->setText(hostName);
                 for (size_t i = 0; i < tangoCommands.size(); i++){
                     fprintf(stderr, "Command: %s\n", tangoCommands.at(i).toAscii().constData());
                     dev->setSource("//"+hostName+"/"+devName,"");
@@ -120,10 +119,10 @@ int main(int argc, char *argv[])
                 /* setting imageMode */
                 if (startWithParams) {
                     if (isImModeSet) {
-                        w.startImageMode = imMode;
+                        mainWindow.startImageMode = imMode;
                     }
                 }
-                w.startTWin->onOk();
+                mainWindow.startTWin->onOk();
             } else {
                 fprintf(stderr, "~~Device not available or you set incorrect Host or Device or Attribute name\n");
                 print_usage(stdout, 1);
@@ -135,6 +134,6 @@ int main(int argc, char *argv[])
         }
     }
     arg_freetable(argtable, sizeof(argtable) / sizeof(argtable[0]));
-    w.show();
-    return a.exec();
+    mainWindow.show();
+    return application.exec();
 }
