@@ -11,12 +11,9 @@
  * \brief a widget for displaying current image from TANGO
  *
  */
-class TImage : public EImageBase, public TDevice//, public QTangoComProxyReader, public QTangoWidgetCommon
+class TImage : public EImageBase, public TDevice
 {
-   // Q_PROPERTY(QString source READ source WRITE setSource DESIGNABLE true)
     Q_PROPERTY(int period READ period WRITE setPeriod)
-
-   // Q_PROPERTY(bool fullPicture READ wgt->imageTransform.fullPictureMode WRITE setFullscreenMode)
     Q_PROPERTY(bool pause READ pause WRITE setPause)
 
     Q_OBJECT

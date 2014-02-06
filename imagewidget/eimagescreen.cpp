@@ -2,7 +2,6 @@
 //My_Code
 
 EImageScreen::EImageScreen(QWidget *p):QWidget(p){
-    //serverPicTrans.hFlip = serverPicTrans.vFlip = false; serverPicTrans.rotate =0;
     setFullscreenMode(false);
     setAutoFillBackground(true);
     setMouseTracking(true);

@@ -11,15 +11,13 @@ static const QString IMAGE_ATTRIBUTE_LIST_SETTING = "tangoAttrList";
 
 void StartTangoWindow::refresh(const TVariant &newVal)
 {
-    if (newVal.quality() == Tango::ATTR_INVALID)
-    {
+    if (newVal.quality() == Tango::ATTR_INVALID) {
         status->setText("Error");
-        return;}
-    else{
-        emit dev(tlServer->text() +(QString)"/" + tlDevice->text(), tlAttr->text());//source());
-        writeSettings();
-        deleteLater();
+        return;
     }
+    emit dev(tlServer->text() + (QString) "/" + tlDevice->text(), tlAttr->text());
+    writeSettings();
+    deleteLater();
 }
 
 StartTangoWindow::StartTangoWindow(QWidget *parent) : QWidget(parent),
@@ -120,7 +118,7 @@ void StartTangoWindow::onCancel(){
 }
 
 void StartTangoWindow::onOk(){
-    QString s = tlServer->text() +(QString)"/" + tlDevice->text();
+    QString s = tlServer->text() + (QString) "/" + tlDevice->text();
     setSource(s, tlAttr->text());
 }
 

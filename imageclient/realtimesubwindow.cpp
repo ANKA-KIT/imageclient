@@ -5,7 +5,7 @@ RealtimeSubWindow::RealtimeSubWindow(QString tangoDev, QString tangoImage) : Sub
 {
     tim->setSource(tangoDev, tangoImage);
     setWindowTitle(tangoDev);
-    vbox->addWidget(tim,100);
+    vbox->addWidget(tim, 100);
 
     connect(tim, SIGNAL(scaleValue(double)), this, SLOT(setScaleDisplay(double)));
     connect(tim, SIGNAL(brightnessValue(int)), this, SLOT(setBrightnessDisplay(int)));
@@ -36,12 +36,12 @@ RealtimeSubWindow::RealtimeSubWindow(QString tangoDev, QString tangoImage) : Sub
     tim->wgt->contextMenu->addMenu(roiMenu);
     newRoi = new QAction(tr("Init Roi"), this);
     newRoi->setStatusTip("Init new region of interests in new window");
-    connect(newRoi,SIGNAL(triggered()),this,SLOT(initRoi()));
+    connect(newRoi, SIGNAL(triggered()), this, SLOT(initRoi()));
     roiMenu->addAction(newRoi);
-    connect(tim,SIGNAL(addRoi(RoiAction*)),this,SLOT(addRoi(RoiAction*)));
-    initRoiFlag = true;//false;
+    connect(tim, SIGNAL(addRoi(RoiAction*)), this, SLOT(addRoi(RoiAction*)));
+    initRoiFlag = true;
 
-    connect(tim, SIGNAL(fullscreenMode(bool)),this,SLOT(onChangeFullscreen(bool)));
+    connect(tim, SIGNAL(fullscreenMode(bool)), this, SLOT(onChangeFullscreen(bool)));
 }
 
 void RealtimeSubWindow::setServerVar(QString val){//(ServerVariables val){

@@ -114,9 +114,6 @@ bool TVariant::canConvertToUShortVector() const{
     }
 }
 
-
-
-
 void ImageTangoDevice::setSource(QString val, QString valA){
     _serverName = val;
     _attrName = valA;

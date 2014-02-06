@@ -50,20 +50,21 @@ void MainWindow::chooseDevice()
     StartTangoWindow *startTWin;
     startTWin = new StartTangoWindow();
     startTWin->setAttribute(Qt::WA_DeleteOnClose);
-    connect(startTWin,SIGNAL(dev(QString, QString)),this,SLOT(initRealtime(QString, QString)));
+    connect(startTWin, SIGNAL(dev(QString, QString)), this, SLOT(initRealtime(QString, QString)));
     startTWin->show();
 }
 
 void MainWindow::variablesWindow()
 {
-    if (rtContainer->getRealtimeLastVal() != -1) {
-        TangoServerVariablesWin *varWin;
-        RealtimeSubWindow *rt = rtContainer->getRealtimeCurWin();
-        varWin = new TangoServerVariablesWin(rt->tim->getServerName());//(rt->serVars);
-        varWin->setAttribute(Qt::WA_DeleteOnClose);
-        connect(varWin,SIGNAL(setVar(QString)),rt,SLOT(setServerVar(QString)));
-        varWin->show();
+    if (rtContainer->getRealtimeLastVal() == -1) {
+        return;
     }
+    TangoServerVariablesWin *varWin;
+    RealtimeSubWindow *rt = rtContainer->getRealtimeCurWin();
+    varWin = new TangoServerVariablesWin(rt->tim->getServerName());
+    varWin->setAttribute(Qt::WA_DeleteOnClose);
+    connect(varWin, SIGNAL(setVar(QString)), rt, SLOT(setServerVar(QString)));
+    varWin->show();
 }
 
 void MainWindow::syncDialog()
@@ -71,7 +72,6 @@ void MainWindow::syncDialog()
     SyncDialog sync(this);
     sync.exec();
 }
-
 
 void MainWindow::initRealtime(QString dev, QString attr){
     RealtimeSubWindow *rt = new RealtimeSubWindow(dev, attr);
@@ -81,10 +81,6 @@ void MainWindow::initRealtime(QString dev, QString attr){
     connect(rt->snpVis,SIGNAL(triggered()),this,SLOT(makeSnpVis()));
     connect(rt, SIGNAL(winChanged(SubWindow*)),rtContainer,SLOT(realtimeChanged(SubWindow*)));
     connect(rt, SIGNAL(destroyed(QObject*)), rtContainer, SLOT(onCloseRaltime(QObject*)));
-//    connect(rt->tim, SIGNAL(mousePosition(QPoint)), this, SLOT(curPosition(QPoint)));
-//    connect(rt->tim, SIGNAL(greyscaleImageColor(int)), this, SLOT(curColor(int)));
-//    connect(rt->tim, SIGNAL(rgbImageColor(int,int,int)), this, SLOT(curColor(int,int,int)));
-
     connect(rt, SIGNAL(newRoiCreated(QPoint,QPoint,TImage*)), this, SLOT(initRoi(QPoint,QPoint,TImage*)));
     area->addSubWindow(rt);
     rt->show();

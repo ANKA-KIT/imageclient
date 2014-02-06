@@ -1,37 +1,31 @@
 #include "timage.h"
 #include <QVariant>
-//My_Code
-TImage::TImage(QWidget *parent, Qt::WFlags ):  EImageBase(parent),TDevice(this)//,QTangoComProxyReader(this), QTangoWidgetCommon(wgt)//,ESimpleLabel(parent)
+
+
+TImage::TImage(QWidget *parent, Qt::WFlags ) : EImageBase(parent), TDevice(this)
 {
     setAttribute(Qt::WA_AlwaysShowToolTips);
-   // setText("No Link");
     setProperty("forceNoUnit", false);
     setSizePolicy(QSizePolicy::Ignored,QSizePolicy::Ignored);
 
     connect(device(), SIGNAL(newTangoData(const TVariant&)), this, SLOT(refresh(const TVariant&)), Qt::DirectConnection);
     setAutoFillBackground(true);
     viewport()->setAutoFillBackground(true);
-iii=0;
+    iii = 0;
     canLoadnewPic = true;
-    _timer = tango->period();//10;
+    _timer = tango->period();
     setPeriod(_timer);
- //   setFullscreenMode(true);
     connect(this, SIGNAL(newPicture(QImage,int,int,int)), this, SLOT(draw(QImage)), Qt::DirectConnection);
     connect(this, SIGNAL(timerSignal(int)), this, SLOT(setPeriod(int)), Qt::DirectConnection);
     connect(this, SIGNAL(newPictureDim(int, int)), wgt, SLOT(setPicWH(int,int)), Qt::DirectConnection);
 
-  //  picMode = new Is16BitGrey();
-  //  picMode = new Is48BitRGB();
     picMode = new Is24RGB();
     time.start();
 
-    __serverMode = SINGLE;//READ;//_WITH_SERVERTRANSFORMATION;
-    __serverAttrName = "ServerParameter";//"PictureParameters";
+    __serverMode = SINGLE;
+    __serverAttrName = "ServerParameter";
     roiAddedFromServer = false;
     _pause = false;
-    //setServerMode(true);
-
-
 }
 
 void TImage::setPause(bool value){
@@ -44,6 +38,7 @@ void TImage::setPause(bool value){
     }
     _pause = value;
 }
+
 void TImage::refresh(const TVariant &newVal)
 {
     if ( canLoadnewPic){  //if Last picture is displayed
@@ -143,47 +138,17 @@ void TImage::draw(QImage img){
     emit timePicDisplaying(wTime);
 }
 
-/*void TImage::drawInServerMode(QImage img){
-    img = setImageByFullScreenMode(img);
-    if (!serverParams.brightness){img = changeBrightnessImg(img, imageParams.brightness);  }
-    if(!serverParams.gamma){img = changeGammaImg(img, imageParams.gamma);}
-    if(!serverParams.contrast){img = changeContrastImg(img, imageParams.contrast);}
-    if(!serverParams.rotate){
-        if (wgt->imageTransform.rotate != 0)
-            img = wgt->changeRotateImg(img, wgt->imageTransform.rotate);
-    }
-    if(!serverParams.hFlip){
-        if (wgt->imageTransform.horFlip)
-              img = wgt->chHorFlip(img);
-    }
-    if(!serverParams.vFlip){
-        if (wgt->imageTransform.verFlip)
-              img = wgt->chVerFlip(img);
-    }
-    drawing(img);
-    canLoadnewPic = true;
-    int wTime = timeWorking.restart();
-    qDebug("Working  time is %d",wTime);
-    emit timePicDisplaying(wTime);
-}
-*/
-
-void TImage::drawInServerMode(QImage img){
-
-
+void TImage::drawInServerMode(QImage img)
+{
     QVector <double> serVar;
     serVar = getDoubleVector(__serverAttrName);
 
-  /////  serVar[0] = 180;
-//    serVar[5] = 1;
     serverValues[6] =0;
     if(picMode->getPictureMode() == ImagePictureMode::IS_RGBGRAY){
-   //     emit newPictureDim(dimX/picMode->lastDelimetr, dimY);
         wgt->picW  = dimX/picMode->lastDelimetr;
         wgt->picH  = dimY;
     }
     else{
-    //    emit newPictureDim(dimX/picMode->getDelimitr(), dimY);
         wgt->picW  = dimX/picMode->getDelimitr();
         wgt->picH  = dimY;
     }
@@ -572,7 +537,7 @@ void TImage::setServerMode(bool value){
         __serverMode = SINGLE;
     }
     if (_serverMode){
-        disconnect(this, SIGNAL(newPicture(QImage,int,int,int)), this, SLOT(draw(QImage)));    
+        disconnect(this, SIGNAL(newPicture(QImage,int,int,int)), this, SLOT(draw(QImage)));
 
 
         QVector <double> serVar;

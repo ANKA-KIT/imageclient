@@ -7,7 +7,8 @@
 #include <imagemanipulator.h>
 #include <QSettings>
 #include <QFormLayout>
-class StartTangoWindow : public QWidget, TDevice//public QTangoComProxyReader//, public QTangoWidgetCommon
+
+class StartTangoWindow : public QWidget, TDevice
 {
     Q_OBJECT
 private:
@@ -57,25 +58,23 @@ private:
     */
     bool curValIsSet(QStringList listVal, QString str);
 public:
-    QWidget * centralWidget;        /*!< widget pointer for easy setting widgets*/
+    QWidget* centralWidget;        /*!< widget pointer for easy setting widgets*/
     QStringList lsDev;              /*!< list of devices*/
     QStringList lsAttr;             /*!< list of image attributes*/
     QStringList lsHost;             /*!< list of hosts*/
-    QComboBox *cmbDevice;           /*!< device combobox*/
-    QComboBox *cmbAttr;             /*!< image attribute combobox*/
-    QComboBox *cmbHost;             /*!< host combobox*/
-    PropertyLineEdit * tlAttr;            /*!< image attribute line edit*/
-    PropertyLineEdit *tlDevice;           /*!< device line edit*/
-    PropertyLineEdit * tlServer;          /*!< host line edit*/
-    QLabel * lbServer;              /*!< host label*/
-    QLabel * lbDevice;              /*!< device label*/
-    QLabel * lbAttr;                /*!< image attribute label*/
-
-    //my_Device *myDev;               /*!< tango device class object*/
+    QComboBox* cmbDevice;           /*!< device combobox*/
+    QComboBox* cmbAttr;             /*!< image attribute combobox*/
+    QComboBox* cmbHost;             /*!< host combobox*/
+    PropertyLineEdit* tlAttr;            /*!< image attribute line edit*/
+    PropertyLineEdit* tlDevice;           /*!< device line edit*/
+    PropertyLineEdit* tlServer;          /*!< host line edit*/
+    QLabel* lbServer;              /*!< host label*/
+    QLabel* lbDevice;              /*!< device label*/
+    QLabel* lbAttr;                /*!< image attribute label*/
     QLabel* status;                 /*!< display status label*/
 
-    QPushButton * btCancel;         /*!< button "Cancel"*/
-    QPushButton * btChangeDevice;   /*!< button "Set Device"*/
+    QPushButton* btCancel;         /*!< button "Cancel"*/
+    QPushButton* btChangeDevice;   /*!< button "Set Device"*/
 
     /*!
       \brief Constructor

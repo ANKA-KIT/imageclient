@@ -33,7 +33,7 @@ public:
 
 
 
-class ImageTangoDevice : public QObject//QWidget//QObject
+class ImageTangoDevice : public QObject
 {
       Q_OBJECT
 private:
@@ -41,18 +41,16 @@ private:
     QString _attrName;
     int _time;
 public:
-   // ~MyTangoDevice(){}
     ImageTangoDevice(){}
-    ImageTangoDevice(QObject*);//(QWidget *ps);
+    ImageTangoDevice(QObject*);
 
     QTimer pingTimer;
- //   Tango::DeviceProxy* device;
     void setSource(QString, QString);
-    QString source(){return _serverName+"/"+_attrName;}
-    QString getServerName(){return _serverName;}
-    QString getAttrName(){return _attrName;}
+    QString source() { return _serverName + "/" + _attrName; }
+    QString getServerName() { return _serverName; }
+    QString getAttrName() { return _attrName; }
     void setPeriod(int);
-    int period(){return 10;}// _time;}
+    int period() { return 10; }
 
     void getImageData(QString s );
     void checkDevice(QString s );         //Set Tango device
@@ -69,15 +67,12 @@ signals:
     void newTangoData(const TVariant&);
 };
 
-class TDevice{
+class TDevice {
 
 public:
     QString __serverAttrName;
     ImageTangoDevice *tango;
     TDevice(QObject *parent){ tango = new ImageTangoDevice(parent);}
-   // void setPeriod(int ){}
-   // int period(){return 0;}
-//*
     ImageTangoDevice *device() {return tango;}
     ~TDevice(){delete tango;}
 
@@ -93,15 +88,14 @@ public:
         Tango::DeviceAttribute* attr = new Tango::DeviceAttribute;
         vector<double> vec;
         QVector<double> vecTemp;
-        //tango->setTangoAttr(attrName, *attr); //set ATTR=NULL in fail case
-        if ( tango->setTangoAttr(attrName, *attr)){
+        if (tango->setTangoAttr(attrName, *attr)){
             *attr>>vec;
 
             vecTemp.resize(attr->dim_x);
             double *uPtr = &vec[0];
             double* p = &vecTemp[0];
-            for (int i=0; i<attr->dim_x; i++){
-                *(p+i) = *uPtr;//vec.at(i);
+            for (int i = 0; i < attr->dim_x; i++){
+                *(p+i) = *uPtr;
                  uPtr++;
             }
             delete attr;
@@ -122,6 +116,7 @@ public:
         data<<in;
         return tango->sendCommand(command,data);
     }
+
     bool writeAttr(QString attrName, QVector<double> value){
         Tango::DeviceAttribute* attr = new Tango::DeviceAttribute;
         if ( tango->setTangoAttr(attrName, *attr)){
@@ -137,7 +132,6 @@ public:
         delete attr;
         return false;
     }
-// */
 };
 
 #endif // ETANGODEVICE_H

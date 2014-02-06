@@ -1,7 +1,6 @@
 #include "realtimecontainer.h"
 
-RealtimeContainer::RealtimeContainer(MainWindow *parent) ://(QObject *parent) :
-    QWidget(parent)//QObject(parent)
+RealtimeContainer::RealtimeContainer(MainWindow *parent) : QWidget(parent)
 {
     windowElement = parent;
     realtimeLast = curRealtime = -1;
@@ -30,7 +29,6 @@ RealtimeContainer::RealtimeContainer(MainWindow *parent) ://(QObject *parent) :
 
     serverMode->addMenu(actSerKeepSide);
     serverMode->addMenu(actSerSide);
-    //serverMode->menuAction()->setIconVisibleInMenu(false);
     actSerKeepSideW->setIconVisibleInMenu(false);
     actSerKeepSideR->setIconVisibleInMenu(false);
     actSerKeepSide->menuAction()->setIconVisibleInMenu(false);
@@ -53,7 +51,7 @@ RealtimeContainer::RealtimeContainer(MainWindow *parent) ://(QObject *parent) :
 }
 
 void RealtimeContainer::realtimeChanged(SubWindow* curRealtimeWin){
-    if(curRealtimeWin){             //if realtimewindow active
+    if (curRealtimeWin) {
         QList<RealtimeSubWindow*>::iterator iter;
         int  i = 0;
         for (iter = realtimeList.begin(); iter < realtimeList.end(); ++iter){
@@ -68,8 +66,7 @@ void RealtimeContainer::realtimeChanged(SubWindow* curRealtimeWin){
         connect(realtimeList.at(curRealtime)->tim, SIGNAL(mousePosition(QPoint)), windowElement, SLOT(curPosition(QPoint)),Qt::UniqueConnection);
         connect(realtimeList.at(curRealtime)->tim, SIGNAL(greyscaleImageColor(int)), windowElement, SLOT(curColor(int)),Qt::UniqueConnection);
         connect(realtimeList.at(curRealtime)->tim, SIGNAL(rgbImageColor(int,int,int)), windowElement, SLOT(curColor(int,int,int)),Qt::UniqueConnection);
-    }
-    else{
+    } else {
          disconnect(realtimeList.at(curRealtime)->tim, SIGNAL(mousePosition(QPoint)), windowElement, SLOT(curPosition(QPoint)));
          disconnect(realtimeList.at(curRealtime)->tim, SIGNAL(greyscaleImageColor(int)), windowElement, SLOT(curColor(int)));
          disconnect(realtimeList.at(curRealtime)->tim, SIGNAL(rgbImageColor(int,int,int)), windowElement, SLOT(curColor(int,int,int)));
