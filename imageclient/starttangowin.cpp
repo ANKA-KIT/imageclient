@@ -14,7 +14,7 @@ void StartTangoWindow::refresh(const TVariant &newVal)
 }
 
 StartTangoWindow::StartTangoWindow(QWidget *parent) : QWidget(parent),
-   TDevice(this)// QTangoComProxyReader(this)//, QTangoWidgetCommon(this)
+   TDevice(this)
 {
     connect(device(), SIGNAL(newTangoData(const TVariant&)), this, SLOT(refresh(const TVariant&)),
             Qt::DirectConnection);
@@ -108,7 +108,6 @@ void StartTangoWindow::writeSettings(){
 }
 
 void StartTangoWindow::onCancel(){
-    //emit cancel();
     deleteLater();
 }
 
