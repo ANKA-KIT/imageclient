@@ -2,9 +2,12 @@
 #define REALTIMESUBWINDOW_H
 
 #include <subwindowmdi.h>
-#include <TImage>
 #include <tangoservervariableswin.h>
 #include <QVBoxLayout>
+
+class TImage;
+class RoiAction;
+class SyncDialog;
 
 class RealtimeSubWindow : public SubWindow
 {
@@ -22,6 +25,9 @@ public:
     void setServerModeRead(bool val);
     void setServerModeWrite(bool val);
     void setClientSideMode(bool val);
+private:
+    SyncDialog* syncDialog;
+
 signals:
     void newRoiCreated(QPoint,QPoint,TImage*);
 public slots:
@@ -29,7 +35,7 @@ public slots:
 
     void initRoi();
     void initRoi(QPoint p1,QPoint p2);
-    void showRoi(RoiAction*);
+    void showRoi(RoiAction *r);
     void addRoi(RoiAction *r);
 
     void onChangeFullscreen(bool);

@@ -1,9 +1,14 @@
 #include "realtimesubwindow.h"
+
+#include <TImage>
+
 #include "imagemarker.h"
+#include "syncdialog.h"
 
 RealtimeSubWindow::RealtimeSubWindow(QString tangoDev, QString tangoImage) : SubWindow(SubWindow::REALTIME), tim(new TImage(this))
 {
     tim->setSource(tangoDev, tangoImage);
+    syncDialog = new SyncDialog(tim->tango);
     setWindowTitle(tangoDev);
     vbox->addWidget(tim, 100);
 
@@ -25,19 +30,25 @@ RealtimeSubWindow::RealtimeSubWindow(QString tangoDev, QString tangoImage) : Sub
     setScaleDisplay(tim->getScale());
 
     QMenu  *snpMenu = new QMenu(tr("Make Snapshot"), this);
-    snpWhole = new QAction(tr("Whole image"),this);
+    snpWhole = new QAction(tr("Whole image"), this);
     snpVis = new QAction(tr("Visiable part"), this);
     snpVis->setEnabled(false);
     snpMenu->addAction(snpWhole);
     snpMenu->addAction(snpVis);
     tim->wgt->contextMenu->addMenu(snpMenu);
 
-    roiMenu = new QMenu(tr("ROI"),this);
-    tim->wgt->contextMenu->addMenu(roiMenu);
+    roiMenu = new QMenu(tr("ROI"), this);
     newRoi = new QAction(tr("Init Roi"), this);
     newRoi->setStatusTip("Init new region of interests in new window");
     connect(newRoi, SIGNAL(triggered()), this, SLOT(initRoi()));
     roiMenu->addAction(newRoi);
+    tim->wgt->contextMenu->addMenu(roiMenu);
+
+    QAction* crosshairSyncDialog = new QAction(tr("Marker sync..."), this);
+    tim->wgt->contextMenu->addAction(crosshairSyncDialog);
+
+    connect(crosshairSyncDialog, SIGNAL(triggered()), syncDialog, SLOT(show()));
+
     connect(tim, SIGNAL(addRoi(RoiAction*)), this, SLOT(addRoi(RoiAction*)));
     initRoiFlag = true;
 

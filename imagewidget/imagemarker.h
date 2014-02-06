@@ -31,7 +31,7 @@ protected slots:
     void onOk();
 };
 
-class RoiAction : public QMenu//QAction{
+class RoiAction : public QMenu
 {
     Q_OBJECT
 public:

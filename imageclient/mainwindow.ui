@@ -36,15 +36,8 @@
     </property>
     <addaction name="actionSet_Tango_Variables"/>
    </widget>
-   <widget class="QMenu" name="menuTango">
-    <property name="title">
-     <string>&amp;Tango</string>
-    </property>
-    <addaction name="actionSync"/>
-   </widget>
    <addaction name="menuServer"/>
    <addaction name="menuRealtime"/>
-   <addaction name="menuTango"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
   <action name="actionSync">
@@ -117,22 +110,6 @@
    <signal>triggered()</signal>
    <receiver>MainWindow</receiver>
    <slot>variablesWindow()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>-1</x>
-     <y>-1</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>199</x>
-     <y>149</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>actionSync</sender>
-   <signal>triggered()</signal>
-   <receiver>MainWindow</receiver>
-   <slot>syncDialog()</slot>
    <hints>
     <hint type="sourcelabel">
      <x>-1</x>

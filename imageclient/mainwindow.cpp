@@ -5,7 +5,6 @@
 #include <QLabel>
 
 #include "config.h"
-#include "syncdialog.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -65,12 +64,6 @@ void MainWindow::variablesWindow()
     varWin->setAttribute(Qt::WA_DeleteOnClose);
     connect(varWin, SIGNAL(setVar(QString)), rt, SLOT(setServerVar(QString)));
     varWin->show();
-}
-
-void MainWindow::syncDialog()
-{
-    SyncDialog sync(this);
-    sync.exec();
 }
 
 void MainWindow::initRealtime(QString dev, QString attr){

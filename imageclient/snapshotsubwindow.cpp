@@ -1,3 +1,5 @@
+#include <timage.h>
+
 #include "snapshotsubwindow.h"
 
 SnapshotSubWindow::SnapshotSubWindow(TImage* tim, int type):SubWindow(SubWindow::SNAPSHOT)
