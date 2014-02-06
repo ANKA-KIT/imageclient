@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
-    <height>300</height>
+    <width>577</width>
+    <height>271</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -16,8 +16,8 @@
   <widget class="QDialogButtonBox" name="buttonBox">
    <property name="geometry">
     <rect>
-     <x>30</x>
-     <y>240</y>
+     <x>220</x>
+     <y>230</y>
      <width>341</width>
      <height>32</height>
     </rect>
@@ -32,62 +32,253 @@
   <widget class="QWidget" name="">
    <property name="geometry">
     <rect>
-     <x>20</x>
-     <y>31</y>
-     <width>244</width>
-     <height>128</height>
+     <x>10</x>
+     <y>10</y>
+     <width>559</width>
+     <height>212</height>
     </rect>
    </property>
-   <layout class="QGridLayout" name="gridLayout">
-    <item row="0" column="0">
-     <widget class="QLabel" name="markerXLabel">
-      <property name="text">
-       <string>Marker X:</string>
-      </property>
-     </widget>
+   <layout class="QHBoxLayout" name="horizontalLayout">
+    <item>
+     <layout class="QVBoxLayout" name="verticalLayout_2">
+      <item>
+       <layout class="QGridLayout" name="gridLayout_2">
+        <item row="2" column="2">
+         <widget class="QLineEdit" name="markerSizeXEdit"/>
+        </item>
+        <item row="0" column="0">
+         <widget class="QLabel" name="markerXLabel">
+          <property name="text">
+           <string>Marker X:</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="0" colspan="2">
+         <widget class="QLabel" name="markerSizeXLabel">
+          <property name="text">
+           <string>Marker Size X:</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="0">
+         <widget class="QLabel" name="markerYLabel">
+          <property name="text">
+           <string>Marker Y:</string>
+          </property>
+         </widget>
+        </item>
+        <item row="4" column="0" colspan="2">
+         <widget class="QLabel" name="markerThicknessLabel">
+          <property name="text">
+           <string>Marker Thickness:</string>
+          </property>
+         </widget>
+        </item>
+        <item row="4" column="2">
+         <widget class="QLineEdit" name="markerThicknessEdit"/>
+        </item>
+        <item row="5" column="0" colspan="2">
+         <widget class="QLabel" name="markerColorLabel">
+          <property name="text">
+           <string>Marker Color:</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="1" colspan="2">
+         <widget class="QLineEdit" name="markerYEdit"/>
+        </item>
+        <item row="5" column="2">
+         <widget class="QLineEdit" name="markerColorEdit"/>
+        </item>
+        <item row="3" column="2">
+         <widget class="QLineEdit" name="markerSizeYEdit"/>
+        </item>
+        <item row="0" column="1" colspan="2">
+         <widget class="QLineEdit" name="markerXEdit"/>
+        </item>
+        <item row="3" column="0" colspan="2">
+         <widget class="QLabel" name="markerSizeYLabel">
+          <property name="text">
+           <string>Marker Size Y:</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <layout class="QGridLayout" name="gridLayout">
+        <item row="0" column="0">
+         <widget class="QLabel" name="roiWidthLabel">
+          <property name="text">
+           <string>Roi width:</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="1">
+         <widget class="QLineEdit" name="roiWidthEdit"/>
+        </item>
+        <item row="1" column="0">
+         <widget class="QLabel" name="roiHeightLabel">
+          <property name="text">
+           <string>Roi height:</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="1">
+         <widget class="QLineEdit" name="roiHeightEdit"/>
+        </item>
+       </layout>
+      </item>
+     </layout>
     </item>
-    <item row="0" column="1" colspan="2">
-     <widget class="QLineEdit" name="markerXEdit"/>
+    <item>
+     <layout class="QVBoxLayout" name="verticalLayout">
+      <item>
+       <widget class="QPushButton" name="syncToDeviceButton">
+        <property name="toolTip">
+         <string>Write marker values to tango device</string>
+        </property>
+        <property name="text">
+         <string>&gt;</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <spacer name="verticalSpacer">
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
+        </property>
+        <property name="sizeType">
+         <enum>QSizePolicy::Fixed</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>20</width>
+          <height>40</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item>
+       <widget class="QPushButton" name="syncFromDeviceButton">
+        <property name="toolTip">
+         <string>Update marker using values of tango device</string>
+        </property>
+        <property name="text">
+         <string>&lt;</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
     </item>
-    <item row="1" column="0">
-     <widget class="QLabel" name="markerYLabel">
-      <property name="text">
-       <string>Marker Y:</string>
-      </property>
-     </widget>
-    </item>
-    <item row="1" column="1" colspan="2">
-     <widget class="QLineEdit" name="markerYEdit"/>
-    </item>
-    <item row="2" column="0" colspan="2">
-     <widget class="QLabel" name="markerSizeXLabel">
-      <property name="text">
-       <string>Marker Size X:</string>
-      </property>
-     </widget>
-    </item>
-    <item row="2" column="2">
-     <widget class="QLineEdit" name="markerSizeXEdit"/>
-    </item>
-    <item row="3" column="0" colspan="2">
-     <widget class="QLabel" name="markerSizeYLabel">
-      <property name="text">
-       <string>Marker Size Y:</string>
-      </property>
-     </widget>
-    </item>
-    <item row="3" column="2">
-     <widget class="QLineEdit" name="markerSizeYEdit"/>
-    </item>
-    <item row="4" column="0" colspan="2">
-     <widget class="QLabel" name="markerThicknessLabel">
-      <property name="text">
-       <string>Marker Thickness:</string>
-      </property>
-     </widget>
-    </item>
-    <item row="4" column="2">
-     <widget class="QLineEdit" name="markerThicknessEdit"/>
+    <item>
+     <layout class="QGridLayout" name="gridLayout_3">
+      <item row="3" column="2" colspan="3">
+       <widget class="QLineEdit" name="tangoCrosshairColorEdit">
+        <property name="readOnly">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="0" colspan="2">
+       <widget class="QLabel" name="tangoRoiXLabel">
+        <property name="text">
+         <string>Roi x0:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="0" colspan="3">
+       <widget class="QLabel" name="tangoCrosshairThicknessLabel">
+        <property name="text">
+         <string>Crosshair Thickness:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="2" colspan="3">
+       <widget class="QLineEdit" name="tangoRoiXEdit">
+        <property name="readOnly">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="6" column="2" colspan="3">
+       <widget class="QLineEdit" name="tangoRoiWidthEdit">
+        <property name="readOnly">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="7" column="1" colspan="4">
+       <widget class="QLineEdit" name="tangoRoiHeightEdit">
+        <property name="readOnly">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="0">
+       <widget class="QLabel" name="tangoRoiYLabel">
+        <property name="text">
+         <string>Roi y0:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="1" colspan="4">
+       <widget class="QLineEdit" name="tangoRoiYEdit">
+        <property name="readOnly">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="6" column="0" colspan="2">
+       <widget class="QLabel" name="tangoRoiWidthLabel">
+        <property name="text">
+         <string>Roi width:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="7" column="0">
+       <widget class="QLabel" name="tangoRoiHeightLabel">
+        <property name="text">
+         <string>Roi height:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="3" colspan="2">
+       <widget class="QLineEdit" name="tangoCrosshairThicknessEdit">
+        <property name="readOnly">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="0" colspan="2">
+       <widget class="QLabel" name="tangoCrosshairColorLabel">
+        <property name="text">
+         <string>Crosshair Color:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0" colspan="4">
+       <widget class="QLabel" name="tangoCrosshairPositionLabel">
+        <property name="text">
+         <string>Crosshair Position:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="4">
+       <widget class="QLineEdit" name="tangoCrosshairPositionEdit">
+        <property name="readOnly">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="0" colspan="5">
+       <widget class="QCheckBox" name="tangoCrosshairEnabledcheckBox">
+        <property name="text">
+         <string>Crosshair enabled</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
     </item>
    </layout>
   </widget>

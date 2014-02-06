@@ -6,6 +6,7 @@ SyncDialog::SyncDialog(QWidget *parent) :
     ui(new Ui::SyncDialog)
 {
     ui->setupUi(this);
+
 }
 
 SyncDialog::~SyncDialog()
