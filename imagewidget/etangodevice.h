@@ -41,7 +41,7 @@ private:
     QString _attrName;
     int _time;
 public:
-    ImageTangoDevice(){}
+    ImageTangoDevice() {}
     ImageTangoDevice(QObject*);
 
     QTimer pingTimer;
@@ -52,9 +52,13 @@ public:
     void setPeriod(int);
     int period() { return 10; }
 
-    void getImageData(QString s );
-    void checkDevice(QString s );         //Set Tango device
+    void getImageData(QString s);
+    void checkDevice(QString s);
     bool sendCommand(QString);
+    bool readBoolAttr(QString name) const;
+    uint readULongAttr(QString name) const;
+    std::vector<uint> readULongSpectrumAttr(QString name) const;
+    std::vector<uchar> readUCharSpectrumAttr(QString name) const;
     bool writeAttr(Tango::DeviceAttribute& attr);
     bool setTangoAttr(QString attrName, Tango::DeviceAttribute &attr);
 

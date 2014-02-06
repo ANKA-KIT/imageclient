@@ -2,7 +2,6 @@
 
 ROIClass::ROIClass(TImage* snp, QWidget*p, QRect rec) :QWidget(p)//: TImageSnapshot(snp->makeSnpImageCat(rec, p))
 {
-    bool p2Deg =false;
     ptr = snp;
     setWindowTitle(snp->_serverName + " " + QString().number(rec.x()) + "," + QString().number(rec.y())+
                                     + " " + QString().number(rec.x()+rec.width()) + "," + QString().number(rec.y()+rec.height()));
@@ -123,7 +122,7 @@ void ROIClass::realtimeMarkerDeleted(QPoint p, QRgb col){
             ImageMarker *m = sample->wgt->marker[i];
             if ((m->_clr == col) && (m->_xOnPic = p.x()) && (m->_yOnPic == p.y())){
                 //sample->wgt->marker[i]->deleteLater();
-		sample->wgt->marker[i]->del();
+        sample->wgt->marker[i]->del();
             }
         }
     }

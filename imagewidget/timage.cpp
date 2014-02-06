@@ -303,7 +303,7 @@ void TImage::drawInServerMode(QImage img)
             serverMarkerList.clear();
         }
 
-        for (index; index < serVar.count()-1; index+=7){ //5
+        for (; index < serVar.count()-1; index+=7){ //5
             ImageMarker* marker = wgt->initMarker(QPoint(serVar[index], (int)serVar[index+1]));
             marker->setMarkerColor(qRgb(serVar[index+2],serVar[index+3],serVar[index+4]));
             marker->resizeMarker(serVar[index+5],serVar[index+6]);

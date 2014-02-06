@@ -16,10 +16,17 @@ class SyncDialog : public QDialog
 public:
     explicit SyncDialog(ImageTangoDevice* tangoDevice, QWidget *parent = 0);
     ~SyncDialog();
+public slots:
+    void refreshCrosshair();
+
+protected:
+    virtual void showEvent (QShowEvent* event);
 
 private:
     ImageTangoDevice *tangoDevice;
     Ui::SyncDialog *ui;
+
+    void refreshCrosshairValues();
 };
 
 #endif // SYNCDIALOG_H

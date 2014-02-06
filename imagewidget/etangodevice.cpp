@@ -251,10 +251,49 @@ try{
   }
 }
 
+bool ImageTangoDevice::readBoolAttr(QString name) const
+{
+    Tango::DeviceProxy dev(("//" + _serverName).toAscii().constData());
+    Tango::DeviceAttribute attr = dev.read_attribute(name.toAscii().constData());
+    bool result;
+    attr >> result;
+    return result;
+}
+
+uint ImageTangoDevice::readULongAttr(QString name) const
+{
+    Tango::DeviceProxy dev(("//" + _serverName).toAscii().constData());
+    Tango::DeviceAttribute attr = dev.read_attribute(name.toAscii().constData());
+    uint result;
+    attr >> result;
+    return result;
+}
+
+std::vector<uint> ImageTangoDevice::readULongSpectrumAttr(QString name) const
+{
+    Tango::DeviceProxy dev(("//" + _serverName).toAscii().constData());
+    Tango::DeviceAttribute attr = dev.read_attribute(name.toAscii().constData());
+    vector<uint> result;
+    attr >> result;
+    // HACK: somehow our result is longer than the x dimension, so trim it!
+    result.resize(attr.get_dim_x());
+    return result;
+}
+
+std::vector<uchar> ImageTangoDevice::readUCharSpectrumAttr(QString name) const
+{
+    Tango::DeviceProxy dev(("//" + _serverName).toAscii().constData());
+    Tango::DeviceAttribute attr = dev.read_attribute(name.toAscii().constData());
+    vector<uchar> result;
+    attr >> result;
+    // HACK: somehow our result is longer than the x dimension, so trim it!
+    result.resize(attr.get_dim_x());
+    return result;
+}
 
 bool ImageTangoDevice::writeAttr(Tango::DeviceAttribute& attr){
     try{
-        Tango::DeviceProxy dev(("//"+_serverName).toAscii().constData());
+        Tango::DeviceProxy dev(("//" + _serverName).toAscii().constData());
         dev.write_attribute(attr);
         return true;
     }
@@ -293,9 +332,6 @@ bool ImageTangoDevice::setTangoAttr(QString attrName, Tango::DeviceAttribute& at
             //attr = NULL;
             return false;
         }
-        else{
-           return true;
-        }
     }
     catch(const Tango::ConnectionFailed &e){
          qDebug("Error, ConnectionFailed while reading attribute");
@@ -324,6 +360,7 @@ return false;
          //attr = NULL;
          return false;
     }
+    return true;
 }
 
 
