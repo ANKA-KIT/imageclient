@@ -39,50 +39,46 @@ void EImageScreen::wheelEvent(QWheelEvent *event){
         }
 }
 
-void EImageScreen::mouseMoveEvent ( QMouseEvent * event ){
+void EImageScreen::mouseMoveEvent(QMouseEvent * event)
+{
     int curX = event->x();
     int curY = event->y();
     emit repainting();
     emit currentPos(curX,curY);
-    if (lButtonPresed){
-        int x=curX-curXPos, y=curY-curYPos;
-      //  emit moveXSignal(x);
-      //  emit moveYSignal(y);
-    }
-  //  qDebug("EImageScreen::mouseMoveEvent  AAAAAAAAAAAAAAAAA\n");
-
 }
 
-void EImageScreen::mousePressEvent ( QMouseEvent * e){
-    if (e->button() == Qt::LeftButton ){
+void EImageScreen::mousePressEvent(QMouseEvent * e)
+{
+    if (e->button() == Qt::LeftButton) {
         curXPos = e->x();
         curYPos = e->y();
         lButtonPresed = true;
-   //     qDebug("EImageScreen::mousePressEvent\n");
-
     }
-    if (e->button() == Qt::RightButton ){
+    if (e->button() == Qt::RightButton) {
         contextMenu->popup(e->globalPos());
     }
 }
 
-void EImageScreen::mouseReleaseEvent ( QMouseEvent * event )
+void EImageScreen::mouseReleaseEvent(QMouseEvent * event)
 {
   if (event->button() == Qt::LeftButton)
     lButtonPresed = false;
 }
 
-void EImageScreen::setRotate(double val){
+void EImageScreen::setRotate(double val)
+{
     imageTransform.rotate = val;
     emit imgTransformed(image);
     emit imgChanged(image);
 }
 
-void EImageScreen::setHFlip(bool val){
+void EImageScreen::setHFlip(bool val)
+{
     imageTransform.horFlip=val;
     emit imgTransformed(image);
     emit imgChanged(image);
 }
+
 void EImageScreen::setVFlip(bool val){
     imageTransform.verFlip= val;
     emit imgTransformed(image);
@@ -101,6 +97,8 @@ void EImageScreen::onMarkerDelete(ImageMarker *pointer){
          if (pointer == *iter){
             emit delMarker(QPoint(pointer->_xOnPic,pointer->_yOnPic), pointer->_clr);
             marker.erase(iter);
+            // HACK: we know that currently the setMarkerAction is at actions[1]
+            contextMenu->actions()[1]->setEnabled(true);
             return;
         }
     }

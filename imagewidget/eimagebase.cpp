@@ -18,9 +18,9 @@ void EImageBase::init()
     viewport()->setLayout(wBox);
     setWidget(w);
 
-    params = new QAction(tr("Set Params"), this);
-    params->setStatusTip(tr("Set image parameters"));
-    QObject::connect(params, SIGNAL(triggered()), this, SLOT(showParams()));
+    setParamsAction = new QAction(tr("Set Params"), this);
+    setParamsAction->setStatusTip(tr("Set image parameters"));
+    QObject::connect(setParamsAction, SIGNAL(triggered()), this, SLOT(showParams()));
     setMarkerAction = new QAction(tr("Set Marker"), this);
     setMarkerAction->setStatusTip(tr("Set Marker on current point"));
     connect(setMarkerAction, SIGNAL(triggered()), this, SLOT(initMarker()));
@@ -50,7 +50,7 @@ void EImageBase::init()
     connect(catS,SIGNAL(triggered()),this,SLOT(saveCat()));
     connect(catSave,SIGNAL(triggered()),this,SLOT(saveCatMarked()));
 
-    wgt->setActionMenu(QList<QAction *>() << params << setMarkerAction);
+    wgt->setActionMenu(QList<QAction *>() << setParamsAction << setMarkerAction);
     wgt->contextMenu->addMenu(saveMenu);
 
     wBox->setMargin(0);

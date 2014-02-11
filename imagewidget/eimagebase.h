@@ -42,7 +42,7 @@ public:
     void saveImg(QImage img);
     void fastSave();
 
-    QAction *params;
+    QAction *setParamsAction;
     unsigned long iii;
     QVector<unsigned short> val16;
     QVector<unsigned char>  val;
@@ -52,7 +52,7 @@ public:
 
     QImage errorImage();
     QImage setPropertiesOnImg(QImage img);
-    QImage setPropertiesOnImg(QImage img, QVariant *params);
+    QImage setPropertiesOnImg(QImage img, QVariant *setParamsAction);
 
 //    void ShowContextMenu(const QPoint& pos);
 //    void setActionMenu(QList<QAction *> acts);
