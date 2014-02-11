@@ -22,6 +22,7 @@ RealtimeSubWindow::RealtimeSubWindow(QString tangoDev, QString tangoImage) : Sub
     connect(tim, SIGNAL(vFlipValue(bool)), this, SLOT(setVFlipDisplay(bool)));
     connect(tim, SIGNAL(timeNewPic(int)), this, SLOT(setTimeDisplay(int)));
     connect(tim->wgt, SIGNAL(newMarker(ImageMarker*)), syncDialog, SLOT(localMarkerSet(ImageMarker*)));
+    connect(tim->wgt, SIGNAL(delMarker(QPoint,QRgb)), syncDialog, SLOT(localMarkerRemoved()));
 
     setRotateDisplay(tim->getRotate());
     setGammaDisplay(tim->getGamma());

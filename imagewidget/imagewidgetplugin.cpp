@@ -111,23 +111,16 @@ TaskMenuFactory::TaskMenuFactory(QExtensionManager *parent): QExtensionFactory(p
 
 QObject *TaskMenuFactory::createExtension(QObject *object, const QString &iid, QObject *parent) const
 {
-    if (iid != Q_TYPEID(QDesignerTaskMenuExtension))
+    if (iid != Q_TYPEID(QDesignerTaskMenuExtension)) {
         return 0;
-
-        //* ////My_code
-        else if (TImage *tim = qobject_cast<TImage*>(object)) //!!!!!
-                return new TaskMenuExtension((QWidget*)object, parent);       //!!!!!!!!
-
-        else if (TImageSnapshot *tims = qobject_cast<TImageSnapshot*>(object)) //!!!!!
-            return new TaskMenuExtension((QWidget*)object, parent);       //!!!!!!!!
-        ///////////// */
-
-
+    } else if (qobject_cast<TImage*>(object)) {
+        return new TaskMenuExtension((QWidget*) object, parent);
+    } else if (qobject_cast<TImageSnapshot*>(object)) {
+        return new TaskMenuExtension((QWidget*) object, parent);
+    }
     return QExtensionFactory::createExtension(object, iid, parent);
 }
-/* */
 
-/* TaskMenuExtension */
 TaskMenuExtension::TaskMenuExtension(QWidget *widget, QObject *parent): QObject(parent), d_widget(widget), d_editTangoAction(0), d_editAction(0)//, editSourceDialog(0)
 {
     d_editTangoAction = new QAction(tr("Edit Tango Connection..."), this);
@@ -156,16 +149,12 @@ void TaskMenuExtension::editTango()
 {
     QString stringaIniziale;
     bool edit_source = true;
-    //* //My_code///
-    if (TImage *tim = qobject_cast<TImage*>(d_widget)){}
-
-           // stringaIniziale = tim->source();    /////!!
-    ////////////  */
-    else
+    if (qobject_cast<TImage*>(d_widget)) {
+        // do nothing
+    } else {
         return;
-
-    if (edit_source)
-    {
+    }
+    if (edit_source) {
         /*if (editSourceDialog == 0)
             editSourceDialog = new EditSourceDialog();
 

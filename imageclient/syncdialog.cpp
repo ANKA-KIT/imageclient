@@ -41,7 +41,20 @@ void SyncDialog::localMarkerSet(ImageMarker *m)
     color.push_back(qBlue(m->_clr));
     QString colorString = valuesAsString(color);
     ui->markerColorEdit->setText(colorString);
+    refreshCrosshairValues();
 }
+
+void SyncDialog::localMarkerRemoved()
+{
+    ui->markerXEdit->setText("");
+    ui->markerYEdit->setText("");
+    ui->markerSizeXEdit->setText("");
+    ui->markerSizeYEdit->setText("");
+    ui->markerThicknessEdit->setText("");
+    ui->markerColorEdit->setText("");
+    refreshCrosshairValues();
+}
+
 
 void SyncDialog::refreshCrosshair()
 {

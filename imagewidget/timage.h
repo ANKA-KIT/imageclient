@@ -162,6 +162,7 @@ protected slots:
 
     void refresh(const TVariant &);
     void syncMarker(ImageMarker*);
+    void markerDeleted();
 };
 
 #endif // TIMAGE_H

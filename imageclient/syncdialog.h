@@ -21,6 +21,7 @@ public:
 public slots:
     void refreshCrosshair();
     void localMarkerSet(ImageMarker *m);
+    void localMarkerRemoved();
 
 protected:
     virtual void showEvent (QShowEvent* event);
