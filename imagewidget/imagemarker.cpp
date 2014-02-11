@@ -30,7 +30,6 @@ ImageMarker::ImageMarker(int x, int y, QMenu *parent) :
     this->addAction(actSettings);
     this->addAction(actSize);
     this->addAction(actDel);
-    // TODO: add menu entry for submitting marker to tango device
 }
 
 void ImageMarker::del(){

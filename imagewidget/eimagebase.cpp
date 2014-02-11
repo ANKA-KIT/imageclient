@@ -1,15 +1,14 @@
 #include "eimagebase.h"
-//My_Code
 
-
-void EImageBase::init(){
-    for(int iter=0; iter<7;iter++)
+void EImageBase::init()
+{
+    for (int iter = 0; iter < 7; iter++) {
         serverValues[iter]=0;
-
+    }
     manipulatorIsClosed = true;
-   QWidget *w = new QWidget(this);
-   wgt = new EImageScreen(w);
-   // setAutoFillBackground(true);
+    QWidget *w = new QWidget(this);
+    wgt = new EImageScreen(w);
+    // setAutoFillBackground(true);
 
     QHBoxLayout *h= new QHBoxLayout;
     QVBoxLayout *wBox= new QVBoxLayout;
@@ -22,9 +21,9 @@ void EImageBase::init(){
     params = new QAction(tr("Set Params"), this);
     params->setStatusTip(tr("Set image parameters"));
     QObject::connect(params, SIGNAL(triggered()), this, SLOT(showParams()));
-    QAction *act = new QAction(tr("Set Marker"), this);
-    act->setStatusTip(tr("Set Marker on current point"));
-    connect(act,SIGNAL(triggered()),this,SLOT(initMarker()));
+    setMarkerAction = new QAction(tr("Set Marker"), this);
+    setMarkerAction->setStatusTip(tr("Set Marker on current point"));
+    connect(setMarkerAction, SIGNAL(triggered()), this, SLOT(initMarker()));
 
     QMenu *saveMenu = new QMenu(tr("Save Image"), this);
     saveWholePic = new QMenu(tr("Save Whole Image"), this);
@@ -51,28 +50,21 @@ void EImageBase::init(){
     connect(catS,SIGNAL(triggered()),this,SLOT(saveCat()));
     connect(catSave,SIGNAL(triggered()),this,SLOT(saveCatMarked()));
 
-    wgt->setActionMenu(QList<QAction *>()<<params<<act);
+    wgt->setActionMenu(QList<QAction *>() << params << setMarkerAction);
     wgt->contextMenu->addMenu(saveMenu);
-
 
     wBox->setMargin(0);
     h->addWidget(wgt->heightScrBar);
     wBox->addWidget(wgt->widthScrBar);
 
+    imageParams.contrast = 100;
+    imageParams.gamma = 100;
+    imageParams.brightness = 0;
 
-      imageParams.contrast = 100;
-      imageParams.gamma = 100;
-      imageParams.brightness = 0;
-
-      _timer = 0;
-      //setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
-      //setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
-      setFullscreenMode(wgt->imageTransform.fullPictureMode);
-      connect(wgt,SIGNAL(mousePosition(QPoint)), this, SLOT(onScreenReapinting(QPoint)));
-      connect(wgt,SIGNAL(newMarker(QPoint,QRgb)), this, SLOT(onNewMarker(QPoint,QRgb)));
-
-//      connect(horizontalScrollBar(), SIGNAL(sliderMoved(int)), wgt, SLOT(setMoveX(int)));
-//      connect(verticalScrollBar(), SIGNAL(sliderMoved(int)), wgt, SLOT(setMoveY(int)));
+    _timer = 0;
+    setFullscreenMode(wgt->imageTransform.fullPictureMode);
+    connect(wgt,SIGNAL(mousePosition(QPoint)), this, SLOT(onScreenReapinting(QPoint)));
+    connect(wgt,SIGNAL(newMarker(QPoint,QRgb)), this, SLOT(onNewMarker(QPoint,QRgb)));
 }
 
 EImageBase::EImageBase(QWidget *p): QScrollArea(p)
@@ -182,64 +174,12 @@ void EImageBase::saveImg(QImage img){
                   tr("JPG(*.jpg);;TIFF(*.tiff);;BMP(*.bmp);;PNG(*.png);;JPEG(*jpeg);;"
                                 "XBM(*.xbm);;XPM(*.xpm);;PPM(*.ppm)"),
                  &selectedFilter);
-    if(filename != ""){
+    if (filename != "") {
 
         qDebug( "save Format %s\n",  selectedFilter.split("(").takeFirst().toLower().toAscii().constData());
 
         if (val16.size() !=0){
-         /*    filename+=".tiff";
-            if(picMode->getPictureMode() == ImagePictureMode::IS_16BITGRAY){
-                cv::Mat img16( dimY,  dimX, CV_16UC1,  &val16.front());
-
-                cv::imwrite(filename.toAscii().constData(), img16);
-            }
-            if(picMode->getPictureMode() == ImagePictureMode::IS_48BIT){
-              //  val16.pop_back();
-                cv::Mat img16(dimX, dimY, CV_16UC3,  &val16.front());
-                cv::imwrite(filename.toAscii().constData(), img16);
-            }
-        /*   QString str = filename + ".tif";
-            TIFF *out= TIFFOpen(str.toAscii().constData(), "w");
-            unsigned short* valPtr = new unsigned short[dimX*dimY];
-            for(int i=0;i<dimX*dimY;i++){
-                valPtr[i] = val16.at(i);
-            }
-            unsigned short* ptr;
-            ptr = &valPtr[0];
-            TIFFSetField (out, TIFFTAG_IMAGEWIDTH, dimX/picMode->getDelimitr());  // set the width of the image
-            TIFFSetField(out, TIFFTAG_IMAGELENGTH, dimY);    // set the height of the image
-            TIFFSetField(out, TIFFTAG_SAMPLESPERPIXEL, picMode->getDelimitr());   // set number of channels per pixel
-            TIFFSetField(out, TIFFTAG_BITSPERSAMPLE, 16);    // set the size of the channels
-         //   TIFFSetField(out, TIFFTAG_ORIENTATION, ORIENTATION_TOPLEFT);    // set the origin of the image.
-            //   Some other essential fields to set that you do not have to understand for now.
-         //   TIFFSetField(out, TIFFTAG_PLANARCONFIG, PLANARCONFIG_CONTIG);
-         //   TIFFSetField(out, TIFFTAG_PHOTOMETRIC, PHOTOMETRIC_RGB);
-
-
-            TIFFSetField(out, TIFFTAG_ORIENTATION, ORIENTATION_TOPLEFT);
-            TIFFSetField(out, TIFFTAG_PLANARCONFIG, PLANARCONFIG_SEPARATE);
-            TIFFSetField(out, TIFFTAG_PHOTOMETRIC, PHOTOMETRIC_RGB);
-            TIFFSetField(out, TIFFTAG_XRESOLUTION, dimX/picMode->getDelimitr());
-            TIFFSetField(out, TIFFTAG_YRESOLUTION, dimY);
-            TIFFSetField(out, TIFFTAG_RESOLUTIONUNIT, dimY*dimX/picMode->getDelimitr());
-            TIFFSetField(out, TIFFTAG_PHOTOMETRIC, 0);
-
-            int16_t *dataArray = new  int16_t[dimX*dimY];
-            for(int o=0; o<val16.size();o++)
-            {   dataArray[o] = *ptr; ptr++;}
-            // Write the information to the file
-             //TIFFWriteEncodedStrip(out, 0, valPtr, dimX*dimY);
-            for (uint32 row = 0; row < dimY; row++)
-            {
-                //memcpy(ptr, &valPtr[(dimY-row-1)*dimX], dimX);    // check the index here, and figure out why not using h*linebytes
-                //if (TIFFWriteScanline(out, ptr, row, 0) < 0)
-               // break;
-                TIFFWriteScanline(out, &dataArray[row * dimX], row, 0);
-            }
-         //////   TIFFWriteEncodedStrip(out, 0, &dataArray[0], dimY*dimX);
-             // Close the file
-             TIFFClose(out);
-             */
+            // no implementation yet!
         }
         img.save(filename+QString(".") + selectedFilter.split("(").takeFirst().toLower());
         //}
@@ -265,23 +205,6 @@ void EImageBase::saveImgWithMarkers(QImage img){
         ///////////////////
         }
         wgt->setMarkersOnPic(true, img);
-       /* QList<ImageMarker*> marker;
-        marker = wgt->marker;
-        for (int m=0; m<marker.count(); m++){
-        int vLineLength = marker.at(m)->vLineLength;
-        int hLineLength = marker.at(m)->hLineLength;
-                    for (int i=0;i<vLineLength;i++){
-                            img.setPixel(marker.at(m)->_x,marker.at(m)->_y-i, marker.at(m)->_clr);
-                            img.setPixel(marker.at(m)->_x,marker.at(m)->_y+i, marker.at(m)->_clr);
-                    }
-
-            for (int i=0;i<hLineLength;i++){
-                    img.setPixel(marker.at(m)->_x-i, marker.at(m)->_y, marker.at(m)->_clr);
-                    img.setPixel(marker.at(m)->_x+i, marker.at(m)->_y, marker.at(m)->_clr);
-            }
-
-*/
-
         img.save(filename+QString(".") + selectedFilter.split("(").takeFirst().toLower());
         qDebug("Save an Image\n");
 
@@ -300,59 +223,14 @@ void EImageBase::saveCatImgWithMarkers(QImage img){
                   tr("JPG(*.jpg);;TIFF(*.tiff);;BMP(*.bmp);;PNG(*.png);;JPEG(*jpeg);;"
                                 "XBM(*.xbm);;XPM(*.xpm);;PPM(*.ppm)"),
                  &selectedFilter);
-    if(filename != ""){
-
+    if (filename != "") {
         qDebug( "save Format %s\n",  selectedFilter.split("(").takeFirst().toLower().toAscii().constData());
-/* cat USohrt image
-        QVector <unsigned short> tempVal16;
-        int bytesPerLine = (wgt->limX2 - wgt->limX1)*picMode->getDelimitr();
-        int catHeight =  wgt->limY2 - wgt->limY1;
-        int limitWidth = wgt->limX1 +bytesPerLine;
-        for (int i=wgt->limY1; i<wgt->limY2; i++){
-            int line = i*dimX;
-            for(int j=wgt->limX1;j<limitWidth;j++){
-                tempVal16.push_back(val16.at(line+j));
-            }
-        }
-        int limH = catHeight;//img.height();
-        int limW = bytesPerLine;//wgt->limX2 - wgt->limX1;//
-    for (int m=0; m<wgt->marker.count(); m++){
-        if(wgt->marker.at(m)->visiableXPos >= 0 && wgt->marker.at(m)->visiableXPos <= wgt->limX2){//-wgt->limX1
-            for (int i=0;i<limH;){
-                if(picMode->getDelimitr() == 1)
-                    tempVal16[marker.at(m)->visiableXPos+i*bytesPerLine] = 65535;
-                    i++;
-                else{
-                    tempVal16[marker.at(m)->visiableXPos+i*bytesPerLine] = 255*qRed(wgt->marker.at(m)->_clr);
-                    tempVal16[1+marker.at(m)->visiableXPos+i*bytesPerLine] = 255*qGreen(wgt->marker.at(m)->_clr);
-                    tempVal16[2+marker.at(m)->visiableXPos+i*bytesPerLine] = 255*qBlue(wgt->marker.at(m)->_clr);
-                    i+=3;
-                }
-            }
-
-        }
-        if(wgt->marker.at(m)->visiableYPos >= 0 && wgt->marker.at(m)->visiableYPos <= wgt->limY2){//-wgt->limY1
-            for (int i=0;i<limW;){
-                if(picMode->getDelimitr() == 1)
-                    tempVal16[marker.at(m)->visiableYPos+i] = 65535;
-                    i++;
-                else{
-                    tempVal16[marker.at(m)->visiableYPos+i] = 255*qRed(wgt->marker.at(m)->_clr);
-                    tempVal16[1+marker.at(m)->visiableYPos+i] = 255*qGreen(wgt->marker.at(m)->_clr);
-                    tempVal16[2+marker.at(m)->visiableYPos+i] = 255*qBlue(wgt->marker.at(m)->_clr);
-                    i+=3;
-                }
-            }
-        }
-    }
-
-*/
         wgt->setMarkersOnPic(false, img);
         img.save(filename+QString(".") + selectedFilter.split("(").takeFirst().toLower());
         qDebug("Save an Image\n");
-    }
-    else
+    } else {
         qDebug( "Saving an Image is canceled\n");
+    }
 }
 
 
@@ -398,29 +276,22 @@ void EImageBase::saveCatMarked(){
 }
 void EImageBase::saveCat(){
     QImage img;
-    if (val.size()!=0){
+    if (val.size() != 0) {
         img = picMode->setImage(dimX, dimY, val);
+    } else {
+        img = wgt->image;
     }
-    else {img = wgt->image;}
     saveImg(setPropertiesOnImg(img));
 }
 
 void EImageBase::initMarker(){
     wgt->initMarker();
+    setMarkerAction->setEnabled(false);
 }
 
 QPoint EImageBase::convertToImagePoint(int x, int y){
     return wgt->convertToImagePoint(x,y);
 }
-/*
-void EImageBase::ShowContextMenu(const QPoint& pos){
-    QPoint globalPos = this->mapToGlobal(pos);
-    contextMenu->popup(globalPos);
-}
-void EImageBase::setActionMenu(QList<QAction *> acts){
-   contextMenu->addActions(acts);
-}
-*/
 
 void EImageBase::setBrightness(QVariant val){
     if (__serverMode == WRITE){
@@ -754,21 +625,12 @@ QImage EImageBase::setPropertiesOnImg(QImage img, QVariant* p){
     if (p[0].toInt() != 0)
         img = wgt->changeRotateImg(img, p[0].toInt());
     if (__serverMode == READ_WITH_SERVERTRANSFORMATION){
-    bool p4 = p[4].toBool();
-    bool p4s = serverValues[4];
-
-    bool p5 = p[5].toBool();
-    bool p5s = serverValues[5];
-    bool hf =getHFlip();
-    bool vf =getVFlip();
-
 
     if ((!p[5].toBool() && getHFlip()) || (p[5].toBool() && !getHFlip()))
           img = wgt->chHorFlip(img);
-    if ((p[4].toBool() && !serverValues[4]) || (!p[4].toBool() && serverValues[4]))//(getVFlip())//
+    if ((p[4].toBool() && !serverValues[4]) || (!p[4].toBool() && serverValues[4]))
           img = wgt->chVerFlip(img);
-    }
-    else{
+    } else {
         if (getHFlip())
               img = wgt->chHorFlip(img);
         if (getVFlip())//

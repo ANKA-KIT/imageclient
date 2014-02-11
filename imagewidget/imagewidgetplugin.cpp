@@ -1,6 +1,5 @@
-/* $Id: qtangoplugin.cpp,v 1.40 2010/10/21 08:57:21 giacomo Exp $ */
-
 #include "imagewidgetplugin.h"
+
 #include <QtDebug>
 #include <QtPlugin>
 #include <QDesignerFormEditorInterface>
@@ -8,15 +7,7 @@
 #include <QDesignerFormWindowCursorInterface>
 #include <QExtensionManager>
 #include <QColorDialog>
-
-//*//My_code
-//#include <timage.h>
-//#include <timagesnapshot.h>
-/////////// */
-
 #include <QTabWidget>
-
-//#include <unistd.h>
 
 
 CustomWidgetInterface::CustomWidgetInterface(QObject *parent): QObject(parent), d_isInitialized(false)
@@ -42,7 +33,6 @@ void CustomWidgetInterface::initialize(QDesignerFormEditorInterface *formEditor)
     d_isInitialized = true;
 }
 
-//*///My_code///
 TImageInterface::TImageInterface(QObject* parent) : CustomWidgetInterface(parent)
 {
         d_name = "TImage";
@@ -59,7 +49,6 @@ TImageInterface::TImageInterface(QObject* parent) : CustomWidgetInterface(parent
         "  </rect>\n"
         " </property>\n"
         "</widget>\n";
-
 }
 
 QWidget* TImageInterface::createWidget(QWidget* parent)
@@ -162,66 +151,7 @@ QAction *TaskMenuExtension::preferredEditAction() const
 {
     return d_editTangoAction;
 }
-/*
-void TaskMenuExtension::setupSourceTargetDialog(QWidget *cb_widget)
-{
-        QString source = cb_widget->property("source").toString();
-        QString targets = cb_widget->property("targets").toString();
 
-    QDialog *w = new QDialog();
-//	QDialog *wt = new QDialog();
-
-    QGridLayout *grid = new QGridLayout(w);
-    QTabWidget *tw = new QTabWidget(w);
-
-    EditSourceDialog *wins = new EditSourceDialog(0);
-    EditTargetDialog *wint = new EditTargetDialog(0);
-    tw->addTab(wins, "Source");
-    tw->addTab(wint, "Target");
-    tw->setCurrentIndex(0);
-
-    //* Creating source dialog /
-    wins->ui.okButton->setHidden(true);
-    wins->ui.cancelButton->setHidden(true);
-        wins->ui.lineEdit->setText(source);
-
-    //* Creating target dialog /
-    wint->ui.okButton->setHidden(true);
-    wint->ui.cancelButton->setHidden(true);
-        wint->ui.listWidget->addItems(targets.split(";",QString::SkipEmptyParts));
-
-    grid->setRowStretch(0, 2);
-    grid->addWidget(tw, 0, 0, 1, 2);
-
-    QPushButton *okb = new QPushButton("OK", w);
-    QPushButton *cancb = new QPushButton("Cancel", w);
-    grid->addWidget(okb, 1, 0);
-    grid->addWidget(cancb, 1, 1);
-    connect(okb, SIGNAL(clicked() ), w, SLOT(accept() ) );
-    connect(cancb, SIGNAL(clicked() ), w, SLOT(reject() ) );
-
-    if (w->exec() == QDialog::Accepted)
-    {
-        QDesignerFormWindowInterface *formWindow = 0;
-        formWindow = QDesignerFormWindowInterface::findFormWindow(d_widget);
-        formWindow->cursor()->setProperty("source", wins->ui.lineEdit->text());
-
-        QString targets;
-        foreach (QListWidgetItem *it, wint->ui.listWidget->findItems("*", Qt::MatchWildcard))
-        {
-            targets.append(it->text());
-            targets.append(";");
-        }
-        formWindow->cursor()->setProperty("targets", targets);
-    }
-    else
-        qDebug() << "Caso non accettato!";
-
-    delete wins;
-    delete wint;
-    delete w;
-}
-*/
 void TaskMenuExtension::editTango()
 {
     QString stringaIniziale;
@@ -269,52 +199,5 @@ void TaskMenuExtension::editTango()
         */
     }
 }
-/*
-void TaskMenuExtension::editAttributes()
-{
-    if (TLabel *label = qobject_cast<TLabel*>(d_widget))
-    {
-        TLabelBoolEditor *w = new TLabelBoolEditor(label->trueString(), label->falseString(), label->trueColor(), label->falseColor());
-
-        if (w->exec() == QDialog::Accepted)
-        {
-            QDesignerFormWindowInterface *formWindow = 0;
-            formWindow = QDesignerFormWindowInterface::findFormWindow(label);
-            formWindow->cursor()->setProperty("trueString", w->ui.lineEditTrue->text());
-            formWindow->cursor()->setProperty("falseString", w->ui.lineEditFalse->text());
-            formWindow->cursor()->setProperty("trueColor", w->ui.pushColorTrue->palette().color(QPalette::Button));
-            formWindow->cursor()->setProperty("falseColor", w->ui.pushColorFalse->palette().color(QPalette::Button));
-        }
-    }
-    else if (TTable *table = qobject_cast<TTable*>(d_widget))
-    {
-        TTableBoolEditor *w = new TTableBoolEditor(table->readNumRows(), table->readNumColumns(), table->trueStrings(), table->falseStrings(), table->trueColors(), table->falseColors(), table->getDisplayMask());
-
-        if (w->exec() == QDialog::Accepted)
-        {
-            QDesignerFormWindowInterface *formWindow = 0;
-            formWindow = QDesignerFormWindowInterface::findFormWindow(table);
-            formWindow->cursor()->setProperty("numRows", w->ui.eFlagTrue->readNumRows());
-            formWindow->cursor()->setProperty("numColumns", w->ui.eFlagTrue->readNumColumns());
-            formWindow->cursor()->setProperty("trueStrings", w->ui.eFlagTrue->trueStrings());
-            formWindow->cursor()->setProperty("falseStrings", w->ui.eFlagTrue->falseStrings());
-            formWindow->cursor()->setProperty("trueColors", w->ui.eFlagTrue->trueColors());
-            formWindow->cursor()->setProperty("falseColors", w->ui.eFlagTrue->falseColors());
-            formWindow->cursor()->setProperty("displayMask", w->ui.lineMask->text());
-        }
-    }
-    else if (TLed *led = qobject_cast<TLed*>(d_widget))
-    {
-        TLedBoolEditor *w = new TLedBoolEditor(led->trueColor(), led->falseColor());
-        if (w->exec() == QDialog::Accepted)
-        {
-            QDesignerFormWindowInterface *formWindow = 0;
-            formWindow = QDesignerFormWindowInterface::findFormWindow(led);
-            formWindow->cursor()->setProperty("trueColor", w->ui.tLedTrue->trueColor());
-            formWindow->cursor()->setProperty("falseColor", w->ui.tLedFalse->falseColor());
-        }
-    }
-}
- */
 
 Q_EXPORT_PLUGIN2(QTango, CustomWidgetCollectionInterface)

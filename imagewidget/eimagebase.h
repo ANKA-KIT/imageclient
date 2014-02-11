@@ -23,6 +23,7 @@ class EImageBase : public QScrollArea
 {
     Q_OBJECT
 private:
+    QAction* setMarkerAction;
     void init();
 protected:
     QImage setImageByFullScreenMode(QImage img);
@@ -101,7 +102,7 @@ signals:
     void rgbImageColor(int, int, int);
     void greyscaleImageColor(int);
 
-    void newMarker(QPoint, QRgb );
+    void newMarker(QPoint, QRgb);
     void fullscreenMode(bool);
 public slots:
     void onNewMarker(QPoint, QRgb col);

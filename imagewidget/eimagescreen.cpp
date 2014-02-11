@@ -98,10 +98,10 @@ void EImageScreen::setCursorPos( int x, int y){
 void EImageScreen::onMarkerDelete(ImageMarker *pointer){
     QList<ImageMarker*>::iterator iter;
     for (iter = marker.begin(); iter < marker.end(); ++iter){
-         if(pointer == *iter){
-             emit delMarker(QPoint(pointer->_xOnPic,pointer->_yOnPic), pointer->_clr);
+         if (pointer == *iter){
+            emit delMarker(QPoint(pointer->_xOnPic,pointer->_yOnPic), pointer->_clr);
             marker.erase(iter);
-            break;
+            return;
         }
     }
 }
@@ -109,10 +109,9 @@ void EImageScreen::onMarkerDelete(ImageMarker *pointer){
 void EImageScreen::rescreen(){
     repaint();
 }
+
 QImage EImageScreen::chScale(QImage &image, double val){
-    QImage tempImg;
-    tempImg = image.scaled(image.width() * val, image.height() * val);
-    return tempImg;
+    return image.scaled(image.width() * val, image.height() * val);
 }
 
 QImage EImageScreen::chScale(QImage &image, double valX, double valY){
@@ -225,7 +224,6 @@ void EImageScreen::setMarkersOnPic(bool fullPic, QImage &imgPtr){
                 visY = marker.at(m)->visiableYPos;
             }
         }
-
         for (int i=0;i<vLineLength;i++){
             imgPtr.setPixel(visX,visY-i, clr);
             imgPtr.setPixel(visX,visY+i, clr);
@@ -234,15 +232,9 @@ void EImageScreen::setMarkersOnPic(bool fullPic, QImage &imgPtr){
             imgPtr.setPixel(visX-i, visY, clr);
             imgPtr.setPixel(visX+i, visY, clr);
         }
-
-
-
     }
 }
 
-
-////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////
 void EImageScreen::paintEvent( QPaintEvent * ){
     QPainter p(this);
     p.setPen(QPen(Qt::yellow, 2));
@@ -488,6 +480,9 @@ ImageMarker* EImageScreen::initMarker(QPoint pos){
     m1->_xOnPic = pos.x();
     m1->_yOnPic = pos.y();
     connect(m1,SIGNAL(deleteMarker(ImageMarker*)),this,SLOT(onMarkerDelete(ImageMarker*)));
+
+    // TODO: toggle state ob setMarker action!
+
     connect(m1,SIGNAL(colorChangedMarker(ImageMarker*)),this,SLOT(onMarkerColorChanged(ImageMarker*)));
     marker.push_back(m1);
     contextMenu->addMenu(m1);
@@ -510,7 +505,6 @@ void EImageScreen::setPicWH(int w,int h){
     picW = w;
     picH=h;
 }
-
 
 void EImageScreen::ShowContextMenu(const QPoint& pos){
     QPoint globalPos = this->mapToGlobal(pos);

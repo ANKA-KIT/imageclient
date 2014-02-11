@@ -4,7 +4,7 @@
 #include <QObject>
 #include <QImage>
 
-//My_Code
+
 class ImagePictureMode : public QObject
 {
     Q_OBJECT

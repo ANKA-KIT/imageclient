@@ -273,10 +273,11 @@ std::vector<uint> ImageTangoDevice::readULongSpectrumAttr(QString name) const
 {
     Tango::DeviceProxy dev(("//" + _serverName).toAscii().constData());
     Tango::DeviceAttribute attr = dev.read_attribute(name.toAscii().constData());
-    vector<uint> result;
-    attr >> result;
+    vector<Tango::DevULong> tangoResult;
+    attr >> tangoResult;
     // HACK: somehow our result is longer than the x dimension, so trim it!
-    result.resize(attr.get_dim_x());
+    tangoResult.resize(attr.get_dim_x());
+    vector<uint> result(tangoResult);
     return result;
 }
 
