@@ -472,18 +472,15 @@ void EImageScreen::paintEvent( QPaintEvent * ){
     }
 }
 
-ImageMarker* EImageScreen::initMarker(QPoint pos){
-  //  QPoint posSer = convertToImagePointServer(pos.x(),pos.y());
+ImageMarker* EImageScreen::initMarker(QPoint pos) {
+    qDebug("imagescreen initMarker");
     ImageMarker *m1 = new ImageMarker(pos.x(),pos.y(), contextMenu);
-    m1->_x = pos.x();//posSer.x();
-    m1->_y = pos.y();//posSer.y();
+    m1->_x = pos.x();
+    m1->_y = pos.y();
     m1->_xOnPic = pos.x();
     m1->_yOnPic = pos.y();
-    connect(m1,SIGNAL(deleteMarker(ImageMarker*)),this,SLOT(onMarkerDelete(ImageMarker*)));
-
-    // TODO: toggle state ob setMarker action!
-
-    connect(m1,SIGNAL(colorChangedMarker(ImageMarker*)),this,SLOT(onMarkerColorChanged(ImageMarker*)));
+    connect(m1, SIGNAL(deleteMarker(ImageMarker*)), this, SLOT(onMarkerDelete(ImageMarker*)));
+    connect(m1, SIGNAL(colorChangedMarker(ImageMarker*)), this, SLOT(onMarkerColorChanged(ImageMarker*)));
     marker.push_back(m1);
     contextMenu->addMenu(m1);
     emit newMarker(pos, m1->_clr);
