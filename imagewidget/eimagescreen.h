@@ -6,7 +6,7 @@
 #include <QMenu>
 #include <QWheelEvent>
 #include <QScrollBar>
-#include "math.h"
+#include <math.h>
 
 class ImageMarker;
 
@@ -26,6 +26,7 @@ private:
     int curXPos;
     int curYPos;
     bool isPi2rotated;
+
 public:
     QImage setTransformPropertiesOnImg(QImage img);
     TransformParametres imageTransform;
@@ -51,6 +52,7 @@ public:
 
     QScrollBar *heightScrBar;
     QScrollBar *widthScrBar;
+
 signals:
     void moveXSignal(int);
     void currentPos(int,int);
@@ -64,9 +66,10 @@ signals:
     void repainting();
 
     void mousePosition(QPoint);
-    void newMarker(QPoint, QRgb);
+    void newMarker(ImageMarker* m);
     void delMarker(QPoint, QRgb);
     void colorChMarker(QPoint, QRgb);
+
 public slots:
     void rescreen();
     void setPi2Rotated(bool);

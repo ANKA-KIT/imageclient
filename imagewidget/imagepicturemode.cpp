@@ -113,7 +113,7 @@ void GreyImg::recalcColors(QVector <unsigned char>& valBefore, QVector <unsigned
         recalcColorMap();
     }
     if (_rBorder != _maxContrast || _lBorder != 0){
-        for (unsigned int i=0; i<valBefore.size(); i++){
+        for (int i = 0; i < valBefore.size(); i++){
             valAfter.push_back(colorMap[valBefore[i]]);
         }
     }
@@ -212,14 +212,13 @@ IsRGBGGrey::IsRGBGGrey(){
 
 QImage IsRGBGGrey::compressImage(QVector<unsigned char>::iterator iter, QVector<unsigned char>::iterator iterEnd, int x, int y){
     QVector <unsigned char> compressedVal;
-    if (lastDelimetr == 3){
-        for (iter; iter<iterEnd; iter+=3 ){
+    if (lastDelimetr == 3) {
+        for (; iter < iterEnd; iter+=3) {
             compressedVal.push_back((*(iter+2)+*(iter+1)+*(iter))/3);
         }
         return setImageVal(x/3, y, compressedVal);
-    }
-    else{
-        for (iter; iter<iterEnd-3; iter+=4 ){
+    } else {
+        for (; iter < iterEnd - 3; iter += 4) {
             compressedVal.push_back((*(iter+2)+*(iter+1)+*(iter))/3);
         }
         return setImageVal(0.25*x, y, compressedVal);

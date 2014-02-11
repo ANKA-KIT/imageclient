@@ -19,6 +19,7 @@ struct Parametres {
 };
 
 class EImageScreen;
+class ImageMarker;
 
 class EImageBase : public QScrollArea
 {
@@ -35,7 +36,6 @@ public:
     EImageBase(QWidget *parent = 0);
     EImageBase(QImage img, int x, int y, int pm, QWidget *p = 0);
     EImageBase(QVector<unsigned short > vector, int x, int y, int pm, QWidget *p);
-// EImage(QVector<unsigned char>& vector, int x, int y, int pm, QScrollArea *p = 0);
 
     void drawing(QImage &img);
 
@@ -55,8 +55,6 @@ public:
     QImage setPropertiesOnImg(QImage img);
     QImage setPropertiesOnImg(QImage img, QVariant *setParamsAction);
 
-//    void ShowContextMenu(const QPoint& pos);
-//    void setActionMenu(QList<QAction *> acts);
     ImageManipulator *manip;
     double imageWidth();
     double imageHeight();
@@ -106,7 +104,7 @@ signals:
     void newMarker(QPoint, QRgb);
     void fullscreenMode(bool);
 public slots:
-    void onNewMarker(QPoint, QRgb col);
+    void onNewMarker(ImageMarker*);
     void setMarker(QPoint, QRgb);
     void onScreenReapinting(QPoint p);
     void saveImgWithMarkers(QImage img);

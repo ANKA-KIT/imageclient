@@ -2,7 +2,8 @@
 
 #include "imagemarker.h"
 
-EImageScreen::EImageScreen(QWidget *p):QWidget(p){
+EImageScreen::EImageScreen(QWidget *p) : QWidget(p)
+{
     setFullscreenMode(false);
     setAutoFillBackground(true);
     setMouseTracking(true);
@@ -113,9 +114,8 @@ QImage EImageScreen::chScale(QImage &image, double val){
     return image.scaled(image.width() * val, image.height() * val);
 }
 
-QImage EImageScreen::chScale(QImage &image, double valX, double valY){
-    int w =image.width();
-    int h = image.height();
+QImage EImageScreen::chScale(QImage &image, double valX, double valY)
+{
     QImage tempImg;
     tempImg = image.scaled(image.width() * valX, image.height() * valY);
     return tempImg;
@@ -267,10 +267,11 @@ void EImageScreen::paintEvent( QPaintEvent * ){
     imageCoordinats = convertToImageCoordinates();
     emit mousePosition(imageCoordinats);
     if (marker.count() >0){
-            int Y,X,i=0;
+            int Y = 0;
+            int X = 0;
 
             int cursorWidth;
-            for (i;i<marker.count(); i++){
+            for (int i = 0; i < marker.count(); i++){
                 cursorWidth = marker.at(i)->_width*imageTransform.imageScale < 1 ? 1:marker.at(i)->_width*imageTransform.imageScale;
                 p.setPen(QPen(QColor(marker.at(i)->_clr), cursorWidth));
 
@@ -482,7 +483,7 @@ ImageMarker* EImageScreen::initMarker(QPoint pos) {
     connect(m1, SIGNAL(colorChangedMarker(ImageMarker*)), this, SLOT(onMarkerColorChanged(ImageMarker*)));
     marker.push_back(m1);
     contextMenu->addMenu(m1);
-    emit newMarker(pos, m1->_clr);
+    emit newMarker(m1);
     return m1;
 }
 
@@ -693,35 +694,25 @@ void  EImageScreen::setScale(double val){
     emit imgChanged(image);
 }
 
-void EImageScreen::initMarker(){
-    QPoint imagePoint;
-
-    imagePoint = convertToImageCoordinates();
-   // imagePoint = convertPoint(imagePoint.x(), imagePoint.y());
-    ImageMarker *m = initMarker(imagePoint);
+void EImageScreen::initMarker()
+{
+    QPoint imagePoint = convertToImageCoordinates();
+    initMarker(imagePoint);
     recalcMarkerPos();
 }
 
-void EImageScreen::recalcMarkerPos(){
-    int iter = 0;
+void EImageScreen::recalcMarkerPos()
+{
     ImageMarker *markerPtr;
     QPoint p;
-    if (!imageTransform.fullPictureMode){    //set correct size and limit values before recalc Marker position
-       // QImage tempImg = picMode->setImage(dimX, dimY, val);
-        setImageByFullScreenMode(image);//tempImg
+    if (!imageTransform.fullPictureMode) {    //set correct size and limit values before recalc Marker position
+        setImageByFullScreenMode(image);
     }
-    for (iter; iter < marker.count(); iter++){
+    for (int iter = 0; iter < marker.count(); iter++){
          markerPtr = marker.at(iter);
-         //p = convertToImagePoint(markerPtr->_xOnPic, markerPtr->_yOnPic);
          p = convertToImagePoint(markerPtr->_x, markerPtr->_y);
          markerPtr->xTransformed = p.x();
          markerPtr->yTransformed = p.y();
-
-      /*
-         if (serverPicTrans.hFlip && ( (imageTransform.rotate == -270 || imageTransform.rotate == 90)) || (imageTransform.rotate == 270 || imageTransform.rotate == -90)){
-           markerPtr->_x  =p.x();
-           markerPtr->_y  =p.y();
-       } //*/
     }
 }
 

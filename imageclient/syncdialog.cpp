@@ -2,6 +2,7 @@
 #include "ui_syncdialog.h"
 
 #include "etangodevice.h"
+#include "imagemarker.h"
 
 SyncDialog::SyncDialog(ImageTangoDevice* tangoDevice, QWidget *parent) :
     QDialog(parent),
@@ -26,6 +27,22 @@ void SyncDialog::showEvent(QShowEvent* event)
     refreshCrosshairValues();
 }
 
+void SyncDialog::localMarkerSet(ImageMarker *m)
+{
+    qDebug("Setting local marker values");
+    ui->markerXEdit->setText(QString::number(m->_x));
+    ui->markerYEdit->setText(QString::number(m->_y));
+    ui->markerSizeXEdit->setText(QString::number(m->hLineLength));
+    ui->markerSizeYEdit->setText(QString::number(m->vLineLength));
+    ui->markerThicknessEdit->setText(QString::number(m->_width));
+    vector<int> color;
+    color.push_back(qRed(m->_clr));
+    color.push_back(qGreen(m->_clr));
+    color.push_back(qBlue(m->_clr));
+    QString colorString = valuesAsString(color);
+    ui->markerColorEdit->setText(colorString);
+}
+
 void SyncDialog::refreshCrosshair()
 {
     refreshCrosshairValues();
@@ -39,21 +56,11 @@ void SyncDialog::refreshCrosshairValues()
     }
     ui->tangoCrosshairEnabledcheckBox->setChecked(tangoDevice->readBoolAttr(QString::fromAscii("CrosshairEnabled")));
     vector<uint> crosshairPosition = tangoDevice->readULongSpectrumAttr(QString::fromAscii("CrosshairPosition"));
-    QString position = "[";
-    for (vector<uint>::iterator it = crosshairPosition.begin(); it != crosshairPosition.end(); ++it) {
-        position += QString::number(*it);
-        position += ",";
-    }
-    position.replace(position.length() - 1, 1, QChar(']'));
+    QString position = valuesAsString(crosshairPosition);
     ui->tangoCrosshairPositionEdit->setText(position);
     ui->tangoCrosshairThicknessEdit->setText(QString::number(tangoDevice->readULongAttr(QString::fromAscii("CrosshairThickness"))));
     vector<uchar> crosshairColor = tangoDevice->readUCharSpectrumAttr(QString::fromAscii("CrosshairColor"));
-    QString color = "[";
-    for (vector<uchar>::iterator it = crosshairColor.begin(); it != crosshairColor.end(); ++it) {
-        color += QString::number(*it);
-        color += ",";
-    }
-    color.replace(color.length() - 1, 1, QChar(']'));
+    QString color = valuesAsString(crosshairColor);
     ui->tangoCrosshairColorEdit->setText(color);
     ui->tangoRoiXEdit->setText(QString::number(tangoDevice->readULongAttr(QString::fromAscii("roi-x0"))));
     ui->tangoRoiYEdit->setText(QString::number(tangoDevice->readULongAttr(QString::fromAscii("roi-y0"))));

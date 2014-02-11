@@ -20,6 +20,7 @@ TImage::TImage(QWidget *parent, Qt::WFlags ) : EImageBase(parent), TDevice(this)
     connect(this, SIGNAL(newPicture(QImage,int,int,int)), this, SLOT(draw(QImage)), Qt::DirectConnection);
     connect(this, SIGNAL(timerSignal(int)), this, SLOT(setPeriod(int)), Qt::DirectConnection);
     connect(this, SIGNAL(newPictureDim(int, int)), wgt, SLOT(setPicWH(int,int)), Qt::DirectConnection);
+    connect(wgt, SIGNAL(newMarker(ImageMarker*)), this, SLOT(syncMarker(ImageMarker*)), Qt::DirectConnection);
 
     picMode = new Is24RGB();
     time.start();
@@ -28,6 +29,27 @@ TImage::TImage(QWidget *parent, Qt::WFlags ) : EImageBase(parent), TDevice(this)
     __serverAttrName = "ServerParameter";
     roiAddedFromServer = false;
     _pause = false;
+}
+
+void TImage::syncMarker(ImageMarker *m)
+{
+    qDebug("sync marker to tango");
+    vector<Tango::DevULong> pos;
+    pos.push_back(m->_x);
+    pos.push_back(m->_y);
+    pos.push_back(m->hLineLength);
+    pos.push_back(m->vLineLength);
+    Tango::DeviceAttribute position("CrosshairPosition", pos);
+    tango->writeAttr(position);
+    Tango::DevULong thick = m->_width;
+    Tango::DeviceAttribute thickness("CrosshairThickness", thick);
+    tango->writeAttr(thickness);
+    vector<Tango::DevUChar> colorValues;
+    colorValues.push_back(qRed(m->_clr));
+    colorValues.push_back(qGreen(m->_clr));
+    colorValues.push_back(qBlue(m->_clr));
+    Tango::DeviceAttribute color("CrosshairColor", colorValues);
+    tango->writeAttr(color);
 }
 
 void TImage::setPause(bool value){
@@ -156,8 +178,6 @@ void TImage::drawInServerMode(QImage img)
     }
     //double parameters[6];
     QVariant* parameters = new QVariant[6];
-    bool picTranformedByServer = false;
-    QRect ROI;
     if (serVar.size() == 0){
         serVar.push_back(0);             //rotate
         serVar.push_back(100);           //gamma
@@ -230,15 +250,12 @@ void TImage::drawInServerMode(QImage img)
         parameters[3] = getContrast();
         qDebug("Incorrect contrast value not in [-66000;66000]");
     }
-        bool value;
-    value = serVar[4] <= 0 ? false:true;
     if (serverValues[4] == serVar[4])
         ;
     else{
         serverValues[4] = serVar[4];
     }
-    parameters[4] = p2 ? getVFlip():getHFlip();//getHFlip():getVFlip();
-    value = serVar[5] <= 0 ? false:true;
+    parameters[4] = p2 ? getVFlip():getHFlip();
     if (serverValues[5] == serVar[5])
         ;
     else{
@@ -524,7 +541,6 @@ void TImage::autoDrawingHistogram(bool val){
     else
         disconnect(this, SIGNAL(newPicture(QImage,int, int,int)), this, SLOT(drawHistogram()));
 }
-
 
 void TImage::setServerMode(bool value){
     _serverMode = value;

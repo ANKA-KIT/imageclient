@@ -155,12 +155,13 @@ public slots:
     void delMarker(QPoint p, QRgb col);
     void delROI(QPoint p1,QPoint p2);
 protected slots:
-    /** \brief Set signals for drawing histogram in property window on newPicture
-    *
-    **/
-      void autoDrawingHistogram(bool val);
+    /**
+     * \brief Set signals for drawing histogram in property window on newPicture
+     */
+    void autoDrawingHistogram(bool val);
 
-      void refresh(const TVariant &);
+    void refresh(const TVariant &);
+    void syncMarker(ImageMarker*);
 };
 
 #endif // TIMAGE_H

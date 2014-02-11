@@ -4,7 +4,9 @@
 #include "TImageSnapshot"
 #include "TImage"
 
-class ROIClass : public QWidget//TImageSnapshot
+class ImageMarker;
+
+class ROIClass : public QWidget
 {
     Q_OBJECT
 private:
@@ -24,7 +26,7 @@ signals:
 public slots:
     void setRect(QPoint p1, QPoint p2);
     void onNewFrame(QImage);
-    void sendMarker(QPoint, QRgb);
+    void sendMarker(ImageMarker*);
     void realtimeMarkerInited(QPoint, QRgb);
 
     void realtimeMarkerDeleted(QPoint p, QRgb col);

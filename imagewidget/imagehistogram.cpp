@@ -383,14 +383,11 @@ void ImageHistogram::drawing(double val[], int sizeArray){
 void ImageHistogram::drawHistogram(QVector<unsigned short> &vec){
     int sizeArray = 65536;
     double *val = new double [sizeArray];
-    for (int i = 0; i < sizeArray; i++)
-    {
+    for (int i = 0; i < sizeArray; i++) {
         val[i]=0;
     }
-    QVector<unsigned short>::iterator iter;
-    iter = vec.begin();
-    for (iter; iter<vec.end(); iter++){
-        val[*iter]+=1;
+    for (QVector<unsigned short>::iterator iter = vec.begin(); iter < vec.end(); iter++){
+        val[*iter] += 1;
     }
     drawing(val, sizeArray);
 }

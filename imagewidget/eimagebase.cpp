@@ -11,7 +11,6 @@ void EImageBase::init()
     manipulatorIsClosed = true;
     QWidget *w = new QWidget(this);
     wgt = new EImageScreen(w);
-    // setAutoFillBackground(true);
 
     QHBoxLayout *h= new QHBoxLayout;
     QVBoxLayout *wBox= new QVBoxLayout;
@@ -66,8 +65,8 @@ void EImageBase::init()
 
     _timer = 0;
     setFullscreenMode(wgt->imageTransform.fullPictureMode);
-    connect(wgt,SIGNAL(mousePosition(QPoint)), this, SLOT(onScreenReapinting(QPoint)));
-    connect(wgt,SIGNAL(newMarker(QPoint,QRgb)), this, SLOT(onNewMarker(QPoint,QRgb)));
+    connect(wgt, SIGNAL(mousePosition(QPoint)), this, SLOT(onScreenReapinting(QPoint)));
+    connect(wgt, SIGNAL(newMarker(ImageMarker*)), this, SLOT(onNewMarker(ImageMarker*)));
 }
 
 EImageBase::EImageBase(QWidget *p): QScrollArea(p)
@@ -154,8 +153,6 @@ void  EImageBase::setScale(double val){
     emit scaleValue(wgt->imageTransform.imageScale);
 }
 
-
-//----------------------------
 QVector<unsigned char> EImageBase::getImageVector(QImage &img, int w, int h){
     QVector<unsigned char> val;
     unsigned char* line = NULL;
@@ -216,7 +213,6 @@ void EImageBase::saveImgWithMarkers(QImage img){
         qDebug( "Saving an Image is canceled\n");
 }
 
-
 void EImageBase::saveCatImgWithMarkers(QImage img){
     QString selectedFilter;
     QString filename = QFileDialog::getSaveFileName(
@@ -269,7 +265,9 @@ void EImageBase::saveWholeMarked(){
 else {img = wgt->image;}
     saveImgWithMarkers(img);
 }
-void EImageBase::saveCatMarked(){
+
+void EImageBase::saveCatMarked()
+{
     QImage img;
     if (val.size()!=0){
         img = picMode->setImage(dimX, dimY, val);
@@ -277,7 +275,9 @@ void EImageBase::saveCatMarked(){
     else {img = wgt->image;}
     saveCatImgWithMarkers(setPropertiesOnImg(img));
 }
-void EImageBase::saveCat(){
+
+void EImageBase::saveCat()
+{
     QImage img;
     if (val.size() != 0) {
         img = picMode->setImage(dimX, dimY, val);
@@ -287,16 +287,19 @@ void EImageBase::saveCat(){
     saveImg(setPropertiesOnImg(img));
 }
 
-void EImageBase::initMarker(){
+void EImageBase::initMarker()
+{
     wgt->initMarker();
     setMarkerAction->setEnabled(false);
 }
 
-QPoint EImageBase::convertToImagePoint(int x, int y){
+QPoint EImageBase::convertToImagePoint(int x, int y)
+{
     return wgt->convertToImagePoint(x,y);
 }
 
-void EImageBase::setBrightness(QVariant val){
+void EImageBase::setBrightness(QVariant val)
+{
     if (__serverMode == WRITE){
         valuesForWrite[2] = val.toInt();
 
@@ -313,6 +316,7 @@ void EImageBase::setBrightness(QVariant val){
     emit imgChanged(wgt->image);
     emit brightnessValue(imageParams.brightness);
 }
+
 void EImageBase::setContrast(QVariant val){
     if (__serverMode == WRITE){
         valuesForWrite[3] = val.toInt();
@@ -725,11 +729,11 @@ void EImageBase::onScreenReapinting(QPoint p){
             else if (val16.size()>rgb  && val16.size() !=0) emit rgbImageColor(val16.at(rgb), val16.at(rgb+1), val16.at(rgb+2));
             else emit rgbImageColor(0,0,0);
     }
-    //*/
 }
 
-void EImageBase::onNewMarker(QPoint p, QRgb col){
-    emit newMarker(p, col);
+void EImageBase::onNewMarker(ImageMarker* m){
+    QPoint p(m->_x, m->_y);
+    emit newMarker(p, m->_clr);
 }
 
 void EImageBase::setMarker(QPoint p, QRgb col){
@@ -740,5 +744,3 @@ void EImageBase::setMarker(QPoint p, QRgb col){
     wgt->marker.last()->menuAction()->setText("Marker["+QString().number(p.x())+";"+QString().number(p.y())+"]");
     wgt->recalcMarkerPos();
 }
-
-//My_Code_End
