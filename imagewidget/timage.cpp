@@ -1,6 +1,8 @@
 #include "timage.h"
-#include <QVariant>
 
+#include <QVariant>
+#include "eimagescreen.h"
+#include "imagemarker.h"
 
 TImage::TImage(QWidget *parent, Qt::WFlags ) : EImageBase(parent), TDevice(this)
 {

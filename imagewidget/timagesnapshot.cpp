@@ -1,6 +1,7 @@
 #include "timagesnapshot.h"
 
-//My_Code
+#include "eimagescreen.h"
+
 void TImageSnapshot::resizeEvent(QResizeEvent * ){
     setImage(wgt->image);
 }

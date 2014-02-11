@@ -1,5 +1,8 @@
 #include "eimagebase.h"
 
+#include "imagemarker.h"
+#include "eimagescreen.h"
+
 void EImageBase::init()
 {
     for (int iter = 0; iter < 7; iter++) {

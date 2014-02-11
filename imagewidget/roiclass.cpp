@@ -1,5 +1,8 @@
 #include "roiclass.h"
 
+#include "eimagescreen.h"
+#include "imagemarker.h"
+
 ROIClass::ROIClass(TImage* snp, QWidget*p, QRect rec) :QWidget(p)//: TImageSnapshot(snp->makeSnpImageCat(rec, p))
 {
     ptr = snp;

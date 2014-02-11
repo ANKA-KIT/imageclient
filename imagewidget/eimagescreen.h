@@ -5,10 +5,10 @@
 #include <QImage>
 #include <QMenu>
 #include <QWheelEvent>
-#include "imagemarker.h"
-
 #include <QScrollBar>
 #include "math.h"
+
+class ImageMarker;
 
 struct TransformParametres {
     bool horFlip;

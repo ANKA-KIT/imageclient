@@ -1,5 +1,6 @@
 #include "eimagescreen.h"
-//My_Code
+
+#include "imagemarker.h"
 
 EImageScreen::EImageScreen(QWidget *p):QWidget(p){
     setFullscreenMode(false);

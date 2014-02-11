@@ -7,6 +7,9 @@
 #include <QCoreApplication>
 #include <QTimer>
 
+class ImageMarker;
+class RoiAction;
+
 /**
  * \brief a widget for displaying current image from TANGO
  *

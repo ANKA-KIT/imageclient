@@ -1,5 +1,8 @@
 #include "roisubwindow.h"
 
+#include <QMenu>
+#include "eimagescreen.h"
+
 RoiSubWindow::RoiSubWindow(QPoint p1,QPoint p2,TImage *tim): SubWindow(SubWindow::SNAPSHOT)
 {
     //QRect region(tim->wgt->limX1,tim->wgt->limY1,tim->wgt->limX2-tim->wgt->limX1,tim->wgt->limY2-tim->wgt->limY1);

@@ -3,6 +3,7 @@
 #include <TImage>
 
 #include "imagemarker.h"
+#include "eimagescreen.h"
 #include "syncdialog.h"
 
 RealtimeSubWindow::RealtimeSubWindow(QString tangoDev, QString tangoImage) : SubWindow(SubWindow::REALTIME), tim(new TImage(this))

@@ -9,7 +9,6 @@
 #include <QScrollArea>
 #include <QVariant>
 
-#include "eimagescreen.h"
 #include "imagemanipulator.h"
 #include "imagepicturemode.h"
 
@@ -18,6 +17,8 @@ struct Parametres {
     int contrast;
     int gamma;
 };
+
+class EImageScreen;
 
 class EImageBase : public QScrollArea
 {
