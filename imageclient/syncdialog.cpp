@@ -35,6 +35,8 @@ void SyncDialog::localMarkerSet(ImageMarker *m)
     updateSizeOf(m);
     ui->markerThicknessEdit->setText(QString::number(m->_width));
     ui->markerColorEdit->setText(colorStringOf(m));
+    ui->roiWidthEdit->setText((QString::number(m->roiWidth)));
+    ui->roiHeightEdit->setText((QString::number(m->roiHeight)));
     refreshCrosshairValues();
 }
 
@@ -46,6 +48,8 @@ void SyncDialog::localMarkerRemoved()
     ui->markerSizeYEdit->setText("");
     ui->markerThicknessEdit->setText("");
     ui->markerColorEdit->setText("");
+    ui->roiWidthEdit->setText("");
+    ui->roiHeightEdit->setText("");
     refreshCrosshairValues();
 }
 

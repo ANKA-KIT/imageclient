@@ -3,7 +3,9 @@
 #include "editmarkerdialog.h"
 
 ImageMarker::ImageMarker(int x, int y, QMenu *parent) :
-    QMenu(parent)
+    QMenu(parent),
+    roiWidth(0),
+    roiHeight(0)
 {
     _xOnPic = xTransformed = _x = x;
     _yOnPic = yTransformed = _y = y;

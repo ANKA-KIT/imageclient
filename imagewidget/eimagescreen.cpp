@@ -698,7 +698,7 @@ void EImageScreen::initMarker()
 
 void EImageScreen::recalcMarkerPos()
 {
-    if (!imageTransform.fullPictureMode) { //set correct size and limit values before recalc Marker position
+    if (!imageTransform.fullPictureMode) { // set correct size and limit values before recalc Marker position
         setImageByFullScreenMode(image);
     }
     for (int iter = 0; iter < marker.count(); iter++){

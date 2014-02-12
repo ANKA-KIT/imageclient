@@ -1,6 +1,7 @@
 #include "timage.h"
 
 #include <QVariant>
+#include <QDebug>
 #include "eimagescreen.h"
 #include "imagemarker.h"
 
@@ -36,17 +37,46 @@ TImage::TImage(QWidget *parent, Qt::WFlags ) : EImageBase(parent), TDevice(this)
 
 void TImage::syncMarker(ImageMarker *m)
 {
-    qDebug("sync marker to tango");
+    qDebug() << "sync marker to tango";
+    if (!tango->checkAttr(_serverName, "CrosshairEnabled")) {
+        qDebug() << "Not syncing marker: device has no attribute CrosshairEnabled!";
+        return;
+    }
     Tango::DevBoolean enabled = true;
     Tango::DeviceAttribute crosshairEnabled("CrosshairEnabled", enabled);
     tango->writeAttr(crosshairEnabled);
     writeMarkerSizeToDevice(m);
     writeMarkerThicknessToDevice(m);
     writeMarkerColorToDevice(m);
+    if (m->roiWidth > 0 && m->roiHeight > 0) {
+        writeMarkerRoiToDevice(m->_x - (m->roiWidth / 2), m->_y - (m->roiHeight / 2), m->roiWidth, m->roiHeight);
+    } else {
+        writeMarkerRoiToDevice(0, 0, dimX, dimY);
+    }
+}
+
+void TImage::writeMarkerRoiToDevice(Tango::DevULong x0, Tango::DevULong y0, Tango::DevULong width, Tango::DevULong height)
+{
+    if (!tango->checkAttr(_serverName, "roi-x0")) {
+        qDebug() << "Not syncing marker ROI: device has no attribute roi-x0!";
+        return;
+    }
+    Tango::DeviceAttribute roiX0("roi-x0", x0);
+    tango->writeAttr(roiX0);
+    Tango::DeviceAttribute roiY0("roi-Y0", y0);
+    tango->writeAttr(roiY0);
+    Tango::DeviceAttribute roiWidth("roi-width", width);
+    tango->writeAttr(roiWidth);
+    Tango::DeviceAttribute roiHeight("roi-height", height);
+    tango->writeAttr(roiHeight);
 }
 
 void TImage::markerDeleted()
 {
+    if (!tango->checkAttr(_serverName, "CrosshairEnabled")) {
+        qDebug() << "Not syncing marker: device has no attribute CrosshairEnabled!";
+        return;
+    }
     Tango::DevBoolean disabled = false;
     Tango::DeviceAttribute crosshairDisabled("CrosshairEnabled", disabled);
     tango->writeAttr(crosshairDisabled);
@@ -54,13 +84,16 @@ void TImage::markerDeleted()
 
 void TImage::colorChanged(ImageMarker *m)
 {
+    if (!tango->checkAttr(_serverName, "CrosshairColor")) {
+        qDebug() << "Not syncing marker color: device has no attribute CrosshairColor!";
+        return;
+    }
     writeMarkerColorToDevice(m);
 }
 
 void TImage::markerResized(ImageMarker *m)
 {
-    writeMarkerSizeToDevice(m);
-    writeMarkerThicknessToDevice(m);
+    syncMarker(m);
 }
 
 void TImage::writeMarkerColorToDevice(ImageMarker *m)
@@ -104,15 +137,14 @@ void TImage::setPause(bool value){
 
 void TImage::refresh(const TVariant &newVal)
 {
-    if ( canLoadnewPic){  //if Last picture is displayed
+    if (canLoadnewPic) { // if last picture is displayed
         canLoadnewPic = false;
         timeWorking.start();
         if (newVal.quality() == Tango::ATTR_INVALID)
         {
-            setPeriod(100);//temporary
-            qDebug("TImages::refresh: Lose connection with a TANGO server!");
+            setPeriod(100); // temporary
+            qDebug() << "TImages::refresh: Lose connection with a TANGO server!";
             QImage image = errorImage();
-            //emit newPicture(image);
             wgt->image = image.copy();
             emit newPicture(val16,dimX,dimY,picMode->getPictureMode());
             emit newPicture(image,dimX,dimY,picMode->getPictureMode());
@@ -121,7 +153,6 @@ void TImage::refresh(const TVariant &newVal)
             return;
         }
         int nTime = time.restart();
-   //     qDebug("Displaying time is %d", nTime);
         emit timeNewPic(nTime);
         bool error = false;
         dimX = newVal.dimX;

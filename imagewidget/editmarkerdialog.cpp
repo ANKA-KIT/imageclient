@@ -20,8 +20,8 @@ EditMarkerDialog::EditMarkerDialog(ImageMarker *marker, QWidget *parent) :
     ui->markerSizeYEdit->setText(QString::number(marker->vLineLength));
     ui->markerThicknessEdit->setText(QString::number(marker->_width));
     updateColorSelectorButton();
-    ui->markerXEdit->setText(QString::number(marker->_x));
-    ui->markerXEdit->setText(QString::number(marker->_x));
+    ui->roiWidthEdit->setText(QString::number(marker->roiWidth));
+    ui->roiHeightEdit->setText(QString::number(marker->roiHeight));
 }
 
 EditMarkerDialog::~EditMarkerDialog()
@@ -38,9 +38,11 @@ void EditMarkerDialog::accept()
     marker->_y = ui->markerYEdit->text().toInt();
     marker->_yOnPic = marker->_y;
     marker->_width = ui->markerThicknessEdit->text().toInt();
-    marker->geometryChanged();
+    marker->roiWidth = ui->roiWidthEdit->text().toInt();
+    marker->roiHeight = ui->roiHeightEdit->text().toInt();
     marker->resizeMarker(ui->markerSizeXEdit->text().toInt(), ui->markerSizeYEdit->text().toInt());
     marker->setMarkerColor(currentColor.rgb());
+    marker->geometryChanged();
 }
 
 void EditMarkerDialog::showColorSelector()

@@ -56,6 +56,8 @@ public:
     int _width;
     int hLineLength;
     int vLineLength;
+    int roiWidth;
+    int roiHeight;
     QRgb _clr;
     QPixmap *pic;
     QIcon *icon;
