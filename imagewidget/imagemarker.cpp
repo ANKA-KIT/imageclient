@@ -1,5 +1,7 @@
 #include "imagemarker.h"
 
+#include "editmarkerdialog.h"
+
 ImageMarker::ImageMarker(int x, int y, QMenu *parent) :
     QMenu(parent)
 {
@@ -17,18 +19,18 @@ ImageMarker::ImageMarker(int x, int y, QMenu *parent) :
     _width = 1;
 
     actDel = new QAction(tr("Delete"), this);
-    actSettings = new QAction(tr("Marker Color"), this);
+//    actSettings = new QAction(tr("Marker Color"), this);
     connect(actDel, SIGNAL(triggered()), this, SLOT(del()));
-    connect(actSettings, SIGNAL(triggered()), this, SLOT(showSettings()));
+//    connect(actSettings, SIGNAL(triggered()), this, SLOT(showSettings()));
 
-    actSize = new QAction(tr("Marker Size"), this);
-    connect(actSize, SIGNAL(triggered()), this, SLOT(resizeMarkerWin()));
+    editAction = new QAction(tr("Edit"), this);
+    connect(editAction, SIGNAL(triggered()), this, SLOT(showEditMarkerDialog()));
 
     menuAction()->setIcon(*pic);
     menuAction()->setIconVisibleInMenu(true);
 
-    this->addAction(actSettings);
-    this->addAction(actSize);
+//    this->addAction(actSettings);
+    this->addAction(editAction);
     this->addAction(actDel);
 }
 
@@ -53,11 +55,11 @@ void ImageMarker::setMarkerColor(QRgb color)
     emit colorChangedMarker(this);
 }
 
-void ImageMarker::resizeMarkerWin()
+void ImageMarker::showEditMarkerDialog()
 {
-    ResizeMarker *sizeWin = new ResizeMarker();
-    connect(sizeWin, SIGNAL(changeMarkerSize(int,int)), this, SLOT(resizeMarker(int,int)));
-    sizeWin->show();
+    EditMarkerDialog *editDialog = new EditMarkerDialog();
+//    connect(sizeWin, SIGNAL(changeMarkerSize(int,int)), this, SLOT(resizeMarker(int,int)));
+    editDialog->show();
 }
 
 void ImageMarker::resizeMarker(int h,int v){

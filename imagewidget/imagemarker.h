@@ -86,7 +86,7 @@ public:
 
     QAction *actDel;
     QAction *actSettings;
-    QAction *actSize;
+    QAction *editAction;
 signals:
     void deleteMarker(ImageMarker *m);
     void colorChangedMarker(ImageMarker *m);
@@ -95,7 +95,7 @@ public slots:
     void setMarkerColor(QRgb color);
     void del();
     void showSettings();
-    void resizeMarkerWin();
+    void showEditMarkerDialog();
     void resizeMarker(int,int);
 };
 

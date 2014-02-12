@@ -153,7 +153,7 @@ void Is16BitGrey::convert16BitData(QVector <unsigned short>& val16, QVector<unsi
     ptrCM = &colorMap[0];
     val8.resize(count);
     unsigned char *ptrVal8 = &val8[0];
-    for (unsigned int i=0; i<count; i++){
+    for (int i = 0; i < count; i++) {
          *ptrVal8 = *(ptrCM + *(ptr16+i)); ptrVal8++;//val8.push_back(*(ptrCM+*(ptr16+i)));//colorMap.at(val16[i]);
     }
 }
@@ -165,7 +165,7 @@ void Is16BitGrey::recalcColors(QVector <unsigned char>& valBefore, QVector <unsi
         recalcColorMap();
     }
     if (_rBorder != _maxContrast || _lBorder != 0){
-        for (unsigned int i=0; i<valBefore.size(); i++){
+        for (int i = 0; i < valBefore.size(); i++){
             valAfter.push_back(colorMap[valBefore[i]]);
         }
     }
@@ -196,8 +196,8 @@ void Is8BitGrey::recalcColors(QVector <unsigned char>& valBefore, QVector <unsig
     if (_colorMapChanged){
         recalcColorMap();
     }
-    if (_rBorder != _maxContrast || _lBorder != 0){
-        for (unsigned int i=0; i<valBefore.size(); i++){
+    if (_rBorder != _maxContrast || _lBorder != 0) {
+        for (int i = 0; i < valBefore.size(); i++) {
             valAfter.push_back(colorMap[valBefore[i]]);
         }
     }
@@ -244,8 +244,8 @@ void IsRGBGGrey::recalcColors(QVector <unsigned char>& valBefore, QVector <unsig
     if (_colorMapChanged){
         recalcColorMap();
     }
-    if (_rBorder != _maxContrast || _lBorder != 0){
-        for (unsigned int i=0; i<valBefore.size(); i++){
+    if (_rBorder != _maxContrast || _lBorder != 0) {
+        for (int i = 0; i < valBefore.size(); i++) {
             valAfter.push_back(colorMap[valBefore[i]]);
         }
     }
@@ -284,9 +284,6 @@ void Is48BitRGB::convert16BitData(QVector <unsigned short>& val16, QVector<unsig
     if (_colorMapChanged){
         recalcColorMap();
     }
-    /*for (unsigned int i=0; i<val16.size(); i++){
-        val8.push_back(colorMap[val16[i]]);
-    }*/
     unsigned short * ptr16;
     unsigned char * ptrCM;
     int count = val16.size();
@@ -294,8 +291,8 @@ void Is48BitRGB::convert16BitData(QVector <unsigned short>& val16, QVector<unsig
     ptrCM = &colorMap[0];
     val8.resize(count);
     unsigned char *ptrVal8 = &val8[0];
-    for (unsigned int i=0; i<count; i++){
-         *ptrVal8 = *(ptrCM + *(ptr16+i)); ptrVal8++;//val8.push_back(*(ptrCM+*(ptr16+i)));//colorMap.at(val16[i]);
+    for (int i = 0; i < count; i++) {
+         *ptrVal8 = *(ptrCM + *(ptr16+i)); ptrVal8++;
     }
 }
 
@@ -314,9 +311,8 @@ void Is48BitRGB::recalcColors(QVector <unsigned char>& valBefore, QVector <unsig
         ptrCM = &colorMap[0];
         valAfter.resize(count);
         ptrAfter = &valAfter[0];
-        for (unsigned int i=0; i<valBefore.size(); i++){
-            *ptrAfter = *(ptrCM + *(ptrBefore+i)); ptrAfter++; //valAfter.push_back(colorMap[valBefore[i]]);
+        for (int i = 0; i < valBefore.size(); i++) {
+            *ptrAfter = *(ptrCM + *(ptrBefore+i)); ptrAfter++;
         }
     }
 }
-///////////////////--------------------------

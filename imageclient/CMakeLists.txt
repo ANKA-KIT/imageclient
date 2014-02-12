@@ -50,6 +50,7 @@ SET(source_FORMS
     mainwindow.ui
     syncdialog.ui
 )
+
 SET(imageclient_RESOURCES
     application.qrc
 )
