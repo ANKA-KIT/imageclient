@@ -480,6 +480,7 @@ ImageMarker* EImageScreen::initMarker(QPoint pos) {
     m1->_yOnPic = pos.y();
     connect(m1, SIGNAL(deleteMarker(ImageMarker*)), this, SLOT(onMarkerDelete(ImageMarker*)));
     connect(m1, SIGNAL(colorChangedMarker(ImageMarker*)), this, SLOT(onMarkerColorChanged(ImageMarker*)));
+    connect(m1, SIGNAL(resizedMarker(ImageMarker*)), this, SLOT(onMarkerResized(ImageMarker*)));
     marker.push_back(m1);
     contextMenu->addMenu(m1);
     emit newMarker(m1);
@@ -945,8 +946,14 @@ QPoint EImageScreen::convertToImageCoordinates(){
     return QPoint(x,y);
 }
 
-void EImageScreen::onMarkerColorChanged(ImageMarker* pointer)
+void EImageScreen::onMarkerColorChanged(ImageMarker* m)
 {
-    emit colorChMarker(QPoint(pointer->_xOnPic,pointer->_yOnPic), pointer->_clr);
-    emit markerColorChanged(pointer);
+    emit colorChMarker(QPoint(m->_xOnPic,m->_yOnPic), m->_clr);
+    emit markerColorChanged(m);
 }
+
+void EImageScreen::onMarkerResized(ImageMarker *m)
+{
+    emit markerResized(m);
+}
+

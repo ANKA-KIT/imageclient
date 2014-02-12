@@ -32,8 +32,7 @@ void SyncDialog::localMarkerSet(ImageMarker *m)
     qDebug("Setting local marker values");
     ui->markerXEdit->setText(QString::number(m->_x));
     ui->markerYEdit->setText(QString::number(m->_y));
-    ui->markerSizeXEdit->setText(QString::number(m->hLineLength));
-    ui->markerSizeYEdit->setText(QString::number(m->vLineLength));
+    updateSizeOf(m);
     ui->markerThicknessEdit->setText(QString::number(m->_width));
     ui->markerColorEdit->setText(colorStringOf(m));
     refreshCrosshairValues();
@@ -56,6 +55,12 @@ void SyncDialog::colorChanged(ImageMarker *m)
     refreshCrosshairValues();
 }
 
+void SyncDialog::sizeChanged(ImageMarker *m)
+{
+    updateSizeOf(m);
+    refreshCrosshairValues();
+}
+
 QString SyncDialog::colorStringOf(ImageMarker *m)
 {
     vector<int> color;
@@ -63,6 +68,12 @@ QString SyncDialog::colorStringOf(ImageMarker *m)
     color.push_back(qGreen(m->_clr));
     color.push_back(qBlue(m->_clr));
     return valuesAsString(color);
+}
+
+void SyncDialog::updateSizeOf(ImageMarker *m)
+{
+    ui->markerSizeXEdit->setText(QString::number(m->hLineLength));
+    ui->markerSizeYEdit->setText(QString::number(m->vLineLength));
 }
 
 void SyncDialog::refreshCrosshair()

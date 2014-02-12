@@ -70,6 +70,7 @@ signals:
     void delMarker(QPoint, QRgb);
     void colorChMarker(QPoint, QRgb);
     void markerColorChanged(ImageMarker *m);
+    void markerResized(ImageMarker *m);
 
 public slots:
     void rescreen();
@@ -103,7 +104,8 @@ protected slots:
     void setLimits(int,int,int,int);
 
     void onMarkerDelete(ImageMarker *m);
-    void onMarkerColorChanged(ImageMarker* p);
+    void onMarkerColorChanged(ImageMarker *m);
+    void onMarkerResized(ImageMarker *m);
     void paintEvent( QPaintEvent * e);
     void setCursorPos( int x, int y);
     virtual QMenu* rightClickMenu() { return contextMenu; }

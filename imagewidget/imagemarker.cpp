@@ -63,6 +63,7 @@ void ImageMarker::resizeMarkerWin()
 void ImageMarker::resizeMarker(int h,int v){
     hLineLength = h;
     vLineLength = v;
+    emit resizedMarker(this);
 }
 
 ResizeMarker::ResizeMarker(){

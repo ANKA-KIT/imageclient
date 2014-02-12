@@ -33,6 +33,7 @@ private:
 
     QVector<double> initParametersVector();
     void writeMarkerColorToDevice(ImageMarker *m);
+    void writeMarkerSizeToDevice(ImageMarker *m);
 
 public:
     /**
@@ -162,6 +163,7 @@ protected slots:
     void syncMarker(ImageMarker *m);
     void markerDeleted();
     void colorChanged(ImageMarker *m);
+    void markerResized(ImageMarker *m);
 };
 
 #endif // TIMAGE_H

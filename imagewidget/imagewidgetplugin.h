@@ -14,7 +14,6 @@
 #include <QExtensionFactory>
 #include <QScrollArea>
 #include <QAction>
-#include "TImageSnapshot"
 
 
 class CustomWidgetInterface: public QObject, public QDesignerCustomWidgetInterface

@@ -24,6 +24,7 @@ public slots:
     void localMarkerSet(ImageMarker *m);
     void localMarkerRemoved();
     void colorChanged(ImageMarker *m);
+    void sizeChanged(ImageMarker *m);
 
 protected:
     virtual void showEvent (QShowEvent* event);
@@ -34,6 +35,7 @@ private:
 
     void refreshCrosshairValues();
     QString colorStringOf(ImageMarker *m);
+    void updateSizeOf(ImageMarker *m);
     template<typename T> QString valuesAsString(std::vector<T> values)
     {
         QString result = "[";
