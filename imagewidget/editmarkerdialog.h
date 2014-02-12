@@ -30,6 +30,8 @@ public slots:
 
 protected slots:
     void showColorSelector();
+    void autoFillRoiWidth();
+    void autoFillRoiHeight();
 };
 
 #endif // EDITMARKERDIALOG_H

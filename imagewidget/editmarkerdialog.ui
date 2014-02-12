@@ -206,8 +206,74 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>roiWidthEdit</sender>
+   <signal>returnPressed()</signal>
+   <receiver>EditMarkerDialog</receiver>
+   <slot>autoFillRoiHeight()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>193</x>
+     <y>191</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>134</x>
+     <y>131</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>roiHeightEdit</sender>
+   <signal>returnPressed()</signal>
+   <receiver>EditMarkerDialog</receiver>
+   <slot>autoFillRoiWidth()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>193</x>
+     <y>217</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>134</x>
+     <y>131</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>roiWidthEdit</sender>
+   <signal>editingFinished()</signal>
+   <receiver>EditMarkerDialog</receiver>
+   <slot>autoFillRoiHeight()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>193</x>
+     <y>191</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>134</x>
+     <y>131</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>roiHeightEdit</sender>
+   <signal>editingFinished()</signal>
+   <receiver>EditMarkerDialog</receiver>
+   <slot>autoFillRoiWidth()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>193</x>
+     <y>217</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>134</x>
+     <y>131</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>showColorSelector()</slot>
+  <slot>autoFillRoiHeight()</slot>
+  <slot>autoFillRoiWidth()</slot>
  </slots>
 </ui>

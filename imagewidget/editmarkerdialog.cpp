@@ -56,6 +56,22 @@ void EditMarkerDialog::showColorSelector()
     updateColorSelectorButton();
 }
 
+void EditMarkerDialog::autoFillRoiWidth()
+{
+    if (ui->roiWidthEdit->text().toInt() > 0) {
+        return;
+    }
+    ui->roiWidthEdit->setText(ui->roiHeightEdit->text());
+}
+
+void EditMarkerDialog::autoFillRoiHeight()
+{
+    if (ui->roiHeightEdit->text().toInt() > 0) {
+        return;
+    }
+    ui->roiHeightEdit->setText(ui->roiWidthEdit->text());
+}
+
 void EditMarkerDialog::updateColorSelectorButton()
 {
     colorIcon->fill(currentColor);
