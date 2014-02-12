@@ -34,6 +34,7 @@ private:
     QVector<double> initParametersVector();
     void writeMarkerColorToDevice(ImageMarker *m);
     void writeMarkerSizeToDevice(ImageMarker *m);
+    void writeMarkerThicknessToDevice(ImageMarker *m);
 
 public:
     /**

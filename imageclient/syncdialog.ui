@@ -21,7 +21,14 @@
        <item>
         <layout class="QGridLayout" name="gridLayout_2">
          <item row="2" column="2">
-          <widget class="QLineEdit" name="markerSizeXEdit"/>
+          <widget class="QLineEdit" name="markerSizeXEdit">
+           <property name="readOnly">
+            <bool>true</bool>
+           </property>
+           <property name="placeholderText">
+            <string>no marker</string>
+           </property>
+          </widget>
          </item>
          <item row="0" column="0">
           <widget class="QLabel" name="markerXLabel">
@@ -52,7 +59,14 @@
           </widget>
          </item>
          <item row="4" column="2">
-          <widget class="QLineEdit" name="markerThicknessEdit"/>
+          <widget class="QLineEdit" name="markerThicknessEdit">
+           <property name="readOnly">
+            <bool>true</bool>
+           </property>
+           <property name="placeholderText">
+            <string>no marker</string>
+           </property>
+          </widget>
          </item>
          <item row="5" column="0" colspan="2">
           <widget class="QLabel" name="markerColorLabel">
@@ -62,16 +76,44 @@
           </widget>
          </item>
          <item row="1" column="1" colspan="2">
-          <widget class="QLineEdit" name="markerYEdit"/>
+          <widget class="QLineEdit" name="markerYEdit">
+           <property name="readOnly">
+            <bool>true</bool>
+           </property>
+           <property name="placeholderText">
+            <string>no marker</string>
+           </property>
+          </widget>
          </item>
          <item row="5" column="2">
-          <widget class="QLineEdit" name="markerColorEdit"/>
+          <widget class="QLineEdit" name="markerColorEdit">
+           <property name="readOnly">
+            <bool>true</bool>
+           </property>
+           <property name="placeholderText">
+            <string>no marker</string>
+           </property>
+          </widget>
          </item>
          <item row="3" column="2">
-          <widget class="QLineEdit" name="markerSizeYEdit"/>
+          <widget class="QLineEdit" name="markerSizeYEdit">
+           <property name="readOnly">
+            <bool>true</bool>
+           </property>
+           <property name="placeholderText">
+            <string>no marker</string>
+           </property>
+          </widget>
          </item>
          <item row="0" column="1" colspan="2">
-          <widget class="QLineEdit" name="markerXEdit"/>
+          <widget class="QLineEdit" name="markerXEdit">
+           <property name="readOnly">
+            <bool>true</bool>
+           </property>
+           <property name="placeholderText">
+            <string>no marker</string>
+           </property>
+          </widget>
          </item>
          <item row="3" column="0" colspan="2">
           <widget class="QLabel" name="markerSizeYLabel">
@@ -92,7 +134,14 @@
           </widget>
          </item>
          <item row="0" column="1">
-          <widget class="QLineEdit" name="roiWidthEdit"/>
+          <widget class="QLineEdit" name="roiWidthEdit">
+           <property name="readOnly">
+            <bool>true</bool>
+           </property>
+           <property name="placeholderText">
+            <string>no marker ROI</string>
+           </property>
+          </widget>
          </item>
          <item row="1" column="0">
           <widget class="QLabel" name="roiHeightLabel">
@@ -102,7 +151,14 @@
           </widget>
          </item>
          <item row="1" column="1">
-          <widget class="QLineEdit" name="roiHeightEdit"/>
+          <widget class="QLineEdit" name="roiHeightEdit">
+           <property name="readOnly">
+            <bool>true</bool>
+           </property>
+           <property name="placeholderText">
+            <string>no marker ROI</string>
+           </property>
+          </widget>
          </item>
         </layout>
        </item>

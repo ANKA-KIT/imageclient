@@ -41,9 +41,7 @@ void TImage::syncMarker(ImageMarker *m)
     Tango::DeviceAttribute crosshairEnabled("CrosshairEnabled", enabled);
     tango->writeAttr(crosshairEnabled);
     writeMarkerSizeToDevice(m);
-    Tango::DevULong thick = m->_width;
-    Tango::DeviceAttribute thickness("CrosshairThickness", thick);
-    tango->writeAttr(thickness);
+    writeMarkerThicknessToDevice(m);
     writeMarkerColorToDevice(m);
 }
 
@@ -62,6 +60,7 @@ void TImage::colorChanged(ImageMarker *m)
 void TImage::markerResized(ImageMarker *m)
 {
     writeMarkerSizeToDevice(m);
+    writeMarkerThicknessToDevice(m);
 }
 
 void TImage::writeMarkerColorToDevice(ImageMarker *m)
@@ -83,6 +82,13 @@ void TImage::writeMarkerSizeToDevice(ImageMarker *m)
     pos.push_back(m->vLineLength);
     Tango::DeviceAttribute position("CrosshairPosition", pos);
     tango->writeAttr(position);
+}
+
+void TImage::writeMarkerThicknessToDevice(ImageMarker *m)
+{
+    Tango::DevULong thick = m->_width;
+    Tango::DeviceAttribute thickness("CrosshairThickness", thick);
+    tango->writeAttr(thickness);
 }
 
 void TImage::setPause(bool value){
@@ -361,7 +367,6 @@ void TImage::drawInServerMode(QImage img)
             marker->resizeMarker(serVar[index+5],serVar[index+6]);
             if (__serverMode == READ){
                 marker->actDel->setEnabled(false);
-                marker->actSettings->setEnabled(false);
             }
             serverMarkerList.push_back(marker);
         }
@@ -698,7 +703,6 @@ void TImage::setServerMode(bool value){
             marker->resizeMarker(serVar[index+5],serVar[index+6]);
             if (__serverMode == READ){
                 marker->actDel->setEnabled(false);
-                marker->actSettings->setEnabled(false);
             }
             serverMarkerList.push_back(marker);
         }

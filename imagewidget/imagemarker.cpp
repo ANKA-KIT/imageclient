@@ -19,9 +19,7 @@ ImageMarker::ImageMarker(int x, int y, QMenu *parent) :
     _width = 1;
 
     actDel = new QAction(tr("Delete"), this);
-//    actSettings = new QAction(tr("Marker Color"), this);
     connect(actDel, SIGNAL(triggered()), this, SLOT(del()));
-//    connect(actSettings, SIGNAL(triggered()), this, SLOT(showSettings()));
 
     editAction = new QAction(tr("Edit"), this);
     connect(editAction, SIGNAL(triggered()), this, SLOT(showEditMarkerDialog()));
@@ -29,7 +27,6 @@ ImageMarker::ImageMarker(int x, int y, QMenu *parent) :
     menuAction()->setIcon(*pic);
     menuAction()->setIconVisibleInMenu(true);
 
-//    this->addAction(actSettings);
     this->addAction(editAction);
     this->addAction(actDel);
 }
@@ -40,11 +37,9 @@ void ImageMarker::del()
     deleteLater();
 }
 
-void ImageMarker::showSettings()
+void ImageMarker::geometryChanged()
 {
-    QColor color;
-    color = QColorDialog::getColor(color, this);
-    setMarkerColor(color.rgb());
+    emit geometryChangedMarker(this);
 }
 
 void ImageMarker::setMarkerColor(QRgb color)
@@ -57,40 +52,14 @@ void ImageMarker::setMarkerColor(QRgb color)
 
 void ImageMarker::showEditMarkerDialog()
 {
-    EditMarkerDialog *editDialog = new EditMarkerDialog();
-//    connect(sizeWin, SIGNAL(changeMarkerSize(int,int)), this, SLOT(resizeMarker(int,int)));
-    editDialog->show();
+    EditMarkerDialog *editDialog = new EditMarkerDialog(this);
+    editDialog->exec();
+    delete editDialog;
 }
 
-void ImageMarker::resizeMarker(int h,int v){
+void ImageMarker::resizeMarker(int h, int v)
+{
     hLineLength = h;
     vLineLength = v;
     emit resizedMarker(this);
-}
-
-ResizeMarker::ResizeMarker(){
-    setAttribute(Qt::WA_DeleteOnClose);
-    QHBoxLayout *h = new QHBoxLayout;
-    hor = new QLineEdit(this);
-    ver = new QLineEdit(this);
-    QLabel *lb = new QLabel("Marker length", this);
-    h->addWidget(lb);
-    h->addWidget(hor);
-    h->addWidget(ver);
-    QFormLayout *layout = new QFormLayout(this);
-    layout->addRow(h);
-    QPushButton *bt = new QPushButton("Ok",this);
-    layout->addRow(bt);
-    connect(bt, SIGNAL(clicked()), this, SLOT(onOk()));
-    resize(300,100);
-}
-
-void ResizeMarker::onOk(){
-    bool h,v;
-    int hVal = hor->text().toInt(&h);
-    int vVal = ver->text().toInt(&v);
-    if (h && v){
-        emit changeMarkerSize(hVal, vVal);
-        deleteLater();
-    }
 }

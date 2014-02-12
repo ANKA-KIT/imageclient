@@ -57,8 +57,7 @@ void SyncDialog::colorChanged(ImageMarker *m)
 
 void SyncDialog::sizeChanged(ImageMarker *m)
 {
-    updateSizeOf(m);
-    refreshCrosshairValues();
+    localMarkerSet(m);
 }
 
 QString SyncDialog::colorStringOf(ImageMarker *m)

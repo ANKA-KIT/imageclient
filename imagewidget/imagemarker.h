@@ -3,33 +3,10 @@
 
 #include <QColor>
 #include <QMenu>
-#include <QMenu>
 #include <QIcon>
-#include <QPen>
-#include <QPainter>
 #include <QPixmap>
-#include <QColorDialog>
 #include <stdlib.h>
 #include <time.h>
-#include <QHBoxLayout>
-#include <QLineEdit>
-#include <QLabel>
-#include <QFormLayout>
-#include <QPushButton>
-
-class ResizeMarker : public QWidget{
-    Q_OBJECT
-protected:
-    //QPushButton *bt;
-    QLineEdit *hor;
-    QLineEdit *ver;
-public:
-    ResizeMarker();
-signals:
-    void changeMarkerSize(int,int);
-protected slots:
-    void onOk();
-};
 
 class RoiAction : public QMenu
 {
@@ -49,7 +26,7 @@ public:
         setTitle("["+QString().number(p1.x())+","+QString().number(p1.y())+"];["+QString().number(p2.x())+","+QString().number(p2.y())+"]");
         connect(actOpen,SIGNAL(triggered()),this,SLOT(clicked()));
         connect(actDel,SIGNAL(triggered()),this,SLOT(del()));
-    }// actNew = menuAction();}
+    }
 signals:
     void deleteRoi(RoiAction*);
     void actionClicked(RoiAction*);
@@ -68,7 +45,6 @@ class ImageMarker : public QMenu
     Q_OBJECT
 public:
     explicit ImageMarker(int x, int y, QMenu *parent = 0);
-    //QAction *act;
     int _x;
     int _y;
     int _xOnPic;
@@ -85,18 +61,23 @@ public:
     QIcon *icon;
 
     QAction *actDel;
-    QAction *actSettings;
     QAction *editAction;
+    QColor getColor() {
+        return QColor(_clr);
+    }
+    void geometryChanged();
+
 signals:
     void deleteMarker(ImageMarker *m);
     void colorChangedMarker(ImageMarker *m);
     void resizedMarker(ImageMarker *m);
+    void geometryChangedMarker(ImageMarker *m);
+
 public slots:
     void setMarkerColor(QRgb color);
     void del();
-    void showSettings();
     void showEditMarkerDialog();
-    void resizeMarker(int,int);
+    void resizeMarker(int, int);
 };
 
 

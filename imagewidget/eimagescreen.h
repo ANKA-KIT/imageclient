@@ -106,14 +106,15 @@ protected slots:
     void onMarkerDelete(ImageMarker *m);
     void onMarkerColorChanged(ImageMarker *m);
     void onMarkerResized(ImageMarker *m);
-    void paintEvent( QPaintEvent * e);
-    void setCursorPos( int x, int y);
+    void onMarkerGeometryChanged(ImageMarker *m);
+    void paintEvent(QPaintEvent *e);
+    void setCursorPos(int x, int y);
     virtual QMenu* rightClickMenu() { return contextMenu; }
 
     void wheelEvent(QWheelEvent *event);
-    void mouseMoveEvent ( QMouseEvent * event );
-    void mousePressEvent ( QMouseEvent * e);
-    void mouseReleaseEvent ( QMouseEvent * event );
+    void mouseMoveEvent(QMouseEvent *event);
+    void mousePressEvent(QMouseEvent *e);
+    void mouseReleaseEvent(QMouseEvent *event);
 };
 
 #endif // EIMAGESCREEN_H

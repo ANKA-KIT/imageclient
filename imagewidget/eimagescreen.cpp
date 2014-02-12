@@ -1,5 +1,6 @@
 #include "eimagescreen.h"
 
+#include <QPainter>
 #include "imagemarker.h"
 
 EImageScreen::EImageScreen(QWidget *p) : QWidget(p)
@@ -30,15 +31,15 @@ EImageScreen::EImageScreen(QWidget *p) : QWidget(p)
 
 }
 
-void EImageScreen::wheelEvent(QWheelEvent *event){
-    if (event->modifiers().testFlag(Qt::ControlModifier))
-        {
-            double a;
-            a = event->delta()/120;
-            emit chScaleByWheel(a*0.05);
-            emit moveXSignal((event->x() - width()/2)/5);
-            emit moveYSignal((event->y() - height()/2)/5);
-        }
+void EImageScreen::wheelEvent(QWheelEvent *event)
+{
+    if (event->modifiers().testFlag(Qt::ControlModifier)) {
+        double a;
+        a = event->delta()/120;
+        emit chScaleByWheel(a*0.05);
+        emit moveXSignal((event->x() - width()/2)/5);
+        emit moveYSignal((event->y() - height()/2)/5);
+    }
 }
 
 void EImageScreen::mouseMoveEvent(QMouseEvent * event)
@@ -238,10 +239,7 @@ void EImageScreen::paintEvent( QPaintEvent * ){
     p.setPen(QPen(Qt::yellow, 2));
     p.drawLine(_curMouseX-3, _curMouseY, _curMouseX+3, _curMouseY);
     p.drawLine(_curMouseX, _curMouseY-3, _curMouseX, _curMouseY+3);
-    //qDebug( "EImageScreen::paintEvent\n");
     if (!imageTransform.fullPictureMode){
-        //if (((image.height()>height() || image.width()>width()) && (imageTransform.rotate == 0 || imageTransform.rotate == 180 || imageTransform.rotate == -180)) ||
-        //    ((image.height()>width() || image.width()>height()) && (imageTransform.rotate == -90 || imageTransform.rotate == 90 || imageTransform.rotate == -270 || imageTransform.rotate == 270)) ){
             p.setPen(QPen(Qt::red, 1));
             int xxx = 5;
             int yyy = 5;
@@ -249,12 +247,8 @@ void EImageScreen::paintEvent( QPaintEvent * ){
             int yyyH = 20;
             p.drawRect(xxx, yyy, xxxW, yyyH);
             p.setPen(QPen(Qt::green, 1));
-        /*    double x1 = limX1;
-            double x2 = limX2;
-            double y1 = limY1;
-            double y2 = limY2;
-         */   QPoint p1 = QPoint(limX1,limY1);//convertToImagePointServer(limX1,limY1);//
-            QPoint p2 = QPoint(limX2,limY2);//convertToImagePointServer(limX2,limY2);//
+            QPoint p1 = QPoint(limX1,limY1);
+            QPoint p2 = QPoint(limX2,limY2);
             int xxxx = xxxW*((double)p1.x()/(double)picW);
             int yyyy = yyyH*((double)p1.y()/(double)picH);
             xxxW = xxxW*((double)p2.x()/(double)picW);
@@ -265,13 +259,13 @@ void EImageScreen::paintEvent( QPaintEvent * ){
     QPoint imageCoordinats;
     imageCoordinats = convertToImageCoordinates();
     emit mousePosition(imageCoordinats);
-    if (marker.count() >0){
+    if (marker.count() > 0) {
             int Y = 0;
             int X = 0;
 
             int cursorWidth;
             for (int i = 0; i < marker.count(); i++){
-                cursorWidth = marker.at(i)->_width*imageTransform.imageScale < 1 ? 1:marker.at(i)->_width*imageTransform.imageScale;
+                cursorWidth = marker.at(i)->_width * imageTransform.imageScale < 1 ? 1 : marker.at(i)->_width * imageTransform.imageScale;
                 p.setPen(QPen(QColor(marker.at(i)->_clr), cursorWidth));
 
                 if (imageTransform.fullPictureMode){
@@ -368,7 +362,7 @@ void EImageScreen::paintEvent( QPaintEvent * ){
                                 int picX = ((limY2Temp-limY1Temp)-markedY);
 
                                 Y = (picY)*imageTransform.imageScale;
-                                X =  (picX+sign*limY1Temp)*imageTransform.imageScale;/////
+                                X =  (picX+sign*limY1Temp)*imageTransform.imageScale;
                             }
                         }
                         else{
@@ -481,6 +475,7 @@ ImageMarker* EImageScreen::initMarker(QPoint pos) {
     connect(m1, SIGNAL(deleteMarker(ImageMarker*)), this, SLOT(onMarkerDelete(ImageMarker*)));
     connect(m1, SIGNAL(colorChangedMarker(ImageMarker*)), this, SLOT(onMarkerColorChanged(ImageMarker*)));
     connect(m1, SIGNAL(resizedMarker(ImageMarker*)), this, SLOT(onMarkerResized(ImageMarker*)));
+    connect(m1, SIGNAL(geometryChangedMarker(ImageMarker*)), this, SLOT(onMarkerGeometryChanged(ImageMarker*)));
     marker.push_back(m1);
     contextMenu->addMenu(m1);
     emit newMarker(m1);
@@ -516,23 +511,21 @@ double EImageScreen::getRotate(){
     return imageTransform.rotate;
 }
 
-QImage EImageScreen::setImageByFullScreenMode(QImage img){
-    int picWidth = picW;//dimX/picMode->getDelimitr();
- if (!imageTransform.fullPictureMode){
-        moveX = moveX<0? 0:moveX;
-        moveY = moveY<0? 0:moveY;
-         int X1=moveX, Y1=moveY, X2, Y2;
+QImage EImageScreen::setImageByFullScreenMode(QImage img)
+{
+    int picWidth = picW;
+    if (!imageTransform.fullPictureMode){
+        moveX = moveX < 0 ? 0 :moveX;
+        moveY = moveY < 0 ? 0 : moveY;
+        int X1 = moveX, Y1 = moveY, X2, Y2;
 
-       // double picsclX = img.width()*imageTransform.imageScale, picsclY = img.height()*imageTransform.imageScale;
- double picsclX = picW*imageTransform.imageScale, picsclY = picH*imageTransform.imageScale;
-         double X2scl, Y2scl;
-if(imageTransform.rotate == 90 || imageTransform.rotate == -90 || imageTransform.rotate == -270 || imageTransform.rotate == 270){
-
-    Y2scl = picsclX/parentWidget()->width(), X2scl = picsclY/parentWidget()->height();//parentWidget()->
-}
-else{
-    X2scl = picsclX/parentWidget()->width(), Y2scl = picsclY/parentWidget()->height();//parentWidget()->
-}
+    double picsclX = picW*imageTransform.imageScale, picsclY = picH*imageTransform.imageScale;
+    double X2scl, Y2scl;
+    if(imageTransform.rotate == 90 || imageTransform.rotate == -90 || imageTransform.rotate == -270 || imageTransform.rotate == 270){
+        Y2scl = picsclX/parentWidget()->width(), X2scl = picsclY/parentWidget()->height();
+    } else {
+        X2scl = picsclX/parentWidget()->width(), Y2scl = picsclY/parentWidget()->height();
+    }
 
         if (X2scl < 1 && Y2scl < 1){
              X2 = picWidth;
@@ -626,7 +619,8 @@ void EImageScreen::chMoveXOn(int val){
     }
 }
 
-void EImageScreen::chMoveYOn(int val){
+void EImageScreen::chMoveYOn(int val)
+{
     switch((int)imageTransform.rotate){
     case -270:
     case 90:
@@ -649,13 +643,16 @@ void EImageScreen::chMoveYOn(int val){
         else{setMoveY(moveY + val);}
     }
 }
-void EImageScreen::drawing(QImage& img){
+
+void EImageScreen::drawing(QImage& img)
+{
     QPalette pal;
     pal.setBrush(backgroundRole(), QBrush(img));
     setPalette(pal);
 }
 
-QImage EImageScreen::changeRotateImg(QImage &tempImage, int val){
+QImage EImageScreen::changeRotateImg(QImage &tempImage, int val)
+{
     QTransform mat;
     mat.rotate(val);
     QImage tempImg;
@@ -663,10 +660,9 @@ QImage EImageScreen::changeRotateImg(QImage &tempImage, int val){
     return tempImg;
 }
 
-
-
-void EImageScreen::setFullscreenMode(bool val){
-   imageTransform.fullPictureMode = val;
+void EImageScreen::setFullscreenMode(bool val)
+{
+    imageTransform.fullPictureMode = val;
     if (!val){
         connect(this,SIGNAL(moveXSignal(int)), this,SLOT(chMoveXOn(int)));
         connect(this,SIGNAL(moveYSignal(int)), this,SLOT(chMoveYOn(int)));
@@ -680,13 +676,15 @@ void EImageScreen::setFullscreenMode(bool val){
         disconnect(this,SIGNAL(moveYSignal(int)), this,SLOT(chMoveYOn(int)));
         disconnect(this,SIGNAL(chScaleByWheel(double)),this, SLOT(chScaleVal(double)));
     }
-    //emit imgTransformed(image);
 }
-void  EImageScreen::chScaleVal(double val){
+
+void  EImageScreen::chScaleVal(double val)
+{
     setScale(imageTransform.imageScale + val);
 }
 
-void  EImageScreen::setScale(double val){
+void  EImageScreen::setScale(double val)
+{
     imageTransform.imageScale = val;
     if (imageTransform.imageScale <= 0)
         imageTransform.imageScale = 0.05;
@@ -703,16 +701,14 @@ void EImageScreen::initMarker()
 
 void EImageScreen::recalcMarkerPos()
 {
-    ImageMarker *markerPtr;
-    QPoint p;
     if (!imageTransform.fullPictureMode) {    //set correct size and limit values before recalc Marker position
         setImageByFullScreenMode(image);
     }
     for (int iter = 0; iter < marker.count(); iter++){
-         markerPtr = marker.at(iter);
-         p = convertToImagePoint(markerPtr->_x, markerPtr->_y);
-         markerPtr->xTransformed = p.x();
-         markerPtr->yTransformed = p.y();
+        ImageMarker *markerPtr = marker.at(iter);
+        QPoint p = convertToImagePoint(markerPtr->_x, markerPtr->_y);
+        markerPtr->xTransformed = p.x();
+        markerPtr->yTransformed = p.y();
     }
 }
 
@@ -726,17 +722,12 @@ QImage EImageScreen::setTransformPropertiesOnImg(QImage img){
     return img;
 }
 
-
-QPoint EImageScreen::convertToImagePoint(int x, int y){
-   int picWidth = picW;//dimX/picMode->getDelimitr();
-//   int displayPicWidth = picW;
-//  int displayPicHeight = picH;
+QPoint EImageScreen::convertToImagePoint(int x, int y)
+{
+    int picWidth = picW;
     int yOld = y, xOld=x;
-    ////////////////////////////////////////////////////////////
-    //////////////////////////////////////////////
-//    if (imageTransform.fullPictureMode){
 
-    switch((int)imageTransform.rotate){
+    switch ((int) imageTransform.rotate) {
     case -270:
     case 90: y =  xOld; setPi2Rotated(true); break;
     case 270:
@@ -744,9 +735,9 @@ QPoint EImageScreen::convertToImagePoint(int x, int y){
     case 180:
     case -180: y = picH - yOld;setPi2Rotated(false); break;
     default: setPi2Rotated(false);;
-}
+    }
 
-    switch((int)imageTransform.rotate){
+    switch ((int) imageTransform.rotate) {
     case -270:
     case 90: x =   picH -yOld; break;
     case 270:
@@ -778,18 +769,12 @@ QPoint EImageScreen::convertToImagePoint(int x, int y){
     else if (imageTransform.verFlip){
         y = picH - y;
     }
-
-//}
-    /////////////////////////////////////////////
     return QPoint(x,y);
-
-
 }
 
 QPoint EImageScreen::convertToImageCoordinates(){
-   // QPoint imagePoint;
     int x=_curMouseX, y=_curMouseY;
-    int picWidth = picW;//dimX/picMode->getDelimitr();
+    int picWidth = picW;
     if (imageTransform.fullPictureMode){
 
         double a;
@@ -957,3 +942,8 @@ void EImageScreen::onMarkerResized(ImageMarker *m)
     emit markerResized(m);
 }
 
+void EImageScreen::onMarkerGeometryChanged(ImageMarker *m)
+{
+    recalcMarkerPos();
+    emit markerResized(m);
+}
