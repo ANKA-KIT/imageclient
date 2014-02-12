@@ -66,9 +66,10 @@ signals:
     void repainting();
 
     void mousePosition(QPoint);
-    void newMarker(ImageMarker* m);
+    void newMarker(ImageMarker *m);
     void delMarker(QPoint, QRgb);
     void colorChMarker(QPoint, QRgb);
+    void markerColorChanged(ImageMarker *m);
 
 public slots:
     void rescreen();

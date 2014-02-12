@@ -32,6 +32,7 @@ private:
     bool _serverMode;
 
     QVector<double> initParametersVector();
+    void writeMarkerColorToDevice(ImageMarker *m);
 
 public:
     /**
@@ -114,10 +115,7 @@ signals:
     **/
     void timeNewPic(int);
     void timePicDisplaying(int);
-
-
     void ROIlist(TImage*, QList<QRect>);
-
     void addRoi(RoiAction*);
 public slots:
     void onRoiDelete(RoiAction *pointer);
@@ -161,8 +159,9 @@ protected slots:
     void autoDrawingHistogram(bool val);
 
     void refresh(const TVariant &);
-    void syncMarker(ImageMarker*);
+    void syncMarker(ImageMarker *m);
     void markerDeleted();
+    void colorChanged(ImageMarker *m);
 };
 
 #endif // TIMAGE_H

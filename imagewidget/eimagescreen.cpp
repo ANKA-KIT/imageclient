@@ -92,7 +92,6 @@ void EImageScreen::setCursorPos( int x, int y){
     _curMouseY = y;
 }
 
-
 void EImageScreen::onMarkerDelete(ImageMarker *pointer){
     QList<ImageMarker*>::iterator iter;
     for (iter = marker.begin(); iter < marker.end(); ++iter){
@@ -946,9 +945,8 @@ QPoint EImageScreen::convertToImageCoordinates(){
     return QPoint(x,y);
 }
 
-void EImageScreen::onMarkerColorChanged(ImageMarker* pointer){
+void EImageScreen::onMarkerColorChanged(ImageMarker* pointer)
+{
     emit colorChMarker(QPoint(pointer->_xOnPic,pointer->_yOnPic), pointer->_clr);
+    emit markerColorChanged(pointer);
 }
-
-
-//My_Code_End

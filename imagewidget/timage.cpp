@@ -22,6 +22,7 @@ TImage::TImage(QWidget *parent, Qt::WFlags ) : EImageBase(parent), TDevice(this)
     connect(this, SIGNAL(newPictureDim(int, int)), wgt, SLOT(setPicWH(int,int)), Qt::DirectConnection);
     connect(wgt, SIGNAL(newMarker(ImageMarker*)), this, SLOT(syncMarker(ImageMarker*)), Qt::DirectConnection);
     connect(wgt, SIGNAL(delMarker(QPoint,QRgb)), this, SLOT(markerDeleted()));
+    connect(wgt, SIGNAL(markerColorChanged(ImageMarker*)), this, SLOT(colorChanged(ImageMarker*)));
 
     picMode = new Is24RGB();
     time.start();
@@ -48,12 +49,7 @@ void TImage::syncMarker(ImageMarker *m)
     Tango::DevULong thick = m->_width;
     Tango::DeviceAttribute thickness("CrosshairThickness", thick);
     tango->writeAttr(thickness);
-    vector<Tango::DevUChar> colorValues;
-    colorValues.push_back(qRed(m->_clr));
-    colorValues.push_back(qGreen(m->_clr));
-    colorValues.push_back(qBlue(m->_clr));
-    Tango::DeviceAttribute color("CrosshairColor", colorValues);
-    tango->writeAttr(color);
+    writeMarkerColorToDevice(m);
 }
 
 void TImage::markerDeleted()
@@ -61,6 +57,21 @@ void TImage::markerDeleted()
     Tango::DevBoolean disabled = false;
     Tango::DeviceAttribute crosshairDisabled("CrosshairEnabled", disabled);
     tango->writeAttr(crosshairDisabled);
+}
+
+void TImage::colorChanged(ImageMarker *m)
+{
+    writeMarkerColorToDevice(m);
+}
+
+void TImage::writeMarkerColorToDevice(ImageMarker *m)
+{
+    vector<Tango::DevUChar> colorValues;
+    colorValues.push_back(qRed(m->_clr));
+    colorValues.push_back(qGreen(m->_clr));
+    colorValues.push_back(qBlue(m->_clr));
+    Tango::DeviceAttribute color("CrosshairColor", colorValues);
+    tango->writeAttr(color);
 }
 
 void TImage::setPause(bool value){

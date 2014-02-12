@@ -32,25 +32,29 @@ ImageMarker::ImageMarker(int x, int y, QMenu *parent) :
     this->addAction(actDel);
 }
 
-void ImageMarker::del(){
+void ImageMarker::del()
+{
     emit deleteMarker(this);
     deleteLater();
 }
 
-void ImageMarker::showSettings(){
+void ImageMarker::showSettings()
+{
     QColor color;
     color = QColorDialog::getColor(color, this);
     setMarkerColor(color.rgb());
 }
 
-void ImageMarker::setMarkerColor(QRgb color){
+void ImageMarker::setMarkerColor(QRgb color)
+{
     _clr = color;
     pic->fill(QColor(_clr));
     menuAction()->setIcon(*pic);
     emit colorChangedMarker(this);
 }
 
-void ImageMarker::resizeMarkerWin(){
+void ImageMarker::resizeMarkerWin()
+{
     ResizeMarker *sizeWin = new ResizeMarker();
     connect(sizeWin, SIGNAL(changeMarkerSize(int,int)), this, SLOT(resizeMarker(int,int)));
     sizeWin->show();
@@ -62,7 +66,6 @@ void ImageMarker::resizeMarker(int h,int v){
 }
 
 ResizeMarker::ResizeMarker(){
-   // QWidget *sizeWin = new QWidget();
     setAttribute(Qt::WA_DeleteOnClose);
     QHBoxLayout *h = new QHBoxLayout;
     hor = new QLineEdit(this);

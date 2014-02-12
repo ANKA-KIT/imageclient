@@ -1,5 +1,4 @@
-/* $Id: qtangoplugin.h,v 1.21 2010/05/25 09:33:08 giacomo Exp $
- *
+/*
  * Qt Designer plugin for Qtcontrols
  * this part is based in part on the work of
  * the Qwt project (http://qwt.sf.net).
@@ -14,11 +13,8 @@
 #include <QDesignerTaskMenuExtension>
 #include <QExtensionFactory>
 #include <QScrollArea>
-#include "TImage"
-#include "TImageSnapshot"
 #include <QAction>
-
-//class EditSourceDialog;
+#include "TImageSnapshot"
 
 
 class CustomWidgetInterface: public QObject, public QDesignerCustomWidgetInterface
@@ -42,11 +38,11 @@ public:
     virtual void initialize(QDesignerFormEditorInterface *);
 
 protected:
-    QString d_name; 
-    QString d_include; 
-    QString d_toolTip; 
-    QString d_whatsThis; 
-    QString d_domXml; 
+    QString d_name;
+    QString d_include;
+    QString d_toolTip;
+    QString d_whatsThis;
+    QString d_domXml;
     QString d_codeTemplate;
     QIcon d_icon;
 
@@ -68,9 +64,6 @@ private:
     QList<QDesignerCustomWidgetInterface*> d_plugins;
 };
 
-/* CustomWidgetInterface */
-
-//*////My_code////
 class TImageInterface: public CustomWidgetInterface
 {
     Q_OBJECT
@@ -78,7 +71,6 @@ class TImageInterface: public CustomWidgetInterface
 
 public:
     TImageInterface(QObject *parent);
-    //virtual QWidget *createWidget(QWidget *parent);
     virtual QWidget *createWidget(QWidget *parent);
 };
 
@@ -89,21 +81,17 @@ class TImageSnpInterface: public CustomWidgetInterface
 
 public:
     TImageSnpInterface(QObject *parent);
-    //virtual QWidget *createWidget(QWidget *parent);
     virtual QWidget *createWidget(QWidget *parent);
 };
-///////////  */
-
-/* fine widget  */
 
 class TaskMenuFactory: public QExtensionFactory
 {
 Q_OBJECT
 public:
-	TaskMenuFactory(QExtensionManager *parent = 0);
+    TaskMenuFactory(QExtensionManager *parent = 0);
 
 protected:
-	QObject *createExtension(QObject *object, const QString &iid, QObject *parent) const;
+    QObject *createExtension(QObject *object, const QString &iid, QObject *parent) const;
 };
 
 class TaskMenuExtension: public QObject, public QDesignerTaskMenuExtension
@@ -112,22 +100,18 @@ Q_OBJECT
 Q_INTERFACES(QDesignerTaskMenuExtension)
 
 public:
-	TaskMenuExtension(QWidget *widget, QObject *parent);
+    TaskMenuExtension(QWidget *widget, QObject *parent);
 
-	QAction *preferredEditAction() const;
-	QList<QAction *> taskActions() const;
+    QAction *preferredEditAction() const;
+    QList<QAction *> taskActions() const;
 
 private slots:
-	void editTango();
-    //void editAttributes();
-	
-protected:
-	QWidget *d_widget;
-	QAction *d_editTangoAction;
-	QAction *d_editAction;
-//	void setupSourceTargetDialog(QWidget *s);
+    void editTango();
 
-//	EditSourceDialog *editSourceDialog;
+protected:
+    QWidget *d_widget;
+    QAction *d_editTangoAction;
+    QAction *d_editAction;
 };
 
 #endif

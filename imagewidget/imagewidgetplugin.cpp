@@ -8,7 +8,7 @@
 #include <QExtensionManager>
 #include <QColorDialog>
 #include <QTabWidget>
-
+#include "timage.h"
 
 CustomWidgetInterface::CustomWidgetInterface(QObject *parent): QObject(parent), d_isInitialized(false)
 {

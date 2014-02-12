@@ -18,10 +18,12 @@ class SyncDialog : public QDialog
 public:
     explicit SyncDialog(ImageTangoDevice *tangoDevice, QWidget *parent = 0);
     ~SyncDialog();
+
 public slots:
     void refreshCrosshair();
     void localMarkerSet(ImageMarker *m);
     void localMarkerRemoved();
+    void colorChanged(ImageMarker *m);
 
 protected:
     virtual void showEvent (QShowEvent* event);
@@ -31,8 +33,8 @@ private:
     Ui::SyncDialog *ui;
 
     void refreshCrosshairValues();
-    template<typename T>
-    QString valuesAsString(std::vector<T> values)
+    QString colorStringOf(ImageMarker *m);
+    template<typename T> QString valuesAsString(std::vector<T> values)
     {
         QString result = "[";
         for (typename std::vector<T>::iterator it = values.begin(); it != values.end(); ++it) {
