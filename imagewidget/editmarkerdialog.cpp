@@ -32,16 +32,16 @@ EditMarkerDialog::~EditMarkerDialog()
 
 void EditMarkerDialog::accept()
 {
-    qDebug() << "Update marker!";
     QDialog::accept();
-    // TODO
     marker->_x = ui->markerXEdit->text().toInt();
+    marker->_xOnPic = marker->_x;
     marker->_y = ui->markerYEdit->text().toInt();
+    marker->_yOnPic = marker->_y;
     marker->_width = ui->markerThicknessEdit->text().toInt();
+    marker->geometryChanged();
     marker->resizeMarker(ui->markerSizeXEdit->text().toInt(), ui->markerSizeYEdit->text().toInt());
     marker->setMarkerColor(currentColor.rgb());
 }
-
 
 void EditMarkerDialog::showColorSelector()
 {

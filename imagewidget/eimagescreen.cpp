@@ -1,6 +1,7 @@
 #include "eimagescreen.h"
 
 #include <QPainter>
+#include <QDebug>
 #include "imagemarker.h"
 
 EImageScreen::EImageScreen(QWidget *p) : QWidget(p)
@@ -106,11 +107,13 @@ void EImageScreen::onMarkerDelete(ImageMarker *pointer){
     }
 }
 
-void EImageScreen::rescreen(){
+void EImageScreen::rescreen()
+{
     repaint();
 }
 
-QImage EImageScreen::chScale(QImage &image, double val){
+QImage EImageScreen::chScale(QImage &image, double val)
+{
     return image.scaled(image.width() * val, image.height() * val);
 }
 
@@ -121,18 +124,20 @@ QImage EImageScreen::chScale(QImage &image, double valX, double valY)
     return tempImg;
 }
 
-QImage EImageScreen::chHorFlip(QImage &image){
+QImage EImageScreen::chHorFlip(QImage &image)
+{
     QImage tempImg;
     QMatrix mat;
-    mat = QMatrix().scale(-1, 1); // make a horizontal flip      !!!!!!!!!!!!!!!!!!!!!!!!1
+    mat = QMatrix().scale(-1, 1); // make a horizontal flip
     tempImg = image.transformed(mat);
     return tempImg;
 }
 
-QImage EImageScreen::chVerFlip(QImage &image){
+QImage EImageScreen::chVerFlip(QImage &image)
+{
     QImage tempImg;
     QMatrix mat;
-    mat = QMatrix().scale(1, -1); // make a vertical flip      !!!!!!!!!!!!!!!!!!!!!!!!1
+    mat = QMatrix().scale(1, -1); // make a vertical flip
     tempImg = image.transformed(mat);
     return tempImg;
 }
@@ -240,228 +245,220 @@ void EImageScreen::paintEvent( QPaintEvent * ){
     p.drawLine(_curMouseX-3, _curMouseY, _curMouseX+3, _curMouseY);
     p.drawLine(_curMouseX, _curMouseY-3, _curMouseX, _curMouseY+3);
     if (!imageTransform.fullPictureMode){
-            p.setPen(QPen(Qt::red, 1));
-            int xxx = 5;
-            int yyy = 5;
-            int xxxW = 20;
-            int yyyH = 20;
-            p.drawRect(xxx, yyy, xxxW, yyyH);
-            p.setPen(QPen(Qt::green, 1));
-            QPoint p1 = QPoint(limX1,limY1);
-            QPoint p2 = QPoint(limX2,limY2);
-            int xxxx = xxxW*((double)p1.x()/(double)picW);
-            int yyyy = yyyH*((double)p1.y()/(double)picH);
-            xxxW = xxxW*((double)p2.x()/(double)picW);
-            yyyH = yyyH*((double)p2.y()/(double)picH);
-            p.drawRect(xxx + xxxx, yyy + yyyy, xxxW-xxxx, yyyH-yyyy);
-      //  }
+        p.setPen(QPen(Qt::red, 1));
+        int xxx = 5;
+        int yyy = 5;
+        int xxxW = 20;
+        int yyyH = 20;
+        p.drawRect(xxx, yyy, xxxW, yyyH);
+        p.setPen(QPen(Qt::green, 1));
+        QPoint p1 = QPoint(limX1,limY1);
+        QPoint p2 = QPoint(limX2,limY2);
+        int xxxx = xxxW*((double)p1.x()/(double)picW);
+        int yyyy = yyyH*((double)p1.y()/(double)picH);
+        xxxW = xxxW*((double)p2.x()/(double)picW);
+        yyyH = yyyH*((double)p2.y()/(double)picH);
+        p.drawRect(xxx + xxxx, yyy + yyyy, xxxW-xxxx, yyyH-yyyy);
     }
-    QPoint imageCoordinats;
-    imageCoordinats = convertToImageCoordinates();
+    QPoint imageCoordinats = convertToImageCoordinates();
     emit mousePosition(imageCoordinats);
     if (marker.count() > 0) {
-            int Y = 0;
-            int X = 0;
+        int Y = 0;
+        int X = 0;
 
-            int cursorWidth;
-            for (int i = 0; i < marker.count(); i++){
-                cursorWidth = marker.at(i)->_width * imageTransform.imageScale < 1 ? 1 : marker.at(i)->_width * imageTransform.imageScale;
-                p.setPen(QPen(QColor(marker.at(i)->_clr), cursorWidth));
+        int cursorWidth;
+        for (int i = 0; i < marker.count(); i++) {
+            cursorWidth = marker.at(i)->_width * imageTransform.imageScale < 1 ? 1 : marker.at(i)->_width * imageTransform.imageScale;
+            p.setPen(QPen(QColor(marker.at(i)->_clr), cursorWidth));
 
-                if (imageTransform.fullPictureMode){
-                    if (!isPi2rotated){
-                        Y = marker.at(i)->yTransformed*parentWidget()->height()/(double)picH;//image.height();
-                        X = marker.at(i)->xTransformed*parentWidget()->width()/(double)picW;//image.width();
-                    }
-                    else{
-                        Y = marker.at(i)->yTransformed*height()/picW;//image.width();
-                        X = marker.at(i)->xTransformed*width()/picH;//image.height();
-                    }
+            if (imageTransform.fullPictureMode) {
+                if (!isPi2rotated) {
+                    Y = marker.at(i)->yTransformed * parentWidget()->height() / (double) picH;
+                    X = marker.at(i)->xTransformed * parentWidget()->width() / (double) picW;
+                } else {
+                    Y = marker.at(i)->yTransformed * height() / picW;
+                    X = marker.at(i)->xTransformed * width() / picH;
                 }
-                else{
-                    int limX1Temp = limX1;
-                    int limX2Temp = limX2;
-                    int limY1Temp = limY1;
-                    int limY2Temp = limY2;
+            } else {
+                int limX1Temp = limX1;
+                int limX2Temp = limX2;
+                int limY1Temp = limY1;
+                int limY2Temp = limY2;
 
-                    int markedX = marker.at(i)->_x;  //marker.at(i)->xTransformed;
-                    int markedY = marker.at(i)->_y; //marker.at(i)->yTransformed;//
+                int markedX = marker.at(i)->_x;
+                int markedY = marker.at(i)->_y;
 
-                    int signXOnFlip = 1;
-                    int signYOnFlip = 1;
+                int signXOnFlip = 1;
+                int signYOnFlip = 1;
 
-                   int sign = signYOnFlip * signXOnFlip;
+                int sign = signYOnFlip * signXOnFlip;
 
-                    if (!isPi2rotated){
-                        if (imageTransform.rotate == 0){
-                            if (!imageTransform.horFlip && !imageTransform.verFlip){
-                                Y = (markedY-limY1Temp)*imageTransform.imageScale;
-                                X =  (markedX-limX1Temp)*imageTransform.imageScale;
-                            }
-                            if (imageTransform.horFlip  && imageTransform.verFlip ){
-                                Y = (limY2Temp-markedY)*imageTransform.imageScale;
-                                X =  (limX2Temp-markedX)*imageTransform.imageScale;
-                            }
-                            else if(imageTransform.horFlip ){
-                                Y = (markedY-limY1Temp)*imageTransform.imageScale;
-                                X =  (limX2Temp-markedX)*imageTransform.imageScale;
-                            }
-                            else if(imageTransform.verFlip ){
-                                Y = (limY2Temp-markedY)*imageTransform.imageScale;
-                                X =  (markedX-limX1Temp)*imageTransform.imageScale;
-                            }
+                if (!isPi2rotated){
+                    if (imageTransform.rotate == 0){
+                        if (!imageTransform.horFlip && !imageTransform.verFlip){
+                            Y = (markedY-limY1Temp)*imageTransform.imageScale;
+                            X =  (markedX-limX1Temp)*imageTransform.imageScale;
                         }
-                        else{
-                            if (!imageTransform.horFlip  && !imageTransform.verFlip ){
-
-                                Y = (limY2Temp-markedY)*imageTransform.imageScale;
-                                X =  (limX2Temp-markedX)*imageTransform.imageScale;
-                            }
-                            if (imageTransform.horFlip  && imageTransform.verFlip ){
-
-                                Y = (markedY-limY1Temp)*imageTransform.imageScale;
-                                X =  (markedX-limX1Temp)*imageTransform.imageScale;
-                            }
-                            else if(imageTransform.horFlip ){
-
-                                Y = (limY2Temp-markedY)*imageTransform.imageScale;
-                                X =  (markedX-limX1Temp)*imageTransform.imageScale;
-                            }
-                            else if(imageTransform.verFlip ){
-
-                                Y = (markedY-limY1Temp)*imageTransform.imageScale;
-                                X =  (limX2Temp-markedX)*imageTransform.imageScale;//+limX1Temp
-                            }
-                        }
-                    }
-                    else{
-                        if (imageTransform.rotate == 90 || imageTransform.rotate == -270){
-                            if (!imageTransform.horFlip  && !imageTransform.verFlip ){
-                                int picY = markedX;
-                                int picX = (limY2Temp-limY1Temp)-markedY;
-
-                                Y = (picY-sign*limX1Temp)*imageTransform.imageScale;
-                                X =  (picX+sign*limY1Temp)*imageTransform.imageScale;
-                            }
-                            if (imageTransform.horFlip  && imageTransform.verFlip ){
-                                int picY = (limX2Temp-limX1Temp)- markedX;
-                                int picX = markedY;
-
-                                Y = (picY+sign*limX1Temp)*imageTransform.imageScale;
-                                X =  (picX-sign*limY1Temp)*imageTransform.imageScale;
-                            }
-                            else if (imageTransform.horFlip ){
-                                int picY =  markedX;
-                                int picX =  markedY;
-
-                                Y = (picY-sign*limX1Temp)*imageTransform.imageScale;
-                                X =  (picX-sign*limY1Temp)*imageTransform.imageScale;
-                            }
-                            else if (imageTransform.verFlip ){
-                                int picY = limX2Temp- markedX;
-                                int picX = ((limY2Temp-limY1Temp)-markedY);
-
-                                Y = (picY)*imageTransform.imageScale;
-                                X =  (picX+sign*limY1Temp)*imageTransform.imageScale;
-                            }
-                        }
-                        else{
-                            if (!imageTransform.horFlip  && !imageTransform.verFlip ){
-                                int picY = (limX2Temp-limX1Temp)- sign*markedX;
-                                int picX = sign*markedY;
-
-                                Y = (picY+limX1Temp)*imageTransform.imageScale;
-                                X =  (picX-limY1Temp)*imageTransform.imageScale;
-                            }
-                            if (imageTransform.horFlip  && imageTransform.verFlip ){
-                                int picY = sign*markedX;
-                                int picX = (limY2Temp-limY1Temp)-sign*markedY;
-
-                                Y = (picY-limX1Temp)*imageTransform.imageScale;
-                                X =  (picX+limY1Temp)*imageTransform.imageScale;
-                            }
-                            else if (imageTransform.horFlip ){
-                                int picY = limX2Temp- sign*markedX;
-                                int picX = ((limY2Temp-limY1Temp)-sign*markedY);
-
-                                Y = (picY)*imageTransform.imageScale;
-                                X =  (picX+limY1Temp)*imageTransform.imageScale;
-                            }
-                            else if (imageTransform.verFlip ){
-                                int picY =  sign*markedX;
-                                int picX =  sign*markedY;
-
-                                Y = (picY-limX1Temp)*imageTransform.imageScale;
-                                X =  (picX-limY1Temp)*imageTransform.imageScale;
-                            }
-                        }
-                    }
-                    }
-                if (!imageTransform.fullPictureMode){
-                    marker.at(i)->visiableXPos = X;
-                    marker.at(i)->visiableYPos = Y;
-                }
-                else{
-                    switch((int)imageTransform.rotate){
-                    case 90:
-                    case -270:
-                            marker.at(i)->visiableXPos = picH - marker.at(i)->_yOnPic;
-                            marker.at(i)->visiableYPos = marker.at(i)->_xOnPic;
-                                break;
-                    case -90:
-                    case 270:
-                        marker.at(i)->visiableXPos = marker.at(i)->_yOnPic;
-                        marker.at(i)->visiableYPos = picW - marker.at(i)->_xOnPic;
-                        break;
-                    case 180:
-                    case -180:
-                        marker.at(i)->visiableYPos = picH - marker.at(i)->_yOnPic;
-                        marker.at(i)->visiableXPos = picW - marker.at(i)->_xOnPic;
-                        break;
-                    default:
-                        marker.at(i)->visiableXPos = marker.at(i)->_xOnPic;
-                        marker.at(i)->visiableYPos = marker.at(i)->_yOnPic;
-                    }
-
                         if (imageTransform.horFlip  && imageTransform.verFlip ){
-                            if (!isPi2rotated){
-                                marker.at(i)->visiableXPos = picW - marker.at(i)->visiableXPos;
-                                marker.at(i)->visiableYPos = picH - marker.at(i)->visiableYPos;
-                            }
-                            else{
-                                marker.at(i)->visiableXPos = picH - marker.at(i)->visiableXPos;
-                                marker.at(i)->visiableYPos = picW - marker.at(i)->visiableYPos;
-                            }
+                            Y = (limY2Temp-markedY)*imageTransform.imageScale;
+                            X =  (limX2Temp-markedX)*imageTransform.imageScale;
+                        }
+                        else if(imageTransform.horFlip ){
+                            Y = (markedY-limY1Temp)*imageTransform.imageScale;
+                            X =  (limX2Temp-markedX)*imageTransform.imageScale;
+                        }
+                        else if(imageTransform.verFlip ){
+                            Y = (limY2Temp-markedY)*imageTransform.imageScale;
+                            X =  (markedX-limX1Temp)*imageTransform.imageScale;
+                        }
+                    }
+                    else{
+                        if (!imageTransform.horFlip  && !imageTransform.verFlip ){
+
+                            Y = (limY2Temp-markedY)*imageTransform.imageScale;
+                            X =  (limX2Temp-markedX)*imageTransform.imageScale;
+                        }
+                        if (imageTransform.horFlip  && imageTransform.verFlip ){
+
+                            Y = (markedY-limY1Temp)*imageTransform.imageScale;
+                            X =  (markedX-limX1Temp)*imageTransform.imageScale;
+                        }
+                        else if(imageTransform.horFlip ){
+
+                            Y = (limY2Temp-markedY)*imageTransform.imageScale;
+                            X =  (markedX-limX1Temp)*imageTransform.imageScale;
+                        }
+                        else if(imageTransform.verFlip ){
+
+                            Y = (markedY-limY1Temp)*imageTransform.imageScale;
+                            X =  (limX2Temp-markedX)*imageTransform.imageScale;
+                        }
+                    }
+                }
+                else{
+                    if (imageTransform.rotate == 90 || imageTransform.rotate == -270){
+                        if (!imageTransform.horFlip  && !imageTransform.verFlip ){
+                            int picY = markedX;
+                            int picX = (limY2Temp-limY1Temp)-markedY;
+
+                            Y = (picY-sign*limX1Temp)*imageTransform.imageScale;
+                            X =  (picX+sign*limY1Temp)*imageTransform.imageScale;
+                        }
+                        if (imageTransform.horFlip  && imageTransform.verFlip ){
+                            int picY = (limX2Temp-limX1Temp)- markedX;
+                            int picX = markedY;
+
+                            Y = (picY+sign*limX1Temp)*imageTransform.imageScale;
+                            X =  (picX-sign*limY1Temp)*imageTransform.imageScale;
                         }
                         else if (imageTransform.horFlip ){
-                            if (!isPi2rotated)
-                                marker.at(i)->visiableXPos = picW - marker.at(i)->visiableXPos;
-                            else
-                                marker.at(i)->visiableXPos = picH - marker.at(i)->visiableXPos;
+                            int picY =  markedX;
+                            int picX =  markedY;
+
+                            Y = (picY-sign*limX1Temp)*imageTransform.imageScale;
+                            X =  (picX-sign*limY1Temp)*imageTransform.imageScale;
                         }
                         else if (imageTransform.verFlip ){
-                            if (!isPi2rotated)
-                                marker.at(i)->visiableYPos = picH - marker.at(i)->visiableYPos;
-                            else
-                                marker.at(i)->visiableYPos = picW - marker.at(i)->visiableYPos;
-                        }
+                            int picY = limX2Temp- markedX;
+                            int picX = ((limY2Temp-limY1Temp)-markedY);
 
+                            Y = (picY)*imageTransform.imageScale;
+                            X =  (picX+sign*limY1Temp)*imageTransform.imageScale;
+                        }
+                    }
+                    else{
+                        if (!imageTransform.horFlip  && !imageTransform.verFlip ){
+                            int picY = (limX2Temp-limX1Temp)- sign*markedX;
+                            int picX = sign*markedY;
+
+                            Y = (picY+limX1Temp)*imageTransform.imageScale;
+                            X =  (picX-limY1Temp)*imageTransform.imageScale;
+                        }
+                        if (imageTransform.horFlip  && imageTransform.verFlip ){
+                            int picY = sign*markedX;
+                            int picX = (limY2Temp-limY1Temp)-sign*markedY;
+
+                            Y = (picY-limX1Temp)*imageTransform.imageScale;
+                            X =  (picX+limY1Temp)*imageTransform.imageScale;
+                        }
+                        else if (imageTransform.horFlip ){
+                            int picY = limX2Temp- sign*markedX;
+                            int picX = ((limY2Temp-limY1Temp)-sign*markedY);
+
+                            Y = (picY)*imageTransform.imageScale;
+                            X =  (picX+limY1Temp)*imageTransform.imageScale;
+                        }
+                        else if (imageTransform.verFlip ){
+                            int picY =  sign*markedX;
+                            int picX =  sign*markedY;
+
+                            Y = (picY-limX1Temp)*imageTransform.imageScale;
+                            X =  (picX-limY1Temp)*imageTransform.imageScale;
+                        }
+                    }
                 }
-                int hLine = marker.at(i)->hLineLength;
-                int vLine = marker.at(i)->vLineLength;
-               // hLine = imageTransform.imageScale < 1 ? marker.at(i)->hLineLength:marker.at(i)->hLineLength*imageTransform.imageScale;
-              //  vLine = imageTransform.imageScale < 1 ? marker.at(i)->vLineLength:marker.at(i)->vLineLength*imageTransform.imageScale;
-                if(!imageTransform.fullPictureMode){
-                    hLine = hLine < 1? 1: hLine*imageTransform.imageScale;
-                    vLine = vLine < 1? 1: vLine*imageTransform.imageScale;
+            }
+            if (!imageTransform.fullPictureMode) {
+                marker.at(i)->visiableXPos = X;
+                marker.at(i)->visiableYPos = Y;
+            } else {
+                switch ((int) imageTransform.rotate) {
+                case 90:
+                case -270:
+                    marker.at(i)->visiableXPos = picH - marker.at(i)->_yOnPic;
+                    marker.at(i)->visiableYPos = marker.at(i)->_xOnPic;
+                    break;
+                case -90:
+                case 270:
+                    marker.at(i)->visiableXPos = marker.at(i)->_yOnPic;
+                    marker.at(i)->visiableYPos = picW - marker.at(i)->_xOnPic;
+                    break;
+                case 180:
+                case -180:
+                    marker.at(i)->visiableYPos = picH - marker.at(i)->_yOnPic;
+                    marker.at(i)->visiableXPos = picW - marker.at(i)->_xOnPic;
+                    break;
+                default:
+                    marker.at(i)->visiableXPos = marker.at(i)->_xOnPic;
+                    marker.at(i)->visiableYPos = marker.at(i)->_yOnPic;
                 }
-                else{
-                    hLine = hLine < 1? 1: hLine*sclX;
-                    vLine = vLine < 1? 1: vLine*sclY;
+
+                if (imageTransform.horFlip  && imageTransform.verFlip ){
+                    if (!isPi2rotated){
+                        marker.at(i)->visiableXPos = picW - marker.at(i)->visiableXPos;
+                        marker.at(i)->visiableYPos = picH - marker.at(i)->visiableYPos;
+                    }
+                    else{
+                        marker.at(i)->visiableXPos = picH - marker.at(i)->visiableXPos;
+                        marker.at(i)->visiableYPos = picW - marker.at(i)->visiableYPos;
+                    }
                 }
-                p.drawLine(X-vLine, Y, X+vLine, Y);
-                p.drawLine(X, Y-hLine, X, Y+hLine);
+                else if (imageTransform.horFlip ){
+                    if (!isPi2rotated)
+                        marker.at(i)->visiableXPos = picW - marker.at(i)->visiableXPos;
+                    else
+                        marker.at(i)->visiableXPos = picH - marker.at(i)->visiableXPos;
                 }
+                else if (imageTransform.verFlip ){
+                    if (!isPi2rotated)
+                        marker.at(i)->visiableYPos = picH - marker.at(i)->visiableYPos;
+                    else
+                        marker.at(i)->visiableYPos = picW - marker.at(i)->visiableYPos;
+                }
+
+            }
+            int hLine = marker.at(i)->hLineLength;
+            int vLine = marker.at(i)->vLineLength;
+            if (!imageTransform.fullPictureMode) {
+                hLine = hLine < 1 ? 1: hLine * imageTransform.imageScale;
+                vLine = vLine < 1 ? 1: vLine * imageTransform.imageScale;
+            } else {
+                hLine = hLine < 1 ? 1 : hLine * sclX;
+                vLine = vLine < 1 ? 1 : vLine * sclY;
+            }
+            p.drawLine(X - vLine, Y, X + vLine, Y);
+            p.drawLine(X, Y - hLine, X, Y + hLine);
+        }
     }
 }
 
@@ -514,7 +511,7 @@ double EImageScreen::getRotate(){
 QImage EImageScreen::setImageByFullScreenMode(QImage img)
 {
     int picWidth = picW;
-    if (!imageTransform.fullPictureMode){
+    if (!imageTransform.fullPictureMode) {
         moveX = moveX < 0 ? 0 :moveX;
         moveY = moveY < 0 ? 0 : moveY;
         int X1 = moveX, Y1 = moveY, X2, Y2;
@@ -678,12 +675,12 @@ void EImageScreen::setFullscreenMode(bool val)
     }
 }
 
-void  EImageScreen::chScaleVal(double val)
+void EImageScreen::chScaleVal(double val)
 {
     setScale(imageTransform.imageScale + val);
 }
 
-void  EImageScreen::setScale(double val)
+void EImageScreen::setScale(double val)
 {
     imageTransform.imageScale = val;
     if (imageTransform.imageScale <= 0)
@@ -701,7 +698,7 @@ void EImageScreen::initMarker()
 
 void EImageScreen::recalcMarkerPos()
 {
-    if (!imageTransform.fullPictureMode) {    //set correct size and limit values before recalc Marker position
+    if (!imageTransform.fullPictureMode) { //set correct size and limit values before recalc Marker position
         setImageByFullScreenMode(image);
     }
     for (int iter = 0; iter < marker.count(); iter++){
@@ -712,7 +709,8 @@ void EImageScreen::recalcMarkerPos()
     }
 }
 
-QImage EImageScreen::setTransformPropertiesOnImg(QImage img){
+QImage EImageScreen::setTransformPropertiesOnImg(QImage img)
+{
     if (imageTransform.rotate != 0)
         img = changeRotateImg(img, imageTransform.rotate);
     if (imageTransform.horFlip)
@@ -747,7 +745,6 @@ QPoint EImageScreen::convertToImagePoint(int x, int y)
     default: ;
     }
 
-
     if (imageTransform.horFlip && (imageTransform.rotate == -270 || imageTransform.rotate == 90)){
         x = picH - x;
     }
@@ -757,8 +754,6 @@ QPoint EImageScreen::convertToImagePoint(int x, int y)
     else if (imageTransform.horFlip){
         x = picWidth - x;
     }
-
-
 
     if (imageTransform.verFlip && (imageTransform.rotate == -270 || imageTransform.rotate == 90)){
         y = picWidth - y;
@@ -933,7 +928,7 @@ QPoint EImageScreen::convertToImageCoordinates(){
 
 void EImageScreen::onMarkerColorChanged(ImageMarker* m)
 {
-    emit colorChMarker(QPoint(m->_xOnPic,m->_yOnPic), m->_clr);
+    emit colorChMarker(QPoint(m->_xOnPic, m->_yOnPic), m->_clr);
     emit markerColorChanged(m);
 }
 

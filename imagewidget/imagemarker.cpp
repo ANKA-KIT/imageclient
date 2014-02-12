@@ -52,9 +52,8 @@ void ImageMarker::setMarkerColor(QRgb color)
 
 void ImageMarker::showEditMarkerDialog()
 {
-    EditMarkerDialog *editDialog = new EditMarkerDialog(this);
-    editDialog->exec();
-    delete editDialog;
+    EditMarkerDialog editDialog(this);
+    editDialog.exec();
 }
 
 void ImageMarker::resizeMarker(int h, int v)
