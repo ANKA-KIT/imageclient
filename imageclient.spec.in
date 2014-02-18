@@ -41,9 +41,10 @@ mv "@CMAKE_CURRENT_BINARY_DIR@/_CPack_Packages/Linux/RPM/tmpBBroot" $RPM_BUILD_R
 @CPACK_PACKAGING_INSTALL_PREFIX@/bin/imageclient
 
 %changelog
-* Wed Feb 12 2014 Mihael Koep <mihael.koep@softwareschneiderei.de> 2.1.0-1
+* Wed Feb 18 2014 Mihael Koep <mihael.koep@softwareschneiderei.de> 2.1.0-1
 - marker synchronisation with tango device added
 - improved marker editing dialog
+- draw marker ROI if set
 * Tue Apr 30 2013 Mihael Koep <mihael.koep@softwareschneiderei.de> 2.0.2-1
 - change marker size feature added
 - bugfixes and stability improvements
