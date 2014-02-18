@@ -268,16 +268,17 @@ void EImageScreen::paintEvent( QPaintEvent * ){
 
         int cursorWidth;
         for (int i = 0; i < marker.count(); i++) {
-            cursorWidth = marker.at(i)->_width * imageTransform.imageScale < 1 ? 1 : marker.at(i)->_width * imageTransform.imageScale;
-            p.setPen(QPen(QColor(marker.at(i)->_clr), cursorWidth));
+            ImageMarker *m = marker.at(i);
+            cursorWidth = m->_width * imageTransform.imageScale < 1 ? 1 : m->_width * imageTransform.imageScale;
+            p.setPen(QPen(QColor(m->_clr), cursorWidth));
 
             if (imageTransform.fullPictureMode) {
                 if (!isPi2rotated) {
-                    Y = marker.at(i)->yTransformed * parentWidget()->height() / (double) picH;
-                    X = marker.at(i)->xTransformed * parentWidget()->width() / (double) picW;
+                    Y = m->yTransformed * parentWidget()->height() / (double) picH;
+                    X = m->xTransformed * parentWidget()->width() / (double) picW;
                 } else {
-                    Y = marker.at(i)->yTransformed * height() / picW;
-                    X = marker.at(i)->xTransformed * width() / picH;
+                    Y = m->yTransformed * height() / picW;
+                    X = m->xTransformed * width() / picH;
                 }
             } else {
                 int limX1Temp = limX1;
@@ -285,8 +286,8 @@ void EImageScreen::paintEvent( QPaintEvent * ){
                 int limY1Temp = limY1;
                 int limY2Temp = limY2;
 
-                int markedX = marker.at(i)->_x;
-                int markedY = marker.at(i)->_y;
+                int markedX = m->_x;
+                int markedY = m->_y;
 
                 int signXOnFlip = 1;
                 int signYOnFlip = 1;
@@ -399,65 +400,69 @@ void EImageScreen::paintEvent( QPaintEvent * ){
                 }
             }
             if (!imageTransform.fullPictureMode) {
-                marker.at(i)->visiableXPos = X;
-                marker.at(i)->visiableYPos = Y;
+                m->visiableXPos = X;
+                m->visiableYPos = Y;
             } else {
                 switch ((int) imageTransform.rotate) {
                 case 90:
                 case -270:
-                    marker.at(i)->visiableXPos = picH - marker.at(i)->_yOnPic;
-                    marker.at(i)->visiableYPos = marker.at(i)->_xOnPic;
+                    m->visiableXPos = picH - m->_yOnPic;
+                    m->visiableYPos = m->_xOnPic;
                     break;
                 case -90:
                 case 270:
-                    marker.at(i)->visiableXPos = marker.at(i)->_yOnPic;
-                    marker.at(i)->visiableYPos = picW - marker.at(i)->_xOnPic;
+                    m->visiableXPos = m->_yOnPic;
+                    m->visiableYPos = picW - m->_xOnPic;
                     break;
                 case 180:
                 case -180:
-                    marker.at(i)->visiableYPos = picH - marker.at(i)->_yOnPic;
-                    marker.at(i)->visiableXPos = picW - marker.at(i)->_xOnPic;
+                    m->visiableYPos = picH - m->_yOnPic;
+                    m->visiableXPos = picW - m->_xOnPic;
                     break;
                 default:
-                    marker.at(i)->visiableXPos = marker.at(i)->_xOnPic;
-                    marker.at(i)->visiableYPos = marker.at(i)->_yOnPic;
+                    m->visiableXPos = m->_xOnPic;
+                    m->visiableYPos = m->_yOnPic;
                 }
 
                 if (imageTransform.horFlip  && imageTransform.verFlip ){
                     if (!isPi2rotated){
-                        marker.at(i)->visiableXPos = picW - marker.at(i)->visiableXPos;
-                        marker.at(i)->visiableYPos = picH - marker.at(i)->visiableYPos;
+                        m->visiableXPos = picW - m->visiableXPos;
+                        m->visiableYPos = picH - m->visiableYPos;
                     }
                     else{
-                        marker.at(i)->visiableXPos = picH - marker.at(i)->visiableXPos;
-                        marker.at(i)->visiableYPos = picW - marker.at(i)->visiableYPos;
+                        m->visiableXPos = picH - m->visiableXPos;
+                        m->visiableYPos = picW - m->visiableYPos;
                     }
                 }
                 else if (imageTransform.horFlip ){
                     if (!isPi2rotated)
-                        marker.at(i)->visiableXPos = picW - marker.at(i)->visiableXPos;
+                        m->visiableXPos = picW - m->visiableXPos;
                     else
-                        marker.at(i)->visiableXPos = picH - marker.at(i)->visiableXPos;
+                        m->visiableXPos = picH - m->visiableXPos;
                 }
                 else if (imageTransform.verFlip ){
                     if (!isPi2rotated)
-                        marker.at(i)->visiableYPos = picH - marker.at(i)->visiableYPos;
+                        m->visiableYPos = picH - m->visiableYPos;
                     else
-                        marker.at(i)->visiableYPos = picW - marker.at(i)->visiableYPos;
+                        m->visiableYPos = picW - m->visiableYPos;
                 }
 
             }
-            int hLine = marker.at(i)->hLineLength;
-            int vLine = marker.at(i)->vLineLength;
-            if (!imageTransform.fullPictureMode) {
-                hLine = hLine < 1 ? 1: hLine * imageTransform.imageScale;
-                vLine = vLine < 1 ? 1: vLine * imageTransform.imageScale;
-            } else {
-                hLine = hLine < 1 ? 1 : hLine * sclX;
-                vLine = vLine < 1 ? 1 : vLine * sclY;
-            }
+            int hLine = m->hLineLength;
+            int vLine = m->vLineLength;
+            hLine = hLine < 1 ? 1: hLine * determineScalingFactor(sclX);
+            vLine = vLine < 1 ? 1: vLine * determineScalingFactor(sclY);
+            // draw the marker
             p.drawLine(X - vLine, Y, X + vLine, Y);
             p.drawLine(X, Y - hLine, X, Y + hLine);
+            // draw marker ROI if set
+            if (m->roiWidth > 0 && m->roiHeight > 0) {
+                p.setPen(QPen(m->getColor(), 1));
+                int scaledHalfWidth = (m->roiWidth / 2) * determineScalingFactor(sclX);
+                int scaledHalfHeight = (m->roiHeight / 2) * determineScalingFactor(sclY);
+
+                p.drawRect(X - scaledHalfWidth, Y - scaledHalfHeight, scaledHalfWidth * 2, scaledHalfHeight * 2);
+            }
         }
     }
 }

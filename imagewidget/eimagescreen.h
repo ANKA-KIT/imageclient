@@ -27,6 +27,14 @@ private:
     int curYPos;
     bool isPi2rotated;
 
+    double determineScalingFactor(double scale)
+    {
+        if (!imageTransform.fullPictureMode) {
+            return imageTransform.imageScale;
+        }
+        return scale;
+    }
+
 public:
     QImage setTransformPropertiesOnImg(QImage img);
     TransformParametres imageTransform;
