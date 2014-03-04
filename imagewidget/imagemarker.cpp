@@ -4,11 +4,13 @@
 
 ImageMarker::ImageMarker(int x, int y, QMenu *parent) :
     QMenu(parent),
+    _x(x),
+    _y(y),
     roiWidth(0),
     roiHeight(0)
 {
-    _xOnPic = xTransformed = _x = x;
-    _yOnPic = yTransformed = _y = y;
+    _xOnPic = xTransformed = x;
+    _yOnPic = yTransformed = y;
     hLineLength = vLineLength = 5;
     srand (time(NULL));
     int r = rand() % 255;
@@ -17,7 +19,7 @@ ImageMarker::ImageMarker(int x, int y, QMenu *parent) :
     _clr = qRgb(r, g, b);
     pic = new QPixmap(48, 48);
     pic->fill(QColor(_clr));
-    setTitle("Marker[" + QString().number(x) + ";" + QString().number(y) + "]");
+    setTitleText();
     _width = 1;
 
     actDel = new QAction(tr("Delete"), this);
@@ -33,6 +35,11 @@ ImageMarker::ImageMarker(int x, int y, QMenu *parent) :
     this->addAction(actDel);
 }
 
+void ImageMarker::setTitleText()
+{
+    setTitle("Marker [" + QString().number(_x) + ";" + QString().number(_y) + "]");
+}
+
 void ImageMarker::del()
 {
     emit deleteMarker(this);
@@ -41,6 +48,7 @@ void ImageMarker::del()
 
 void ImageMarker::geometryChanged()
 {
+    setTitleText();
     emit geometryChangedMarker(this);
 }
 
