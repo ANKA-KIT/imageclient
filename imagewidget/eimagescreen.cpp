@@ -452,9 +452,15 @@ void EImageScreen::paintEvent( QPaintEvent * ){
             int vLine = m->vLineLength;
             hLine = hLine < 1 ? 1: hLine * determineScalingFactor(sclX);
             vLine = vLine < 1 ? 1: vLine * determineScalingFactor(sclY);
-            // draw the marker
-            p.drawLine(X - vLine, Y, X + vLine, Y);
-            p.drawLine(X, Y - hLine, X, Y + hLine);
+            // TODO: extract marker and ROI drawing
+            // picture == ROI -> marker centered, no ROI drawing needed
+            if (m->roiWidth == picW || m->roiHeight == picH) {
+                int centeredMarkerX = picW / 2;
+                int centeredMarkerY = picH / 2;
+                p.drawLine(centeredMarkerX - vLine, centeredMarkerY, centeredMarkerX + vLine, centeredMarkerY);
+                p.drawLine(centeredMarkerX, centeredMarkerY - hLine, centeredMarkerX, centeredMarkerY + hLine);
+                return;
+            }
             // draw marker ROI if set
             if (m->roiWidth > 0 && m->roiHeight > 0) {
                 p.setPen(QPen(m->getColor(), 1));
@@ -463,6 +469,9 @@ void EImageScreen::paintEvent( QPaintEvent * ){
 
                 p.drawRect(X - scaledHalfWidth, Y - scaledHalfHeight, scaledHalfWidth * 2, scaledHalfHeight * 2);
             }
+            // draw the marker
+            p.drawLine(X - vLine, Y, X + vLine, Y);
+            p.drawLine(X, Y - hLine, X, Y + hLine);
         }
     }
 }
