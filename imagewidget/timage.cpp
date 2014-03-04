@@ -51,7 +51,7 @@ void TImage::syncMarker(ImageMarker *m)
     if (m->roiWidth > 0 && m->roiHeight > 0) {
         writeMarkerRoiToDevice(m->_x - (m->roiWidth / 2), m->_y - (m->roiHeight / 2), m->roiWidth, m->roiHeight);
     } else {
-        writeMarkerRoiToDevice(0, 0, dimX, dimY);
+        writeMarkerRoiToDevice(0, 0, tango->readULongAttr("sensor-width"), tango->readULongAttr("sensor-height"));
     }
 }
 
