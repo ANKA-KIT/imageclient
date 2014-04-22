@@ -47,7 +47,10 @@ RealtimeSubWindow::RealtimeSubWindow(QString tangoDev, QString tangoImage) : Sub
     newRoi->setStatusTip("Init new region of interests in new window");
     connect(newRoi, SIGNAL(triggered()), this, SLOT(initRoi()));
     roiMenu->addAction(newRoi);
-    tim->wgt->contextMenu->addMenu(roiMenu);
+    // disable legacy ROI feature
+    // remove completely including roicontainer, roisubwindow and all signals & slots
+    // after discussing with project owners
+    //tim->wgt->contextMenu->addMenu(roiMenu);
 
     QAction* crosshairSyncDialog = new QAction(tr("Marker sync..."), this);
     tim->wgt->contextMenu->addAction(crosshairSyncDialog);
