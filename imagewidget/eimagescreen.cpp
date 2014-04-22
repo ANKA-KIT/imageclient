@@ -14,7 +14,6 @@ EImageScreen::EImageScreen(QWidget *p) : QWidget(p)
     imageTransform.imageScale= 1;
     imageTransform.rotate = 0;
     imageTransform.horFlip= imageTransform.verFlip  = false;
-    imageTransform.fullPictureMode = true;
     connect(this,SIGNAL(currentPos(int,int)),this,SLOT(setCursorPos(int,int)));
     contextMenu = new QMenu("Image", this);
     lButtonPresed=false;
