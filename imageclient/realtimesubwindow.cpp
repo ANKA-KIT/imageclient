@@ -10,7 +10,7 @@ RealtimeSubWindow::RealtimeSubWindow(QString tangoDev, QString tangoImage) : Sub
 {
     tim->setSource(tangoDev, tangoImage);
     syncDialog = new SyncDialog(tim->tango);
-    setWindowTitle(tangoDev);
+    setWindowTitle(tangoDev + "->" + tangoImage);
     vbox->addWidget(tim, 100);
 
     connect(tim, SIGNAL(scaleValue(double)), this, SLOT(setScaleDisplay(double)));
