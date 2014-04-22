@@ -51,7 +51,7 @@ void TImage::syncMarker(ImageMarker *m)
     if (m->roiWidth > 0 && m->roiHeight > 0) {
         writeMarkerRoiToDevice(m->_x - (m->roiWidth / 2), m->_y - (m->roiHeight / 2), m->roiWidth, m->roiHeight);
     } else {
-        writeMarkerRoiToDevice(0, 0, tango->readULongAttr("sensor-width"), tango->readULongAttr("sensor-height"));
+        resetRoiOnDevice();
     }
 }
 
@@ -71,15 +71,21 @@ void TImage::writeMarkerRoiToDevice(Tango::DevULong x0, Tango::DevULong y0, Tang
     tango->writeAttr(roiHeight);
 }
 
+void TImage::resetRoiOnDevice()
+{
+    writeMarkerRoiToDevice(0, 0, tango->readULongAttr("sensor-width"), tango->readULongAttr("sensor-height"));
+}
+
+
 void TImage::markerDeleted()
 {
     if (!tango->checkAttr(_serverName, "CrosshairEnabled")) {
         qDebug() << "Not syncing marker: device has no attribute CrosshairEnabled!";
         return;
     }
-    Tango::DevBoolean disabled = false;
-    Tango::DeviceAttribute crosshairDisabled("CrosshairEnabled", disabled);
+    Tango::DeviceAttribute crosshairDisabled("CrosshairEnabled", false);
     tango->writeAttr(crosshairDisabled);
+    resetRoiOnDevice();
 }
 
 void TImage::colorChanged(ImageMarker *m)

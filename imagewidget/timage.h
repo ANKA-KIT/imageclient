@@ -36,6 +36,7 @@ private:
     void writeMarkerSizeToDevice(ImageMarker *m);
     void writeMarkerThicknessToDevice(ImageMarker *m);
     void writeMarkerRoiToDevice(Tango::DevULong x0, Tango::DevULong y0, Tango::DevULong width, Tango::DevULong height);
+    void resetRoiOnDevice();
 public:
     /**
      * \brief Allow preparing new coming data for displaying
