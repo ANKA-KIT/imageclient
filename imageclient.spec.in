@@ -41,6 +41,8 @@ mv "@CMAKE_CURRENT_BINARY_DIR@/_CPack_Packages/Linux/RPM/tmpBBroot" $RPM_BUILD_R
 @CPACK_PACKAGING_INSTALL_PREFIX@/bin/imageclient
 
 %changelog
+* Tue Apr 22 2014 Mihael Koep <mihael.koep@softwareschneiderei.de> 2.1.2-1
+- reset ROI when deleting the marker
 * Tue Mar 4 2014 Mihael Koep <mihael.koep@softwareschneiderei.de> 2.1.1-1
 - some fixes to marker drawing and menu entry
 * Wed Feb 18 2014 Mihael Koep <mihael.koep@softwareschneiderei.de> 2.1.0-1

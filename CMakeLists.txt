@@ -1,7 +1,7 @@
 PROJECT(ImageClient)
 cmake_minimum_required(VERSION 2.6)
 
-set(VERSION "2.1.1")
+set(VERSION "2.1.2")
 
 FIND_PACKAGE(Qt4 REQUIRED)
 find_package(PkgConfig)
