@@ -21,6 +21,6 @@ The project uses CMake as build environment.
 
 ## Continuous Integration
 
-You can find the ImageClient build job on [in Jenkins](http://ankajenkins.fzk.de:8080/jenkins/job/imageclient/ "ImageClient build job in Jenkins").
+You can find the ImageClient build job on [Jenkins](http://ankajenkins.fzk.de:8080/jenkins/job/imageclient/ "ImageClient build job in Jenkins").
 
 
