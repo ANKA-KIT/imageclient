@@ -10,11 +10,13 @@ EImageScreen::EImageScreen(QWidget *p) : QWidget(p)
     setAutoFillBackground(true);
     setMouseTracking(true);
     setSizePolicy(QSizePolicy::Ignored,QSizePolicy::Ignored);
-    moveX = moveY = 0;
+    moveX = 0;
+    moveY = 0;
     imageTransform.imageScale= 1;
     imageTransform.rotate = 0;
-    imageTransform.horFlip= imageTransform.verFlip  = false;
-    connect(this,SIGNAL(currentPos(int,int)),this,SLOT(setCursorPos(int,int)));
+    imageTransform.horFlip = false;
+    imageTransform.verFlip = false;
+    connect(this, SIGNAL(currentPos(int, int)), this, SLOT(setCursorPos(int, int)));
     contextMenu = new QMenu("Image", this);
     lButtonPresed=false;
     curYPos=curXPos=0;
@@ -673,13 +675,11 @@ QImage EImageScreen::changeRotateImg(QImage &tempImage, int val)
 void EImageScreen::setFullscreenMode(bool val)
 {
     imageTransform.fullPictureMode = val;
-    if (!val){
+    if (!val) {
         connect(this,SIGNAL(moveXSignal(int)), this,SLOT(chMoveXOn(int)));
         connect(this,SIGNAL(moveYSignal(int)), this,SLOT(chMoveYOn(int)));
         connect(this,SIGNAL(chScaleByWheel(double)),this, SLOT(chScaleVal(double)));
-    }
-    else{
-
+    } else {
         emit showPictureSize(0,0,picW,picH);
 
         disconnect(this,SIGNAL(moveXSignal(int)), this,SLOT(chMoveXOn(int)));
