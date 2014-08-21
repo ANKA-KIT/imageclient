@@ -57,25 +57,29 @@ void TImage::syncMarker(ImageMarker *m)
 
 void TImage::writeMarkerRoiToDevice(Tango::DevULong x0, Tango::DevULong y0, Tango::DevULong width, Tango::DevULong height)
 {
-    if (!tango->checkAttr(_serverName, "roi-x0")) {
-        qDebug() << "Not syncing marker ROI: device has no attribute roi-x0!";
-        return;
+    Tango::DeviceData parameters;
+    Tango::DevVarULongArray* roiValues = new Tango::DevVarULongArray();
+    roiValues->length(4);
+    (*roiValues)[0] = x0;
+    (*roiValues)[1] = y0;
+    (*roiValues)[2] = width;
+    (*roiValues)[3] = height;
+    parameters << roiValues;
+    try {
+        tango->sendCommand("SetROI", parameters);
+    } catch (Tango::DevFailed &e) {
+        qDebug() << "Problem setting ROI:" << e.errors[0].desc;
     }
-    Tango::DeviceAttribute roiX0("roi-x0", x0);
-    tango->writeAttr(roiX0);
-    Tango::DeviceAttribute roiY0("roi-Y0", y0);
-    tango->writeAttr(roiY0);
-    Tango::DeviceAttribute roiWidth("roi-width", width);
-    tango->writeAttr(roiWidth);
-    Tango::DeviceAttribute roiHeight("roi-height", height);
-    tango->writeAttr(roiHeight);
 }
 
 void TImage::resetRoiOnDevice()
 {
-    writeMarkerRoiToDevice(0, 0, tango->readULongAttr("sensor-width"), tango->readULongAttr("sensor-height"));
+    try {
+        tango->sendCommand("ResetROI");
+    } catch (Tango::DevFailed &e) {
+        qDebug() << "Problem resetting ROI:" << e.errors[0].desc;
+    }
 }
-
 
 void TImage::markerDeleted()
 {
