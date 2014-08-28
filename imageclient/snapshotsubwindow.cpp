@@ -2,12 +2,11 @@
 
 #include "snapshotsubwindow.h"
 
-SnapshotSubWindow::SnapshotSubWindow(TImage* tim, int type):SubWindow(SubWindow::SNAPSHOT)
+SnapshotSubWindow::SnapshotSubWindow(TImage* tim, int type) : SubWindow(SubWindow::SNAPSHOT)
 {
-    if (type == WHOLE){
+    if (type == WHOLE) {
         snp = tim->makeSnpImage(this);
-    }
-    else{
+    } else {
         snp = tim->makeSnpImageCat(this);
     }
 

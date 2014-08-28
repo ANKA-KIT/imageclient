@@ -1,9 +1,11 @@
 #include "realtimecontainer.h"
 
+#include <QDebug>
+
 RealtimeContainer::RealtimeContainer(MainWindow *parent) : QWidget(parent)
 {
     windowElement = parent;
-    realtimeLast = curRealtime = -1;
+    realtimeLast = 0;
     setVisible(false);
     emptyIcon = "/icons/true.png";
     trueIcon = ":/icons/true.png";
@@ -50,50 +52,39 @@ RealtimeContainer::RealtimeContainer(MainWindow *parent) : QWidget(parent)
     connect(actClientSide,SIGNAL(triggered()),SLOT(setClientSideMode()));
 }
 
-void RealtimeContainer::realtimeChanged(SubWindow* curRealtimeWin){
-    if (curRealtimeWin) {
-        QList<RealtimeSubWindow*>::iterator iter;
-        int  i = 0;
-        for (iter = realtimeList.begin(); iter < realtimeList.end(); ++iter){
-            if(curRealtimeWin == *iter){                             /*Find current window in list of realtime windows*/
-                curRealtime = realtimeList.indexOf((RealtimeSubWindow*)curRealtimeWin);
-                realtimeLast = curRealtime;
-                setModeIcon();
-                break;
-                }
-            i++;
-        }
-        connect(realtimeList.at(curRealtime)->tim, SIGNAL(mousePosition(QPoint)), windowElement, SLOT(curPosition(QPoint)),Qt::UniqueConnection);
-        connect(realtimeList.at(curRealtime)->tim, SIGNAL(greyscaleImageColor(int)), windowElement, SLOT(curColor(int)),Qt::UniqueConnection);
-        connect(realtimeList.at(curRealtime)->tim, SIGNAL(rgbImageColor(int,int,int)), windowElement, SLOT(curColor(int,int,int)),Qt::UniqueConnection);
-    } else {
-         disconnect(realtimeList.at(curRealtime)->tim, SIGNAL(mousePosition(QPoint)), windowElement, SLOT(curPosition(QPoint)));
-         disconnect(realtimeList.at(curRealtime)->tim, SIGNAL(greyscaleImageColor(int)), windowElement, SLOT(curColor(int)));
-         disconnect(realtimeList.at(curRealtime)->tim, SIGNAL(rgbImageColor(int,int,int)), windowElement, SLOT(curColor(int,int,int)));
-         curRealtime = -1;
+void RealtimeContainer::windowActivated(SubWindow* curRealtimeWin){
+    qDebug() << "MainWindow::SnapshotChanged -> activated " << curRealtimeWin;
+    RealtimeSubWindow* realtimeWindow = dynamic_cast<RealtimeSubWindow*>(curRealtimeWin);
+    if (!realtimeWindow) {
+        qDebug() << "Wrong window type passed. Doing nothing.";
+        return;
     }
+    connect(realtimeWindow->tim, SIGNAL(mousePosition(QPoint)), windowElement, SLOT(curPosition(QPoint)), Qt::UniqueConnection);
+    connect(realtimeWindow->tim, SIGNAL(greyscaleImageColor(int)), windowElement, SLOT(curColor(int)), Qt::UniqueConnection);
+    connect(realtimeWindow->tim, SIGNAL(rgbImageColor(int, int, int)), windowElement, SLOT(curColor(int, int, int)), Qt::UniqueConnection);
+    realtimeLast = realtimeWindow;
+    setModeIcon();
 }
 
-
+void RealtimeContainer::windowDeactivated(SubWindow* curRealtimeWin){
+    qDebug() << "MainWindow::SnapshotChanged -> activated " << curRealtimeWin;
+    RealtimeSubWindow* realtimeWindow = dynamic_cast<RealtimeSubWindow*>(curRealtimeWin);
+    if (!realtimeWindow) {
+        qDebug() << "Wrong window type passed. Doing nothing.";
+        return;
+    }
+    disconnect(realtimeWindow->tim, SIGNAL(mousePosition(QPoint)), windowElement, SLOT(curPosition(QPoint)));
+    disconnect(realtimeWindow->tim, SIGNAL(greyscaleImageColor(int)), windowElement, SLOT(curColor(int)));
+    disconnect(realtimeWindow->tim, SIGNAL(rgbImageColor(int, int, int)), windowElement, SLOT(curColor(int, int, int)));
+    realtimeLast = 0;
+}
 
 void RealtimeContainer::onCloseRaltime(QObject *pointer){
     qDebug("ERase Realsubwin");
-    QList<RealtimeSubWindow*>::iterator iter;
-    for (iter = realtimeList.begin(); iter < realtimeList.end(); ++iter){
-         if(pointer == *iter){
-            realtimeList.erase(iter);
-            break;
-        }
-    }
-    if (realtimeList.count() == 0){
-        curRealtime = -1;
-        realtimeLast = -1;
-    }
 }
 
-
 void RealtimeContainer::setServerModeR(){
-    if (getRealtimeLastVal() !=-1){
+    if (getRealtimeLastWin()) {
         actClientSide->setIconVisibleInMenu(false);
         actSerKeepSide->menuAction()->setIconVisibleInMenu(true);
         actSerKeepSideR->setIconVisibleInMenu(true);
@@ -110,7 +101,7 @@ void RealtimeContainer::setServerModeR(){
 }
 
 void RealtimeContainer::setServerModeW(){
-    if (getRealtimeLastVal() !=-1){
+    if (getRealtimeLastWin()) {
         actClientSide->setIconVisibleInMenu(false);
         actSerKeepSide->menuAction()->setIconVisibleInMenu(true);
         actSerKeepSideR->setIconVisibleInMenu(false);
@@ -128,7 +119,7 @@ void RealtimeContainer::setServerModeW(){
 }
 
 void RealtimeContainer::setClientSideMode(){
-    if (getRealtimeLastVal() !=-1){
+    if (getRealtimeLastWin()) {
         actClientSide->setIconVisibleInMenu(true);
         actSerKeepSide->menuAction()->setIconVisibleInMenu(false);
         actSerKeepSideR->setIconVisibleInMenu(false);
@@ -145,7 +136,7 @@ void RealtimeContainer::setClientSideMode(){
 
 }
 void RealtimeContainer::setModeIcon(){
-    if (getRealtimeLastVal() !=-1){
+    if (getRealtimeLastWin()) {
         switch(getRealtimeLastImage()->__serverMode){
             case TImage::SINGLE:
                 actClientSide->setIconVisibleInMenu(true);

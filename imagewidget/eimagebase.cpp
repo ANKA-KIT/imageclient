@@ -1,5 +1,6 @@
 #include "eimagebase.h"
 
+#include <QDebug>
 #include "imagemarker.h"
 #include "eimagescreen.h"
 
@@ -82,11 +83,11 @@ EImageBase::EImageBase(QImage img, int x, int y, int pm, QWidget *p): QScrollAre
     resize(dimX, dimY);
     chImageMode(pm);
     wgt->image  = img.copy();
-    if(picMode->getPictureMode() == ImagePictureMode::IS_RGBGRAY)
-        wgt->setPicWH(dimX/picMode->lastDelimetr,dimY);
-    else
-        wgt->setPicWH(dimX/picMode->getDelimitr(),dimY);
-
+    if (picMode->getPictureMode() == ImagePictureMode::IS_RGBGRAY) {
+        wgt->setPicWH(dimX / picMode->lastDelimetr, dimY);
+    } else {
+        wgt->setPicWH(dimX / picMode->getDelimitr(), dimY);
+    }
 }
 
 EImageBase::EImageBase(QVector<unsigned short > vector, int x, int y, int pm, QWidget *p): QScrollArea(p)
@@ -118,7 +119,7 @@ void EImageBase::chImageMode(int mode){
     int del = picMode->getDelimitr();
     delete picMode;
     picMode = NULL;
-    switch(mode){
+    switch (mode) {
     case ImagePictureMode::IS_RGBA:
         val16.clear();
         picMode = new Is32RGB();
@@ -609,12 +610,9 @@ QImage EImageBase::setImageByFullScreenMode(QImage img){
     return wgt->setImageByFullScreenMode(img);
 }
 
-
-
 void EImageBase::drawing(QImage& img){
     wgt->drawing(img);
 }
-
 
 QImage EImageBase::setPropertiesOnImg(QImage img){
     img = setImageByFullScreenMode(img);
@@ -686,48 +684,65 @@ int EImageBase::getBrightness(){return imageParams.brightness;}
 int EImageBase::getGamma(){return imageParams.gamma;}
 int EImageBase::getContrast(){return imageParams.contrast;}
 
-void EImageBase::onScreenReapinting(QPoint p){
-    if (p.x() > wgt->picW)  p.setX(wgt->picW);
-    if(p.y() > wgt->picH)   p.setY(wgt->picH);
-    if (p.x() < 0)    p.setX(0);
-    if(p.y() < 0)     p.setY(0);
-    emit mousePosition(p);
- //   qDebug("%d %d", p.x(), p.y());
-    int r = p.x()+ dimX*(p.y());
-    int rgb = 3*p.x()+ dimX*(p.y());
-    if (rgb<0){ r=0; rgb=0;}
-    //*
-    if (val.size() == 0){
-        QRgb pointColor = wgt->image.color(r);
-        emit rgbImageColor(qRed(pointColor), qGreen(pointColor), qBlue(pointColor));
+void EImageBase::onScreenReapinting(QPoint p)
+{
+    if (p.x() > wgt->picW) {
+        p.setX(wgt->picW);
     }
-    else
-    switch(picMode->getPictureMode()){
-        case ImagePictureMode::IS_16BITGRAY:
+    if (p.y() > wgt->picH) {
+        p.setY(wgt->picH);
+    }
+    if (p.x() < 0) {
+        p.setX(0);
+    }
+    if (p.y() < 0) {
+        p.setY(0);
+    }
+    emit mousePosition(p);
+    int r = p.x() + dimX * p.y();
+    int rgb = 3 * p.x() + dimX * p.y();
+    if (rgb < 0) {
+        r = 0;
+        rgb = 0;
+    }
+    if (val.size() == 0) {
+        QRgb pointColor = wgt->image.pixel(p);
+        emit rgbImageColor(qRed(pointColor), qGreen(pointColor), qBlue(pointColor));
+        return;
+    }
+    switch (picMode->getPictureMode()) {
+    case ImagePictureMode::IS_16BITGRAY:
         if (val16.size()>r && val16.size() !=0) emit greyscaleImageColor(val16.at(r));
         break;
-        case ImagePictureMode::IS_RGBGRAY :
-            if(val.size() < rgb+2){
-             emit greyscaleImageColor(0);}
-            else if (val.size()>rgb  && val.size() !=0) emit greyscaleImageColor(0.2126 * val.at(rgb) + 0.7152 * val.at(rgb+1) + 0.0722 * val.at(rgb+2));
-            else emit greyscaleImageColor(0);
-        break;
-        case ImagePictureMode::IS_8BIT :
-            if (val.size()>r  && val.size() !=0) emit greyscaleImageColor(val.at(r));
-            else emit greyscaleImageColor(0);
-        break;
-        case ImagePictureMode::IS_RGB:
+    case ImagePictureMode::IS_RGBGRAY :
         if(val.size() < rgb+2){
-             emit rgbImageColor(0,0,0);}
-            else if (val.size()>rgb && val.size() !=0)
-                emit rgbImageColor(val.at(rgb), val.at(rgb+1), val.at(rgb+2));
-            else emit rgbImageColor(0,0,0);
+            emit greyscaleImageColor(0);
+        } else if (val.size()>rgb  && val.size() !=0) {
+            emit greyscaleImageColor(0.2126 * val.at(rgb) + 0.7152 * val.at(rgb+1) + 0.0722 * val.at(rgb+2));
+        } else {
+            emit greyscaleImageColor(0);
+        }
         break;
-        case ImagePictureMode::IS_48BIT :
-            if(val16.size() < rgb+2){
-             emit rgbImageColor(0,0,0);}
-            else if (val16.size()>rgb  && val16.size() !=0) emit rgbImageColor(val16.at(rgb), val16.at(rgb+1), val16.at(rgb+2));
-            else emit rgbImageColor(0,0,0);
+    case ImagePictureMode::IS_8BIT :
+        if (val.size()>r  && val.size() !=0) emit greyscaleImageColor(val.at(r));
+        else emit greyscaleImageColor(0);
+        break;
+    case ImagePictureMode::IS_RGB:
+    {
+        if (val.size() < rgb + 2) {
+            emit rgbImageColor(0,0,0);
+        } else if (val.size() > rgb && val.size() != 0) {
+            emit rgbImageColor(val.at(rgb), val.at(rgb + 1), val.at(rgb + 2));
+        } else {
+            emit rgbImageColor(0,0,0);
+        }
+        break;
+    }
+    case ImagePictureMode::IS_48BIT :
+        if(val16.size() < rgb+2){
+         emit rgbImageColor(0,0,0);}
+        else if (val16.size()>rgb  && val16.size() !=0) emit rgbImageColor(val16.at(rgb), val16.at(rgb+1), val16.at(rgb+2));
+        else emit rgbImageColor(0,0,0);
     }
 }
 

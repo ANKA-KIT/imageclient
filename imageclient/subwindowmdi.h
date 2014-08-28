@@ -4,9 +4,6 @@
 #include <QObject>
 #include <QMdiSubWindow>
 #include <QMdiArea>
-#include <QWidget>
-#include <QHBoxLayout>
-#include <QLabel>
 
 #include <imagemanipulator.h>
 #include <QFormLayout>
@@ -28,9 +25,10 @@ public:
     QLabel *lbScl;
     QLabel *lbVFl;
     QLabel *lbHFl;
-    explicit  SubWindow(int,QMdiSubWindow *parent=0);
+    explicit SubWindow(int, QMdiSubWindow *parent=0);
 signals:
-    void winChanged(SubWindow*);
+    void activated(SubWindow*);
+    void deactivated(SubWindow*);
 public slots:
     void setTimeDisplay(int);
     void setRotateDisplay(double);

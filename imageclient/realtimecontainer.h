@@ -13,10 +13,8 @@ class RealtimeContainer : public QWidget
     Q_OBJECT
 private:
     MainWindow* windowElement;
-    int curRealtime;
-    int realtimeLast;
-    QList<RealtimeSubWindow *> realtimeList;
     void setModeIcon();
+    RealtimeSubWindow* realtimeLast;
     QString emptyIcon, trueIcon;
 public:
     QAction *actSerSideR;
@@ -28,15 +26,19 @@ public:
     QMenu *serverMode;
 
     explicit RealtimeContainer(MainWindow *parent = 0);
-    void add(RealtimeSubWindow *rt){realtimeList.push_back(rt);}
-    int getRealtimeLastVal(){return realtimeLast;}
-    RealtimeSubWindow* getRealtimeLastWin(){return realtimeList[realtimeLast];}
-    RealtimeSubWindow* getRealtimeCurWin(){return realtimeList[curRealtime];}
-    TImage* getRealtimeLastImage(){return realtimeList.at(realtimeLast)->tim;}
+    RealtimeSubWindow* getRealtimeLastWin()
+    {
+        return realtimeLast;
+    }
+    TImage* getRealtimeLastImage()
+    {
+        return realtimeLast->tim;
+    }
 signals:
 
 public slots:
-    void realtimeChanged(SubWindow*);
+    void windowActivated(SubWindow*);
+    void windowDeactivated(SubWindow*);
     void onCloseRaltime(QObject *pointer);
 
     void setServerModeR();

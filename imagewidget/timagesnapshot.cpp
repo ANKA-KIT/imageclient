@@ -2,7 +2,7 @@
 
 #include "eimagescreen.h"
 
-TImageSnapshot::TImageSnapshot(QWidget *p):EImageBase(p)
+TImageSnapshot::TImageSnapshot(QWidget *p) : EImageBase(p)
 {
     setAttribute(Qt::WA_AlwaysShowToolTips);
     setProperty("forceNoUnit", false);
@@ -12,8 +12,8 @@ TImageSnapshot::TImageSnapshot(QWidget *p):EImageBase(p)
 
 TImageSnapshot::TImageSnapshot(QImage img, int x, int y, int pm, QWidget *p) : EImageBase(img, x, y, pm, p)
 {
-    connect(this,SIGNAL(imgChanged(QImage)),SLOT(setImage(QImage)));
-    connect(wgt,SIGNAL(imgTransformed(QImage)),SLOT(setImage(QImage)));
+    connect(this, SIGNAL(imgChanged(QImage)), SLOT(setImage(QImage)));
+    connect(wgt, SIGNAL(imgTransformed(QImage)), SLOT(setImage(QImage)));
 }
 
 TImageSnapshot::TImageSnapshot(QVector<unsigned short > vector, int x, int y, int pm, QWidget *p) : EImageBase(vector, x, y, pm, p)

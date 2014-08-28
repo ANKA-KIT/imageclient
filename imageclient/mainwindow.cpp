@@ -1,6 +1,8 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
+#include "snapshotsubwindow.h"
+
 #include <QGroupBox>
 #include <QLabel>
 
@@ -55,11 +57,11 @@ void MainWindow::chooseDevice()
 
 void MainWindow::variablesWindow()
 {
-    if (rtContainer->getRealtimeLastVal() == -1) {
+    if (!rtContainer->getRealtimeLastWin()) {
         return;
     }
     TangoServerVariablesWin *varWin;
-    RealtimeSubWindow *rt = rtContainer->getRealtimeCurWin();
+    RealtimeSubWindow *rt = rtContainer->getRealtimeLastWin();
     varWin = new TangoServerVariablesWin(rt->tim->getServerName());
     varWin->setAttribute(Qt::WA_DeleteOnClose);
     connect(varWin, SIGNAL(setVar(QString)), rt, SLOT(setServerVar(QString)));
@@ -69,10 +71,10 @@ void MainWindow::variablesWindow()
 void MainWindow::initRealtime(QString dev, QString attr){
     RealtimeSubWindow *rt = new RealtimeSubWindow(dev, attr);
     rt->setAttribute(Qt::WA_DeleteOnClose);
-    rtContainer->add(rt);
     connect(rt->snpWhole,SIGNAL(triggered()),this,SLOT(makeSnpWhole()));
     connect(rt->snpVis,SIGNAL(triggered()),this,SLOT(makeSnpVis()));
-    connect(rt, SIGNAL(winChanged(SubWindow*)),rtContainer,SLOT(realtimeChanged(SubWindow*)));
+    connect(rt, SIGNAL(activated(SubWindow*)), rtContainer, SLOT(windowActivated(SubWindow*)));
+    connect(rt, SIGNAL(deactivated(SubWindow*)), rtContainer, SLOT(windowDeactivated(SubWindow*)));
     connect(rt, SIGNAL(destroyed(QObject*)), rtContainer, SLOT(onCloseRaltime(QObject*)));
     connect(rt, SIGNAL(newRoiCreated(QPoint,QPoint,TImage*)), this, SLOT(initRoi(QPoint,QPoint,TImage*)));
     area->addSubWindow(rt);
@@ -82,12 +84,9 @@ void MainWindow::initRealtime(QString dev, QString attr){
 void MainWindow::initSnapshot(TImage *tim, int type){
     SnapshotSubWindow *snp = new SnapshotSubWindow(tim, type);
     snp->setAttribute(Qt::WA_DeleteOnClose);
-    snpContainer->add(snp);
+    connect(snp, SIGNAL(activated(SubWindow*)), snpContainer, SLOT(windowActivated(SubWindow*)));
+    connect(snp, SIGNAL(deactivated(SubWindow*)), snpContainer, SLOT(windowDeactivated(SubWindow*)));
     connect(snp, SIGNAL(destroyed(QObject*)), snpContainer, SLOT(onCloseSnapshot(QObject*)));
-    connect(snp, SIGNAL(winChanged(SubWindow*)),snpContainer,SLOT(snapshotChanged(SubWindow*)));
-//    connect(snp->snp, SIGNAL(mousePosition(QPoint)), this, SLOT(curPosition(QPoint)));
-//    connect(snp->snp, SIGNAL(greyscaleImageColor(int)), this, SLOT(curColor(int)));
-//    connect(snp->snp, SIGNAL(rgbImageColor(int,int,int)), this, SLOT(curColor(int,int,int)));
     area->addSubWindow(snp);
     snp->show();
 }
@@ -96,26 +95,25 @@ void MainWindow::initRoi(QPoint p1,QPoint p2,TImage *tim){
     RoiSubWindow *roi = new RoiSubWindow(p1,p2,tim);
     roi->setAttribute(Qt::WA_DeleteOnClose);
     roiContainer->add(roi);
-    connect(roi->snpWhole,SIGNAL(triggered()),this,SLOT(makeSnpWhole()));
-    connect(roi->snpVis,SIGNAL(triggered()),this,SLOT(makeSnpVis()));
+    connect(roi->snpWhole, SIGNAL(triggered()), this, SLOT(makeSnpWhole()));
+    connect(roi->snpVis, SIGNAL(triggered()), this, SLOT(makeSnpVis()));
     connect(roi, SIGNAL(destroyed(QObject*)), roiContainer, SLOT(onCloseRoi(QObject*)));
-    connect(roi, SIGNAL(winChanged(SubWindow*)),roiContainer,SLOT(roiChanged(SubWindow*)));
-//    connect(roi->roi->sample, SIGNAL(mousePosition(QPoint)), this, SLOT(curPosition(QPoint)));
-//    connect(roi->roi->sample, SIGNAL(greyscaleImageColor(int)), this, SLOT(curColor(int)));
-//    connect(roi->roi->sample, SIGNAL(rgbImageColor(int,int,int)), this, SLOT(curColor(int,int,int)));
+    connect(roi, SIGNAL(winChanged(SubWindow*)), roiContainer, SLOT(roiChanged(SubWindow*)));
     area->addSubWindow(roi);
     roi->show();
 }
 
 void MainWindow::makeSnpWhole()
 {
-    if (rtContainer->getRealtimeLastVal() !=-1)
+    if (rtContainer->getRealtimeLastWin()) {
         initSnapshot(rtContainer->getRealtimeLastImage(), SnapshotSubWindow::WHOLE);
+    }
 }
 void MainWindow::makeSnpVis()
 {
-    if (rtContainer->getRealtimeLastVal() !=-1)
-        initSnapshot(rtContainer->getRealtimeLastImage(), SnapshotSubWindow::VISIABLE);
+    if (rtContainer->getRealtimeLastWin()) {
+        initSnapshot(rtContainer->getRealtimeLastImage(), SnapshotSubWindow::VISIBLE);
+    }
 }
 
 void MainWindow::curPosition(QPoint p){
