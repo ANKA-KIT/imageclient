@@ -1,5 +1,5 @@
 # -*- rpm-spec -*-
-Buildroot: @SMARACT_BUILD_DIR@/_CPack_Packages/Linux/RPM/@CPACK_PACKAGE_FILE_NAME@
+Buildroot: @IMAGE_CLIENT_BUILD_DIR@/_CPack_Packages/Linux/RPM/@CPACK_PACKAGE_FILE_NAME@
 Summary:        A TANGO imageclient with Qt4 interface
 Name:           @CPACK_PACKAGE_NAME@
 Version:        @CPACK_PACKAGE_VERSION@
@@ -13,10 +13,10 @@ Requires:       libqt4 >= 4.6
 Requires:       tango >= 7.2.6
 
 #p define prefix /usr/local
-%define _rpmdir @SMARACT_BUILD_DIR@/_CPack_Packages/Linux/RPM
+%define _rpmdir @IMAGE_CLIENT_BUILD_DIR@/_CPack_Packages/Linux/RPM
 %define _rpmfilename @CPACK_PACKAGE_FILE_NAME@.rpm
 %define _unpackaged_files_terminate_build 0
-%define _topdir @SMARACT_BUILD_DIR@/_CPack_Packages/Linux/RPM
+%define _topdir @IMAGE_CLIENT_BUILD_DIR@/_CPack_Packages/Linux/RPM
 
 %description
 A image viewer and manipulator which connects to Tango Devices and specific Image-Attributes.
@@ -41,6 +41,9 @@ mv "@CMAKE_CURRENT_BINARY_DIR@/_CPack_Packages/Linux/RPM/tmpBBroot" $RPM_BUILD_R
 @CPACK_PACKAGING_INSTALL_PREFIX@/bin/imageclient
 
 %changelog
+* Thu Aug 28 2014 Mihael Koep <mihael.koep@softwareschneiderei.de> 2.1.3-1
+- revamp MDI handling
+- fix crashes opening/closing MDI windows
 * Tue Apr 22 2014 Mihael Koep <mihael.koep@softwareschneiderei.de> 2.1.2-1
 - reset ROI when deleting the marker
 * Tue Mar 4 2014 Mihael Koep <mihael.koep@softwareschneiderei.de> 2.1.1-1
