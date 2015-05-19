@@ -3,7 +3,6 @@
 
 #include <subwindowmdi.h>
 #include <tangoservervariableswin.h>
-#include <QVBoxLayout>
 
 class TImage;
 class RoiAction;
@@ -21,7 +20,7 @@ public:
     QAction *newRoi;
 
     QMenu *roiMenu;
-    RealtimeSubWindow(QString, QString );
+    RealtimeSubWindow(QString device, QString attribute);
     void setServerModeRead(bool val);
     void setServerModeWrite(bool val);
     void setClientSideMode(bool val);

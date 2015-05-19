@@ -10,12 +10,13 @@ EImageScreen::EImageScreen(QWidget *p) : QWidget(p)
     setAutoFillBackground(true);
     setMouseTracking(true);
     setSizePolicy(QSizePolicy::Ignored,QSizePolicy::Ignored);
-    moveX = moveY = 0;
+    moveX = 0;
+    moveY = 0;
     imageTransform.imageScale= 1;
     imageTransform.rotate = 0;
-    imageTransform.horFlip= imageTransform.verFlip  = false;
-    imageTransform.fullPictureMode = true;
-    connect(this,SIGNAL(currentPos(int,int)),this,SLOT(setCursorPos(int,int)));
+    imageTransform.horFlip = false;
+    imageTransform.verFlip = false;
+    connect(this, SIGNAL(currentPos(int, int)), this, SLOT(setCursorPos(int, int)));
     contextMenu = new QMenu("Image", this);
     lButtonPresed=false;
     curYPos=curXPos=0;
@@ -452,9 +453,15 @@ void EImageScreen::paintEvent( QPaintEvent * ){
             int vLine = m->vLineLength;
             hLine = hLine < 1 ? 1: hLine * determineScalingFactor(sclX);
             vLine = vLine < 1 ? 1: vLine * determineScalingFactor(sclY);
-            // draw the marker
-            p.drawLine(X - vLine, Y, X + vLine, Y);
-            p.drawLine(X, Y - hLine, X, Y + hLine);
+            // TODO: extract marker and ROI drawing
+            // picture == ROI -> marker centered, no ROI drawing needed
+            if (m->roiWidth == picW || m->roiHeight == picH) {
+                int centeredMarkerX = picW / 2;
+                int centeredMarkerY = picH / 2;
+                p.drawLine(centeredMarkerX - vLine, centeredMarkerY, centeredMarkerX + vLine, centeredMarkerY);
+                p.drawLine(centeredMarkerX, centeredMarkerY - hLine, centeredMarkerX, centeredMarkerY + hLine);
+                return;
+            }
             // draw marker ROI if set
             if (m->roiWidth > 0 && m->roiHeight > 0) {
                 p.setPen(QPen(m->getColor(), 1));
@@ -463,6 +470,9 @@ void EImageScreen::paintEvent( QPaintEvent * ){
 
                 p.drawRect(X - scaledHalfWidth, Y - scaledHalfHeight, scaledHalfWidth * 2, scaledHalfHeight * 2);
             }
+            // draw the marker
+            p.drawLine(X - vLine, Y, X + vLine, Y);
+            p.drawLine(X, Y - hLine, X, Y + hLine);
         }
     }
 }
@@ -665,13 +675,11 @@ QImage EImageScreen::changeRotateImg(QImage &tempImage, int val)
 void EImageScreen::setFullscreenMode(bool val)
 {
     imageTransform.fullPictureMode = val;
-    if (!val){
+    if (!val) {
         connect(this,SIGNAL(moveXSignal(int)), this,SLOT(chMoveXOn(int)));
         connect(this,SIGNAL(moveYSignal(int)), this,SLOT(chMoveYOn(int)));
         connect(this,SIGNAL(chScaleByWheel(double)),this, SLOT(chScaleVal(double)));
-    }
-    else{
-
+    } else {
         emit showPictureSize(0,0,picW,picH);
 
         disconnect(this,SIGNAL(moveXSignal(int)), this,SLOT(chMoveXOn(int)));

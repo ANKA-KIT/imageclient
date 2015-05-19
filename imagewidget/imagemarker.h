@@ -68,6 +68,8 @@ public:
         return QColor(_clr);
     }
     void geometryChanged();
+private:
+    void setTitleText();
 
 signals:
     void deleteMarker(ImageMarker *m);

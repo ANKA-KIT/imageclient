@@ -51,24 +51,34 @@ void TImage::syncMarker(ImageMarker *m)
     if (m->roiWidth > 0 && m->roiHeight > 0) {
         writeMarkerRoiToDevice(m->_x - (m->roiWidth / 2), m->_y - (m->roiHeight / 2), m->roiWidth, m->roiHeight);
     } else {
-        writeMarkerRoiToDevice(0, 0, dimX, dimY);
+        resetRoiOnDevice();
     }
 }
 
 void TImage::writeMarkerRoiToDevice(Tango::DevULong x0, Tango::DevULong y0, Tango::DevULong width, Tango::DevULong height)
 {
-    if (!tango->checkAttr(_serverName, "roi-x0")) {
-        qDebug() << "Not syncing marker ROI: device has no attribute roi-x0!";
-        return;
+    Tango::DeviceData parameters;
+    Tango::DevVarULongArray* roiValues = new Tango::DevVarULongArray();
+    roiValues->length(4);
+    (*roiValues)[0] = x0;
+    (*roiValues)[1] = y0;
+    (*roiValues)[2] = width;
+    (*roiValues)[3] = height;
+    parameters << roiValues;
+    try {
+        tango->sendCommand("SetROI", parameters);
+    } catch (Tango::DevFailed &e) {
+        qDebug() << "Problem setting ROI:" << e.errors[0].desc;
     }
-    Tango::DeviceAttribute roiX0("roi-x0", x0);
-    tango->writeAttr(roiX0);
-    Tango::DeviceAttribute roiY0("roi-Y0", y0);
-    tango->writeAttr(roiY0);
-    Tango::DeviceAttribute roiWidth("roi-width", width);
-    tango->writeAttr(roiWidth);
-    Tango::DeviceAttribute roiHeight("roi-height", height);
-    tango->writeAttr(roiHeight);
+}
+
+void TImage::resetRoiOnDevice()
+{
+    try {
+        tango->sendCommand("ResetROI");
+    } catch (Tango::DevFailed &e) {
+        qDebug() << "Problem resetting ROI:" << e.errors[0].desc;
+    }
 }
 
 void TImage::markerDeleted()
@@ -77,9 +87,9 @@ void TImage::markerDeleted()
         qDebug() << "Not syncing marker: device has no attribute CrosshairEnabled!";
         return;
     }
-    Tango::DevBoolean disabled = false;
-    Tango::DeviceAttribute crosshairDisabled("CrosshairEnabled", disabled);
+    Tango::DeviceAttribute crosshairDisabled("CrosshairEnabled", false);
     tango->writeAttr(crosshairDisabled);
+    resetRoiOnDevice();
 }
 
 void TImage::colorChanged(ImageMarker *m)
@@ -418,23 +428,21 @@ void TImage::drawInServerMode(QImage img)
 }
 
 
-TImage::~TImage(){
+TImage::~TImage() {}
 
-}
-
-void TImage::setPeriod(int p){
-    //fprintf(stderr, "!!set peiod!!");
+void TImage::setPeriod(int p)
+{
     _timer = p;
     TDevice::setPeriod(p);
 }
 
-TImageSnapshot* TImage::makeSnpImage(QWidget *scr){
+TImageSnapshot* TImage::makeSnpImage(QWidget *scr)
+{
     TImageSnapshot *img;
-    if(val16.size() != 0 && (picMode->getPictureMode() == ImagePictureMode::IS_16BITGRAY || picMode->getPictureMode() ==ImagePictureMode:: IS_48BIT)){// 8BIT || picMode->getPictureMode() == IS_RGBGRAY)){
-        img = new TImageSnapshot(val16,dimX, dimY, picMode->getPictureMode(), scr);
-    }
-    else{
-        img = new TImageSnapshot(wgt->image,dimX, dimY, picMode->getPictureMode(), scr);
+    if (val16.size() != 0 && (picMode->getPictureMode() == ImagePictureMode::IS_16BITGRAY || picMode->getPictureMode() ==ImagePictureMode:: IS_48BIT)) {
+        img = new TImageSnapshot(val16, dimX, dimY, picMode->getPictureMode(), scr);
+    } else {
+        img = new TImageSnapshot(wgt->image, dimX, dimY, picMode->getPictureMode(), scr);
     }
     for (int i=0; i<wgt->marker.count(); i++){
         //img->wgt->initMarker(QPoint(wgt->marker.at(i)->_x,wgt->marker.at(i)->_y));
@@ -448,12 +456,13 @@ TImageSnapshot* TImage::makeSnpImage(QWidget *scr){
     img->wgt->imageTransform = wgt->imageTransform;
     img->setImage(img->wgt->image);
     img->setFullscreenMode(true);
- return img;
+    return img;
 }
 
-TImageSnapshot* TImage::makeSnpImageCat(QWidget *scr){
+TImageSnapshot* TImage::makeSnpImageCat(QWidget *scr)
+{
     TImageSnapshot *img;
-    if(val16.size() != 0 && (picMode->getPictureMode() == ImagePictureMode::IS_16BITGRAY || picMode->getPictureMode() ==ImagePictureMode:: IS_48BIT)){// 8BIT || picMode->getPictureMode() == IS_RGBGRAY)){
+    if (val16.size() != 0 && (picMode->getPictureMode() == ImagePictureMode::IS_16BITGRAY || picMode->getPictureMode() ==ImagePictureMode:: IS_48BIT)){
         QVector <unsigned short> tempVal16;
         int bytesPerLine = (wgt->limX2 - wgt->limX1)*picMode->getDelimitr();
         int catHeight =  wgt->limY2 - wgt->limY1;
@@ -472,7 +481,6 @@ TImageSnapshot* TImage::makeSnpImageCat(QWidget *scr){
     }
 
     int iterX, iterY,iter=0;
- //*
     for (int m=0; m<wgt->marker.count(); m++){
         iterX=-1, iterY=-1;
         if(wgt->marker.at(m)->visiableXPos >= 0 && wgt->marker.at(m)->visiableXPos <= wgt->limX2){//-wgt->limX1
@@ -489,13 +497,13 @@ TImageSnapshot* TImage::makeSnpImageCat(QWidget *scr){
             img->wgt->marker.at(iter)->vLineLength = wgt->marker.at(m)->vLineLength;
             iter++;
         }
-    }//*/
+    }
     QObject::connect(img->wgt, SIGNAL(repainting()),img->wgt,  SLOT(rescreen()));
     img->imageParams = imageParams;
     img->wgt->imageTransform = wgt->imageTransform;
     img->setImage(img->wgt->image);
     img->setFullscreenMode(true);
- return img;
+    return img;
 }
 
 TImageSnapshot* TImage::makeSnpImageCat(QRect rec, QWidget *scr){
@@ -542,7 +550,7 @@ TImageSnapshot* TImage::makeSnpImageCat(QRect rec, QWidget *scr){
     img->wgt->imageTransform = wgt->imageTransform;
     img->setImage(img->wgt->image);
     img->setFullscreenMode(true);
- return img;
+    return img;
 }
 
 
@@ -601,7 +609,6 @@ void TImage::showParams(){
     manip->show();
     }
 }
-
 
 void TImage::autoDrawingHistogram(bool val){
     if(val){

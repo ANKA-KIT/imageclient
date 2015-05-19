@@ -15,7 +15,7 @@ void StartTangoWindow::refresh(const TVariant &newVal)
         status->setText("Error");
         return;
     }
-    emit dev(tlServer->text() + (QString) "/" + tlDevice->text(), tlAttr->text());
+    emit dev(tlServer->text() + "/" + tlDevice->text(), tlAttr->text());
     writeSettings();
     deleteLater();
 }

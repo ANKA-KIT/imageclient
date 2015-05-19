@@ -1,18 +1,17 @@
 #ifndef TIMAGESNAPSHOT_H
 #define TIMAGESNAPSHOT_H
 
-//My_Code
 #include "eimagebase.h"
 
-class TImageSnapshot : public EImageBase//, public QTangoWidgetCommon
+class TImageSnapshot : public EImageBase
 {
     Q_OBJECT
 private:
     void resizeEvent(QResizeEvent *);
 public:
     TImageSnapshot(QWidget *p);
-    TImageSnapshot(QImage , int , int , int , QWidget *p);
-    TImageSnapshot(QVector<unsigned short > vector, int x, int y, int pm, QWidget *p);
+    TImageSnapshot(QImage, int dimX, int dimY, int pictureMode, QWidget *p);
+    TImageSnapshot(QVector<unsigned short > vector, int x, int y, int pictureMode, QWidget *p);
 
 public slots:
     void setImage(QImage img );

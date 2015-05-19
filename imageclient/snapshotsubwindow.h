@@ -7,7 +7,10 @@
 class SnapshotSubWindow : public SubWindow
 {
 public:
-    enum SNAPSHOT_TYPE{WHOLE, VISIABLE};
+    enum SNAPSHOT_TYPE {
+        WHOLE,
+        VISIBLE
+    };
     TImageSnapshot *snp;
     SnapshotSubWindow(TImage*, int);
 };
