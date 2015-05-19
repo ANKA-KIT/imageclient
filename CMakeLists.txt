@@ -1,7 +1,7 @@
 PROJECT(ImageClient)
 cmake_minimum_required(VERSION 2.6)
 
-set(VERSION "2.1.3")
+set(VERSION "2.1.4")
 
 set(SYS_LIBDIR "${CMAKE_INSTALL_PREFIX}/lib" CACHE PATH "Library destination directory")
 
