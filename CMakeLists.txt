@@ -1,18 +1,13 @@
 PROJECT(ImageClient)
 cmake_minimum_required(VERSION 2.6)
 
-set(VERSION "2.1.3")
+set(VERSION "2.1.4")
+
+set(SYS_LIBDIR "${CMAKE_INSTALL_PREFIX}/lib" CACHE PATH "Library destination directory")
 
 FIND_PACKAGE(Qt4 REQUIRED)
 find_package(PkgConfig)
 pkg_check_modules(TANGO tango>=7.2.6 REQUIRED)
-
-# check for 64 bit
-if (CMAKE_SIZEOF_VOID_P EQUAL 8)
-  set(LIB_INSTALL_DIR "lib64")
-else()
-  set(LIB_INSTALL_DIR "lib")
-endif()
 
 SET(QT_USE_QTDESIGNER ON)
 INCLUDE(${QT_USE_FILE})
@@ -20,7 +15,7 @@ INCLUDE(${QT_USE_FILE})
 ADD_DEFINITIONS(${QT_DEFINITIONS} -Wall -std=c++0x)
 
 find_path(QWT_HEADERS qwt_plot.h HINTS /usr/include /usr/include/qwt5 /usr/local/qwt-5.2.1/include)
-find_path(QWT_LIBS libqwt.so HINTS /usr/${LIB_INSTALL_DIR} /usr/local/qwt-5.2.1/lib)
+find_path(QWT_LIBS libqwt.so HINTS ${SYS_LIBDIR} /usr/local/qwt-5.2.1/lib)
 
 add_subdirectory(imagewidget)
 add_subdirectory(imageclient)

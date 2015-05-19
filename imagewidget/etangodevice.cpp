@@ -1,5 +1,7 @@
 #include "etangodevice.h"
 
+#include <QDebug>
+
 TVariant::TVariant(Tango::DeviceAttribute &attr){
     isAttribute = true;
     dataFormat = attr.get_data_format();
@@ -128,55 +130,49 @@ void ImageTangoDevice::setPeriod(int val){
     pingTimer.setInterval(_time);
 }
 
-
-
-//ETangoDevice::ETangoDevice(QObject *parent):  QObject(parent)
-
 void ImageTangoDevice::sendPing(){
     getImageData(_serverName);
 }
 
-void ImageTangoDevice::checkDevice(QString s ){
-    try{
-        Tango::DeviceProxy dev(("//"+s).toAscii().constData());
-    }
-    catch(const Tango::WrongNameSyntax& e){
+void ImageTangoDevice::checkDevice(QString s)
+{
+    const char* deviceName = ("//"+s).toAscii().constData();
+    try {
+        qDebug() << "Connecting to " << deviceName << "\n";
+        Tango::DeviceProxy dev(deviceName);
+    } catch (const Tango::WrongNameSyntax& e) {
         qDebug("Error, Wrong Name Syntax of Tango Server\n");
-        emit tangoError(QString("Wrong Syntax"));
-    }
-    catch(const Tango::ConnectionFailed& e){
+        emit tangoError(QString(" Checking Device: Wrong Syntax"));
+    } catch (const Tango::ConnectionFailed& e) {
         qDebug("Error, Connection Failed with Tango Server\n");
         emit tangoError("Connection Failed with Tango Server");
-    }
-    catch(const Tango::DevFailed& e){
-            qDebug("Error, Is Failed Connection with Tango Server \n Check the name of TangoServer \n");
+    } catch (const Tango::DevFailed& e) {
+        qDebug() << "DevFailed Connection with Tango Server:\n" << e.errors[0].reason << "\n";
         emit tangoError("Is Failed Connection with Tango Server");
     }
 }
 
-
-
-void ImageTangoDevice::getImageData(QString s ){
-    try{
-        Tango::DeviceProxy dev(s.toAscii().constData());
+void ImageTangoDevice::getImageData(QString s )
+{
+    try {
+        Tango::DeviceProxy dev(("//" + s).toAscii().constData());
         Tango::DeviceAttribute attr = dev.read_attribute(_attrName.toAscii().constData());
         TVariant v(attr);
         emit newTangoData(v);
     }
     catch(const Tango::WrongNameSyntax& e){
         qDebug("Error, Wrong Name Syntax of Tango Server\n");
-        emit tangoError(QString("Wrong Syntax"));
+        emit tangoError(QString("Getting ImageData: Wrong Syntax"));
     }
     catch(const Tango::ConnectionFailed& e){
         qDebug("Error, Connection Failed with Tango Server\n");
         emit tangoError("Connection Failed with Tango Server");
     }
     catch(const Tango::DevFailed& e){
-            qDebug("Error, Is Failed Connection with Tango Server \n Check the name of TangoServer \n");
+        qDebug() << "ImageData->DevFailed: " << e.errors[0].desc << "\n";
         emit tangoError("Is Failed Connection with Tango Server");
     }
 }
-
 
 ImageTangoDevice::ImageTangoDevice(QObject* p): QObject(p)//(QWidget *ps): QWidget(ps)
 {
@@ -364,37 +360,32 @@ return false;
     return true;
 }
 
-
-bool ImageTangoDevice::checkAttr(QString serverName, QString attrName){
-    try{
-        Tango::DeviceProxy dev(("//"+serverName).toAscii().constData());
+bool ImageTangoDevice::checkAttr(QString serverName, QString attrName)
+{
+    try {
+        Tango::DeviceProxy dev(("//" + serverName).toAscii().constData());
         Tango::DeviceAttribute attr;
         attr = dev.read_attribute(attrName.toAscii().constData());
-        if (attr.quality == Tango::ATTR_INVALID || attr.get_dim_x() == 0){
+        if (attr.quality == Tango::ATTR_INVALID || attr.get_dim_x() == 0) {
             return false;
+        } else {
+            return true;
         }
-        else{
-           return true;
-        }
-    }
-    catch(const Tango::ConnectionFailed &e){
-         qDebug("Error, ConnectionFailed while reading attribute");
-         emit tangoError("ConnectionFailed while reading attribute");
+    } catch (const Tango::ConnectionFailed &e) {
+        qDebug("Error, ConnectionFailed while reading attribute");
+        emit tangoError("ConnectionFailed while reading attribute");
         return false;
-    }
-    catch(const Tango::CommunicationFailed &e){
-         qDebug("Error, CommunicationFailed while reading attribute");
-         emit tangoError("CommunicationFailed while reading attribute");
+    } catch (const Tango::CommunicationFailed &e) {
+        qDebug("Error, CommunicationFailed while reading attribute");
+        emit tangoError("CommunicationFailed while reading attribute");
         return false;
-    }
-    catch(const Tango::WrongData& e){
-         qDebug("Error, Wrong Data while reading attribute\n");
-         emit tangoError("Wrong Data while reading attribute");
-         return false;
-    }
-    catch(const Tango::DevFailed& e){
-         qDebug("Error, BIg problems!!!!!!\n");
-         emit tangoError("Wrong Data while reading attribute");
-         return false;
+    } catch (const Tango::WrongData& e) {
+        qDebug("Error, Wrong Data while reading attribute\n");
+        emit tangoError("Wrong Data while reading attribute");
+        return false;
+    } catch (const Tango::DevFailed& e) {
+        qDebug("Error, BIg problems!!!!!!\n");
+        emit tangoError("Wrong Data while reading attribute");
+        return false;
     }
 }

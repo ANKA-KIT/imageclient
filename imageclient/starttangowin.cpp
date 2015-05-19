@@ -20,15 +20,9 @@ void StartTangoWindow::refresh(const TVariant &newVal)
     deleteLater();
 }
 
-StartTangoWindow::StartTangoWindow(QWidget *parent) : QWidget(parent),
-   TDevice(this)
+StartTangoWindow::StartTangoWindow(QWidget *parent) : QWidget(parent), TDevice(this)
 {
-    connect(device(), SIGNAL(newTangoData(const TVariant&)), this, SLOT(refresh(const TVariant&)),
-            Qt::DirectConnection);
-    connect(device(), SIGNAL(tangoError(QString)), this, SLOT(testOnError(QString)),
-            Qt::DirectConnection);
-
-    qDebug("in StartTangoWin constructor");
+    qDebug("StartTangoWin constructor");
     centralWidget = new QWidget(this);
     centralWidget->setObjectName(QString::fromUtf8("centralWidget"));
     this->setFixedSize(350, 165);
@@ -51,11 +45,12 @@ StartTangoWindow::StartTangoWindow(QWidget *parent) : QWidget(parent),
     cmbHost->setLineEdit(tlServer);
     cmbDevice->setLineEdit(tlDevice);
     cmbAttr->setLineEdit(tlAttr);
+    readSettings();
 
+    connect(device(), SIGNAL(newTangoData(const TVariant&)), this, SLOT(refresh(const TVariant&)), Qt::DirectConnection);
+    connect(device(), SIGNAL(tangoError(QString)), this, SLOT(testOnError(QString)), Qt::DirectConnection);
     QObject::connect(this->btChangeDevice, SIGNAL(clicked()),SLOT(onOk()));
     QObject::connect(btCancel, SIGNAL(clicked()), this, SLOT(onCancel()));
-
-    readSettings();
 }
 
 int StartTangoWindow::findLastEnteredIndex(QStringList cmb, QString str){
@@ -181,18 +176,21 @@ void StartTangoWindow::initTangoDev(){
     status->setGeometry(QRect(5, 75, 113, 20));
 }
 
-void StartTangoWindow::testOnError(QString str){
-   qDebug("Was Tango Error You are in testOnError");
-   status->setText(str);
+void StartTangoWindow::testOnError(QString str)
+{
+    status->setText(str);
 }
 
-void StartTangoWindow::testOnOk(){
+void StartTangoWindow::testOnOk()
+{
    qDebug("OK StartTangoWin::testOnOk");
    status->setText("Ok");
 }
-void StartTangoWindow::testOnOkImgVal(){
-    qDebug("\nCORRect img val\n");
-    qDebug("Attention, in StartTangoWin pingTimer STOPED");
+
+void StartTangoWindow::testOnOkImgVal()
+{
+    qDebug("Correct img val\n");
+    qDebug("Attention, in StartTangoWin pingTimer STOPPED");
     emit dev(tlServer->text() +(QString) "/" + tlDevice->text(), tlAttr->text());
     writeSettings();
     deleteLater();
