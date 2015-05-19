@@ -10,10 +10,6 @@ SyncDialog::SyncDialog(ImageTangoDevice* tangoDevice, QWidget *parent) :
     ui(new Ui::SyncDialog)
 {
     ui->setupUi(this);
-    QString thickness("CrosshairThickness");
-    qDebug("in StartTangoWin constructor");
-
-    ui->tangoCrosshairThicknessEdit->setText(QString(tangoDevice->readULongAttr(thickness)));
 }
 
 SyncDialog::~SyncDialog()
