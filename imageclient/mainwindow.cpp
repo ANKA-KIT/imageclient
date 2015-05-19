@@ -48,7 +48,6 @@ MainWindow::MainWindow(QWidget *parent) :
 
 void MainWindow::chooseDevice()
 {
-    StartTangoWindow *startTWin;
     startTWin = new StartTangoWindow();
     startTWin->setAttribute(Qt::WA_DeleteOnClose);
     connect(startTWin, SIGNAL(dev(QString, QString)), this, SLOT(initRealtime(QString, QString)));
